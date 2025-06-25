@@ -1,0 +1,21 @@
+{
+  "name": "sfxsupport",
+  "version": "1.0.0",
+  "description": "Static site for SFxSupport initiative using TailwindCSS",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch"
+  },
+  "author": "Krrish Joshi",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.10",
+    "@tailwindcss/postcss": "^4.1.10",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.10"
+  },
+  "keywords": [],
+  "type": "commonjs"
+}

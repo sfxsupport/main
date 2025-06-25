@@ -1,0 +1,172 @@
+---
+layout: default
+title: Salesforce Sales Cloud Conceptual Class Diagram
+permalink: /salesforce-sales-cloud-class-diagram/
+---
+
+<div class="w-full bg-gray-100 min-h-screen pt-16 pb-10">
+    <div class="max-w-4xl mx-auto bg-white border border-gray-300 rounded-lg p-10 shadow-md">
+  
+    <!-- Title -->
+    <h1 class="text-4xl font-serif font-bold text-gray-900 mb-2">Salesforce Sales Cloud Conceptual Class Diagram</h1>
+    <div class="border-b border-gray-200 mb-6"></div>
+    <p class="text-lg text-gray-700 mb-8">
+      This page provides a formal, comprehensive reference for all key objects and relationships in Salesforce Sales Cloud, suitable for both architects and decision makers.
+    </p>
+  
+    <!-- Diagram Image -->
+    <figure class="mb-10">
+      <img src="/assets/images/salesCloud.png" alt="Salesforce Sales Cloud Class Diagram" class="border border-gray-300 rounded-md mx-auto mb-3 max-w-full">
+      <figcaption class="text-sm text-gray-500">Figure: Conceptual class diagram of Salesforce Sales Cloud (click to enlarge).</figcaption>
+    </figure>
+  
+    <!-- Table of Contents -->
+    <nav class="mb-10">
+      <h2 class="font-bold text-lg text-gray-900 mb-2">Contents</h2>
+      <ul class="list-decimal ml-6 text-base text-blue-800">
+        <li><a href="#objects">Standard Objects Overview</a></li>
+        <li><a href="#relationships">Relationships Explained</a></li>
+        <li><a href="#automation">Automation & Business Processes</a></li>
+        <li><a href="#diagram">Textual Class Diagram</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+  
+    <!-- Key Objects Overview -->
+    <section id="objects" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Standard Objects Overview</h2>
+      <p class="mb-4 text-gray-700">
+        Salesforce Sales Cloud consists of these core objects. Each serves a distinct role in supporting the sales lifecycle:
+      </p>
+      <table class="w-full text-sm border border-gray-300 mb-8">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-300">
+            <th class="px-4 py-2 text-left font-semibold">Object</th>
+            <th class="px-4 py-2 text-left font-semibold">Purpose</th>
+            <th class="px-4 py-2 text-left font-semibold">Key Attributes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">User</td>
+            <td class="px-4 py-2">Represents a Salesforce user (salesperson, manager, admin, etc.).</td>
+            <td class="px-4 py-2">Id, Name, Email, Profile, Role, IsActive</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Lead</td>
+            <td class="px-4 py-2">Potential customer (person/company) not yet qualified.</td>
+            <td class="px-4 py-2">Id, Company, Name, Email, Phone, LeadStatus, IsConverted, ConvertedAccountId, ConvertedContactId, ConvertedOpportunityId</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Account</td>
+            <td class="px-4 py-2">Business or organization you sell to.</td>
+            <td class="px-4 py-2">Id, Name, Industry, Type, Billing/Shipping Address, Website, OwnerId</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Contact</td>
+            <td class="px-4 py-2">Individual at an Account.</td>
+            <td class="px-4 py-2">Id, Name, Title, Email, Phone, AccountId, OwnerId</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Opportunity</td>
+            <td class="px-4 py-2">Potential sale/deal in progress.</td>
+            <td class="px-4 py-2">Id, Name, StageName, Amount, CloseDate, AccountId, OwnerId, IsClosed, IsWon</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Product2</td>
+            <td class="px-4 py-2">Product/service offered for sale.</td>
+            <td class="px-4 py-2">Id, Name, ProductCode, Description, IsActive</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Pricebook2</td>
+            <td class="px-4 py-2">List of products and their prices.</td>
+            <td class="px-4 py-2">Id, Name, IsActive, IsStandard</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">PricebookEntry</td>
+            <td class="px-4 py-2">Specific product-pricebook pairing and price.</td>
+            <td class="px-4 py-2">Id, Product2Id, Pricebook2Id, UnitPrice, IsActive</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">OpportunityLineItem</td>
+            <td class="px-4 py-2">Product added to an Opportunity (with quantity and price).</td>
+            <td class="px-4 py-2">Id, OpportunityId, Product2Id, PricebookEntryId, Quantity, SalesPrice, TotalPrice</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Campaign</td>
+            <td class="px-4 py-2">Marketing initiative (email, event, etc.).</td>
+            <td class="px-4 py-2">Id, Name, Type, Status, StartDate, EndDate, NumberOfLeads, NumberOfOpportunities</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Activity</td>
+            <td class="px-4 py-2">Task/Event related to records (calls, meetings, etc.).</td>
+            <td class="px-4 py-2">Id, Subject, ActivityDate/StartDateTime/EndDateTime, Status, WhoId, WhatId, OwnerId</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  
+    <!-- Relationships -->
+    <section id="relationships" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Relationships Explained</h2>
+      <dl class="mb-6">
+        <dt class="font-semibold text-blue-900">Lookup Relationship</dt>
+        <dd class="mb-2 ml-4 text-gray-700">One-to-many, loosely coupled. Child can exist without parent. Example: Contact to Account.</dd>
+        <dt class="font-semibold text-blue-900">Master-Detail Relationship</dt>
+        <dd class="mb-2 ml-4 text-gray-700">One-to-many, strongly coupled. Child (detail) cannot exist without parent (master). Roll-up summaries allowed. Example: OpportunityLineItem to Opportunity.</dd>
+        <dt class="font-semibold text-blue-900">Many-to-Many (Junction Object)</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Implemented with a junction object (e.g., CampaignMember links Campaign to Lead/Contact).</dd>
+        <dt class="font-semibold text-blue-900">Self & Hierarchical Relationships</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Object references itself (e.g., Parent Account), or special User management hierarchy.</dd>
+        <dt class="font-semibold text-blue-900">Special: Lead Conversion</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Business process: Lead is converted into Account, Contact, and Opportunity.</dd>
+      </dl>
+    </section>
+  
+    <!-- Automation & Business Processes -->
+    <section id="automation" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Automation & Business Processes</h2>
+      <ul class="list-disc ml-6 mb-4 text-gray-700">
+        <li><b>Salesforce Flow:</b> Automates lead nurture, assignment, approvals, and notifications.</li>
+        <li><b>Einstein AI:</b> Predictive lead scoring, opportunity forecasting, recommendations.</li>
+        <li><b>Assignment Rules:</b> Automatically route leads to the right reps/queues.</li>
+        <li><b>Validation & Duplicate Rules:</b> Ensure data quality and block duplicates.</li>
+        <li><b>Roll-ups & Reporting:</b> Summarize child records, visualize KPIs on dashboards.</li>
+      </ul>
+    </section>
+  
+    <!-- Textual Diagram Section -->
+    <section id="diagram" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Textual Class Diagram</h2>
+      <pre class="bg-gray-100 border border-gray-300 rounded-md p-4 overflow-x-auto text-gray-800 mb-2 text-sm font-mono">
+  User
+   └─ owns → Lead
+        └─ converts to → Account
+             ├─ has → Contact
+             │     └─ can be → Opportunity.PrimaryContact
+             └─ has → Opportunity
+                   └─ has → OpportunityLineItem
+                          ├─ refers → Product2
+                          └─ refers → PricebookEntry
+  Pricebook2
+   └─ has → PricebookEntry
+  Campaign
+   └─ influences → Lead/Opportunity/Contact
+  Activity
+   └─ related to → Lead, Account, Contact, Opportunity
+      </pre>
+    </section>
+  
+    <!-- Conclusion -->
+    <section id="conclusion" class="mb-4">
+      <h2 class="text-xl font-bold text-gray-900 mb-2">5. Conclusion</h2>
+      <p class="mb-2 text-gray-700">
+        This formal class diagram and overview summarize the architecture and automation that make Salesforce Sales Cloud a leading CRM platform. Understanding these objects and relationships is key to building scalable, maintainable, and effective sales solutions.
+      </p>
+      <p class="text-gray-700">
+        For implementation or consulting support, <a href="/contact/" class="text-blue-800 underline hover:text-blue-600">contact SFX Support</a>.
+      </p>
+    </section>
+  
+    </div>
+  </div>

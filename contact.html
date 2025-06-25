@@ -1,0 +1,99 @@
+---
+layout: HomePageFinalTest
+title: Your Salesforce Lifeline Homepage
+permalink: /contact/
+---
+
+<body class="min-h-screen bg-[#17181b] text-gray-100 flex flex-col">
+  <section class="flex-1 flex flex-col items-center pt-20 pb-10 px-4">
+    <div class="max-w-2xl w-full mx-auto text-center mb-8">
+      <h1 class="text-4xl font-extrabold bg-gradient-to-r from-indigo-300 to-pink-400 text-transparent bg-clip-text mb-2">Contact SFX Support</h1>
+      <p class="text-lg text-gray-300 mb-6">How can we help you today? Choose your reason and send us a message—our team will get in touch soon!</p>
+    </div>
+    <!-- Quick Reason Select -->
+    <div class="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-10">
+      <div class="select-card group bg-glass rounded-2xl p-5 flex items-center gap-4 border border-gray-700"
+           onclick="setReason('Need a Solution')">
+        <i class="bi bi-lightbulb-fill text-3xl text-indigo-400 group-hover:text-pink-400"></i>
+        <span class="font-semibold text-lg">Need a Solution</span>
+      </div>
+      <div class="select-card group bg-glass rounded-2xl p-5 flex items-center gap-4 border border-gray-700"
+           onclick="setReason('Need Training')">
+        <i class="bi bi-journal-code text-3xl text-indigo-400 group-hover:text-pink-400"></i>
+        <span class="font-semibold text-lg">Need Training</span>
+      </div>
+      <div class="select-card group bg-glass rounded-2xl p-5 flex items-center gap-4 border border-gray-700"
+           onclick="setReason('Report a Problem')">
+        <i class="bi bi-bug-fill text-3xl text-indigo-400 group-hover:text-pink-400"></i>
+        <span class="font-semibold text-lg">Report a Problem</span>
+      </div>
+      <div class="select-card group bg-glass rounded-2xl p-5 flex items-center gap-4 border border-gray-700"
+           onclick="setReason('Want to Join Us')">
+        <i class="bi bi-people-fill text-3xl text-indigo-400 group-hover:text-pink-400"></i>
+        <span class="font-semibold text-lg">Want to Join Us</span>
+      </div>
+      <div class="select-card group bg-glass rounded-2xl p-5 flex items-center gap-4 border border-gray-700 sm:col-span-2"
+           onclick="setReason('Want to Know More')">
+        <i class="bi bi-info-circle-fill text-3xl text-indigo-400 group-hover:text-pink-400"></i>
+        <span class="font-semibold text-lg">Want to Know More About SFX</span>
+      </div>
+    </div>
+    <!-- Contact Form -->
+    <form
+      class="bg-glass max-w-xl mx-auto w-full rounded-2xl p-8 backdrop-blur-md shadow-2xl border border-indigo-900"
+      action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DQy00000TSGcD"
+      method="POST"
+      id="contactForm"
+    >
+      <input type="hidden" name="orgid" value="00DQy00000TSGcD">
+      <input type="hidden" name="retURL" value="https://sfxsupport.com/contact-thank-you/">
+      <!-- Reason (Subject) -->
+      <div class="mb-4">
+        <label for="subject" class="block text-sm font-semibold mb-1">What brings you here?</label>
+        <select id="subject" name="subject" required class="w-full p-3 rounded bg-[#232238] text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-400">
+          <option value="" disabled selected>Select a reason...</option>
+          <option value="Need a Solution">Need a Solution</option>
+          <option value="Need Training">Need Training</option>
+          <option value="Report a Problem">Report a Problem</option>
+          <option value="Want to Join Us">Want to Join Us</option>
+          <option value="Want to Know More">Want to Know More About SFX</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-semibold mb-1">Your Name</label>
+        <input id="name" maxlength="80" name="name" required type="text" class="w-full p-3 rounded bg-[#232238] text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-400" />
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-semibold mb-1">Email</label>
+        <input id="email" maxlength="80" name="email" required type="email" class="w-full p-3 rounded bg-[#232238] text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-400" />
+      </div>
+      <div class="mb-4">
+        <label for="phone" class="block text-sm font-semibold mb-1">Phone <span class="text-gray-400">(optional)</span></label>
+        <input id="phone" maxlength="40" name="phone" type="text" class="w-full p-3 rounded bg-[#232238] text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-400" />
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-sm font-semibold mb-1">How can we help?</label>
+        <textarea id="description" name="description" required rows="4" class="w-full p-3 rounded bg-[#232238] text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-400"></textarea>
+      </div>
+      <button
+        type="submit"
+        class="w-full py-3 rounded bg-gradient-to-r from-indigo-600 to-pink-500 text-white font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
+      >
+        <i class="bi bi-send-fill mr-2"></i>Send Message
+      </button>
+    </form>
+  </section>
+  <script>
+    // Quick-select cards set the reason in the form
+    function setReason(reason) {
+      document.getElementById('subject').value = reason;
+      // Highlight selected card
+      document.querySelectorAll('.select-card').forEach(d => d.classList.remove('selected'));
+      Array.from(document.querySelectorAll('.select-card')).find(d => d.textContent.trim().includes(reason)).classList.add('selected');
+      // Scroll to form on mobile
+      if(window.innerWidth < 768) {
+        document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  </script>
+</body>

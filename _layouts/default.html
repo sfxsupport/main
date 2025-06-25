@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/src/output.css' | relative_url }}">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/prism.css' | relative_url }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    {% include header.html %}
+
+    <main>
+        {{ content }}
+    </main>
+
+    {% include footer.html %}
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>

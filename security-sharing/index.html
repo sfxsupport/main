@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salesforce Security and Sharing Model - Mastering Access Control</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
+
+    <main>
+        <div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
+    <aside class="w-full lg:w-72 lg:flex-shrink-0 py-8 px-6 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 shadow-md relative z-20">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-8 text-gray-900 leading-tight">
+            Security & Sharing Topics
+        </h2>
+        <nav class="topic-navigation flex flex-col gap-2" id="learning-topic-navigation">
+            
+                
+                    <a href="#introduction"
+                       data-topic-id="introduction"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            1
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Introduction to Salesforce Security</span>
+                        </span>
+                    </a>
+                
+                    <a href="#declarative-security"
+                       data-topic-id="declarative-security"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            2
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Declarative Security (Profiles & Permission Sets)</span>
+                        </span>
+                    </a>
+                
+                    <a href="#data-access"
+                       data-topic-id="data-access"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            3
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Data Access (OWD, Role Hierarchy, Sharing Rules)</span>
+                        </span>
+                    </a>
+                
+                    <a href="#programmatic-sharing"
+                       data-topic-id="programmatic-sharing"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            4
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Programmatic Sharing (Apex Managed Sharing)</span>
+                        </span>
+                    </a>
+                
+                    <a href="#security-in-apex"
+                       data-topic-id="security-in-apex"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            5
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Security in Apex (with sharing, FLS, CRUD)</span>
+                        </span>
+                    </a>
+                
+                    <a href="#security-in-lwc"
+                       data-topic-id="security-in-lwc"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            6
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Security in LWC (Locker Service, UI API)</span>
+                        </span>
+                    </a>
+                
+                    <a href="#best-practices"
+                       data-topic-id="best-practices"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            7
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Security Best Practices</span>
+                        </span>
+                    </a>
+                
+                    <a href="#conclusion"
+                       data-topic-id="conclusion"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            8
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Conclusion & Key Takeaways</span>
+                        </span>
+                    </a>
+                
+            
+        </nav>
+    </aside>
+
+    <main class="learning-content-area flex-1 py-10 px-6 md:px-10 lg:px-16 overflow-y-auto relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-gray-900 leading-tight">
+                    Salesforce Security and Sharing Model - Mastering Access Control
+                </h1>
+                <p class="intro-text text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
+                    Understand the foundational Salesforce security and sharing model to control data access effectively. This module covers profiles, permission sets, OWDs, role hierarchy, sharing rules, and programmatic sharing.
+                </p>
+            </div>
+            
+            <a href="/contact/"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-md hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+               style="backdrop-filter: blur(2px); white-space: nowrap;">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+                Need hands-on training?
+            </a>
+        </div>
+
+        /* General body styling for better readability */
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+.topic-content-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    padding: 30px;
+}
+
+h1, h2, h3 {
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 2.2em;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.6em;
+    color: #007bff;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+p {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+li {
+    margin-bottom: 8px;
+    color: #444;
+}
+
+strong {
+    color: #0056b3;
+}
+
+/* Styling for pre and code blocks */
+pre {
+    background-color: #272c34; /* Darker background for code */
+    color: #f8f8f2; /* Light text for code */
+    padding: 15px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+code {
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+    background-color: #e0e0e0; /* Light background for inline code */
+    color: #c7254e; /* Darker text for inline code */
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    white-space: pre;
+}
+
+/* Specific syntax highlighting like effects (simulated) */
+.language-html .tag, .language-xml .tag { color: #5bc0de; } /* Blue for tags */
+.language-html .attr, .language-xml .attr { color: #f0ad4e; } /* Orange for attributes */
+.language-html .string, .language-xml .string { color: #5cb85c; } /* Green for strings */
+
+.language-javascript .keyword, .language-apex .keyword { color: #d9534f; } /* Red for keywords */
+.language-javascript .function, .language-apex .function { color: #428bca; } /* Light blue for functions */
+.language-javascript .comment, .language-apex .comment { color: #888; font-style: italic; }
+.language-javascript .decorator { color: #d9534f; } /* Red for decorators */
+.language-javascript .string, .language-apex .string { color: #5cb85c; } /* Green for strings */
+
+.language-css .property { color: #f0ad4e; } /* Orange for CSS properties */
+.language-css .value { color: #5cb85c; } /* Green for CSS values */
+.language-css .selector { color: #428bca; } /* Light blue for CSS selectors */
+
+.language-bash .keyword { color: #d9534f; } /* Red for keywords */
+.language-bash .comment { color: #888; font-style: italic; }
+.language-json .string { color: #5cb85c; }
+.language-json .property { color: #f0ad4e; }
+.language-plaintext { color: #f8f8f2; } /* Plain text in pre tag */
+</style>
+<div id="content-introduction" class="topic-content-section">
+    <h2>1. Introduction to Salesforce Security</h2>
+    <p>Salesforce's robust security and sharing model is a cornerstone of its multi-tenant architecture, designed to protect your data and ensure that users only access what they are authorized to see and do. Understanding this model is critical for administrators and developers alike to build secure and compliant applications.</p>
+    <h3>Why is Security and Sharing Important?</h3>
+    <ul>
+        <li><strong>Data Protection:</strong> Prevents unauthorized access to sensitive information.</li>
+        <li><strong>Compliance:</strong> Helps meet regulatory and industry compliance requirements.</li>
+        <li><strong>Business Logic:</strong> Ensures that business rules regarding data visibility and modification are consistently applied.</li>
+        <li><strong>User Experience:</strong> Presents users with only the relevant data and functionality, reducing clutter and potential errors.</li>
+        <li><strong>Scalability:</strong> Provides a scalable framework for managing access across large organizations with diverse user roles.</li>
+    </ul>
+    <p>The Salesforce security model operates on multiple layers, from organization-wide settings down to individual record access. This module will explore these layers and how they interact to control who sees what data and who can do what with it.</p>
+</div>
+
+<div id="content-declarative-security" class="topic-content-section">
+    <h2>2. Declarative Security (Profiles & Permission Sets)</h2>
+    <p>Declarative security settings control what users can do (object and field permissions) and what they can see (record access, which is further refined by sharing settings). Profiles and Permission Sets are the primary tools for managing these permissions.</p>
+
+    <h3>a. Profiles:</h3>
+    <p>A Profile defines a user's baseline permissions and access settings. Every user in Salesforce must be assigned exactly one Profile.</p>
+    <ul>
+        <li><strong>Object Permissions:</strong> Read, Create, Edit, Delete, View All, Modify All for standard and custom objects.</li>
+        <li><strong>Field-Level Security (FLS):</strong> Read and Edit access for individual fields on objects.</li>
+        <li><strong>User Permissions:</strong> Access to various system functions (e.g., "Manage Users," "Modify All Data").</li>
+        <li><strong>Tab Settings:</strong> Visibility of tabs (Default On, Default Off, Hidden).</li>
+        <li><strong>Record Type & Page Layout Assignments:</strong> Which record types and page layouts are available to users.</li>
+        <li><strong>Login Hours & IP Ranges:</strong> Restrictions on when and from where users can log in.</li>
+    </ul>
+    <p><strong>Limitation:</strong> Profiles are broad and apply to all users assigned to them. Customization can lead to "profile sprawl" if many unique permission sets are needed.</p>
+
+    <h3>b. Permission Sets:</h3>
+    <p>Permission Sets extend a user's functional access without changing their profile. A user can have multiple Permission Sets assigned to them.</p>
+    <ul>
+        <li><strong>Granular Permissions:</strong> Provide additional object, field, user, and tab permissions.</li>
+        <li><strong>Additive Model:</strong> Permissions in a Permission Set are always additive. They grant access; they cannot restrict access granted by a Profile.</li>
+        <li><strong>Flexibility:</strong> Ideal for granting specific, temporary, or role-based permissions without creating new profiles.</li>
+    </ul>
+    <p><strong>Best Practice:</strong> Salesforce recommends using a "minimum access" profile (e.g., "Standard User" or a custom clone with minimal permissions) and then granting additional permissions via Permission Sets. This simplifies administration and makes it easier to manage user access.</p>
+</div>
+
+<div id="content-data-access" class="topic-content-section">
+    <h2>3. Data Access (OWD, Role Hierarchy, Sharing Rules)</h2>
+    <p>While profiles and permission sets control object and field access, the sharing model determines which *records* a user can see and edit. This operates from the broadest settings down to the most granular.</p>
+
+    <h3>a. Organization-Wide Defaults (OWD):</h3>
+    <p>OWDs are the most restrictive baseline settings for each object. They define the default level of access users have to each other's records.</p>
+    <ul>
+        <li><strong>Private:</strong> Only the record owner and users higher in the role hierarchy can view, edit, and report on those records. No one else can see them by default.</li>
+        <li><strong>Public Read Only:</strong> All users can view records, but only the owner and users higher in the role hierarchy can edit them.</li>
+        <li><strong>Public Read/Write:</strong> All users can view and edit all records.</li>
+        <li><strong>Public Read/Write/Transfer (for Leads/Cases):</strong> Similar to Public Read/Write, but also allows transferring ownership.</li>
+        <li><strong>Controlled by Parent:</strong> Access is determined by the user's access to the parent record (for detail records in a master-detail relationship).</li>
+    </ul>
+    <p><strong>Recommendation:</strong> Always set OWDs to the most restrictive level possible, then open up access using other sharing mechanisms.</p>
+
+    <h3>b. Role Hierarchy:</h3>
+    <p>The Role Hierarchy opens up vertical access. Users at any given role level can automatically view, edit, and report on all records owned by users below them in the hierarchy, regardless of OWD settings. This is primarily for reporting and management visibility.</p>
+    <ul>
+        <li><strong>Vertical Access:</strong> Grants access up the hierarchy.</li>
+        <li><strong>Not for Horizontal Sharing:</strong> Does not grant access to peers at the same level.</li>
+    </ul>
+
+    <h3>c. Sharing Rules:</h3>
+    <p>Sharing Rules open up horizontal access, granting additional access to groups of users based on record ownership or criteria. They are exceptions to OWDs.</p>
+    <ul>
+        <li><strong>Owner-Based Sharing Rules:</strong> Share records owned by certain users (or roles/groups) with other users (or roles/groups).</li>
+        <li><strong>Criteria-Based Sharing Rules:</strong> Share records that meet specific criteria (e.g., "Opportunity Type = 'New Business'") with other users (or roles/groups).</li>
+        <li><strong>Additive:</strong> Sharing rules only grant access; they never restrict it.</li>
+    </ul>
+
+    <h3>d. Manual Sharing:</h3>
+    <p>Allows record owners or users with "Full Access" to a record to share it manually with other users, groups, or roles. This is for one-off sharing scenarios.</p>
+    <ul>
+        <li><strong>Ad-hoc Access:</strong> Provides temporary or specific access to individual records.</li>
+        <li><strong>Not Scalable:</strong> Not suitable for large-scale sharing requirements.</li>
+    </ul>
+</div>
+
+<div id="content-programmatic-sharing" class="topic-content-section">
+    <h2>4. Programmatic Sharing (Apex Managed Sharing)</h2>
+    <p>For complex sharing requirements that cannot be met by declarative tools (OWDs, Role Hierarchy, Sharing Rules, Manual Sharing), Apex Managed Sharing allows developers to programmatically grant and revoke access to records.</p>
+    <p>Apex Managed Sharing is used when sharing needs to be dynamic, based on complex calculations, or involves relationships that standard sharing rules cannot handle.</p>
+    <h3>Key Concepts:</h3>
+    <ul>
+        <li><strong>Share Objects:</strong> Every standard or custom object in Salesforce has an associated "Share" object (e.g., `AccountShare`, `MyCustomObject__Share`). These objects store the explicit sharing records.</li>
+        <li><strong>`AccessLevel` Field:</strong> On the Share object, this field defines the level of access granted (e.g., `Read`, `Edit`, `All`).</li>
+        <li><strong>`RowCause` Field:</strong> This field indicates why a user has access to a record. For Apex Managed Sharing, you must use a custom `RowCause` that has its `Type` set to `Apex`.</li>
+        <li><strong>`with sharing` vs. `without sharing`:</strong>
+            <ul>
+                <li>Apex classes that create, update, or delete records on share objects should generally be `without sharing` to ensure they can modify sharing records regardless of the running user's access to the records being shared. However, the logic *within* the method should still respect permissions of the data being shared.</li>
+            </ul>
+        </li>
+    </ul>
+    <h3>Example (Simplified):</h3>
+    <pre><code class="language-apex">public class CustomSharingManager {
+
+    // Custom RowCause must be defined in Setup -> Sharing Settings -> Your Custom Object -> New Sharing Reason
+    // Type should be "Apex"
+    public static final Schema.SObjectRowCause CustomShareReason = Schema.SObjectRowCause.MyCustomShareReason__c;
+
+    public static void shareAccountWithUser(Id accountId, Id userId, String accessLevel) {
+        // Ensure the AccountShare object is updateable and the user has permission to share
+        if (!Schema.sObjectType.AccountShare.isCreateable()) {
+            throw new AuraHandledException('Insufficient permissions to create AccountShare records.');
+        }
+
+        AccountShare accShare = new AccountShare();
+        accShare.ParentId = accountId;
+        accShare.UserOrGroupId = userId;
+        accShare.AccessLevel = accessLevel; // e.g., 'Read', 'Edit', 'All'
+        accShare.RowCause = CustomShareReason; // Use your custom RowCause
+
+        try {
+            insert accShare;
+        } catch (DmlException e) {
+            System.debug('Error sharing account: ' + e.getMessage());
+            // Handle error, e.g., log it or throw a custom exception
+        }
+    }
+
+    public static void removeAccountSharing(Id accountId, Id userId) {
+        List&lt;AccountShare&gt; sharesToDelete = [
+            SELECT Id
+            FROM AccountShare
+            WHERE ParentId = :accountId
+            AND UserOrGroupId = :userId
+            AND RowCause = :CustomShareReason // Crucially, only delete shares created by this Apex
+        ];
+
+        if (!sharesToDelete.isEmpty()) {
+            try {
+                delete sharesToDelete;
+            } catch (DmlException e) {
+                System.debug('Error removing sharing: ' + e.getMessage());
+                // Handle error
+            }
+        }
+    }
+}
+</code></pre>
+    <p><strong>Considerations:</strong></p>
+    <ul>
+        <li>Apex Managed Sharing is complex and should be used judiciously.</li>
+        <li>Always define a custom `RowCause` to distinguish your programmatic shares from other sharing types.</li>
+        <li>Ensure proper error handling and testing.</li>
+        <li>Be mindful of governor limits when performing DML on share objects.</li>
+    </ul>
+</div>
+
+<div id="content-security-in-apex" class="topic-content-section">
+    <h2>5. Security in Apex (with sharing, FLS, CRUD)</h2>
+    <p>Apex code, by default, runs in system context, meaning it has access to all objects and fields regardless of the running user's permissions. To enforce security and sharing, developers must explicitly implement mechanisms.</p>
+
+    <h3>a. `with sharing` and `without sharing` Keywords:</h3>
+    <ul>
+        <li><strong><code>with sharing</code>:</strong> When a class is declared `with sharing`, the sharing rules of the current user are enforced. This means queries will only return records the user has access to, and DML operations will fail if the user doesn't have permission to modify the record. This is the recommended default for most Apex classes that interact with user data.</li>
+        <li><strong><code>without sharing</code>:</strong> When a class is declared `without sharing`, the sharing rules of the current user are *not* enforced. The code runs in system context, allowing access to all data regardless of the user's sharing settings. Use this with extreme caution and only when necessary (e.g., for utility classes that perform operations like creating audit logs where the user's sharing shouldn't prevent the operation).</li>
+        <li><strong>Inherited Sharing:</strong> (API version 44.0 and later) If a class is declared `inherited sharing`, it runs in the sharing mode of the class that called it. This promotes flexibility and reusability.</li>
+    </ul>
+    <pre><code class="language-apex">public with sharing class AccountService { // Enforces sharing rules
+    public static List&lt;Account&gt; getMyAccounts() {
+        return [SELECT Id, Name FROM Account]; // Only returns accounts user can see
+    }
+}
+
+public without sharing class AuditLogService { // Bypasses sharing rules (use with caution)
+    public static void createLog(String message) {
+        // Create an audit log record, even if the user doesn't have access to the Audit_Log__c object
+        // (assuming FLS/CRUD are handled elsewhere or for system-level operations)
+        insert new Audit_Log__c(Message__c = message);
+    }
+}
+</code></pre>
+
+    <h3>b. Field-Level Security (FLS) and CRUD Enforcement:</h3>
+    <p>Even with `with sharing`, Apex doesn't automatically enforce FLS or CRUD permissions. Developers must explicitly check these permissions, especially before performing DML operations or displaying sensitive data.</p>
+    <ul>
+        <li><strong>CRUD Checks (Object-level):</strong>
+            <ul>
+                <li><code>Schema.SObjectType.ObjectName.isAccessible()</code>: Can the user read this object?</li>
+                <li><code>Schema.SObjectType.ObjectName.isCreateable()</code>: Can the user create records for this object?</li>
+                <li><code>Schema.SObjectType.ObjectName.isUpdateable()</code>: Can the user update records for this object?</li>
+                <li><code>Schema.SObjectType.ObjectName.isDeletable()</code>: Can the user delete records for this object?</li>
+            </ul>
+        </li>
+        <li><strong>FLS Checks (Field-level):</strong>
+            <ul>
+                <li><code>Schema.SObjectType.ObjectName.fields.FieldName.isAccessible()</code>: Can the user read this field?</li>
+                <li><code>Schema.SObjectType.ObjectName.fields.FieldName.isCreateable()</code>: Can the user create this field?</li>
+                <li><code>Schema.SObjectType.ObjectName.fields.FieldName.isUpdateable()</code>: Can the user update this field?</li>
+            </ul>
+        </li>
+        <li><strong><code>WITH SECURITY_ENFORCED</code> (SOQL/SOSL):</strong> (API version 45.0 and later) This clause automatically enforces object and field-level security for the query. If the user doesn't have access to an object or a field in the query, an error is thrown. This is highly recommended for all queries.
+            <pre><code class="language-apex">public with sharing class SecureQueryExample {
+    @AuraEnabled(cacheable=true)
+    public static List&lt;Account&gt; getAccountsSecurely() {
+        // Enforces FLS and CRUD for Account object and Name/Industry fields
+        return [SELECT Id, Name, Industry FROM Account WITH SECURITY_ENFORCED LIMIT 5];
+    }
+}
+</code></pre>
+        </li>
+    </ul>
+    <p><strong>Best Practice:</strong> Always use `with sharing` for Apex classes that handle user data, and use `WITH SECURITY_ENFORCED` in your SOQL/SOSL queries. For DML operations, explicitly check CRUD and FLS before proceeding.</p>
+</div>
+
+<div id="content-security-in-lwc" class="topic-content-section">
+    <h2>6. Security in LWC (Locker Service, UI API)</h2>
+    <p>Lightning Web Components are built with security in mind, leveraging modern web standards and Salesforce-specific security features to protect your application and data.</p>
+
+    <h3>a. Locker Service:</h3>
+    <ul>
+        <li><strong>Purpose:</strong> Locker Service is a security architecture that isolates Lightning components from each other and from the global DOM. It prevents components from accessing or manipulating resources they don't own, enhancing security and preventing malicious or poorly written code from impacting the entire application.</li>
+        <li><strong>How it Works:</strong> It wraps components in a secure container, providing a strict API for interaction. All LWC components automatically run in Locker Service.</li>
+        <li><strong>Benefits:</strong> Prevents cross-site scripting (XSS), protects sensitive data, and ensures component interoperability.</li>
+    </ul>
+
+    <h3>b. UI API (Wire Adapters):</h3>
+    <ul>
+        <li><strong>Automatic Security Enforcement:</strong> When you use standard UI API wire adapters (e.g., <code>lightning/uiRecordApi</code>, <code>lightning/uiListApi</code>), LWC automatically enforces Field-Level Security (FLS) and Create, Read, Update, Delete (CRUD) permissions based on the running user's profile and permission sets.
+            <ul>
+                <li>If a user doesn't have access to a field, that field's data will not be returned by the wire adapter.</li>
+                <li>If a user doesn't have CRUD access to an object, corresponding UI API operations will fail.</li>
+            </ul>
+        </li>
+        <li><strong>Example:</strong>
+            <pre><code class="language-javascript">import { LightningElement, wire, api } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import NAME_FIELD from '@salesforce/schema/Account.Name';
+import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
+
+export default class AccountViewer extends LightningElement {
+    @api recordId;
+
+    @wire(getRecord, { recordId: '$recordId', fields: [NAME_FIELD, INDUSTRY_FIELD] })
+    account;
+
+    get name() {
+        return getFieldValue(this.account.data, NAME_FIELD);
+    }
+
+    get industry() {
+        return getFieldValue(this.account.data, INDUSTRY_FIELD);
+    }
+    // If the user doesn't have FLS for Name or Industry, those fields will be null
+    // If the user doesn't have Read access to the Account record, account.data will be undefined
+}
+</code></pre>
+        </li>
+    </ul>
+
+    <h3>c. Imperative Apex Calls:</h3>
+    <p>As discussed in the "Working with Apex in LWC" section, when calling Apex imperatively from LWC, the security enforcement shifts to the Apex controller. It is crucial that your Apex methods use `with sharing` and/or `WITH SECURITY_ENFORCED` to respect the running user's permissions.</p>
+
+    <h3>d. Sanitization:</h3>
+    <p>Always sanitize any user-provided input before rendering it in the DOM or using it in queries/DML. While LWC provides some level of protection, explicit sanitization (e.g., using `LightningSanitize` utility or custom logic) is a good practice to prevent Cross-Site Scripting (XSS) vulnerabilities.</p>
+</div>
+
+<div id="content-best-practices" class="topic-content-section">
+    <h2>7. Security Best Practices</h2>
+    <p>Implementing a robust security model requires a layered approach and adherence to best practices across your Salesforce implementation.</p>
+    <ul>
+        <li><strong>Principle of Least Privilege:</strong> Grant users only the minimum access necessary to perform their job functions. Start with restrictive settings and open up access as needed.</li>
+        <li><strong>Use Permission Sets for Access:</strong> Assign users to a minimal profile and use permission sets to grant additional object, field, and user permissions. Avoid creating numerous profiles.</li>
+        <li><strong>Most Restrictive OWDs:</strong> Set Organization-Wide Defaults to the most restrictive level (e.g., Private) and then use sharing mechanisms (role hierarchy, sharing rules, manual sharing, Apex managed sharing) to open up access.</li>
+        <li><strong>Secure Apex:</strong>
+            <ul>
+                <li>Always use `public with sharing class` for Apex controllers that handle user data.</li>
+                <li>Use `WITH SECURITY_ENFORCED` in all SOQL/SOSL queries.</li>
+                <li>Perform explicit FLS and CRUD checks in Apex, especially before DML operations.</li>
+                <li>Avoid `without sharing` unless absolutely necessary, and if used, ensure comprehensive manual security checks.</li>
+            </ul>
+        </li>
+        <li><strong>Secure LWC:</strong>
+            <ul>
+                <li>Leverage UI API wire adapters for data access as they automatically enforce FLS/CRUD.</li>
+                <li>Understand Locker Service and how it isolates your components.</li>
+                <li>Sanitize any user-provided input before rendering it or using it in data operations.</li>
+            </ul>
+        </li>
+        <li><strong>Regular Security Audits:</strong> Periodically review your organization's security settings, profiles, permission sets, and sharing rules to ensure they align with your current business needs and security policies.</li>
+        <li><strong>Encrypt Sensitive Data:</strong> Utilize Salesforce Platform Encryption for highly sensitive data at rest.</li>
+        <li><strong>Implement Two-Factor Authentication (2FA):</strong> Encourage or enforce 2FA for all users to add an extra layer of login security.</li>
+    </ul>
+    <p>By consistently applying these best practices, you can build a secure and compliant Salesforce environment that protects your valuable data.</p>
+</div>
+
+<div id="content-conclusion" class="topic-content-section">
+    <h2>8. Conclusion & Key Takeaways</h2>
+    <p>Salesforce's security and sharing model is a sophisticated system designed to provide granular control over data access. From declarative tools like profiles and permission sets to programmatic options like Apex managed sharing, the platform offers a comprehensive suite of features to ensure data integrity and confidentiality.</p>
+    <h3>Key Takeaways:</h3>
+    <ul>
+        <li><strong>Layered Security:</strong> Salesforce security operates on multiple layers (Org, Object, Field, Record).</li>
+        <li><strong>Profiles & Permission Sets:</strong> Control "what users can do" (object/field permissions). Use permission sets to extend access.</li>
+        <li><strong>OWD, Role Hierarchy, Sharing Rules:</strong> Control "what records users can see." OWDs are the baseline, hierarchy extends vertical access, and sharing rules extend horizontal access.</li>
+        <li><strong>Apex Managed Sharing:</strong> For complex, programmatic sharing requirements.</li>
+        <li><strong>Apex Security:</strong> Use <code>with sharing</code>, <code>WITH SECURITY_ENFORCED</code>, and manual FLS/CRUD checks.</li>
+        <li><strong>LWC Security:</strong> Benefits from Locker Service and UI API's automatic FLS/CRUD enforcement.</li>
+        <li><strong>Best Practices:</strong> Adhere to the principle of least privilege, sanitize input, and conduct regular audits.</li>
+    </ul>
+    <p>A deep understanding of the Salesforce security and sharing model is fundamental for any professional working on the platform. It enables you to build secure, scalable, and compliant applications that meet your organization's unique access control requirements.</p>
+</div>
+    </main>
+   
+    <a href="/contact/"
+       class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-xl hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 flex items-center gap-2"
+       style="backdrop-filter: blur(4px); display: none;"
+       id="sticky-training-cta">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+        Questions? Book Training
+    </a>
+</div>
+
+<link href="/assets/css/prism.css" rel="stylesheet" />
+<script src="/assets/js/prism.js"></script>
+
+<script>
+    // Sticky CTA after scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const cta = document.getElementById('sticky-training-cta');
+        function toggleCTA() {
+            if (window.scrollY > 200) {
+                cta.style.display = 'flex';
+            } else {
+                cta.style.display = 'none';
+            }
+        }
+        cta.style.display = 'none';
+        window.addEventListener('scroll', toggleCTA);
+    });
+
+    // Topic navigation logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.topic-nav-item');
+        const contentSections = document.querySelectorAll('.topic-content-section');
+        const learningContentArea = document.querySelector('.learning-content-area');
+        const introText = document.querySelector('.learning-content-area .intro-text');
+
+        function showTopic(topicIdToShow) {
+            navItems.forEach(item => {
+                item.classList.remove('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                item.querySelector('span:first-child').classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
+                item.querySelector('span:first-child').classList.add('bg-white', 'text-blue-600', 'border-blue-400');
+                item.querySelector('span:last-child > span').classList.remove('text-blue-800', 'font-semibold');
+                item.querySelector('span:last-child > span').classList.add('text-gray-600');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.remove('active', 'block', 'opacity-100', 'translate-y-0');
+                section.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            });
+
+            if (topicIdToShow === 'main-intro' || !topicIdToShow) {
+                if (introText) introText.style.display = 'block';
+            } else {
+                if (introText) introText.style.display = 'none';
+            }
+
+            const selectedNavItem = document.querySelector(`.topic-nav-item[data-topic-id="${topicIdToShow}"]`);
+            if (selectedNavItem) {
+                selectedNavItem.classList.add('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                selectedNavItem.querySelector('span:first-child').classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+                selectedNavItem.querySelector('span:first-child').classList.remove('bg-white', 'text-blue-600', 'border-blue-400');
+                selectedNavItem.querySelector('span:last-child > span').classList.add('text-blue-800', 'font-semibold');
+                selectedNavItem.querySelector('span:last-child > span').classList.remove('text-gray-600');
+            }
+
+            const selectedContentSection = document.getElementById(`content-${topicIdToShow}`);
+            if (selectedContentSection) {
+                selectedContentSection.classList.remove('hidden');
+                selectedContentSection.classList.add('block', 'opacity-100', 'translate-y-0');
+                learningContentArea.scrollTop = 0;
+            }
+        }
+
+        const initialTopicId = window.location.hash ? window.location.hash.substring(1) : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
+        showTopic(initialTopicId);
+
+        navItems.forEach(item => {
+            const topicId = item.dataset.topicId;
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                showTopic(topicId);
+                history.pushState(null, '', `#${topicId}`);
+            });
+        });
+
+        window.addEventListener('hashchange', function() {
+            const newTopicId = window.location.hash ? window.location.hash.substring(1) : 'main-intro';
+            showTopic(newTopicId);
+        });
+    });
+</script>
+
+    </main>
+
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>

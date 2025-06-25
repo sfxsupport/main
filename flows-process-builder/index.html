@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salesforce Flows & Process Builder - Mastering Declarative Automation</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
+
+    <main>
+        <div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
+    <aside class="w-full lg:w-72 lg:flex-shrink-0 py-8 px-6 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 shadow-md relative z-20">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-8 text-gray-900 leading-tight">
+            Flows & Process Builder Topics
+        </h2>
+        <nav class="topic-navigation flex flex-col gap-2" id="learning-topic-navigation">
+            
+                
+                    <a href="#introduction"
+                       data-topic-id="introduction"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            1
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Introduction to Salesforce Automation</span>
+                        </span>
+                    </a>
+                
+                    <a href="#what-is-flow"
+                       data-topic-id="what-is-flow"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            2
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Understanding Salesforce Flow</span>
+                        </span>
+                    </a>
+                
+                    <a href="#flow-types"
+                       data-topic-id="flow-types"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            3
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Types of Flows</span>
+                        </span>
+                    </a>
+                
+                    <a href="#process-builder"
+                       data-topic-id="process-builder"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            4
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Understanding Process Builder</span>
+                        </span>
+                    </a>
+                
+                    <a href="#flow-vs-pb-vs-workflow"
+                       data-topic-id="flow-vs-pb-vs-workflow"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            5
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Flow vs. Process Builder vs. Workflow Rules</span>
+                        </span>
+                    </a>
+                
+                    <a href="#best-practices"
+                       data-topic-id="best-practices"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            6
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Best Practices & Considerations</span>
+                        </span>
+                    </a>
+                
+                    <a href="#debugging-flows"
+                       data-topic-id="debugging-flows"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            7
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Debugging & Troubleshooting</span>
+                        </span>
+                    </a>
+                
+                    <a href="#conclusion"
+                       data-topic-id="conclusion"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            8
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Conclusion & The Future of Automation</span>
+                        </span>
+                    </a>
+                
+            
+        </nav>
+    </aside>
+
+    <main class="learning-content-area flex-1 py-10 px-6 md:px-10 lg:px-16 overflow-y-auto relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-gray-900 leading-tight">
+                    Salesforce Flows & Process Builder - Mastering Declarative Automation
+                </h1>
+                <p class="intro-text text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
+                    Master Salesforce's powerful declarative automation tools – Flows and Process Builder. Learn to automate complex business processes, improve efficiency, and reduce the need for Apex code, empowering both admins and developers.
+                </p>
+            </div>
+            
+            <a href="/contact/"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-md hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+               style="backdrop-filter: blur(2px); white-space: nowrap;">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+                Need hands-on training?
+            </a>
+        </div>
+
+        <section id="content-introduction" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">1. Introduction to Salesforce Automation</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce is not just a CRM; it's a powerful platform designed to streamline business operations. At its core, automation is about reducing manual effort, improving data accuracy, and ensuring consistency across processes. For a long time, Salesforce developers primarily relied on Apex code for complex automation, while administrators used simpler tools like Workflow Rules.</p>
+    <p class="text-gray-700 leading-relaxed mb-4">However, Salesforce has significantly invested in declarative (click-not-code) automation tools, making powerful capabilities accessible to a broader audience, including administrators. This shift empowers businesses to adapt quickly without extensive developer resources.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Why is Automation Important?</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Efficiency:</strong> Automate repetitive tasks, saving time and resources.</li>
+        <li><strong>Accuracy:</strong> Minimize human error by enforcing consistent logic.</li>
+        <li><strong>Consistency:</strong> Ensure business rules are applied uniformly.</li>
+        <li><strong>Scalability:</strong> Handle increasing volumes of data and operations without proportional increase in manual effort.</li>
+        <li><strong>Agility:</strong> Rapidly adapt to changing business requirements with declarative tools.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">This module focuses on <strong>Salesforce Flow</strong> and <strong>Process Builder</strong>, two of the most significant declarative automation tools on the platform. Understanding these tools is crucial for both Salesforce administrators seeking to build robust solutions and developers aiming to offload simpler logic from Apex code.</p>
+</section>
+
+<section id="content-what-is-flow" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">2. Understanding Salesforce Flow</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce Flow is the most powerful declarative automation tool available on the Salesforce platform. It allows you to build complex business logic, interact with users, and connect to external systems through a visual interface. Think of Flow as a sophisticated workflow engine that can execute a series of actions based on triggers or user input.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Concepts:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Flow Builder:</strong> The drag-and-drop visual interface where you design your flows.</li>
+        <li><strong>Elements:</strong> The building blocks of a Flow. These represent actions, interactions, or logic. Common elements include:
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Screen:</strong> Displays information or gathers input from users.</li>
+                <li><strong>Action:</strong> Performs operations like creating records, updating records, sending emails, calling Apex, or performing external callouts.</li>
+                <li><strong>Logic:</strong> Decision (if/then), Loop (iterate over collections), Assignment (set variables), Collection Sort, etc.</li>
+                <li><strong>Interaction:</strong> Pause, Subflow (call another flow).</li>
+            </ul>
+        </li>
+        <li><strong>Connectors:</strong> Lines that connect elements, defining the path of execution in the flow.</li>
+        <li><strong>Resources:</strong> Variables, constants, formulas, text templates, and choices that store and manipulate data within the flow.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Why Flow is the Future of Declarative Automation:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Flexibility:</strong> Handles complex branching logic, looping, and data manipulation that Process Builder cannot.</li>
+        <li><strong>User Interaction:</strong> Screen Flows provide a dynamic user interface for guided processes.</li>
+        <li><strong>Integrations:</strong> Built-in support for calling external services and Apex.</li>
+        <li><strong>Direct Record Actions:</strong> Record-Triggered Flows offer `Before Save` and `After Save` options, similar to Apex triggers, with better performance than Process Builder for `Before Save` updates.</li>
+        <li><strong>Error Handling:</strong> More robust error handling capabilities compared to other declarative tools.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce is actively enhancing Flow and consolidating other automation tools into it, making it the primary declarative automation tool moving forward.</p>
+</section>
+
+<section id="content-flow-types" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">3. Types of Flows</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce Flows are categorized by how they are launched and their primary purpose. Choosing the correct Flow type is critical for efficient and effective automation.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Screen Flows:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Purpose:</strong> Interact with users by presenting screens to gather input, display information, or guide them through a business process.</li>
+        <li><strong>Launch:</strong> Can be launched from:
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Flow URLs</li>
+                <li>Lightning Page (using the Flow component)</li>
+                <li>Experience Cloud sites</li>
+                <li>Custom Buttons/Links</li>
+                <li>Utility Bar</li>
+            </ul>
+        </li>
+        <li><strong>Use Cases:</strong> Onboarding wizards, customer service scripts, complex data entry forms, approval processes requiring user input.</li>
+        <li><strong>Context:</strong> Generally runs in user context (respects user permissions).</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Auto-launched Flows (No User Interaction):</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">These flows run automatically without direct user interaction and can be triggered in various ways:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Record-Triggered Flows:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Purpose:</strong> Execute automation when a record is created, updated, or deleted.</li>
+                <li><strong>Launch:</strong> Automatically run when DML operations occur on a specified object.</li>
+                <li><strong>Versions:</strong>
+                    <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                        <li><strong>Fast Field Updates (Before Save):</strong> Runs before the record is saved to the database. Extremely fast and efficient for updating fields on the same record that triggered the flow. Similar to `before insert/update` Apex triggers.</li>
+                        <li><strong>Actions and Related Records (After Save):</strong> Runs after the record is saved to the database. Can perform actions on related records, make external callouts, or send emails. Similar to `after insert/update` Apex triggers.</li>
+                        <li><strong>When a record is deleted:</strong> Runs before or after a record is deleted.</li>
+                    </ul>
+                </li>
+                <li><strong>Use Cases:</strong> Auto-populating fields, updating related records, sending notifications, complex data validation.</li>
+            </ul>
+        </li>
+        <li><strong>Scheduled-Triggered Flows:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Purpose:</strong> Run at a specified time and frequency (e.g., daily, weekly).</li>
+                <li><strong>Launch:</strong> Set a schedule and (optionally) criteria for records to process.</li>
+                <li><strong>Use Cases:</strong> Daily data clean-up, batch updates, sending weekly summary emails.</li>
+            <li><strong>Context:</strong> Runs in system context.</li>
+            </ul>
+        </li>
+        <li><strong>Platform Event-Triggered Flows:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Purpose:</strong> Respond to platform events (real-time enterprise messaging).</li>
+                <li><strong>Launch:</strong> Automatically run when a specified platform event message is received.</li>
+                <li><strong>Use Cases:</strong> Decoupled integrations, real-time dashboards, IoT data processing.</li>
+                <li><strong>Context:</strong> Runs in system context.</li>
+            </ul>
+        </li>
+        <li><strong>Auto-launched Flow (No Trigger):</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Purpose:</strong> Execute business logic when explicitly invoked.</li>
+                <li><strong>Launch:</strong> Can be called from:
+                    <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                        <li>Apex code (e.g., `Flow.Interview.createFlow(...)`)</li>
+                        <li>REST API</li>
+                        <li>Custom Buttons/Links (with a URL parameter)</li>
+                        <li>Another Flow (as a Subflow)</li>
+                    </ul>
+                </li>
+                <li><strong>Use Cases:</strong> Reusable logic modules, background processing triggered by Apex, specific API integrations.</li>
+                <li><strong>Context:</strong> Inherits context from its invoker.</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section id="content-process-builder" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">4. Understanding Process Builder</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Process Builder is a powerful declarative automation tool that allows you to automate business processes with a visual, point-and-click interface. It's often seen as a more powerful successor to Workflow Rules but is being phased out in favor of Salesforce Flow.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Concepts:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Processes:</strong> The automated business logic you build. Each process is associated with a specific object.</li>
+        <li><strong>Start Conditions:</strong> Define when the process starts (e.g., when a record is created, or when a record is created or edited). You can also add criteria to narrow down when it fires.</li>
+        <li><strong>Criteria:</strong> Conditions that must be met for actions to execute (e.g., `Opportunity Stage = 'Closed Won'`).</li>
+        <li><strong>Actions:</strong> What the process does when criteria are met. Process Builder offers a variety of actions:
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Create a Record:</strong> Create new Salesforce records.</li>
+                <li><strong>Update Records:</strong> Update the record that started the process or related records.</li>
+                <li><strong>Invoke a Flow:</strong> Start an Auto-launched Flow (this is a key feature for extending PB's capabilities).</li>
+                <li><strong>Call Apex:</strong> Invoke an Apex method annotated with `@InvocableMethod`.</li>
+                <li><strong>Post to Chatter:</strong> Send messages to Chatter.</li>
+                <li><strong>Send Email Alerts:</strong> Use existing email alerts.</li>
+                <li><strong>Submit for Approval:</strong> Automatically submit a record for approval.</li>
+            </ul>
+        </li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">When to Use Process Builder (Historically):</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Historically, Process Builder was chosen for scenarios where Workflow Rules were insufficient, but a full Flow was overkill. This included:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Updating fields on related records.</li>
+        <li>Creating new records.</li>
+        <li>Calling Apex without writing complex Flow logic.</li>
+        <li>Chaining multiple actions together.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4"><strong>Important Note:</strong> Salesforce is actively deprecating Process Builder. While existing processes will continue to function, <strong>it is strongly recommended to build all new automation with Salesforce Flow</strong>, especially Record-Triggered Flows, as they offer better performance, more features, and are the future of declarative automation.</p>
+</section>
+
+<section id="content-flow-vs-pb-vs-workflow" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">5. Flow vs. Process Builder vs. Workflow Rules</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Understanding the strengths and weaknesses of each automation tool is crucial for making informed decisions. While Workflow Rules and Process Builder are being superseded, it's good to understand their historical context and why Flow is now preferred.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Comparison Table:</h3>
+    <table class="table-auto w-full border-collapse border border-gray-300 my-6">
+        <thead>
+            <tr class="bg-blue-100">
+                <th class="px-4 py-2 text-left text-blue-800 font-semibold border border-gray-300">Feature/Tool</th>
+                <th class="px-4 py-2 text-left text-blue-800 font-semibold border border-gray-300">Workflow Rules</th>
+                <th class="px-4 py-2 text-left text-blue-800 font-semibold border border-gray-300">Process Builder</th>
+                <th class="px-4 py-2 text-left text-blue-800 font-semibold border border-gray-300">Salesforce Flow</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Primary Purpose</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Simple field updates & email alerts</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Automate processes with multiple actions</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Complex logic, user interaction, external calls, integrations</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Complexity</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Low</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Medium</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">High (most powerful)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Execution Options</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Before Save (field update), After Save (other actions)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">After Save (when record created/edited)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Before Save, After Save, Screen, Scheduled, Platform Event, Invoked</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>User Interaction (Screens)</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes (Screen Flows)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Loops & Collections</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Direct Delete Records</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Roll-Back Transactions</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes (Fault Paths)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Call Apex</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes (`@InvocableMethod`)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes (`@InvocableMethod` or direct Apex Action)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>External Callouts</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">No</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Limited (via Apex)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Yes (External Service, HTTP Callout Action, Apex)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Performance for Same-Record Updates</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Excellent (if immediate)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Poor (always After Save, incurs DML)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Excellent (Before Save Record-Triggered Flow)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border border-gray-300 text-gray-800"><strong>Future State</strong></td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Deprecated (migrate to Flow)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">Deprecating (migrate to Flow)</td>
+                <td class="px-4 py-2 border border-gray-300 text-gray-800">The future of declarative automation</td>
+            </tr>
+        </tbody>
+    </table>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Decision Guide (New Automation):</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">For any new automation requirements, the recommendation is clear:</p>
+    <ol class="list-decimal pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Start with Salesforce Flow.</strong></li>
+        <li>If the requirement is extremely simple (e.g., update a field on the same record based on criteria), a <strong>Before Save Record-Triggered Flow</strong> is the most performant and recommended approach.</li>
+        <li>If the requirement involves user interaction, complex branching, looping, or integrations, <strong>Flow is your only declarative choice.</strong></li>
+        <li>Avoid using Workflow Rules and Process Builder for new automation. Focus on migrating existing ones to Flow where possible.</li>
+    </ol>
+</section>
+
+<section id="content-best-practices" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">6. Best Practices & Considerations</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Building robust and maintainable automation requires adhering to best practices, especially with declarative tools like Flow.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. One Automation Per Object (or Purpose):</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Just like with Apex Triggers, aim for a single Record-Triggered Flow per object (for Before Save) and another for After Save actions. This consolidates logic, makes debugging easier, and helps control execution order.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Consolidate:</strong> Instead of multiple Flows and Processes on the same object for the same trigger (e.g., 5 separate "After Save" Flows on Opportunity), combine them into one.</li>
+        <li><strong>Prioritize:</strong> Within a single Flow, use decision elements to create distinct paths for different criteria.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Think Transactional:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Understand when your Flow runs in the transaction (Before Save vs. After Save) and what impact its actions will have. `Before Save` is critical for performance when updating the same record. `After Save` allows for actions on related records or external systems.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">c. Error Handling (Fault Paths):</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Flows allow you to add "Fault Paths" to many elements (e.g., DML, Callout). Always implement fault paths to gracefully handle errors, log issues, or notify users/admins instead of just failing the transaction.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">d. Performance Considerations:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Bulkify Your Flows:</strong> While Flow handles collections inherently, be mindful of how many records a loop processes or how many DML operations a Flow might trigger. Avoid actions inside loops that are not bulkified by nature (e.g., single email sends).</li>
+        <li><strong>Minimize DML:</strong> Reduce the number of `Create Record` or `Update Record` elements. Batch updates where possible.</li>
+        <li><strong>Optimize Queries:</strong> Ensure your `Get Records` elements are filtering efficiently.</li>
+        <li><strong>Avoid Recursion:</strong> Be careful not to create infinite loops where a Flow triggers itself or another automation repeatedly.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">e. Activate One Version at a Time:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Only one version of a Flow can be active at a time. When making changes, create a new version, test it thoroughly, and then activate it. Keep inactive versions for historical reference or rollback.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">f. Naming Conventions:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Implement consistent and clear naming conventions for your Flows, elements, variables, and resources. This makes your Flows readable and maintainable.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">g. Test Thoroughly:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Always test your Flows extensively in a sandbox environment before deploying to production. Use different data scenarios, including edge cases and bulk data, to ensure they perform as expected and don't hit governor limits.</p>
+</section>
+
+<section id="content-debugging-flows" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">7. Debugging & Troubleshooting</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Debugging Flows is a critical skill for any Salesforce administrator or developer. Salesforce provides robust tools to help you identify and resolve issues.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Flow Debugger:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">The Flow Debugger is an invaluable tool integrated directly into Flow Builder. It allows you to:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Run a Flow in Debug Mode:</strong> Simulate a Flow run with specific input values or by triggering it on a record.</li>
+        <li><strong>View Execution Path:</strong> See exactly which elements were executed and in what order.</li>
+        <li><strong>Inspect Variable Values:</strong> Examine the values of all variables and resources at each step of the Flow.</li>
+        <li><strong>Roll Back Changes:</strong> Option to roll back any DML operations made during debugging in your sandbox.</li>
+        <li><strong>Show Details of Debug:</strong> Provides a detailed log of each element's execution, including queries, DML, and limits used.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4"><strong>How to use:</strong> In Flow Builder, click the "Debug" button. Choose your debug options (e.g., input variables, record to trigger on) and run the debug session.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Debug Logs:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">For more advanced troubleshooting, especially when a Flow interacts with Apex or other processes, Salesforce debug logs are essential.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Set up a `User Trace Flag` for the running user.</li>
+        <li>Set debug levels (e.g., `FLOW` to `FINEST`, `WORKFLOW` to `FINEST`).</li>
+        <li>Analyze the log for `FLOW_START_INTERVIEW`, `FLOW_ELEMENT_BEGIN`, `FLOW_VALUE_ASSIGNMENT`, `FLOW_BULK_ELEMENT_LIMIT`, `FLOW_END_INTERVIEW`, and any `LIMIT_EXCEEDED` messages.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">c. Flow Error Emails:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">If an unhandled error occurs in a Flow, Salesforce sends an error email to the specified admin or an administrator. This email contains crucial information:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Which Flow encountered the error.</li>
+        <li>The specific element where the error occurred.</li>
+        <li>The error message details.</li>
+        <li>The input variables and record IDs that caused the error.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">These emails are a great starting point for investigating production issues. Always ensure a responsible admin or team receives these notifications.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">d. Custom Error Logging:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">For more proactive error management, you can build custom error logging mechanisms within your Flows using `Create Record` elements to log errors to a custom object. Combine this with fault paths to catch specific exceptions.</p>
+</section>
+
+<section id="content-conclusion" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">8. Conclusion & The Future of Automation</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce Flows have revolutionized declarative automation on the platform, empowering administrators to build sophisticated business logic that once required Apex code. With the deprecation of Workflow Rules and the ongoing transition from Process Builder to Flow, it is clear that Salesforce Flow is the future of declarative automation.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Takeaways:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Flow is the King:</strong> For new automation, always start with Salesforce Flow. It's the most flexible, powerful, and performant declarative tool.</li>
+        <li><strong>Choose the Right Type:</strong> Select the correct Flow type (Screen, Record-Triggered, Scheduled, Platform Event, Auto-launched) based on your use case.</li>
+        <li><strong>Prioritize Performance:</strong> Leverage `Before Save` Record-Triggered Flows for efficient same-record updates.</li>
+        <li><strong>Best Practices are Crucial:</strong> Adopt "one automation per object," implement error handling with fault paths, and adhere to strong naming conventions.</li>
+        <li><strong>Master Debugging:</strong> Become proficient with the Flow Debugger and Salesforce debug logs to efficiently troubleshoot issues.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">By mastering Salesforce Flows, you position yourself as a highly capable Salesforce professional, ready to tackle complex business requirements with clicks, not code, and to build scalable, maintainable, and efficient solutions on the platform.</p>
+</section>
+    </main>
+   
+    <a href="/contact/"
+       class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-xl hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 flex items-center gap-2"
+       style="backdrop-filter: blur(4px); display: none;"
+       id="sticky-training-cta">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+        Questions? Book Training
+    </a>
+</div>
+
+<link href="/assets/css/prism.css" rel="stylesheet" />
+<script src="/assets/js/prism.js"></script>
+
+<script>
+    // Sticky CTA after scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const cta = document.getElementById('sticky-training-cta');
+        function toggleCTA() {
+            if (window.scrollY > 200) {
+                cta.style.display = 'flex';
+            } else {
+                cta.style.display = 'none';
+            }
+        }
+        cta.style.display = 'none';
+        window.addEventListener('scroll', toggleCTA);
+    });
+
+    // Topic navigation logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.topic-nav-item');
+        const contentSections = document.querySelectorAll('.topic-content-section');
+        const learningContentArea = document.querySelector('.learning-content-area');
+        const introText = document.querySelector('.learning-content-area .intro-text');
+
+        function showTopic(topicIdToShow) {
+            navItems.forEach(item => {
+                item.classList.remove('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                item.querySelector('span:first-child').classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
+                item.querySelector('span:first-child').classList.add('bg-white', 'text-blue-600', 'border-blue-400');
+                item.querySelector('span:last-child > span').classList.remove('text-blue-800', 'font-semibold');
+                item.querySelector('span:last-child > span').classList.add('text-gray-600');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.remove('active', 'block', 'opacity-100', 'translate-y-0');
+                section.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            });
+
+            if (topicIdToShow === 'main-intro' || !topicIdToShow) {
+                if (introText) introText.style.display = 'block';
+            } else {
+                if (introText) introText.style.display = 'none';
+            }
+
+            const selectedNavItem = document.querySelector(`.topic-nav-item[data-topic-id="${topicIdToShow}"]`);
+            if (selectedNavItem) {
+                selectedNavItem.classList.add('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                selectedNavItem.querySelector('span:first-child').classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+                selectedNavItem.querySelector('span:first-child').classList.remove('bg-white', 'text-blue-600', 'border-blue-400');
+                selectedNavItem.querySelector('span:last-child > span').classList.add('text-blue-800', 'font-semibold');
+                selectedNavItem.querySelector('span:last-child > span').classList.remove('text-gray-600');
+            }
+
+            const selectedContentSection = document.getElementById(`content-${topicIdToShow}`);
+            if (selectedContentSection) {
+                selectedContentSection.classList.remove('hidden');
+                selectedContentSection.classList.add('block', 'opacity-100', 'translate-y-0');
+                learningContentArea.scrollTop = 0;
+            }
+        }
+
+        const initialTopicId = window.location.hash ? window.location.hash.substring(1) : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
+        showTopic(initialTopicId);
+
+        navItems.forEach(item => {
+            const topicId = item.dataset.topicId;
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                showTopic(topicId);
+                history.pushState(null, '', `#${topicId}`);
+            });
+        });
+
+        window.addEventListener('hashchange', function() {
+            const newTopicId = window.location.hash ? window.location.hash.substring(1) : 'main-intro';
+            showTopic(newTopicId);
+        });
+    });
+</script>
+
+    </main>
+
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>

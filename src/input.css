@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@source "./index.html";
+@source "./contact.html";
+@source "./about.html";
+@source "./src/**/*.{html,js,jsx,ts,tsx,vue}";
+@source "./*.html";
+@source "./src/**/*.{html,js}";
+@source "./_includes/**/*.{html,liquid}";
+@source "./_layouts/**/*.{html,liquid}";
+@source "./_includes/*.{html,liquid}";
+@source "./Resources/*.html";
+@source "./Resources/**/*.html";
+@source "./_layouts/*.html";
+@source "./learning/*.html";
+@source "./_includes/*.html";

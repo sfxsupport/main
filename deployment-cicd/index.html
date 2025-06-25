@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salesforce Deployment & CI/CD - Streamlining Development</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
+
+    <main>
+        <div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
+    <aside class="w-full lg:w-72 lg:flex-shrink-0 py-8 px-6 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 shadow-md relative z-20">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-8 text-gray-900 leading-tight">
+            Deployment & CI/CD Topics
+        </h2>
+        <nav class="topic-navigation flex flex-col gap-2" id="learning-topic-navigation">
+            
+                
+                    <a href="#introduction"
+                       data-topic-id="introduction"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            1
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Introduction to Deployment & CI/CD</span>
+                        </span>
+                    </a>
+                
+                    <a href="#deployment-methods"
+                       data-topic-id="deployment-methods"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            2
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Salesforce Deployment Methods</span>
+                        </span>
+                    </a>
+                
+                    <a href="#understanding-cicd"
+                       data-topic-id="understanding-cicd"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            3
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Understanding CI/CD</span>
+                        </span>
+                    </a>
+                
+                    <a href="#cicd-tools"
+                       data-topic-id="cicd-tools"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            4
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">CI/CD Tools for Salesforce</span>
+                        </span>
+                    </a>
+                
+                    <a href="#cicd-practices"
+                       data-topic-id="cicd-practices"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            5
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Key CI/CD Practices</span>
+                        </span>
+                    </a>
+                
+                    <a href="#deployment-best-practices"
+                       data-topic-id="deployment-best-practices"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            6
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Deployment Best Practices</span>
+                        </span>
+                    </a>
+                
+                    <a href="#conclusion"
+                       data-topic-id="conclusion"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            7
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Conclusion & Future Outlook</span>
+                        </span>
+                    </a>
+                
+            
+        </nav>
+    </aside>
+
+    <main class="learning-content-area flex-1 py-10 px-6 md:px-10 lg:px-16 overflow-y-auto relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-gray-900 leading-tight">
+                    Salesforce Deployment & CI/CD - Streamlining Development
+                </h1>
+                <p class="intro-text text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
+                    Master Salesforce deployment strategies and Continuous Integration/Continuous Delivery (CI/CD) practices. Learn to move changes efficiently and reliably across environments, ensuring quality and accelerating development cycles.
+                </p>
+            </div>
+            
+            <a href="/contact/"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-md hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+               style="backdrop-filter: blur(2px); white-space: nowrap;">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+                Need hands-on training?
+            </a>
+        </div>
+
+        <section id="content-introduction" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">1. Introduction to Deployment & CI/CD</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">In Salesforce development, moving changes from a development environment (like a Sandbox) to a testing environment, and eventually to production, is a critical and often complex process. This is known as <strong>Deployment</strong>. As development teams grow and changes become more frequent, manual deployment processes become slow, error-prone, and unsustainable.</p>
+    <p class="text-gray-700 leading-relaxed mb-4">This is where <strong>Continuous Integration (CI)</strong> and <strong>Continuous Delivery/Deployment (CD)</strong> come into play. CI/CD practices automate the entire software delivery lifecycle, from code commit to production release, ensuring faster, more reliable, and higher-quality deployments.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Why are Deployment & CI/CD Important?</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Speed:</strong> Automate repetitive tasks, accelerating the delivery of new features and bug fixes.</li>
+        <li><strong>Reliability:</strong> Reduce human error and ensure consistency in deployments.</li>
+        <li><strong>Quality:</strong> Integrate automated testing, static code analysis, and security checks early in the development cycle.</li>
+        <li><strong>Collaboration:</strong> Facilitate better collaboration among developers by frequently merging code.</li>
+        <li><strong>Visibility:</strong> Provide clear visibility into the status of deployments and potential issues.</li>
+        <li><strong>Rollback Capability:</strong> Easier to revert to a stable state if issues arise in production.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">This module will guide you through various Salesforce deployment methods and introduce the core concepts, tools, and best practices of CI/CD tailored for the Salesforce platform.</p>
+</section>
+
+<section id="content-deployment-methods" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">2. Salesforce Deployment Methods</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce offers several ways to deploy metadata (code, configurations, custom objects, etc.) between environments. The choice of method often depends on the complexity of the changes, team size, and the level of automation desired.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Change Sets:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Description:</strong> A declarative, point-and-click tool within the Salesforce UI for moving metadata between related organizations (e.g., Sandbox to Production).</li>
+        <li><strong>Pros:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Easy to use for administrators.</li>
+                <li>No external tools or command-line interface required.</li>
+                <li>Built-in validation and deployment.</li>
+            </ul>
+        </li>
+        <li><strong>Cons:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Cannot retrieve or deploy all metadata types.</li>
+                <li>Difficult to manage for large or complex projects.</li>
+                <li>No version control integration.</li>
+                <li>Manual process, prone to human error.</li>
+                <li>Cannot deploy between unrelated orgs.</li>
+            </ul>
+        </li>
+        <li><strong>Best For:</strong> Small, simple, infrequent deployments by administrators.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Salesforce CLI (SFDX Command Line Interface):</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Description:</strong> A powerful command-line interface that allows developers to interact with their Salesforce orgs, retrieve metadata, deploy changes, run tests, and manage scratch orgs. It's the cornerstone of the Salesforce DX development model.</li>
+        <li><strong>Pros:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Supports all metadata types.</li>
+                <li>Integrates well with version control systems (Git).</li>
+                <li>Enables automation through scripting.</li>
+                <li>Supports scratch orgs for isolated development.</li>
+                <li>Can deploy between any orgs (source-tracked or not).</li>
+            </ul>
+        </li>
+        <li><strong>Cons:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Requires command-line proficiency.</li>
+                <li>Steeper learning curve for administrators.</li>
+            </ul>
+        </li>
+        <li><strong>Best For:</strong> Developer-centric teams, CI/CD pipelines, complex deployments, source-driven development.</li>
+    </ul>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Bash Code Example:</p>
+        <pre><code class="language-bash"># Example SFDX commands
+# Retrieve metadata
+sf project retrieve start -m "ApexClass:MyClass,CustomObject:MyObject__c"
+
+# Deploy metadata
+sf project deploy start -d force-app/main/default -o myProductionOrg
+
+# Run Apex tests
+sf apex run test -l RunLocalTests -o myProductionOrg
+</code></pre>
+    </div>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">c. Ant Migration Tool:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Description:</strong> A Java-based command-line utility that uses Apache Ant to retrieve and deploy Salesforce metadata. It was a popular tool for programmatic deployments before SFDX.</li>
+        <li><strong>Pros:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Supports all metadata types.</li>
+                <li>Can be scripted for automation.</li>
+            </ul>
+        </li>
+        <li><strong>Cons:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Requires Java and Ant setup.</li>
+                <li>XML-based configuration can be verbose.</li>
+                <li>Less modern compared to SFDX.</li>
+            </ul>
+        </li>
+        <li><strong>Best For:</strong> Legacy projects, or teams already heavily invested in Ant. SFDX is generally preferred for new projects.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">d. Managed & Unmanaged Packages:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Description:</strong> Packages are containers for Salesforce components (metadata and data) that can be distributed to other Salesforce orgs.
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li><strong>Unmanaged Packages:</strong> Used for distributing open-source projects or templates. Components are fully editable after installation.</li>
+                <li><strong>Managed Packages:</strong> Used by ISVs (Independent Software Vendors) to distribute applications on AppExchange. Components are protected, and upgrades are managed.</li>
+            </ul>
+        </li>
+        <li><strong>Pros:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Easy distribution and installation.</li>
+                <li>Good for sharing reusable components or entire applications.</li>
+            </ul>
+        </li>
+        <li><strong>Cons:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Not ideal for continuous, iterative development within a single project.</li>
+                <li>Versioning and upgrade complexities for managed packages.</li>
+            </ul>
+        </li>
+        <li><strong>Best For:</strong> Distributing solutions to multiple customers/orgs, AppExchange products.</li>
+    </ul>
+</section>
+
+<section id="content-understanding-cicd" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">3. Understanding CI/CD</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Continuous Integration (CI) and Continuous Delivery (CD) are methodologies that aim to improve software quality and delivery speed by automating various stages of the software development lifecycle.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Continuous Integration (CI):</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Concept:</strong> Developers frequently (multiple times a day) merge their code changes into a central shared repository (e.g., Git). Each merge triggers an automated build and test process.</li>
+        <li><strong>Goals:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Detect integration errors early.</li>
+                <li>Reduce merge conflicts.</li>
+                <li>Maintain a consistently working codebase.</li>
+                <li>Provide rapid feedback to developers.</li>
+            </ul>
+        </li>
+        <li><strong>Key Steps in Salesforce CI:</strong>
+            <ol class="list-decimal pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Developer commits changes to a feature branch in version control (Git).</li>
+                <li>Feature branch is merged into a main integration branch (e.g., `develop`).</li>
+                <li>CI server detects the merge.</li>
+                <li>Automated process retrieves metadata from the integration branch.</li>
+                <li>Deploys metadata to a CI Sandbox (or scratch org).</li>
+                <li>Runs Apex tests and potentially static code analysis.</li>
+                <li>Notifies the team of success or failure.</li>
+            </ol>
+        </li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Continuous Delivery (CD):</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Concept:</strong> An extension of CI, where code that has passed all automated tests is always in a deployable state. It automates the release process to various environments (UAT, Staging, Production), allowing for frequent, on-demand releases.</li>
+        <li><strong>Goals:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Ensure software is always ready for release.</li>
+                <li>Reduce risk of deployments.</li>
+                <li>Enable rapid, reliable releases.</li>
+            </ul>
+        </li>
+        <li><strong>Continuous Deployment:</strong> An even further extension of CD, where every change that passes all stages of the pipeline is *automatically* deployed to production without manual intervention. This is less common in Salesforce due to the nature of orgs and compliance, but possible for certain scenarios.</li>
+        <li><strong>Key Steps in Salesforce CD:</strong>
+            <ol class="list-decimal pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Code passes CI checks.</li>
+                <li>Automated deployment to a UAT (User Acceptance Testing) Sandbox.</li>
+                <li>Automated or manual execution of UAT tests.</li>
+                <li>If successful, automated deployment to Staging/Pre-Production.</li>
+                <li>Finally, automated or manual deployment to Production.</li>
+            </ol>
+        </li>
+    </ul>
+</section>
+
+<section id="content-cicd-tools" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">4. CI/CD Tools for Salesforce</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">A variety of tools can be used to implement CI/CD pipelines for Salesforce. These tools orchestrate the steps of retrieving, validating, deploying, and testing metadata.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Generic CI/CD Platforms:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Jenkins:</strong> An open-source automation server that can be configured to build, test, and deploy any project. Highly customizable with a vast plugin ecosystem. Requires self-hosting and maintenance.</li>
+        <li><strong>GitLab CI/CD:</strong> Built directly into GitLab, offering a comprehensive solution for source code management and CI/CD. Uses a `.gitlab-ci.yml` file for pipeline definition.</li>
+        <li><strong>GitHub Actions:</strong> Integrated CI/CD service within GitHub. Uses YAML workflows to automate tasks directly from your GitHub repository. Popular for open-source projects and teams already on GitHub.</li>
+        <li><strong>Azure DevOps:</strong> A suite of development services, including Azure Pipelines for CI/CD. Offers robust features for build, test, and release management, integrated with other Azure services.</li>
+        <li><strong>Bitbucket Pipelines:</strong> CI/CD service integrated with Bitbucket repositories. Configured via a `bitbucket-pipelines.yml` file.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">These tools typically use SFDX CLI commands or the Ant Migration Tool internally to interact with Salesforce orgs.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Salesforce-Specific DevOps Platforms:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">These tools are designed specifically for Salesforce and often provide higher-level abstractions and integrations with Salesforce metadata and processes.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Salesforce DevOps Center:</strong> Salesforce's native solution for managing changes and releases. It aims to simplify the DevOps process for both admins and developers by integrating with version control and providing a guided deployment experience. (Currently evolving)</li>
+        <li><strong>Copado:</strong> A leading commercial DevOps platform built on Salesforce. Offers comprehensive features for release management, compliance, testing, and environment management.</li>
+        <li><strong>Gearset:</strong> Another popular commercial DevOps solution known for its ease of use, intelligent comparisons, and automated deployments.</li>
+        <li><strong>AutoRABIT:</strong> A comprehensive DevOps suite for Salesforce, offering capabilities for release management, continuous delivery, data loading, and more.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">Choosing the right tool depends on your team's size, budget, existing technology stack, and specific Salesforce development needs.</p>
+</section>
+
+<section id="content-cicd-practices" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">5. Key CI/CD Practices for Salesforce</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Implementing CI/CD successfully for Salesforce involves adopting several key practices that ensure code quality, reliability, and efficient delivery.</p>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Version Control (Git):</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Central Repository:</strong> All Salesforce metadata (Apex, LWC, custom objects, profiles, permission sets, etc.) should be stored in a version control system, typically Git.</li>
+        <li><strong>Branching Strategy:</strong> Adopt a clear branching strategy (e.g., Gitflow, GitHub Flow) to manage development, features, releases, and hotfixes.</li>
+        <li><strong>Single Source of Truth:</strong> Your Git repository should be the definitive source of truth for your Salesforce metadata.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Automated Testing:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Apex Unit Tests:</strong> Ensure all Apex classes and triggers have comprehensive unit tests with sufficient code coverage. CI/CD pipelines should automatically run these tests.</li>
+        <li><strong>LWC Jest Tests:</strong> Implement Jest tests for your Lightning Web Components to validate client-side behavior.</li>
+        <li><strong>UI/End-to-End Tests:</strong> Consider tools like Selenium, Provar, or Cypress for automated UI testing of critical user flows.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">c. Static Code Analysis:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Tools:</strong> Integrate tools like PMD Apex, Checkmarx, or SonarQube into your pipeline.</li>
+        <li><strong>Purpose:</strong> Automatically scan your Apex code for common bugs, security vulnerabilities, and adherence to coding standards. Provides early feedback to developers.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">d. Environment Management:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Dedicated Environments:</strong> Use dedicated sandboxes for development, integration, UAT, and production.</li>
+        <li><strong>Scratch Orgs:</strong> Leverage Salesforce DX scratch orgs for isolated, short-lived development environments, especially for feature development.</li>
+        <li><strong>Environment Sync:</strong> Regularly refresh sandboxes and ensure metadata consistency between environments.</li>
+    </ul>
+
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">e. Release Management & Approvals:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Automated Deployments:</strong> Automate the deployment process to various environments.</li>
+        <li><strong>Approval Gates:</strong> Implement manual approval steps in your pipeline for critical stages (e.g., deployment to production) to ensure human oversight.</li>
+        <li><strong>Rollback Strategy:</strong> Have a clear plan and capability to quickly revert to a previous stable state if a deployment introduces critical issues.</li>
+    </ul>
+</section>
+
+<section id="content-deployment-best-practices" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">6. Deployment Best Practices</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Beyond CI/CD, several general best practices apply to all Salesforce deployments to ensure success and minimize risk.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Plan Thoroughly:</strong> Define what needs to be deployed, the order of deployment (if dependencies exist), and the target environment.</li>
+        <li><strong>Communicate Changes:</strong> Inform all stakeholders (users, admins, other developers) about upcoming deployments and their impact.</li>
+        <li><strong>Backup Before Deployment:</strong> Always perform a full backup of your target environment (especially production) before a major deployment.</li>
+        <li><strong>Validate First, Deploy Second:</strong> Always run a validation deployment to the target org before a full deployment. This checks for errors without actually deploying.</li>
+        <li><strong>Deploy During Off-Peak Hours:</strong> Schedule production deployments during times of low user activity to minimize disruption.</li>
+        <li><strong>Test in Target Environment:</strong> Even after successful validation, perform smoke tests and critical path testing in the target environment immediately after deployment.</li>
+        <li><strong>Handle Data vs. Metadata:</strong> Understand the distinction. Deployment tools handle metadata. Data migration tools (e.g., Data Loader, Salesforce CLI `data` commands) are needed for data.</li>
+        <li><strong>Automate Where Possible:</strong> Reduce manual steps to minimize human error and increase speed.</li>
+        <li><strong>Monitor Post-Deployment:</strong> Keep an eye on system performance, error logs, and user feedback after a deployment.</li>
+        <li><strong>Document Deployments:</strong> Keep a record of what was deployed, when, by whom, and any issues encountered.</li>
+    </ul>
+</section>
+
+<section id="content-conclusion" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">7. Conclusion & Future Outlook</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce deployment has evolved significantly, moving from manual processes to sophisticated CI/CD pipelines. Embracing these modern practices is no longer optional but a necessity for efficient, high-quality, and scalable Salesforce development.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Takeaways:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Automate Everything:</strong> From code commit to production release, automation is key to speed and reliability.</li>
+        <li><strong>Version Control is Foundational:</strong> Git is the single source of truth for your Salesforce metadata.</li>
+        <li><strong>Test Early and Often:</strong> Automated testing (Apex, LWC, UI) is critical for catching issues before they reach production.</li>
+        <li><strong>Choose the Right Tools:</strong> Leverage SFDX CLI and suitable CI/CD platforms (generic or Salesforce-specific) to build your pipeline.</li>
+        <li><strong>Prioritize Best Practices:</strong> Plan, validate, communicate, and monitor every deployment.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">The Salesforce DevOps landscape continues to mature with tools like Salesforce DevOps Center. Investing in CI/CD skills and infrastructure will empower your team to deliver value faster, more reliably, and with greater confidence on the Salesforce platform.</p>
+</section>
+    </main>
+   
+    <a href="/contact/"
+       class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-xl hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 flex items-center gap-2"
+       style="backdrop-filter: blur(4px); display: none;"
+       id="sticky-training-cta">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+        Questions? Book Training
+    </a>
+</div>
+
+<link href="/assets/css/prism.css" rel="stylesheet" />
+<script src="/assets/js/prism.js"></script>
+
+<script>
+    // Sticky CTA after scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const cta = document.getElementById('sticky-training-cta');
+        function toggleCTA() {
+            if (window.scrollY > 200) {
+                cta.style.display = 'flex';
+            } else {
+                cta.style.display = 'none';
+            }
+        }
+        cta.style.display = 'none';
+        window.addEventListener('scroll', toggleCTA);
+    });
+
+    // Topic navigation logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.topic-nav-item');
+        const contentSections = document.querySelectorAll('.topic-content-section');
+        const learningContentArea = document.querySelector('.learning-content-area');
+        const introText = document.querySelector('.learning-content-area .intro-text');
+
+        function showTopic(topicIdToShow) {
+            navItems.forEach(item => {
+                item.classList.remove('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                item.querySelector('span:first-child').classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
+                item.querySelector('span:first-child').classList.add('bg-white', 'text-blue-600', 'border-blue-400');
+                item.querySelector('span:last-child > span').classList.remove('text-blue-800', 'font-semibold');
+                item.querySelector('span:last-child > span').classList.add('text-gray-600');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.remove('active', 'block', 'opacity-100', 'translate-y-0');
+                section.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            });
+
+            if (topicIdToShow === 'main-intro' || !topicIdToShow) {
+                if (introText) introText.style.display = 'block';
+            } else {
+                if (introText) introText.style.display = 'none';
+            }
+
+            const selectedNavItem = document.querySelector(`.topic-nav-item[data-topic-id="${topicIdToShow}"]`);
+            if (selectedNavItem) {
+                selectedNavItem.classList.add('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                selectedNavItem.querySelector('span:first-child').classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+                selectedNavItem.querySelector('span:first-child').classList.remove('bg-white', 'text-blue-600', 'border-blue-400');
+                selectedNavItem.querySelector('span:last-child > span').classList.add('text-blue-800', 'font-semibold');
+                selectedNavItem.querySelector('span:last-child > span').classList.remove('text-gray-600');
+            }
+
+            const selectedContentSection = document.getElementById(`content-${topicIdToShow}`);
+            if (selectedContentSection) {
+                selectedContentSection.classList.remove('hidden');
+                selectedContentSection.classList.add('block', 'opacity-100', 'translate-y-0');
+                learningContentArea.scrollTop = 0;
+            }
+        }
+
+        const initialTopicId = window.location.hash ? window.location.hash.substring(1) : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
+        showTopic(initialTopicId);
+
+        navItems.forEach(item => {
+            const topicId = item.dataset.topicId;
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                showTopic(topicId);
+                history.pushState(null, '', `#${topicId}`);
+            });
+        });
+
+        window.addEventListener('hashchange', function() {
+            const newTopicId = window.location.hash ? window.location.hash.substring(1) : 'main-intro';
+            showTopic(newTopicId);
+        });
+    });
+</script>
+
+    </main>
+
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>

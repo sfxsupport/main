@@ -1,0 +1,172 @@
+---
+layout: learning-topic
+title: Governor Limits & Best Practices - Mastering Salesforce Development
+permalink: /governor-limits/
+sidebar_title: Governor Limits Topics
+intro_text: Understanding and adhering to Salesforce Governor Limits is crucial for writing scalable, efficient, and deployable Apex code. This module will explain what governor limits are, why they exist, and how to write code that respects them.
+topics:
+  - id: introduction
+    number: 1
+    title: Introduction to Governor Limits
+  - id: types-of-limits
+    number: 2
+    title: Types of Governor Limits
+  - id: common-errors
+    number: 3
+    title: Common Governor Limit Errors
+  - id: best-practices
+    number: 4
+    title: Strategies & Best Practices
+  - id: testing-limits
+    number: 5
+    title: Testing for Governor Limits
+  - id: conclusion
+    number: 6
+    title: Conclusion & Key Takeaways
+---
+
+<section id="content-introduction" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">1. Introduction to Governor Limits</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce operates on a multi-tenant architecture, meaning that a single instance of the software serves multiple customers (tenants). To ensure that no single customer monopolizes the shared resources (like CPU, memory, database, network), Salesforce enforces strict runtime limits on Apex code and other platform features. These are known as <strong>Governor Limits</strong>.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Why do Governor Limits Exist?</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Resource Sharing:</strong> Prevents any single organization from consuming all available resources, ensuring fair usage for all tenants on the shared infrastructure.</li>
+        <li><strong>Scalability & Stability:</strong> Helps maintain the overall performance, stability, and reliability of the Salesforce platform for everyone.</li>
+        <li><strong>Code Efficiency:</strong> Encourages developers to write efficient, bulkified, and optimized code. It forces good programming practices.</li>
+        <li><strong>Security:</strong> Limits the potential impact of malicious or poorly written code.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">Understanding these limits is not just about avoiding errors; it's about writing high-quality, performant, and scalable applications on the Salesforce platform. Failing to adhere to governor limits will result in runtime exceptions that halt your code execution.</p>
+</section>
+
+<section id="content-types-of-limits" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">2. Types of Governor Limits</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce imposes various types of governor limits, each targeting different aspects of code execution and resource consumption. It's important to be aware of the most common ones:</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">a. Per-Transaction Apex Limits:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">These limits apply to a single Apex transaction. A transaction starts when a trigger fires, an anonymous block executes, a web service call is made, etc., and ends when all associated DML, SOQL, and other operations are complete.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>SOQL Queries:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of SOQL queries issued: 100 (synchronous), 200 (asynchronous)</li>
+                <li>Total number of records retrieved by SOQL queries: 50,000</li>
+            </ul>
+        </li>
+        <li><strong>SOSL Queries:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of SOSL queries issued: 20</li>
+            </ul>
+        </li>
+        <li><strong>DML Operations:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of DML statements issued: 150</li>
+                <li>Total number of records processed by DML statements: 10,000</li>
+            </ul>
+        </li>
+        <li><strong>CPU Time:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total CPU time for all Apex transactions: 10,000 ms (synchronous), 60,000 ms (asynchronous)</li>
+            </ul>
+        </li>
+        <li><strong>Heap Size:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Maximum heap size (memory used by your Apex code): 6 MB (synchronous), 12 MB (asynchronous)</li>
+            </ul>
+        </li>
+        <li><strong>Callouts:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of callouts (HTTP requests or web services calls): 100</li>
+                <li>Maximum cumulative timeout for all callouts: 120 seconds</li>
+            </ul>
+        </li>
+        <li><strong>Circumference of Loops:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of records retrieved by `Database.getQueryLocator`: 50,000,000 (for Batch Apex)</li>
+            </ul>
+        </li>
+        <li><strong>Future Methods:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Total number of `@future` method calls per transaction: 50</li>
+            </ul>
+        </li>
+        <li><strong>Queueable Jobs:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-2 text-gray-700">
+                <li>Maximum number of Queueable jobs added to the queue in a single transaction: 50</li>
+            </ul>
+        </li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">b. Per-Organization Limits:</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">These limits apply across your entire Salesforce organization, not just a single transaction.</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Scheduled Jobs:</strong> Maximum number of scheduled jobs: 100</li>
+        <li><strong>Batch Apex Jobs:</strong> Maximum number of Batch Apex jobs queued or active at one time: 5</li>
+        <li><strong>Daily Async Apex Executions:</strong> Total number of asynchronous Apex method executions (future, Queueable, batch, scheduled) per 24 hours: Varies by org edition (e.g., 250,000 or more, plus 200 * number of user licenses).</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">c. Other Important Limits:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Maximum trigger depth:</strong> 16 (prevents infinite recursion)</li>
+        <li><strong>Maximum stack depth:</strong> 1,000 (prevents infinite recursion in method calls)</li>
+        <li><strong>Maximum number of Apex classes/triggers:</strong> 5 MB of compiled Apex code.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">For the most up-to-date and complete list of governor limits, always refer to the official <a href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm" target="_blank" class="text-blue-600 hover:underline transition-colors duration-200">Salesforce Apex Developer Guide: Governor Limits</a>.</p>
+</section>
+
+<section id="content-common-errors" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">3. Common Governor Limit Errors</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">When governor limits are exceeded, Salesforce throws runtime exceptions that stop your code execution. Understanding these errors will help you diagnose and fix problems quickly:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+      <li><strong>System.LimitException: Too many SOQL queries:</strong> Occurs when the code executes more than 100 SOQL queries in a synchronous transaction.</li>
+      <li><strong>System.LimitException: Too many DML statements:</strong> Happens if more than 150 DML operations are performed in one transaction.</li>
+      <li><strong>System.LimitException: Apex CPU time limit exceeded:</strong> Apex code has run longer than 10 seconds synchronously or 60 seconds asynchronously.</li>
+      <li><strong>System.LimitException: Heap size too large:</strong> The Apex heap size exceeds 6 MB (synchronous) or 12 MB (asynchronous).</li>
+      <li><strong>System.LimitException: Too many callouts:</strong> More than 100 callouts or 120 seconds of cumulative callout time in a transaction.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">Recognizing these exceptions early helps avoid costly debugging and improves code performance and reliability.</p>
+</section>
+
+<section id="content-best-practices" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">4. Strategies & Best Practices</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Writing governor-limit-aware Apex requires following best practices to keep your code efficient, maintainable, and scalable:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+      <li><strong>Bulkify Your Code:</strong> Always design code to handle multiple records at once, avoiding SOQL and DML inside loops.</li>
+      <li><strong>Use Collections Wisely:</strong> Use lists, maps, and sets to reduce queries and DML operations.</li>
+      <li><strong>Avoid Recursive Triggers:</strong> Prevent infinite loops by using static flags or handler classes.</li>
+      <li><strong>Optimize SOQL Queries:</strong> Select only required fields, filter records with indexed fields, and avoid unnecessary queries.</li>
+      <li><strong>Use Asynchronous Processing:</strong> For complex or long-running tasks, leverage `@future`, Queueable, Batch Apex, or Scheduled Apex.</li>
+      <li><strong>Limit Data Returned:</strong> Use selective queries and pagination to limit heap usage and improve CPU time.</li>
+      <li><strong>Test with Large Data Volumes:</strong> Write tests that simulate bulk data to verify your code handles limits gracefully.</li>
+    </ul>
+</section>
+
+<section id="content-testing-limits" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">5. Testing for Governor Limits</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Effective testing is essential to ensure your Apex code respects governor limits under real-world conditions:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+      <li><strong>Use @TestSetup Methods:</strong> Create reusable test data to simulate bulk processing.</li>
+      <li><strong>Write Bulk Tests:</strong> Test triggers and classes with collections of records, not just single instances.</li>
+      <li><strong>Simulate Limit Exceptions:</strong> Use mocks or specialized code patterns to mimic limit exceptions and verify graceful handling.</li>
+      <li><strong>Measure Performance:</strong> Use debug logs to track CPU time, heap size, and query counts during test execution.</li>
+      <li><strong>Leverage Salesforce Tools:</strong> Use Developer Console, Apex Test Execution, and the Limits class to monitor resource usage.</li>
+      <li><strong>Continuous Integration:</strong> Integrate tests into CI/CD pipelines to catch limit-related issues early in the development cycle.</li>
+    </ul>
+</section>
+
+<section id="content-conclusion" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">6. Conclusion & Key Takeaways</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Understanding and proactively managing Salesforce Governor Limits is paramount for any developer working on the platform. They are not merely obstacles to overcome, but fundamental guardrails that ensure the stability, scalability, and fairness of a multi-tenant environment.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Takeaways:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Multi-Tenancy is Key:</strong> Limits exist to protect shared resources and ensure optimal performance for all Salesforce customers.</li>
+        <li><strong>Bulkify Everything:</strong> This is the golden rule. Avoid SOQL queries and DML statements inside loops. Process data in collections.</li>
+        <li><strong>One Trigger, One Handler:</strong> Centralize your trigger logic for better maintainability and control over execution order.</li>
+        <li><strong>Go Async When Necessary:</strong> For long-running processes, external callouts, or large data transformations, leverage `@future`, Queueable, Batch, or Scheduled Apex.</li>
+        <li><strong>Be Selective:</strong> Write SOQL queries that efficiently use indexed fields to retrieve only the data you need.</li>
+        <li><strong>Guard Against Recursion:</strong> Implement static variables in trigger handlers to prevent infinite loops.</li>
+        <li><strong>Test Thoroughly:</strong> Always include unit tests that simulate maximum record scenarios to ensure your code handles governor limits gracefully.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">By internalizing these best practices, you'll not only avoid hitting governor limits but also become a more skilled, confident, and effective Salesforce developer, capable of building high-quality, scalable solutions.</p>
+</section>

@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asynchronous Apex - Mastering Salesforce Development</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
+
+    <main>
+        <div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 text-gray-800 font-sans antialiased">
+    <aside class="w-full lg:w-72 lg:flex-shrink-0 py-8 px-6 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 shadow-md relative z-20">
+        <h2 class="text-2xl md:text-3xl font-extrabold mb-8 text-gray-900 leading-tight">
+            Asynchronous Apex Topics
+        </h2>
+        <nav class="topic-navigation flex flex-col gap-2" id="learning-topic-navigation">
+            
+                
+                    <a href="#introduction"
+                       data-topic-id="introduction"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            1
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Introduction to Asynchronous Apex</span>
+                        </span>
+                    </a>
+                
+                    <a href="#future-methods"
+                       data-topic-id="future-methods"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            2
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">@future Methods</span>
+                        </span>
+                    </a>
+                
+                    <a href="#queueable-apex"
+                       data-topic-id="queueable-apex"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            3
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Queueable Apex</span>
+                        </span>
+                    </a>
+                
+                    <a href="#batch-apex"
+                       data-topic-id="batch-apex"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            4
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Batch Apex</span>
+                        </span>
+                    </a>
+                
+                    <a href="#scheduled-apex"
+                       data-topic-id="scheduled-apex"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            5
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Scheduled Apex</span>
+                        </span>
+                    </a>
+                
+                    <a href="#choosing-tool"
+                       data-topic-id="choosing-tool"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            6
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Choosing the Right Asynchronous Tool</span>
+                        </span>
+                    </a>
+                
+                    <a href="#monitoring-debugging"
+                       data-topic-id="monitoring-debugging"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            7
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Monitoring & Debugging</span>
+                        </span>
+                    </a>
+                
+                    <a href="#conclusion"
+                       data-topic-id="conclusion"
+                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
+                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
+                              focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
+                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
+                            8
+                        </span>
+                        <span class="flex-grow">
+                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">Conclusion & Best Practices</span>
+                        </span>
+                    </a>
+                
+            
+        </nav>
+    </aside>
+
+    <main class="learning-content-area flex-1 py-10 px-6 md:px-10 lg:px-16 overflow-y-auto relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-gray-900 leading-tight">
+                    Asynchronous Apex - Mastering Salesforce Development
+                </h1>
+                <p class="intro-text text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
+                    Dive into the world of Asynchronous Apex, a critical skill for any Salesforce developer. This module will teach you how to overcome governor limits, handle long-running operations, and integrate with external systems efficiently.
+                </p>
+            </div>
+            
+            <a href="/contact/"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-md hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
+               style="backdrop-filter: blur(2px); white-space: nowrap;">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+                Need hands-on training?
+            </a>
+        </div>
+
+        <section id="content-introduction" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">1. Introduction to Asynchronous Apex</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce operates within a multi-tenant environment, meaning resources are shared among many customers. To ensure fair usage and prevent any single organization from monopolizing resources, Salesforce imposes strict <a href="/governor-limits/" target="_blank" class="text-blue-600 hover:underline transition-colors duration-200">governor limits</a> on synchronous (real-time) Apex transactions.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">What is Asynchronous Apex?</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Asynchronous Apex refers to Apex code that executes in the background, at a later time, rather than immediately. This execution occurs in a separate thread, allowing the main transaction to complete without waiting for the asynchronous process. This is crucial for:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Bypassing Governor Limits:</strong> Asynchronous operations have higher or different governor limits (e.g., higher SOQL query limits, longer CPU time).</li>
+        <li><strong>Long-Running Operations:</strong> Performing complex calculations, large data processing, or extensive callouts that would exceed synchronous limits.</li>
+        <li><strong>Callouts to External Systems:</strong> HTTP callouts to external web services must be made asynchronously to prevent holding up the transaction.</li>
+        <li><strong>Better User Experience:</strong> Prevents users from waiting for long processes to complete, improving responsiveness of the UI.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">When to use Asynchronous Apex?</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">Consider asynchronous Apex when your business logic involves:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Making callouts to external web services.</li>
+        <li>Processing a large number of records (e.g., batch updates).</li>
+        <li>Performing complex calculations that require more CPU time.</li>
+        <li>Executing operations that don't need to happen immediately.</li>
+        <li>Chaining multiple operations together.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">Salesforce provides several asynchronous Apex options, each suited for different use cases:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><code>@future</code> Methods</li>
+        <li>Queueable Apex</li>
+        <li>Batch Apex</li>
+        <li>Scheduled Apex</li>
+    </ul>
+</section>
+
+<section id="content-future-methods" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">2. @future Methods</h2>
+    <p class="text-gray-700 leading-relaxed mb-4"><code>@future</code> methods are a simple way to run Apex code in its own thread, at a later time. They are particularly useful for making callouts to external web services and for offloading long-running operations from the main transaction.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Static Method:</strong> Must be a <code>static</code> method.</li>
+        <li><strong><code>@future</code> Annotation:</strong> Must be annotated with <code>@future</code>.</li>
+        <li><strong>Void Return Type:</strong> Must return <code>void</code>.</li>
+        <li><strong>Primitive Parameters:</strong> Parameters must be primitive data types (<code>String</code>, <code>Integer</code>, <code>Id</code>, <code>List&lt;String&gt;</code>, <code>Set&lt;Id&gt;</code>, etc.). You cannot pass sObjects or collections of sObjects directly. If you need to pass sObjects, pass their IDs and query them within the <code>@future</code> method.</li>
+        <li><strong>Callouts:</strong> If the method makes a callout, it must be annotated with <code>@future(callout=true)</code>.</li>
+        <li><strong>No Chaining:</strong> You cannot chain <code>@future</code> methods directly (i.e., one <code>@future</code> method cannot call another <code>@future</code> method).</li>
+        <li><strong>Limited Queue:</strong> Up to 50 <code>@future</code> calls per transaction.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Making a Callout</h3>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">public class ExternalServiceCallout {
+    @future(callout=true)
+    public static void sendAccountToExternalSystem(Set&lt;Id&gt; accountIds) {
+        List&lt;Account&gt; accounts = [SELECT Id, Name, AnnualRevenue FROM Account WHERE Id IN :accountIds];
+
+        // Simulate a callout to an external system
+        System.debug('Sending ' + accounts.size() + ' accounts to external system asynchronously.');
+        for (Account acc : accounts) {
+            System.debug('Processing Account: ' + acc.Name + ' (' + acc.Id + ')');
+            // Example: Http request setup
+            // HttpRequest req = new HttpRequest();
+            // req.setEndpoint('http://api.external.com/accounts');
+            // req.setMethod('POST');
+            // req.setBody(JSON.serialize(acc));
+            // Http http = new Http();
+            // HTTPResponse res = http.send(req);
+            // System.debug('Callout response: ' + res.getBody());
+        }
+    }
+}
+
+// How to call it from a trigger or other Apex code:
+trigger AccountAfterInsert on Account (after insert) {
+    Set&lt;Id&gt; newAccountIds = new Set&lt;Id&gt;();
+    for (Account acc : Trigger.new) {
+        newAccountIds.add(acc.Id);
+    }
+    if (!newAccountIds.isEmpty()) {
+        ExternalServiceCallout.sendAccountToExternalSystem(newAccountIds);
+    }
+}
+</code></pre>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Limitations:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Cannot monitor progress directly.</li>
+        <li>No guaranteed execution order for multiple <code>@future</code> calls.</li>
+        <li>Cannot pass sObjects directly, requiring extra SOQL queries.</li>
+    </ul>
+</section>
+
+<section id="content-queueable-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">3. Queueable Apex</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Queueable Apex provides a more flexible and robust way to run asynchronous Apex code compared to <code>@future</code> methods. It implements the <code>Queueable</code> interface and allows for chaining jobs and passing sObjects.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong><code>Queueable</code> Interface:</strong> Class must implement <code>Database.Queueable</code>.</li>
+        <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method.</li>
+        <li><strong>sObject Parameters:</strong> Can accept sObjects and collections of sObjects as parameters.</li>
+        <li><strong>Chaining:</strong> A Queueable job can enqueue another Queueable job (up to 50 jobs in a chain). This allows for sequential processing of complex logic.</li>
+        <li><strong>Job ID:</strong> The <code>System.enqueueJob</code> method returns a job ID, which can be used to monitor the job's progress.</li>
+        <li><strong>Higher Limits:</strong> Generally has higher limits than <code>@future</code> methods, especially for heap size.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Chaining Updates</h3>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">public class AccountContactUpdater implements Queueable {
+    private List&lt;Account&gt; accountsToProcess;
+    private Boolean updateContacts;
+
+    public AccountContactUpdater(List&lt;Account&gt; accounts, Boolean updateContactsFlag) {
+        this.accountsToProcess = accounts;
+        this.updateContacts = updateContactsFlag;
+    }
+
+    public void execute(QueueableContext context) {
+        System.debug('Executing AccountContactUpdater Queueable job. Batch ID: ' + context.getJobId());
+
+        List&lt;Contact&gt; contactsToUpdate = new List&lt;Contact&gt;();
+        for (Account acc : accountsToProcess) {
+            // Logic to update account fields (e.g., based on some criteria)
+            acc.Description = 'Processed by Queueable Apex.';
+            // update acc; // DML on triggering records should be avoided if possible, or handled carefully
+
+            if (updateContacts) {
+                // Query related contacts and update them
+                for (Contact con : [SELECT Id, FirstName, LastName, MailingCity FROM Contact WHERE AccountId = :acc.Id]) {
+                    con.MailingCity = acc.BillingCity; // Update contact city based on account
+                    contactsToUpdate.add(con);
+                }
+            }
+        }
+
+        if (!contactsToUpdate.isEmpty()) {
+            update contactsToUpdate;
+            System.debug('Updated ' + contactsToUpdate.size() + ' contacts.');
+        }
+
+        // Example of chaining another Queueable job
+        // If there's more work to do, enqueue another job
+        if (accountsToProcess.size() > 100) { // Arbitrary condition for chaining
+            System.debug('Chaining another AccountContactUpdater job.');
+            System.enqueueJob(new AccountContactUpdater(accountsToProcess.subList(100, accountsToProcess.size()), updateContacts));
+        }
+    }
+}
+
+// How to call it from a trigger or other Apex code:
+trigger AccountQueueableTrigger on Account (after insert, after update) {
+    if (Trigger.isAfter) {
+        List&lt;Account&gt; accountsToProcess = new List&lt;Account&gt;();
+        for (Account acc : Trigger.new) {
+            // Add accounts that meet certain criteria for processing
+            if (acc.AnnualRevenue != null && acc.AnnualRevenue > 1000000) {
+                accountsToProcess.add(acc);
+            }
+        }
+        if (!accountsToProcess.isEmpty()) {
+            System.enqueueJob(new AccountContactUpdater(accountsToProcess, true));
+        }
+    }
+}
+</code></pre>
+    </div>
+</section>
+
+<section id="content-batch-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">4. Batch Apex</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Batch Apex is designed for processing large numbers of records (up to 50 million) that would exceed normal governor limits. It breaks down the processing into smaller, manageable chunks (batches) that can be processed asynchronously.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong><code>Database.Batchable</code> Interface:</strong> Class must implement <code>Database.Batchable&lt;sObject&gt;</code> (or a custom type).</li>
+        <li><strong>Three Methods:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+                <li><code>start(Database.BatchableContext bc)</code>: Called once at the beginning. Used to collect the records or objects to be passed to the <code>execute</code> method. Typically returns a <code>Database.QueryLocator</code> for SOQL queries or an <code>Iterable</code> for custom logic.</li>
+                <li><code>execute(Database.BatchableContext bc, List&lt;sObject&gt; scope)</code>: Called for each batch of records. The <code>scope</code> parameter contains the chunk of records to process (up to 200 by default). This is where your main processing logic resides.</li>
+                <li><code>finish(Database.BatchableContext bc)</code>: Called once after all batches are processed. Used for post-processing operations like sending email notifications or logging.</li>
+            </ul>
+        </li>
+        <li><strong>Higher Limits:</strong> Each <code>execute</code> method call runs in its own set of governor limits.</li>
+        <li><strong>Monitoring:</strong> Batch jobs can be monitored in the Apex Jobs page in Setup.</li>
+        <li><strong>Queue:</strong> Up to 5 concurrent batch jobs can run at a time.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Mass Data Update</h3>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">public class AccountRatingBatch implements Database.Batchable&lt;sObject&gt;, Database.AllowsCallouts {
+    public String query; // SOQL query to select accounts
+    public String newRating; // New rating to set
+
+    public AccountRatingBatch(String q, String rating) {
+        this.query = q;
+        this.newRating = rating;
+    }
+
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        System.debug('Batch Start: ' + query);
+        return Database.getQueryLocator(query);
+    }
+
+    public void execute(Database.BatchableContext bc, List&lt;Account&gt; scope) {
+        System.debug('Batch Execute: Processing ' + scope.size() + ' accounts.');
+        List&lt;Account&gt; accountsToUpdate = new List&lt;Account&gt;();
+        for (Account acc : scope) {
+            acc.Rating = newRating;
+            accountsToUpdate.add(acc);
+        }
+        if (!accountsToUpdate.isEmpty()) {
+            update accountsToUpdate;
+        }
+        // Example: Make a callout for each batch (if Database.AllowsCallouts is implemented)
+        // ExternalServiceCallout.sendBatchSummary(scope.size());
+    }
+
+    public void finish(Database.BatchableContext bc) {
+        AsyncApexJob job = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems FROM AsyncApexJob WHERE Id = :bc.getJobId()];
+        System.debug('Batch Finish: Job ' + job.Id + ' finished with status ' + job.Status);
+        System.debug('Processed ' + job.JobItemsProcessed + ' items with ' + job.NumberOfErrors + ' errors.');
+
+        // Send an email notification upon completion
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        String[] toAddresses = new String[] {'admin@example.com'};
+        mail.setToAddresses(toAddresses);
+        mail.setSubject('Account Rating Batch Job Completed');
+        mail.setPlainTextBody('The Account Rating batch job has completed. Status: ' + job.Status + '. Processed: ' + job.JobItemsProcessed + '. Errors: ' + job.NumberOfErrors);
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+    }
+}
+
+// How to execute the batch job:
+// From Developer Console or anonymous Apex:
+Database.executeBatch(new AccountRatingBatch('SELECT Id, Name, Rating FROM Account WHERE CreatedDate = LAST_N_DAYS:30', 'Hot'), 200);
+// The second parameter (200) is the batch size.
+</code></pre>
+    </div>
+</section>
+
+<section id="content-scheduled-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">5. Scheduled Apex</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Scheduled Apex allows you to execute Apex classes at specific times using the Salesforce scheduler. This is ideal for tasks that need to run regularly, such as daily data cleanups, weekly report generation, or monthly data synchronizations.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong><code>Schedulable</code> Interface:</strong> Class must implement <code>Schedulable</code>.</li>
+        <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method that takes a <code>SchedulableContext</code> parameter.</li>
+        <li><strong>Cron Expression:</strong> Scheduling is done using a Cron expression (e.g., '0 0 1 * * ?' for 1 AM daily) or by specifying a frequency in the UI.</li>
+        <li><strong>Single Instance:</strong> Only one instance of a specific Scheduled Apex class can be scheduled at a time.</li>
+        <li><strong>Combine with Batch Apex:</strong> Often used to schedule Batch Apex jobs for large data processing.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Daily Data Cleanup</h3>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">public class DailyDataCleanupScheduler implements Schedulable {
+    public void execute(SchedulableContext sc) {
+        System.debug('Daily Data Cleanup: Starting scheduled job.');
+
+        // Example: Delete old records
+        List&lt;Task&gt; oldTasks = [SELECT Id FROM Task WHERE CreatedDate &lt; LAST_N_DAYS:365 LIMIT 10000];
+        if (!oldTasks.isEmpty()) {
+            delete oldTasks;
+            System.debug('Deleted ' + oldTasks.size() + ' old tasks.');
+        }
+
+        // Or, more commonly, kick off a Batch Apex job for large-scale cleanup
+        Database.executeBatch(new OldCaseCleanupBatch()); // Assuming OldCaseCleanupBatch is a Batch Apex class
+    }
+}
+
+// How to schedule it:
+// 1. From Developer Console (anonymous Apex):
+System.schedule('Daily Cleanup Job', '0 0 0 * * ?', new DailyDataCleanupScheduler()); // Runs every day at midnight (GMT)
+
+// 2. From Salesforce UI: Setup -> Apex Classes -> Schedule Apex
+//    You can specify the class, job name, and frequency there.
+</code></pre>
+    </div>
+</section>
+
+<section id="content-choosing-tool" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">6. Choosing the Right Asynchronous Tool</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Selecting the appropriate asynchronous Apex tool depends on your specific requirements:</p>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong><code>@future</code> Methods:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+                <li><strong>Use when:</strong> You need to perform a single callout or offload a small, self-contained operation immediately after a transaction, and you don't need to monitor its progress or chain it.</li>
+                <li><strong>Limitations:</strong> Cannot pass sObjects, no chaining, limited monitoring.</li>
+            </ul>
+        </li>
+        <li><strong>Queueable Apex:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+                <li><strong>Use when:</strong> You need to pass sObjects, chain jobs together, or require more flexibility and higher limits than <code>@future</code> methods for a single, non-batch operation.</li>
+                <li><strong>Advantages:</strong> sObject parameters, chaining, job ID for monitoring.</li>
+            </ul>
+        </li>
+        <li><strong>Batch Apex:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+                <li><strong>Use when:</strong> You need to process a very large number of records (thousands to millions) that would hit governor limits in a single transaction. Ideal for mass data updates, deletions, or calculations.</li>
+                <li><strong>Advantages:</strong> Processes records in chunks, separate governor limits per chunk, robust error handling, built-in progress monitoring.</li>
+            </ul>
+        </li>
+        <li><strong>Scheduled Apex:</strong>
+            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+                <li><strong>Use when:</strong> You need to run a specific Apex class (often a Batch Apex job or a Queueable job) at a predetermined time or on a recurring schedule.</li>
+                <li><strong>Advantages:</strong> Automation of recurring tasks, time-based execution.</li>
+            </ul>
+        </li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4"><strong>General Rule of Thumb:</strong></p>
+    <ol class="list-decimal pl-5 space-y-2 mb-4 text-gray-700">
+        <li>Start with declarative automation (Flows, Process Builder).</li>
+        <li>If code is required, consider <code>@future</code> for simple fire-and-forget callouts or small background tasks.</li>
+        <li>If you need to pass sObjects or chain jobs, move to Queueable Apex.</li>
+        <li>For large data volumes, use Batch Apex.</li>
+        <li>For recurring tasks, use Scheduled Apex (often to kick off a Batch or Queueable job).</li>
+    </ol>
+</section>
+
+<section id="content-monitoring-debugging" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">7. Monitoring & Debugging Asynchronous Apex</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Monitoring and debugging asynchronous Apex jobs are crucial for ensuring your background processes are running correctly and efficiently.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Monitoring Asynchronous Jobs:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Setup -&gt; Apex Jobs:</strong> This page provides a comprehensive list of all asynchronous Apex jobs (Batch, Queueable, Scheduled, and <code>@future</code> methods). You can see their status (Queued, Processing, Completed, Failed), submission date, completion date, and any errors.</li>
+        <li><strong>Setup -&gt; Scheduled Jobs:</strong> Specifically for Scheduled Apex, this page shows all jobs currently scheduled to run. You can delete or reschedule jobs from here.</li>
+        <li><strong>AsyncApexJob Object:</strong> You can query the <code>AsyncApexJob</code> sObject to programmatically get information about your jobs. This is useful for building custom monitoring tools or for checking job status within Apex code.</li>
+    </ul>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">// Example SOQL query to get job status
+List&lt;AsyncApexJob&gt; jobs = [SELECT Id, JobType, Status, ApexClass.Name, JobItemsProcessed, TotalJobItems, NumberOfErrors
+                           FROM AsyncApexJob
+                           WHERE JobType IN ('BatchApex', 'Queueable', 'Future')
+                           ORDER BY CreatedDate DESC LIMIT 10];
+
+for (AsyncApexJob job : jobs) {
+    System.debug('Job ID: ' + job.Id + ', Type: ' + job.JobType + ', Status: ' + job.Status + ', Class: ' + job.ApexClass.Name);
+    if (job.NumberOfErrors > 0) {
+        System.debug('Errors: ' + job.NumberOfErrors);
+    }
+}
+</code></pre>
+    </div>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Debugging Asynchronous Jobs:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Debug Logs:</strong> The primary tool for debugging. Set up debug logs for the user who initiated the asynchronous job (or the Automated Process user for scheduled jobs). Ensure logging levels are appropriate (e.g., Apex Code: FINEST, Workflow: FINEST).</li>
+        <li><strong>System.debug():</strong> Use <code>System.debug()</code> statements liberally within your asynchronous code to track execution flow, variable values, and DML operations.</li>
+        <li><strong>Exception Handling:</strong> Implement robust <code>try-catch</code> blocks within your asynchronous methods. Log any exceptions to a custom error object or using <code>System.debug()</code>. For Batch Apex, exceptions in the <code>execute</code> method will be reported in the <code>AsyncApexJob</code> record.</li>
+        <li><strong>Limits.get*() Methods:</strong> Use methods from the <code>Limits</code> class (e.g., <code>Limits.getLimitQueries()</code>, <code>Limits.getQueries()</code>) to monitor governor limit consumption within your <code>execute</code> methods, especially in Batch Apex.</li>
+    </ul>
+    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
+        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
+        <pre><code class="language-apex">public class DebuggingBatchExample implements Database.Batchable&lt;sObject&gt; {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator('SELECT Id, Name FROM Account');
+    }
+
+    public void execute(Database.BatchableContext bc, List&lt;Account&gt; scope) {
+        System.debug('--- Batch Execute Start ---');
+        System.debug('Current Heap Size: ' + Limits.getHeapSize() + ' / ' + Limits.getLimitHeapSize());
+        System.debug('Queries Used: ' + Limits.getQueries() + ' / ' + Limits.getLimitQueries());
+
+        try {
+            for (Account acc : scope) {
+                // Simulate an error for debugging
+                if (acc.Name == 'Error Account') {
+                    throw new MyCustomException('Account named "Error Account" encountered!');
+                }
+                acc.Description = 'Processed by Debugging Batch';
+            }
+            update scope;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Error in batch execute: ' + e.getMessage() + ' at line ' + e.getLineNumber());
+            // Optionally, log to a custom error object
+            // Error_Log__c error = new Error_Log__c(Message__c = e.getMessage(), Stack_Trace__c = e.getStackTraceString());
+            // insert error;
+        }
+        System.debug('--- Batch Execute End ---');
+    }
+
+    public void finish(Database.BatchableContext bc) {
+        // Post-processing and final logging
+        System.debug('Batch Finished.');
+    }
+
+    public class MyCustomException extends Exception {}
+}
+</code></pre>
+    </div>
+</section>
+
+<section id="content-conclusion" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
+    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
+    <h2 class="text-3xl font-bold mb-5 text-blue-700">8. Conclusion & Best Practices</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">Asynchronous Apex is an indispensable part of Salesforce development, enabling you to build robust, scalable, and efficient applications that can handle complex business requirements and large data volumes without hitting governor limits.</p>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Takeaways:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Governor Limits:</strong> Asynchronous Apex helps you work around the stricter limits of synchronous transactions.</li>
+        <li><strong>Callouts:</strong> HTTP callouts must be made asynchronously.</li>
+        <li><strong>Tool Selection:</strong> Choose the right tool (<code>@future</code>, Queueable, Batch, Scheduled) based on the specific use case (simple callout, chaining, large data volume, recurring tasks).</li>
+        <li><strong>Bulkification:</strong> Always write asynchronous code with bulkification in mind, avoiding SOQL/DML inside loops.</li>
+        <li><strong>Error Handling:</strong> Implement comprehensive <code>try-catch</code> blocks and logging for better debugging and monitoring.</li>
+        <li><strong>Monitoring:</strong> Regularly check Apex Jobs and Scheduled Jobs in Setup, or query <code>AsyncApexJob</code>.</li>
+    </ul>
+    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">General Best Practices for Asynchronous Apex:</h3>
+    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
+        <li><strong>Keep it Lean:</strong> Asynchronous methods should focus on their core task. Delegate complex logic to helper classes.</li>
+        <li><strong>Idempotency:</strong> Design your asynchronous operations to be idempotent, meaning running them multiple times with the same inputs produces the same result without unintended side effects. This helps in case of retries or unexpected re-executions.</li>
+        <li><strong>Test Thoroughly:</strong> Write comprehensive unit tests for all asynchronous Apex, including positive, negative, and bulk scenarios. Ensure proper governor limit testing.</li>
+        <li><strong>Consider Platform Events:</strong> For complex, decoupled integrations or event-driven architectures, consider <a href="https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/" target="_blank" class="text-blue-600 hover:underline transition-colors duration-300">Platform Events</a> as another powerful asynchronous option.</li>
+        <li><strong>Use the Right Tool for the Job:</strong> Don't just pick the first asynchronous method you know. Evaluate the requirements carefully against the strengths and weaknesses of each option.</li>
+    </ul>
+    <p class="text-gray-700 leading-relaxed mb-4">By mastering these asynchronous patterns, you'll be able to build more powerful and resilient Salesforce applications.</p>
+</section>
+    </main>
+   
+    <a href="/contact/"
+       class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-xl hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 flex items-center gap-2"
+       style="backdrop-filter: blur(4px); display: none;"
+       id="sticky-training-cta">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
+        Questions? Book Training
+    </a>
+</div>
+
+<link href="/assets/css/prism.css" rel="stylesheet" />
+<script src="/assets/js/prism.js"></script>
+
+<script>
+    // Sticky CTA after scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const cta = document.getElementById('sticky-training-cta');
+        function toggleCTA() {
+            if (window.scrollY > 200) {
+                cta.style.display = 'flex';
+            } else {
+                cta.style.display = 'none';
+            }
+        }
+        cta.style.display = 'none';
+        window.addEventListener('scroll', toggleCTA);
+    });
+
+    // Topic navigation logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const navItems = document.querySelectorAll('.topic-nav-item');
+        const contentSections = document.querySelectorAll('.topic-content-section');
+        const learningContentArea = document.querySelector('.learning-content-area');
+        const introText = document.querySelector('.learning-content-area .intro-text');
+
+        function showTopic(topicIdToShow) {
+            navItems.forEach(item => {
+                item.classList.remove('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                item.querySelector('span:first-child').classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
+                item.querySelector('span:first-child').classList.add('bg-white', 'text-blue-600', 'border-blue-400');
+                item.querySelector('span:last-child > span').classList.remove('text-blue-800', 'font-semibold');
+                item.querySelector('span:last-child > span').classList.add('text-gray-600');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.remove('active', 'block', 'opacity-100', 'translate-y-0');
+                section.classList.add('hidden', 'opacity-0', 'translate-y-4');
+            });
+
+            if (topicIdToShow === 'main-intro' || !topicIdToShow) {
+                if (introText) introText.style.display = 'block';
+            } else {
+                if (introText) introText.style.display = 'none';
+            }
+
+            const selectedNavItem = document.querySelector(`.topic-nav-item[data-topic-id="${topicIdToShow}"]`);
+            if (selectedNavItem) {
+                selectedNavItem.classList.add('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
+                selectedNavItem.querySelector('span:first-child').classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+                selectedNavItem.querySelector('span:first-child').classList.remove('bg-white', 'text-blue-600', 'border-blue-400');
+                selectedNavItem.querySelector('span:last-child > span').classList.add('text-blue-800', 'font-semibold');
+                selectedNavItem.querySelector('span:last-child > span').classList.remove('text-gray-600');
+            }
+
+            const selectedContentSection = document.getElementById(`content-${topicIdToShow}`);
+            if (selectedContentSection) {
+                selectedContentSection.classList.remove('hidden');
+                selectedContentSection.classList.add('block', 'opacity-100', 'translate-y-0');
+                learningContentArea.scrollTop = 0;
+            }
+        }
+
+        const initialTopicId = window.location.hash ? window.location.hash.substring(1) : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
+        showTopic(initialTopicId);
+
+        navItems.forEach(item => {
+            const topicId = item.dataset.topicId;
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                showTopic(topicId);
+                history.pushState(null, '', `#${topicId}`);
+            });
+        });
+
+        window.addEventListener('hashchange', function() {
+            const newTopicId = window.location.hash ? window.location.hash.substring(1) : 'main-intro';
+            showTopic(newTopicId);
+        });
+    });
+</script>
+
+    </main>
+
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>

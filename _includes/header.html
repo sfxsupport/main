@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

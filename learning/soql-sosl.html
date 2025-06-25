@@ -1,0 +1,511 @@
+---
+layout: learning-topic
+title: SOQL & SOSL Fundamentals - Mastering Salesforce Development
+permalink: /soql-sosl/
+sidebar_title: SOQL & SOSL Topics
+intro_text: Unlock the power of data retrieval in Salesforce! This module covers the fundamentals of SOQL (Salesforce Object Query Language) and SOSL (Salesforce Object Search Language), essential tools for developers to interact with the Salesforce database.
+topics:
+  - id: introduction
+    number: 1
+    title: Introduction to SOQL & SOSL
+  - id: soql-basics
+    number: 2
+    title: SOQL Basics
+  - id: relationship-queries
+    number: 3
+    title: SOQL Relationship Queries
+  - id: aggregate-functions
+    number: 4
+    title: SOQL Aggregate Functions & Grouping
+  - id: soql-for-loops
+    number: 5
+    title: SOQL For Loops
+  - id: introduction-sosl
+    number: 6
+    title: Introduction to SOSL
+  - id: sosl-syntax
+    number: 7
+    title: SOSL Syntax & Features
+  - id: choosing-tool
+    number: 8
+    title: Choosing Between SOQL & SOSL
+  - id: best-practices
+    number: 9
+    title: SOQL & SOSL Best Practices
+---
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    .topic-content-section {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        padding: 30px;
+    }
+    
+    h1, h2, h3 {
+        color: #0056b3;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    
+    h2 {
+        font-size: 2.2em;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 15px;
+    }
+    
+    h3 {
+        font-size: 1.6em;
+        color: #007bff;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+    
+    p {
+        margin-bottom: 15px;
+        color: #555;
+    }
+    
+    ul {
+        list-style-type: disc;
+        margin-left: 25px;
+        margin-bottom: 15px;
+    }
+    
+    li {
+        margin-bottom: 8px;
+        color: #444;
+    }
+    
+    strong {
+        color: #0056b3;
+    }
+    
+    /* Styling for pre and code blocks */
+    pre {
+        background-color: #272c34; /* Darker background for code */
+        color: #f8f8f2; /* Light text for code */
+        padding: 15px 20px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+        font-size: 0.95em;
+        line-height: 1.4;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    code {
+        font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+        background-color: #e0e0e0; /* Light background for inline code */
+        color: #c7254e; /* Darker text for inline code */
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        white-space: nowrap;
+    }
+    
+    pre code {
+        background-color: transparent;
+        color: inherit;
+        padding: 0;
+        border-radius: 0;
+        white-space: pre;
+    }
+    
+    /* Specific syntax highlighting like effects (simulated) */
+    .language-html .tag, .language-xml .tag { color: #5bc0de; } /* Blue for tags */
+    .language-html .attr, .language-xml .attr { color: #f0ad4e; } /* Orange for attributes */
+    .language-html .string, .language-xml .string { color: #5cb85c; } /* Green for strings */
+    
+    .language-javascript .keyword, .language-apex .keyword { color: #d9534f; } /* Red for keywords */
+    .language-javascript .function, .language-apex .function { color: #428bca; } /* Light blue for functions */
+    .language-javascript .comment, .language-apex .comment { color: #888; font-style: italic; }
+    .language-javascript .decorator { color: #d9534f; } /* Red for decorators */
+    .language-javascript .string, .language-apex .string { color: #5cb85c; } /* Green for strings */
+    
+    .language-css .property { color: #f0ad4e; } /* Orange for CSS properties */
+    .language-css .value { color: #5cb85c; } /* Green for CSS values */
+    .language-css .selector { color: #428bca; } /* Light blue for CSS selectors */
+    
+    .language-bash .keyword { color: #d9534f; } /* Red for keywords */
+    .language-bash .comment { color: #888; font-style: italic; }
+    .language-json .string { color: #5cb85c; }
+    .language-json .property { color: #f0ad4e; }
+    .language-plaintext { color: #f8f8f2; } /* Plain text in pre tag */
+    </style>
+<div id="content-introduction" class="topic-content-section">
+    <h2>1. Introduction to SOQL & SOSL</h2>
+    <p>In Salesforce development, interacting with data stored in your organization's database is fundamental. Unlike traditional SQL databases, Salesforce uses its own query languages tailored for its unique object model:</p>
+    <ul>
+        <li><strong>SOQL (Salesforce Object Query Language):</strong> Used to query a single sObject or multiple sObjects that are related to one another. It is similar to the <code>SELECT</code> statement in SQL.</li>
+        <li><strong>SOSL (Salesforce Object Search Language):</strong> Used to perform text-based searches across multiple sObjects, returning results that match a search term. It is similar to search engine queries.</li>
+    </ul>
+    <h3>Why are SOQL & SOSL essential?</h3>
+    <ul>
+        <li><strong>Data Retrieval:</strong> Get the exact data you need from Salesforce objects.</li>
+        <li><strong>Automation:</strong> Power your Apex triggers, classes, Visualforce pages, and Lightning Components with dynamic data.</li>
+        <li><strong>Business Logic:</strong> Implement complex business rules that depend on querying existing data.</li>
+        <li><strong>Reporting & Dashboards:</strong> Although not directly, understanding SOQL helps in comprehending how reports and list views fetch data.</li>
+    </ul>
+    <h3>Key Differences:</h3>
+    <ul>
+        <li><strong>SOQL:</strong> Best for retrieving specific data from a known object (or related objects) when you know the object structure and specific fields. Similar to looking up an address in a phone book by name.</li>
+        <li><strong>SOSL:</strong> Best for searching text across multiple objects and fields when you don't know which object contains the data, but you have a search term. Similar to searching for a keyword on the internet.</li>
+    </ul>
+    <p>Both query languages are subject to Salesforce's <a href="/governor-limits/" target="_blank">governor limits</a> to ensure efficient use of shared resources.</p>
+</div>
+
+<div id="content-soql-basics" class="topic-content-section">
+    <h2>2. SOQL Basics</h2>
+    <p>SOQL queries are used in Apex, Visualforce controllers, Lightning components, and the Developer Console. They retrieve a list of sObject records.</p>
+    <h3>Basic Syntax:</h3>
+    <pre><code class="language-sql">SELECT FieldName1, FieldName2 FROM ObjectApiName [WHERE Conditions] [ORDER BY FieldName [ASC|DESC]] [LIMIT Number] [OFFSET Number]</code></pre>
+    <p>Let's break down the common clauses:</p>
+    <ul>
+        <li><strong><code>SELECT FieldName1, FieldName2</code>:</strong> Specifies the fields you want to retrieve. You can select standard fields, custom fields (ending with `__c`), and even relationship fields (e.g., `Account.Name`).</li>
+        <li><strong><code>FROM ObjectApiName</code>:</strong> Specifies the sObject (e.g., `Account`, `Contact`, `MyCustomObject__c`) you are querying.</li>
+        <li><strong><code>WHERE Conditions</code>:</strong> Filters the records based on criteria. You can use operators like `=`, `!=`, `&lt;`, `&gt;`, `&lt;=`, `&gt;=`, `LIKE`, `IN`, `NOT IN`, `AND`, `OR`.</li>
+        <li><strong><code>ORDER BY FieldName [ASC|DESC]</code>:</strong> Sorts the results based on one or more fields. `ASC` (ascending) is default, `DESC` (descending) sorts in reverse.</li>
+        <li><strong><code>LIMIT Number</code>:</strong> Restricts the number of rows returned. Useful for performance.</li>
+        <li><strong><code>OFFSET Number</code>:</strong> Skips a specified number of rows from the beginning of the result set. Used for pagination.</li>
+    </ul>
+    <h3>Examples:</h3>
+    <h4>Retrieve Account Names and Industries:</h4>
+    <pre><code class="language-sql">SELECT Name, Industry FROM Account</code></pre>
+
+    <h4>Retrieve Contacts from a specific city:</h4>
+    <pre><code class="language-sql">SELECT Id, FirstName, LastName, Email FROM Contact WHERE MailingCity = 'San Francisco'</code></pre>
+
+    <h4>Retrieve Accounts created in the last 30 days, sorted by name, limited to 10:</h4>
+    <pre><code class="language-sql">SELECT Id, Name, CreatedDate FROM Account WHERE CreatedDate = LAST_N_DAYS:30 ORDER BY Name ASC LIMIT 10</code></pre>
+
+    <h4>Retrieve Opportunities in a specific Stage and Amount range:</h4>
+    <pre><code class="language-sql">SELECT Name, StageName, Amount FROM Opportunity WHERE StageName = 'Closed Won' AND Amount &gt;= 10000 ORDER BY Amount DESC</code></pre>
+
+    <h3>Using SOQL in Apex:</h3>
+    <p>In Apex, you embed SOQL queries directly within square brackets `[]`. The query returns a `List` of sObjects.</p>
+    <pre><code class="language-apex">List&lt;Account&gt; topAccounts = [SELECT Id, Name, AnnualRevenue FROM Account ORDER BY AnnualRevenue DESC LIMIT 5];
+
+for (Account acc : topAccounts) {
+    System.debug('Account Name: ' + acc.Name + ', Revenue: ' + acc.AnnualRevenue);
+}
+
+// Single record retrieval (if you expect only one record)
+Account singleAccount = [SELECT Id, Name FROM Account WHERE Name = 'Acme Corp' LIMIT 1];
+System.debug('Found Account: ' + singleAccount.Name);
+
+// Handling no results for single query (using try-catch or checking size)
+try {
+    Account nonExistentAccount = [SELECT Id FROM Account WHERE Name = 'NonExistent' LIMIT 1];
+} catch (QueryException e) {
+    System.debug('No account found with that name: ' + e.getMessage());
+}
+</code></pre>
+</div>
+
+<div id="content-relationship-queries" class="topic-content-section">
+    <h2>3. SOQL Relationship Queries</h2>
+    <p>Salesforce's relational data model allows you to query related records directly within SOQL. This is a powerful feature that reduces the number of queries needed, helping to stay within governor limits.</p>
+    <h3>Parent-to-Child Relationships (Nested Queries):</h3>
+    <p>You can query child records from a parent object. This is done by writing a subquery in the <code>SELECT</code> statement. The relationship name for the child object is typically the plural of the child object's name (e.g., `Contacts` for `Contact` records related to `Account`).</p>
+    <pre><code class="language-sql">SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account</code></pre>
+    <p>In Apex, the child records are accessed via the relationship name, which is a list on the parent sObject.</p>
+    <pre><code class="language-apex">List&lt;Account&gt; accountsWithContacts = [SELECT Id, Name, (SELECT Id, FirstName, LastName, Email FROM Contacts) FROM Account WHERE Name LIKE 'ABC%'];
+
+for (Account acc : accountsWithContacts) {
+    System.debug('Account: ' + acc.Name);
+    if (acc.Contacts != null) {
+        for (Contact con : acc.Contacts) {
+            System.debug('  Contact: ' + con.FirstName + ' ' + con.LastName + ' (Email: ' + con.Email + ')');
+        }
+    }
+}
+</code></pre>
+
+    <h3>Child-to-Parent Relationships:</h3>
+    <p>You can query fields from a parent object from a child object. This is done by traversing the relationship using dot notation. The relationship name is typically the lookup/master-detail field name without `__c`, followed by `__r` if it's a custom relationship (e.g., `Account` for a standard lookup field on `Contact`, or `MyCustomLookup__r` for a custom lookup).</p>
+    <pre><code class="language-sql">SELECT Id, Name, Account.Name, Account.Industry FROM Contact WHERE Account.Industry = 'Technology'</code></pre>
+    <p>In Apex:</p>
+    <pre><code class="language-apex">List&lt;Contact&gt; techContacts = [SELECT Id, FirstName, LastName, Account.Name, Account.Industry, Account.AnnualRevenue FROM Contact WHERE Account.Industry = 'Technology'];
+
+for (Contact con : techContacts) {
+    System.debug('Contact: ' + con.FirstName + ' ' + con.LastName);
+    if (con.Account != null) { // Always null-check parent relationships
+        System.debug('  Related Account: ' + con.Account.Name + ' (Industry: ' + con.Account.Industry + ')');
+    }
+}
+</code></pre>
+</div>
+
+<div id="content-aggregate-functions" class="topic-content-section">
+    <h2>4. SOQL Aggregate Functions & Grouping</h2>
+    <p>SOQL supports aggregate functions to perform calculations on a set of records and return a single value. These are often used with the `GROUP BY` clause to group results by a specific field.</p>
+    <h3>Common Aggregate Functions:</h3>
+    <ul>
+        <li><code>COUNT()</code>: Returns the number of rows.</li>
+        <li><code>COUNT(FieldName)</code>: Returns the number of rows where `FieldName` is not null.</li>
+        <li><code>COUNT(DISTINCT FieldName)</code>: Returns the number of unique non-null values of a field.</li>
+        <li><code>SUM(FieldName)</code>: Calculates the sum of a numeric field.</li>
+        <li><code>AVG(FieldName)</code>: Calculates the average of a numeric field.</li>
+        <li><code>MIN(FieldName)</code>: Returns the minimum value of a field.</li>
+        <li><code>MAX(FieldName)</code>: Returns the maximum value of a field.</li>
+    </ul>
+    <h3>Syntax with <code>GROUP BY</code>:</h3>
+    <pre><code class="language-sql">SELECT AggregateFunction(FieldName), FieldName2 FROM ObjectApiName [WHERE Conditions] GROUP BY FieldName2 [HAVING AggregateConditions]</code></pre>
+    <p>The <code>HAVING</code> clause is used to filter results based on aggregate functions, similar to `WHERE` for non-aggregate fields.</p>
+    <h3>Examples:</h3>
+    <h4>Count of all Accounts:</h4>
+    <pre><code class="language-sql">SELECT COUNT() FROM Account</code></pre>
+    <pre><code class="language-apex">Integer accountCount = [SELECT COUNT() FROM Account];
+System.debug('Total Accounts: ' + accountCount);
+</code></pre>
+
+    <h4>Sum of Annual Revenue by Industry:</h4>
+    <pre><code class="language-sql">SELECT Industry, SUM(AnnualRevenue) FROM Account GROUP BY Industry</code></pre>
+    <pre><code class="language-apex">// When using aggregate functions, the result is a List<AggregateResult>
+List&lt;AggregateResult&gt; results = [SELECT Industry, SUM(AnnualRevenue) totalRevenue FROM Account GROUP BY Industry];
+
+for (AggregateResult ar : results) {
+    System.debug('Industry: ' + ar.get('Industry') + ', Total Revenue: ' + ar.get('totalRevenue'));
+}
+</code></pre>
+
+    <h4>Count of Opportunities by Stage, only for stages with more than 5 opportunities:</h4>
+    <pre><code class="language-sql">SELECT StageName, COUNT(Id) FROM Opportunity GROUP BY StageName HAVING COUNT(Id) > 5</code></pre>
+</div>
+
+<div id="content-soql-for-loops" class="topic-content-section">
+    <h2>5. SOQL For Loops</h2>
+    <p>SOQL For Loops (also known as "for-each loops" with SOQL queries) are a highly efficient way to process the results of a SOQL query, especially when dealing with large datasets. They automatically manage memory by retrieving records in batches, making them ideal for avoiding heap size governor limits.</p>
+    <h3>Syntax:</h3>
+    <pre><code class="language-apex">for (sObject record : [SELECT Id, Name FROM MyObject WHERE ...]) {
+    // Process each record here
+}</code></pre>
+    <h3>Key Advantages:</h3>
+    <ul>
+        <li><strong>Automatic Batching:</strong> Salesforce handles fetching records in chunks (typically 200 records at a time) and passes them to your loop. This prevents exceeding heap size limits for large query results.</li>
+        <li><strong>Memory Efficiency:</strong> Records are processed and then discarded, ensuring memory consumption remains low.</li>
+        <li><strong>Governor Limit Awareness:</strong> While the loop iterates, the query itself still counts as one SOQL query. DML operations inside the loop are subject to DML limits per transaction, so bulkification is still crucial.</li>
+    </ul>
+    <h3>Example: Processing a Large Number of Leads</h3>
+    <pre><code class="language-apex">public class LeadProcessor {
+    public static void processLeads() {
+        // Querying a potentially large number of Leads
+        for (Lead l : [SELECT Id, FirstName, LastName, Email, Status FROM Lead WHERE Status = 'New']) {
+            // Process each lead
+            // Example: Update lead status if email is present
+            if (l.Email != null) {
+                l.Status = 'Contacted';
+                // Accumulate updates in a list and perform DML outside the loop for bulkification
+                // (Though for loops handle fetching, DML is still per-record if not bulkified)
+            }
+            System.debug('Processing Lead: ' + l.Id + ' - ' + l.Status);
+        }
+        // If updates were accumulated, perform update DML here
+        // update leadsToUpdate;
+    }
+
+    // A better bulkified example using a list
+    public static void updateProcessedLeads() {
+        List&lt;Lead&gt; leadsToUpdate = new List&lt;Lead&gt;();
+        for (Lead l : [SELECT Id, FirstName, LastName, Email, Status FROM Lead WHERE Status = 'New']) {
+            if (l.Email != null) {
+                l.Status = 'Contacted';
+                leadsToUpdate.add(l);
+            }
+        }
+        if (!leadsToUpdate.isEmpty()) {
+            update leadsToUpdate; // Single DML operation
+            System.debug('Updated ' + leadsToUpdate.size() + ' leads.');
+        }
+    }
+}
+</code></pre>
+    <h3>When to use a SOQL For Loop vs. a List:</h3>
+    <ul>
+        <li><strong>Use SOQL For Loop:</strong> When you expect a large number of records (hundreds to thousands or more) and need to iterate through them without consuming excessive heap space. This is the preferred method for querying and processing large datasets in Apex.</li>
+        <li><strong>Use a `List&lt;sObject&gt;` with direct assignment:</strong> When you expect a small number of records (up to a few hundred) and need to perform subsequent operations on the entire collection, or when you explicitly need the entire list in memory.
+            <pre><code class="language-apex">List&lt;Account&gt; smallAccountsList = [SELECT Id, Name FROM Account WHERE NumberOfEmployees &lt; 10];
+// You have the entire list in memory now
+System.debug('Small list size: ' + smallAccountsList.size());
+</code></pre>
+        </li>
+    </ul>
+    <p>Always prioritize SOQL For Loops for processing query results within triggers or batch jobs to prevent hitting heap size limits.</p>
+</div>
+
+<div id="content-introduction-sosl" class="topic-content-section">
+    <h2>6. Introduction to SOSL</h2>
+    <p>SOSL (Salesforce Object Search Language) is a powerful search language designed for performing text-based searches across multiple sObject types and fields. It's ideal when you need to find records that contain specific words or phrases, but you don't necessarily know which object or field contains that information.</p>
+    <h3>When to use SOSL?</h3>
+    <ul>
+        <li>When you need to search for a phrase across multiple objects.</li>
+        <li>When you need to search for a phrase within a single object, but across multiple fields.</li>
+        <li>When you need to retrieve records based on fuzzier text matching rather than precise field values.</li>
+        <li>When performing searches similar to a global search in the Salesforce UI.</li>
+    </ul>
+    <h3>Key Characteristics:</h3>
+    <ul>
+        <li>Searches across multiple objects.</li>
+        <li>Returns a list of lists of sObjects (<code>List&lt;List&lt;sObject&gt;&gt;</code>), where each inner list contains records of a specific object type.</li>
+        <li>Can search fields like `Name`, `Email`, `Phone`, `TextArea`, `LongTextArea`, `RichText`, `ComboBox`.</li>
+        <li>Uses a search index for faster results.</li>
+        <li>Supports stemming (e.g., searching for "run" also finds "running", "ran").</li>
+    </ul>
+</div>
+
+<div id="content-sosl-syntax" class="topic-content-section">
+    <h2>7. SOSL Syntax & Features</h2>
+    <h3>Basic Syntax:</h3>
+    <pre><code class="language-sql">FIND 'Search Term' [IN SearchGroup] [RETURNING ObjectTypeName [ (FieldList) ] [WITH Network]] [LIMIT Number] [OFFSET Number]</code></pre>
+    <p>Let's break down the common clauses:</p>
+    <ul>
+        <li><strong><code>FIND 'Search Term'</code>:</strong> The phrase or term you are looking for. Can include wildcards (`*` for zero or more characters, `?` for a single character). Use single quotes.</li>
+        <li><strong><code>IN SearchGroup</code>:</strong> Specifies which fields to search within. Options include:
+            <ul>
+                <li>`ALL FIELDS` (default)</li>
+                <li>`NAME FIELDS`</li>
+                <li>`EMAIL FIELDS`</li>
+                <li>`PHONE FIELDS`</li>
+                <li>`SIDEBAR FIELDS` (searchable in sidebar)</li>
+            </ul>
+        </li>
+        <li><strong><code>RETURNING ObjectTypeName [(FieldList)]</code>:</strong> Specifies which sObjects and their fields to return. If `FieldList` is omitted, only the `Id` is returned. You can specify multiple objects.</li>
+        <li><strong><code>WITH Network</code>:</strong> Used for Chatter Answers or Salesforce Communities searches.</li>
+        <li><strong><code>LIMIT Number</code>:</strong> Limits the number of rows returned per sObject type.</li>
+        <li><strong><code>OFFSET Number</code>:</strong> Skips records per sObject type.</li>
+    </ul>
+    <h3>Examples:</h3>
+    <h4>Basic Search across all searchable objects for 'GenePoint':</h4>
+    <pre><code class="language-sql">FIND 'GenePoint' IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, FirstName, LastName)</code></pre>
+
+    <h4>Search for a phrase and include a wildcard:</h4>
+    <pre><code class="language-sql">FIND 'uni*' IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, Name)</code></pre>
+
+    <h4>Search for a phone number:</h4>
+    <pre><code class="language-sql">FIND '415-555-1212' IN PHONE FIELDS RETURNING Contact(Id, Name, Phone), Lead(Id, Name, Phone)</code></pre>
+
+    <h3>Using SOSL in Apex:</h3>
+    <p>In Apex, you embed SOSL queries directly within square brackets `[]`. The query returns a `List&lt;List&lt;sObject&gt;&gt;`.</p>
+    <pre><code class="language-apex">List&lt;List&lt;SObject&gt;&gt; searchResults = [FIND 'Acme' IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, FirstName, LastName, Email)];
+
+// Iterate through the results, casting each inner list to the specific sObject type
+for (List&lt;SObject&gt; sObjectList : searchResults) {
+    if (sObjectList.isEmpty()) {
+        continue;
+    }
+    SObjectType objectType = sObjectList[0].getSObjectType();
+
+    if (objectType == Account.SObjectType) {
+        for (Account acc : (List&lt;Account&gt;)sObjectList) {
+            System.debug('Found Account: ' + acc.Name + ' (' + acc.Id + ')');
+        }
+    } else if (objectType == Contact.SObjectType) {
+        for (Contact con : (List&lt;Contact&gt;)sObjectList) {
+            System.debug('Found Contact: ' + con.FirstName + ' ' + con.LastName + ' (Email: ' + con.Email + ')');
+        }
+    }
+}
+</code></pre>
+</div>
+
+<div id="content-choosing-tool" class="topic-content-section">
+    <h2>8. Choosing Between SOQL & SOSL</h2>
+    <p>Deciding between SOQL and SOSL is critical for efficient data retrieval. Here's a guide:</p>
+    <h3>Use SOQL When:</h3>
+    <ul>
+        <li>You know which object(s) you need to query.</li>
+        <li>You need to retrieve specific fields from a single object or closely related objects (parent-to-child or child-to-parent).</li>
+        <li>You want to retrieve records based on specific field values (e.g., `WHERE Status = 'Active'`).</li>
+        <li>You need to perform aggregate functions (SUM, AVG, COUNT, etc.).</li>
+        <li>You need to order or group results.</li>
+        <li>You need to use `OFFSET` for pagination.</li>
+        <li>You need to query across more than one object, and the objects are related (e.g., querying `Contact` and its `Account`).</li>
+    </ul>
+    <pre><code class="language-sql">// Example SOQL use case: Get specific fields from a related Account & its Contacts
+SELECT Id, Name, AnnualRevenue, (SELECT Id, FirstName, LastName FROM Contacts)
+FROM Account
+WHERE Industry = 'Technology' AND AnnualRevenue > 500000</code></pre>
+
+    <h3>Use SOSL When:</h3>
+    <ul>
+        <li>You need to search for text across multiple objects (e.g., "Find all records containing 'Sales'").</li>
+        <li>You need to search across multiple fields on a single object without specifying each field explicitly.</li>
+        <li>You don't know which specific object or field contains the data you're looking for, but you have a search term.</li>
+        <li>You want to perform a Google-like search within Salesforce data.</li>
+    </ul>
+    <pre><code class="language-sql">// Example SOSL use case: Search for a term across Accounts and Leads
+FIND 'Marketing Campaign' IN ALL FIELDS
+RETURNING Account(Id, Name, Industry), Lead(Id, Name, Status, Company)</code></pre>
+
+    <p><strong>Think of it this way:</strong></p>
+    <ul>
+        <li><strong>SOQL is like a targeted database query:</strong> "Give me all Accounts with X criteria, and their related Contacts."</li>
+        <li><strong>SOSL is like a search engine:</strong> "Find 'X' anywhere it appears in my data, across different object types."</li>
+    </ul>
+</div>
+
+<div id="content-best-practices" class="topic-content-section">
+    <h2>9. SOQL & SOSL Best Practices</h2>
+    <p>Writing efficient and scalable SOQL and SOSL queries is paramount for avoiding governor limits and ensuring optimal application performance.</p>
+    <h3>General Best Practices:</h3>
+    <ul>
+        <li><strong>Avoid SOQL/SOSL Inside Loops:</strong> This is a critical governor limit violation. Never put a SOQL query or SOSL search inside a `for` loop, as it quickly consumes your query limits (100 SOQL queries, 20 SOSL queries per transaction).</li>
+        <li><strong>Bulkify Your Queries:</strong> Always design your code to handle collections of records. If you need to query related data, collect all IDs first, then perform a single query (or use relationship queries).</li>
+        <li><strong>Select Only Necessary Fields:</strong> Don't use `SELECT *` (not supported in Apex SOQL anyway). Retrieve only the fields you actually need. This reduces heap size and improves performance.</li>
+        <li><strong>Use Query Plan Tool:</strong> In the Developer Console, use the "Query Plan" tool (Ctrl+I) to analyze the performance of your SOQL queries, especially on large objects. It tells you which fields are indexed and if a query will be performant.</li>
+        <li><strong>Consider Custom Indexes:</strong> If you frequently filter by a custom field that is not indexed, consider marking it as "External ID" or "Unique" to create an index. Salesforce automatically indexes standard ID fields, foreign key relationships, and standard fields with specific attributes.</li>
+    </ul>
+    <h3>SOQL Specific Best Practices:</h3>
+    <ul>
+        <li><strong>Filter Your Queries (Use `WHERE` Clause):</strong> Always try to include a `WHERE` clause to restrict the number of records returned. Querying large numbers of records without filters can be inefficient and hit governor limits.</li>
+        <li><strong>Order of Operations (Filtering before Sorting/Limiting):</strong> Ensure your `WHERE` clause is as selective as possible to filter records *before* sorting or limiting, which is more efficient.</li>
+        <li><strong>Use Relationship Queries Wisely:</strong> While powerful, deeply nested relationship queries can impact performance. Avoid excessive nesting if possible.</li>
+        <li><strong>SOQL For Loops for Large Datasets:</strong> As discussed, use SOQL For Loops to efficiently process large query results without hitting heap limits.</li>
+    </ul>
+    <pre><code class="language-apex">// BAD: Query inside a loop (hits 100 SOQL query limit quickly)
+for (Account acc : Trigger.new) {
+    // This query runs for EACH account!
+    Contact c = [SELECT Id FROM Contact WHERE AccountId = :acc.Id AND Name = 'Primary Contact'];
+    // ...
+}
+
+// GOOD: Bulkified query outside the loop
+Set&lt;Id&gt; accountIds = new Set&lt;Id&gt;();
+for (Account acc : Trigger.new) {
+    accountIds.add(acc.Id);
+}
+// Single query to get all relevant contacts for all accounts
+List&lt;Contact&gt; contacts = [SELECT Id, Name, AccountId FROM Contact WHERE AccountId IN :accountIds AND Name = 'Primary Contact'];
+// Now process the results using maps for efficient lookup
+Map&lt;Id, Contact&gt; contactsByAccountId = new Map&lt;Id, Contact&gt;();
+for (Contact con : contacts) {
+    contactsByAccountId.put(con.AccountId, con);
+}
+for (Account acc : Trigger.new) {
+    Contact primaryContact = contactsByAccountId.get(acc.Id);
+    if (primaryContact != null) {
+        // ...
+    }
+}
+</code></pre>
+    <h3>SOSL Specific Best Practices:</h3>
+    <ul>
+        <li><strong>Specificity in `FIND` Clause:</strong> Be as specific as possible with your search terms to get more relevant results.</li>
+        <li><strong>Use `IN SearchGroup` Judiciously:</strong> If you know the search will only be in, say, name fields, specify `IN NAME FIELDS` instead of `IN ALL FIELDS` for better performance.</li>
+        <li><strong>Limit `RETURNING` Objects and Fields:</strong> Only return the objects and fields that you genuinely need.</li>
+        <li><strong>Performance Considerations:</strong> SOSL queries can sometimes be slower than highly selective SOQL queries, especially on very large orgs with many text fields. Use SOSL when the "search" paradigm is truly appropriate.</li>
+    </ul>
+    <p>By following these best practices, you can ensure your SOQL and SOSL queries are performant, respect governor limits, and contribute to a robust Salesforce application.</p>
+</div>

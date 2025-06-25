@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Salesforce Lifeline Homepage</title>
+    <meta name="description" content="Get free, expert Salesforce help from certified architects and developers for critical challenges, go-lives, and architectural reviews.">
+    <link rel="icon" href="https://placehold.co/32x32/6366f1/ffffff?text=SFX" type="image/x-icon">
+    <!-- <script src="https://cdn.tailwindcss.com"></script>-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="/src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css"> -->
+ <!-- Google tag (gtag.js) -->
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+ 
+   gtag('config', 'G-BXZVYY2G7X');
+ </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #0f0d1a;
+            color: #e2e8f0;
+            background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
+                        #0f0d1a;
+            background-size: 200% 200%;
+            animation: background-pan 30s infinite alternate ease-in-out;
+        }
+        @keyframes background-pan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.7), 0 0 30px rgba(139, 92, 246, 0.5);
+            transform: translateY(-5px) scale(1.02);
+        }
+        @keyframes shine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .button-shine {
+            background-image: linear-gradient(
+                to right,
+                var(--tw-gradient-from) 0%,
+                var(--tw-gradient-to) 50%,
+                var(--tw-gradient-from) 100%
+            );
+            background-size: 200% auto;
+            transition: background-position 0.4s ease-out;
+        }
+        .button-shine:hover {
+            background-position: -20% 0;
+            animation: shine 1.5s infinite linear;
+        }
+        #contactModal { display: none; }
+        #contactModal.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .faq-accordion i { transition: transform 0.3s ease-in-out; }
+        .faq-accordion.active i { transform: rotate(45deg);}
+        .faq .content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding-top: 0; padding-bottom: 0; }
+        .faq .content.active { max-height: 200px; padding-top: 1rem; padding-bottom: 1rem; }
+        #globalCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.5; }
+        .reveal-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+    </style>
+    
+</head>
+<body class="flex flex-col min-h-screen">
+    <canvas id="globalCanvas"></canvas>
+
+    <!-- HEADER -->
+    <body class="bg-[#17181b]">
+    <header
+      class="fixed top-4 left-1/2 -translate-x-1/2 z-20 flex h-[60px] w-full max-w-5xl bg-[#17181b] rounded-md shadow-md
+             px-[3%] lg:px-4 items-center justify-between transition-colors duration-300"
+    >
+      <!-- Logo and Branding -->
+      <a class="flex gap-2 items-center" href="/">
+        <div class="h-[30px] max-w-[100px]">
+          <img
+            src="/assets/images/FinalLogo.png"
+            alt="logo"
+            class="object-contain h-full w-full"
+          />
+        </div>
+      </a>
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/">Home</a>
+        <!-- Learning Dropdown -->
+        <div class="relative flex flex-col items-center group" tabindex="0">
+          <div class="flex header-links gap-1 items-center cursor-pointer select-none">
+            <span><a href="/learning">Learning</a></span>
+            <i class="text-sm bi bi-chevron-down"></i>
+          </div>
+          <nav
+            class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden
+                    bg-[#17181b] shadow-lg border border-gray-800 p-4 transition z-30"
+          >
+            <div class="grid grid-cols-2 gap-8 w-full">
+              <div>
+                <div class="text-lg text-indigo-400 font-semibold mb-3">Developer & Admin</div>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/apex-triggers/">Apex Triggers Mastery</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/governor-limits/">Governor Limits & Best Practices</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/flows-process-builder/">Flows & Process Builder (Declarative Automation)</a>
+              </div>
+              <div>
+                <div class="text-lg text-indigo-400 font-semibold mb-3">Advanced Topics</div>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/security-sharing/">Security & Sharing Model</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/deployment-cicd/">Deployment & CI/CD</a>
+                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/integration-patterns/">Salesforce Integration Patterns</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/resources/">Resources</a>
+        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/about/">About Us</a>
+      </nav>
+      <!-- Actions: Contact, Hamburger -->
+      <div class="flex items-center gap-4">
+        <a
+          href="/contact/"
+          class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+        >Contact Us</a>
+        <!-- Hamburger for mobile -->
+        <button
+          class="bi bi-list absolute right-3 top-3 z-50 text-3xl text-gray-200 lg:hidden"
+          onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"
+          aria-label="menu"
+          id="collapse-btn"
+        ></button>
+      </div>
+    </header>
+    <!-- Mobile Menu -->
+    <nav id="mobileMenu"
+      class="fixed inset-0 bg-[#17181b] z-40 flex flex-col px-8 py-12 gap-6 text-xl text-gray-100 hidden"
+      style="transition: all 0.3s;"
+    >
+      <button
+        class="bi bi-x-lg absolute top-6 right-8 text-3xl"
+        onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+        aria-label="close"
+      ></button>
+      <a href="/" class="py-2 border-b border-gray-700">Home</a>
+      
+      <!-- Learning (expandable) -->
+      <div>
+        <button onclick="document.getElementById('mobileLearning').classList.toggle('hidden')" class="w-full text-left py-2 border-b border-gray-700 flex justify-between items-center">
+          Learning <i class="bi bi-chevron-down"></i>
+        </button>
+        <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+          <span class="text-indigo-400 font-semibold text-base">Developer & Admin</span>
+          <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+          <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+          <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+          <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+          <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+          <span class="mt-2 text-indigo-400 font-semibold text-base">Advanced Topics</span>
+          <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+          <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+          <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+          <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+          <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+        </div>
+      </div>
+      <a href="/resources/" class="py-2 border-b border-gray-700">Resources</a>
+      <a href="/about/" class="py-2 border-b border-gray-700">About Us</a>
+      <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+    </nav>
+    <!-- Your page content goes here -->
+  </body>
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 w-full mt-16">
+        <!-- Hero Section -->
+<section id="hero-section" class="relative mt-16 flex min-h-[90vh] w-full max-w-full flex-col overflow-hidden items-center justify-center p-4">
+  <!-- Main Hero Content: Two-column layout -->
+  <div class="container mx-auto flex py-24 md:flex-row flex-col items-center relative z-10">
+      <!-- Left Column: Text Content -->
+      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center reveal-up">
+          <h1 class="title-font sm:text-5xl text-4xl mb-4 font-extrabold text-white leading-tight drop-shadow-lg">
+              SFX Support: Expert Help, When You Need It Most.
+          </h1>
+          <p class="mb-8 leading-relaxed text-lg sm:text-xl opacity-95 drop-shadow-md">
+              Unlock your Salesforce potential. Our certified architects and seasoned developers provide immediate, trusted guidance on critical challenges, seamless go-lives, and precision architectural reviews. <span class="font-semibold text-indigo-400">Your urgent needs are our priority.</span>
+          </p>
+          <div class="flex justify-center">
+              <a href="/contact" class="inline-flex text-white bg-indigo-600 border-0 py-3 px-8 focus:outline-none hover:bg-indigo-700 rounded-full text-lg font-bold transition duration-300 ease-in-out shadow-xl transform hover:scale-105 button-shine">
+                  Get Free Expert Help Now
+              </a>
+              <a href="#solutions" class="ml-4 inline-flex text-indigo-300 bg-transparent border-2 border-indigo-500 py-3 px-8 focus:outline-none hover:bg-indigo-700 hover:text-white rounded-full text-lg font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105">
+                  Explore All Services
+              </a>
+          </div>
+      </div>
+      <!-- Right Column: Image -->
+      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 reveal-up">
+          <img class="object-cover object-center rounded-xl shadow-2xl border border-white/20" alt="Salesforce Solutions" src="./assets/images/ChatGPT Image Jun 9, 2025, 02_41_35 AM.png">
+      </div>
+  </div>
+</section>
+
+<!-- What We Offer Section -->
+<section id="solutions" class="relative py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
+  <!-- Section Heading -->
+  <div class="text-center mb-12 relative z-30">
+      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
+          What We Offer: Your Solutions, Our Expertise
+      </h3>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
+          We understand that Salesforce isn't just a tool; it's the backbone of your business. That's why SFX Salesforce provides specialized, on-demand expertise designed to tackle your most complex issues, ensure smooth deployments, and optimize your entire Salesforce ecosystem.
+      </p>
+      <div class="flex mt-6 justify-center">
+          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
+      </div>
+  </div>
+
+  <!-- Service Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 max-w-6xl mx-auto px-5 relative z-30">
+      <!-- Card 1: Strategic Architecture Review -->
+      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
+          <div class="flex items-center justify-center min-h-[100px] mb-4">
+              <i class="bi bi-diagram-3 text-5xl text-indigo-400"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Strategic Architecture Review</h3>
+          <p class="text-gray-300 mb-4">
+              In-depth assessments of your Salesforce architecture so it's not just functional, but robust, scalable, and aligned with your long-term business strategy. Identify bottlenecks, mitigate risks, and build for future growth with confidence.
+          </p>
+          <div class="mt-auto flex items-center gap-2">
+              <span class="text-indigo-400 font-medium">Learn more</span>
+              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-indigo-400"></i>
+          </div>
+      </a>
+
+      <!-- Card 2: Complex Workarounds & Custom Solutions -->
+      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
+          <div class="flex items-center justify-center min-h-[100px] mb-4">
+              <i class="bi bi-tools text-5xl text-purple-400"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Complex Workarounds & Custom Solutions</h3>
+          <p class="text-gray-300 mb-4">
+              Stuck on a tricky integration or unique requirement? Our experts craft innovative workarounds and bespoke solutions, turning obstacles into opportunities and resolving your most intricate Salesforce challenges.
+          </p>
+          <div class="mt-auto flex items-center gap-2">
+              <span class="text-purple-400 font-medium">Learn more</span>
+              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-purple-400"></i>
+          </div>
+      </a>
+
+      <!-- Card 3: Guaranteed Go-Live Readiness -->
+      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
+          <div class="flex items-center justify-center min-h-[100px] mb-4">
+              <i class="bi bi-rocket-takeoff text-5xl text-pink-400"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Guaranteed Go-Live Readiness</h3>
+          <p class="text-gray-300 mb-4">
+              Before launch, we provide meticulous last-minute checks, performance optimizations, and critical support to guarantee a flawless and confident Salesforce deployment. Minimize surprises and ensure a smooth transition.
+          </p>
+          <div class="mt-auto flex items-center gap-2">
+              <span class="text-pink-400 font-medium">Learn more</span>
+              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-pink-400"></i>
+          </div>
+      </a>
+  </div>
+  <!-- Large card below the grid for Rapid Urgent Troubleshooting -->
+  <div class="mt-8 flex justify-center relative z-30">
+      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col md:flex-row items-center w-full max-w-4xl p-10 transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
+          <div class="flex items-center justify-center min-h-[100px] mb-4 md:mb-0 md:mr-8 flex-shrink-0">
+              <i class="bi bi-lightning-charge-fill text-5xl text-yellow-400"></i>
+          </div>
+          <div>
+              <h3 class="text-2xl font-semibold mb-3 text-white">Rapid Urgent Troubleshooting</h3>
+              <p class="text-gray-300">
+                  When every second counts. Get immediate, effective resolutions and expert guidance for any pressing Salesforce issues you encounter. Our rapid response ensures minimal downtime, allowing you to get back to business quickly.
+              </p>
+              <div class="mt-4 flex items-center gap-2">
+                  <span class="text-yellow-400 font-medium">Learn more</span>
+                  <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-yellow-400"></i>
+              </div>
+          </div>
+      </a>
+  </div>
+</section>
+
+<section id="how-it-works" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
+<div class="text-center mb-12">
+<h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
+How It Works: Simple Steps to Expert Support
+</h3>
+<p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
+Accessing top-tier Salesforce expertise shouldn't be complicated. We've streamlined our process into three easy steps to get you the help you need, fast.
+</p>
+<div class="flex mt-6 justify-center">
+<div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
+</div>
+</div>
+
+<!-- Stack image above steps on all devices -->
+<div class="mt-10 flex flex-col items-center justify-center gap-10">
+<!-- Image Card -->
+<div class="w-full max-w-4xl h-[600px] rounded-2xl overflow-hidden bg-transparent shadow-lg flex-shrink-0 reveal-up">
+  <img
+    src="/assets/images/ChatGPT Image Jun 14, 2025, 02_53_10 PM.png"
+    alt="How It Works process visualization"
+    class="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.08)]"
+    onerror="this.onerror=null; this.src='https://placehold.co/1000x500/8A2BE2/FFFFFF/abstract-process-flow?text=How+It+Works+Image';"
+  />
+</div>
+
+<!-- Steps Content (Stacked) -->
+<div class="flex flex-col justify-center gap-7 w-full max-w-xl mx-auto">
+<!-- Step 1 -->
+<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
+  <div class="flex-shrink-0">
+    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-lg border-4 border-gray-900">1</span>
+  </div>
+  <div>
+    <h4 class="font-semibold text-lg mb-1 text-indigo-400">Submit Your Request</h4>
+    <p class="text-gray-300 text-base">
+      Briefly tell us about your Salesforce challenge through our quick online form. It only takes a few minutes, and the more detail you provide, the better we can prepare.
+    </p>
+  </div>
+</div>
+<!-- Step 2 -->
+<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
+  <div class="flex-shrink-0">
+    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-600 text-white font-bold text-lg border-4 border-gray-900">2</span>
+  </div>
+  <div>
+    <h4 class="font-semibold text-lg mb-1 text-purple-400">We Review &amp; Connect</h4>
+    <p class="text-gray-300 text-base">
+      Our team of certified Salesforce experts promptly reviews your submission to understand your needs. We'll then match you with the specialist best equipped to help you.
+    </p>
+  </div>
+</div>
+<!-- Step 3 -->
+<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
+  <div class="flex-shrink-0">
+    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-lg border-4 border-gray-900">3</span>
+  </div>
+  <div>
+    <h4 class="font-semibold text-lg mb-1 text-blue-400">Get Immediate Guidance</h4>
+    <p class="text-gray-300 text-base">
+      Receive direct, actionable advice and solutions tailored to your specific problem. Get the answers and support you need, precisely when you need it.
+    </p>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- CTA Button -->
+<div class="mt-16 text-center">
+<a href="/contact" class="inline-flex items-center justify-center text-white bg-gradient-to-r from-indigo-600 to-purple-700 border-0 py-4 px-12 focus:outline-none hover:from-indigo-700 hover:to-purple-800 rounded-full text-xl font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105 button-shine">
+Get Salesforce Help Now &rarr;
+</a>
+</div>
+</section>
+
+
+<!-- Insights & Resources: Empowering Your Salesforce Journey (Learning Content) -->
+<section id="learning-content" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
+  <div class="text-center mb-12">
+      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
+          Insights & Resources: Empowering Your Salesforce Journey
+      </h3>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
+          Beyond direct help, we believe in empowering our clients with knowledge. Our learning hub is a curated collection of best practices, insightful articles, and practical guides designed to help you continuously optimize your Salesforce environment.
+      </p>
+      <div class="flex mt-6 justify-center">
+          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
+      </div>
+  </div>
+
+  <div class="mt-10 flex flex-wrap place-content-center gap-10 max-lg:flex-col items-start justify-center">
+      <!-- Left Column: Section Title and CTA -->
+      <div class="relative flex max-w-sm lg:max-w-[30%] flex-col items-center lg:items-start gap-4 p-2 lg:sticky lg:top-20 lg:h-fit max-lg:w-full text-center lg:text-left reveal-up">
+          <h2 class="text-4xl lg:text-5xl font-extrabold text-white mb-4">
+              Salesforce Developer Learning Guide
+          </h2>
+          <a href="/learning/" class="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold text-lg px-8 py-4 rounded-full shadow hover:bg-indigo-700 transition-all duration-300 button-shine">
+              Explore Full Guide &rarr;
+          </a>
+      </div>
+
+      <!-- Right Column: Learning Topics as Cards -->
+      <div class="flex flex-col gap-6 max-w-lg lg:max-w-[60%] px-4 lg:px-0 w-full reveal-up">
+          <!-- Example Card 1 -->
+          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
+              <div class="text-4xl text-indigo-400 flex-shrink-0">
+                  <i class="bi bi-lightning-fill"></i>
+              </div>
+              <div class="flex flex-col gap-2">
+                  <h3 class="text-xl font-semibold text-white">Apex Triggers Mastery</h3>
+                  <p class="text-gray-300 text-base">
+                      Deep dive into Apex triggers, best practices, and use cases for powerful automation.
+                  </p>
+                  <a href="/apex-triggers/" class="mt-auto flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors">
+                      <span class="underline underline-offset-4">Learn more</span>
+                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
+                  </a>
+              </div>
+          </div>
+
+          <!-- Example Card 2 -->
+          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
+              <div class="text-4xl text-purple-400 flex-shrink-0">
+                  <i class="bi bi-clock-history"></i>
+              </div>
+              <div class="flex flex-col gap-2">
+                  <h3 class="text-xl font-semibold text-white">Asynchronous Apex Essentials</h3>
+                  <p class="text-gray-300 text-base">
+                      Understand future methods, batch Apex, queueables, and scheduled jobs for scalability.
+                  </p>
+                  <a href="/asynchronous-apex/" class="mt-auto flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+                      <span class="underline underline-offset-4">Learn more</span>
+                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
+                  </a>
+              </div>
+          </div>
+
+          <!-- Example Card 3 -->
+          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
+              <div class="text-4xl text-blue-400 flex-shrink-0">
+                  <i class="bi bi-search"></i>
+              </div>
+              <div class="flex flex-col gap-2">
+                  <h3 class="text-xl font-semibold text-white">SOQL & SOSL Fundamentals</h3>
+                  <p class="text-gray-300 text-base">
+                      Master Salesforce Object Query Language and Search for advanced data retrieval.
+                  </p>
+                  <a href="/soql-sosl/" class="mt-auto flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                      <span class="underline underline-offset-4">Learn more</span>
+                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
+                  </a>
+              </div>
+          </div>
+          </div>
+  </div>
+</section>
+
+<!-- Why Trust Us Section -->
+<section id="why-trust-us" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
+  <div class="text-center mb-12">
+      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
+          Why Trust SFX Salesforce? Our Foundation is Your Success.
+      </h3>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
+          Choosing an expert partner for your Salesforce needs is a critical decision. At SFX Salesforce, we don't just solve problems; we build lasting relationships based on unparalleled expertise, unwavering commitment, and transparent processes.
+      </p>
+      <div class="flex mt-6 justify-center">
+          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
+      </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 px-5">
+      <!-- Trust Point 1: Certified Salesforce Experts -->
+      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
+          <div class="text-5xl mb-4 text-indigo-400">
+              <i class="fas fa-certificate"></i>
+          </div>
+          <h4 class="text-xl font-semibold mb-2 text-white">Certified Salesforce Experts</h4>
+          <p class="text-gray-300">
+              Our team holds numerous Salesforce certifications and years of practical experience, demonstrating proven proficiency and a deep understanding of the platform's intricacies.
+          </p>
+      </div>
+      <!-- Trust Point 2: Tailored & Scalable Solutions -->
+      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
+          <div class="text-5xl mb-4 text-purple-400">
+              <i class="fas fa-cogs"></i>
+          </div>
+          <h4 class="text-xl font-semibold mb-2 text-white">Tailored & Scalable Solutions</h4>
+          <p class="text-gray-300">
+              Generic solutions rarely fit. We build strategies and solutions designed specifically for your unique business needs today, while ensuring they are ready to scale seamlessly for future growth.
+          </p>
+      </div>
+      <!-- Trust Point 3: Transparent Communication -->
+      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
+          <div class="text-5xl mb-4 text-blue-400">
+              <i class="fas fa-comments"></i>
+          </div>
+          <h4 class="text-xl font-semibold mb-2 text-white">Transparent Communication</h4>
+          <p class="text-gray-300">
+              You are always in the loop. We maintain clear, open communication and foster collaborative processes, ensuring you understand every step and decision we make together.
+          </p>
+      </div>
+      <!-- Trust Point 4: Results-Driven Approach -->
+      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up md:col-span-2 lg:col-span-1 mx-auto lg:mx-0">
+          <div class="text-5xl mb-4 text-green-400">
+              <i class="fas fa-chart-line"></i>
+          </div>
+          <h4 class="text-xl font-semibold mb-2 text-white">Results-Driven Approach</h4>
+          <p class="text-gray-300">
+              Our ultimate goal is your tangible success. We focus on delivering measurable outcomes that improve your efficiency, boost your ROI, and transform your Salesforce challenges into powerful business advantages.
+          </p>
+      </div>
+       <!-- Trust Point 5: Community-Focused Mission (Added based on "Who We Are" content) -->
+       <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up md:col-span-2 lg:col-span-1 mx-auto lg:mx-0">
+          <div class="text-5xl mb-4 text-cyan-400">
+              <i class="fas fa-handshake"></i>
+          </div>
+          <h4 class="text-xl font-semibold mb-2 text-white">Community-Focused Mission</h4>
+          <p class="text-gray-300">
+              Born from a desire to give back, we're committed to helping the Salesforce community thrive, sharing our hard-won knowledge to prevent common pitfalls and ignite new possibilities.
+          </p>
+      </div>
+  </div>
+</section>
+
+<!-- Frequently Asked Questions (FAQ) -->
+<section id="faq" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
+  <div class="text-center mb-12">
+      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
+          Frequently Asked Questions (FAQ)
+      </h3>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
+          Find quick answers to the most common questions about our Salesforce expert help and services.
+      </p>
+      <div class="flex mt-6 justify-center">
+          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
+      </div>
+  </div>
+
+  <div class="mt-10 flex flex-col gap-4 max-w-3xl mx-auto px-5">
+      <!-- FAQ 1 -->
+      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
+          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
+              <span>What types of Salesforce challenges can SFX Salesforce help with?</span>
+              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
+          </h4>
+          <div class="content mt-4 text-gray-300">
+              SFX Salesforce offers expert assistance for a wide range of critical Salesforce challenges, including strategic architecture reviews, complex workarounds and custom solutions, ensuring go-live readiness, and providing rapid urgent troubleshooting. Our certified experts are equipped to handle intricate issues and help you optimize your entire Salesforce ecosystem.
+          </div>
+      </div>
+      <!-- FAQ 2 -->
+      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
+          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
+              <span>How quickly can I expect to get help after submitting my request?</span>
+              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
+          </h4>
+          <div class="content mt-4 text-gray-300">
+              Our "How It Works" process is streamlined for rapid assistance. After you submit your request through our quick online form, our certified Salesforce experts promptly review your submission and connect you with the specialist best equipped to provide immediate guidance and actionable advice.
+          </div>
+      </div>
+      <!-- FAQ 3 -->
+      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
+          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
+              <span>What makes SFX Salesforce different from other Salesforce consulting services?</span>
+              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
+          </h4>
+          <div class="content mt-4 text-gray-300">
+              SFX Salesforce combines deep Salesforce expertise with a client-first approach, focusing on delivering solutions that are not just technically sound but perfectly aligned with your business objectives. We emphasize transparent communication, tailored and scalable solutions, and are driven by a pledge to help our clients achieve tangible results and unlock their full Salesforce potential.
+          </div>
+      </div>
+      <!-- FAQ 4 -->
+      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
+          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
+              <span>Is the initial expert consultation truly free? What does it cover?</span>
+              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
+          </h4>
+          <div class="content mt-4 text-gray-300">
+              Yes, our goal is to "Get Free Salesforce Expert Help — When You Need It Most." The initial consultation is designed for you to connect with our certified architects and developers for immediate, trusted guidance on your critical challenges, allowing us to understand your needs and for you to experience our expertise without commitment.
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact-us" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden text-center">
+  <div class="max-w-4xl mx-auto p-8 rounded-xl bg-transparent shadow-lg relative z-10 reveal-up">
+      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-6 leading-normal">
+          Ready to Transform Your Salesforce?
+      </h3>
+      <p class="text-xl text-gray-300 opacity-95 mb-8 max-w-2xl mx-auto leading-relaxed">
+          Stop letting Salesforce complexities hold you back. Whether it's an urgent fix, a strategic review, or preparation for a major launch, SFX Salesforce is here to provide the expert help you need.
+      </p>
+      <a href="/contact" class="inline-flex items-center justify-center text-white bg-gradient-to-r from-indigo-600 to-purple-700 border-0 py-4 px-12 focus:outline-none hover:from-indigo-700 hover:to-purple-800 rounded-full text-xl font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105 cursor-pointer button-shine">
+          Get Your Free Expert Consultation Today &rarr;
+      </a>
+  </div>
+</section>
+</div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+    <!-- JS: Modal, FAQ, Reveal, Canvas Animation -->
+    <script>
+        window.onclick = function(event) {
+            var modal = document.getElementById('contactModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqAccordions = document.querySelectorAll('.faq-accordion');
+            faqAccordions.forEach(accordion => {
+                accordion.addEventListener('click', () => {
+                    const content = accordion.nextElementSibling;
+                    accordion.classList.toggle('active');
+                    content.classList.toggle('active');
+                });
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal-up').forEach(element => observer.observe(element));
+            const globalCanvas = document.getElementById('globalCanvas');
+            const ctxCanvas = globalCanvas.getContext('2d');
+            let animationFrameIdCanvas;
+            let particles = [];
+            const colors = ['#818cf8', '#a78bfa', '#c4b5fd', '#e0caff', '#d8b4fe'];
+            function resizeGlobalCanvas() {
+                globalCanvas.width = window.innerWidth;
+                globalCanvas.height = window.innerHeight;
+            }
+            class Particle {
+                constructor(x, y, radius, color, velocity) {
+                    this.x = x; this.y = y; this.radius = radius; this.color = color; this.velocity = velocity; this.alpha = 1;
+                }
+                draw() {
+                    ctxCanvas.save();
+                    ctxCanvas.globalAlpha = this.alpha;
+                    ctxCanvas.beginPath();
+                    ctxCanvas.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                    ctxCanvas.fillStyle = this.color;
+                    ctxCanvas.fill();
+                    ctxCanvas.restore();
+                }
+                update() {
+                    this.draw();
+                    this.x += this.velocity.x; this.y += this.velocity.y;
+                    this.alpha -= 0.005; this.radius *= 0.99;
+                }
+            }
+            function addParticle(x, y) {
+                const radius = Math.random() * 2 + 1;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 0.5 + 0.1;
+                const velocity = { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed };
+                particles.push(new Particle(x, y, radius, color, velocity));
+            }
+            function animateGlobalCanvas() {
+                animationFrameIdCanvas = requestAnimationFrame(animateGlobalCanvas);
+                ctxCanvas.clearRect(0, 0, globalCanvas.width, globalCanvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    if (particles[i].alpha <= 0.1 || particles[i].radius <= 0.5) {
+                        particles.splice(i, 1); i--;
+                    } else { particles[i].update(); }
+                }
+                if (Math.random() < 0.2) {
+                    const x = Math.random() * globalCanvas.width;
+                    const y = Math.random() * globalCanvas.height;
+                    addParticle(x, y);
+                }
+            }
+            globalCanvas.addEventListener('mousemove', (event) => {
+                const rect = globalCanvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                for (let i = 0; i < 3; i++) { addParticle(x, y); }
+            });
+            resizeGlobalCanvas();
+            animateGlobalCanvas();
+            window.addEventListener('resize', resizeGlobalCanvas);
+        });
+    </script>
+    
+</body>
+</html>

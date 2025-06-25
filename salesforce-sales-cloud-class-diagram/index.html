@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Salesforce Sales Cloud Conceptual Class Diagram</title>
+
+    <!-- Preconnects for web font performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--<link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <link href="/src/output.css" rel="stylesheet"> -->
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXZVYY2G7X');
+</script>
+
+    <!-- Site & syntax highlighting CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #back-to-top {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SFX Support Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40 flex h-[60px] w-full max-w-5xl bg-white rounded-md shadow-md px-[3%] lg:px-4 items-center justify-between transition-colors duration-300 border border-gray-200"
+  >
+    <!-- Logo and Branding -->
+    <a class="flex gap-2 items-center" href="/">
+      <div class="h-[30px] max-w-[100px]">
+        <img src="/assets/images/FinalLogo.png" alt="logo" class="object-contain h-full w-full" />
+      </div>
+    </a>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/">Home</a>
+      <div class="relative flex flex-col items-center group" tabindex="0">
+        <div class="flex header-links gap-1 items-center cursor-pointer select-none text-gray-800 hover:text-indigo-600">
+          <span><a href="/learning">Learning</a></span>
+          <i class="text-sm bi bi-chevron-down"></i>
+        </div>
+        <nav
+          class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden bg-white shadow-lg border border-gray-200 p-4 transition z-30"
+        >
+          <div class="grid grid-cols-2 gap-8 w-full">
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Developer & Admin</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/governor-limits/">Governor Limits & Best Practices</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/flows-process-builder/">Flows & Process Builder</a>
+            </div>
+            <div>
+              <div class="text-lg text-indigo-600 font-semibold mb-3">Advanced Topics</div>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/security-sharing/">Security & Sharing Model</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/deployment-cicd/">Deployment & CI/CD</a>
+              <a class="header-links block mb-1 text-gray-800 hover:text-indigo-600" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/resources/">Resources</a>
+      <a class="header-links text-gray-800 hover:text-indigo-600 transition" href="/about/">About Us</a>
+    </nav>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Desktop CTA -->
+      <a
+        href="/contact/"
+        class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
+      >Contact Us</a>
+      <!-- Mobile Menu Button -->
+      <button
+        class="bi bi-list block lg:hidden text-3xl text-gray-800"
+        onclick="document.getElementById('mobileMenu').classList.remove('hidden')"
+        aria-label="menu"
+        id="collapse-btn"
+        type="button"
+      ></button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <nav id="mobileMenu"
+    class="fixed inset-0 bg-white z-[999] flex flex-col px-8 py-12 gap-6 text-xl text-gray-800 hidden"
+    style="transition: all 0.3s;"
+  >
+    <button
+      class="bi bi-x-lg absolute top-6 right-8 text-3xl text-gray-800"
+      onclick="document.getElementById('mobileMenu').classList.add('hidden')"
+      aria-label="close"
+      type="button"
+    ></button>
+    <a href="/" class="py-2 border-b border-gray-200">Home</a>
+    <!-- Learning - Mobile Dropdown -->
+    <div>
+      <button
+        onclick="document.getElementById('mobileLearning').classList.toggle('hidden')"
+        class="w-full text-left py-2 border-b border-gray-200 flex justify-between items-center"
+        type="button"
+      >
+        Learning <i class="bi bi-chevron-down"></i>
+      </button>
+      <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
+        <span class="text-indigo-600 font-semibold text-base">Developer & Admin</span>
+        <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
+        <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
+        <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
+        <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
+        <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
+        <span class="mt-2 text-indigo-600 font-semibold text-base">Advanced Topics</span>
+        <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
+        <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
+        <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
+        <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
+        <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+      </div>
+    </div>
+    <a href="/resources/" class="py-2 border-b border-gray-200">Resources</a>
+    <a href="/about/" class="py-2 border-b border-gray-200">About Us</a>
+    <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+  </nav>
+
+  <script>
+    // Close menu when clicking any link in the mobile menu
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
+
+    <main>
+        <div class="w-full bg-gray-100 min-h-screen pt-16 pb-10">
+    <div class="max-w-4xl mx-auto bg-white border border-gray-300 rounded-lg p-10 shadow-md">
+  
+    <!-- Title -->
+    <h1 class="text-4xl font-serif font-bold text-gray-900 mb-2">Salesforce Sales Cloud Conceptual Class Diagram</h1>
+    <div class="border-b border-gray-200 mb-6"></div>
+    <p class="text-lg text-gray-700 mb-8">
+      This page provides a formal, comprehensive reference for all key objects and relationships in Salesforce Sales Cloud, suitable for both architects and decision makers.
+    </p>
+  
+    <!-- Diagram Image -->
+    <figure class="mb-10">
+      <img src="/assets/images/salesCloud.png" alt="Salesforce Sales Cloud Class Diagram" class="border border-gray-300 rounded-md mx-auto mb-3 max-w-full">
+      <figcaption class="text-sm text-gray-500">Figure: Conceptual class diagram of Salesforce Sales Cloud (click to enlarge).</figcaption>
+    </figure>
+  
+    <!-- Table of Contents -->
+    <nav class="mb-10">
+      <h2 class="font-bold text-lg text-gray-900 mb-2">Contents</h2>
+      <ul class="list-decimal ml-6 text-base text-blue-800">
+        <li><a href="#objects">Standard Objects Overview</a></li>
+        <li><a href="#relationships">Relationships Explained</a></li>
+        <li><a href="#automation">Automation & Business Processes</a></li>
+        <li><a href="#diagram">Textual Class Diagram</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+  
+    <!-- Key Objects Overview -->
+    <section id="objects" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Standard Objects Overview</h2>
+      <p class="mb-4 text-gray-700">
+        Salesforce Sales Cloud consists of these core objects. Each serves a distinct role in supporting the sales lifecycle:
+      </p>
+      <table class="w-full text-sm border border-gray-300 mb-8">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-300">
+            <th class="px-4 py-2 text-left font-semibold">Object</th>
+            <th class="px-4 py-2 text-left font-semibold">Purpose</th>
+            <th class="px-4 py-2 text-left font-semibold">Key Attributes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">User</td>
+            <td class="px-4 py-2">Represents a Salesforce user (salesperson, manager, admin, etc.).</td>
+            <td class="px-4 py-2">Id, Name, Email, Profile, Role, IsActive</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Lead</td>
+            <td class="px-4 py-2">Potential customer (person/company) not yet qualified.</td>
+            <td class="px-4 py-2">Id, Company, Name, Email, Phone, LeadStatus, IsConverted, ConvertedAccountId, ConvertedContactId, ConvertedOpportunityId</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Account</td>
+            <td class="px-4 py-2">Business or organization you sell to.</td>
+            <td class="px-4 py-2">Id, Name, Industry, Type, Billing/Shipping Address, Website, OwnerId</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Contact</td>
+            <td class="px-4 py-2">Individual at an Account.</td>
+            <td class="px-4 py-2">Id, Name, Title, Email, Phone, AccountId, OwnerId</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Opportunity</td>
+            <td class="px-4 py-2">Potential sale/deal in progress.</td>
+            <td class="px-4 py-2">Id, Name, StageName, Amount, CloseDate, AccountId, OwnerId, IsClosed, IsWon</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Product2</td>
+            <td class="px-4 py-2">Product/service offered for sale.</td>
+            <td class="px-4 py-2">Id, Name, ProductCode, Description, IsActive</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Pricebook2</td>
+            <td class="px-4 py-2">List of products and their prices.</td>
+            <td class="px-4 py-2">Id, Name, IsActive, IsStandard</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">PricebookEntry</td>
+            <td class="px-4 py-2">Specific product-pricebook pairing and price.</td>
+            <td class="px-4 py-2">Id, Product2Id, Pricebook2Id, UnitPrice, IsActive</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">OpportunityLineItem</td>
+            <td class="px-4 py-2">Product added to an Opportunity (with quantity and price).</td>
+            <td class="px-4 py-2">Id, OpportunityId, Product2Id, PricebookEntryId, Quantity, SalesPrice, TotalPrice</td>
+          </tr>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Campaign</td>
+            <td class="px-4 py-2">Marketing initiative (email, event, etc.).</td>
+            <td class="px-4 py-2">Id, Name, Type, Status, StartDate, EndDate, NumberOfLeads, NumberOfOpportunities</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <td class="px-4 py-2 font-mono text-blue-900">Activity</td>
+            <td class="px-4 py-2">Task/Event related to records (calls, meetings, etc.).</td>
+            <td class="px-4 py-2">Id, Subject, ActivityDate/StartDateTime/EndDateTime, Status, WhoId, WhatId, OwnerId</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  
+    <!-- Relationships -->
+    <section id="relationships" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Relationships Explained</h2>
+      <dl class="mb-6">
+        <dt class="font-semibold text-blue-900">Lookup Relationship</dt>
+        <dd class="mb-2 ml-4 text-gray-700">One-to-many, loosely coupled. Child can exist without parent. Example: Contact to Account.</dd>
+        <dt class="font-semibold text-blue-900">Master-Detail Relationship</dt>
+        <dd class="mb-2 ml-4 text-gray-700">One-to-many, strongly coupled. Child (detail) cannot exist without parent (master). Roll-up summaries allowed. Example: OpportunityLineItem to Opportunity.</dd>
+        <dt class="font-semibold text-blue-900">Many-to-Many (Junction Object)</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Implemented with a junction object (e.g., CampaignMember links Campaign to Lead/Contact).</dd>
+        <dt class="font-semibold text-blue-900">Self & Hierarchical Relationships</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Object references itself (e.g., Parent Account), or special User management hierarchy.</dd>
+        <dt class="font-semibold text-blue-900">Special: Lead Conversion</dt>
+        <dd class="mb-2 ml-4 text-gray-700">Business process: Lead is converted into Account, Contact, and Opportunity.</dd>
+      </dl>
+    </section>
+  
+    <!-- Automation & Business Processes -->
+    <section id="automation" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Automation & Business Processes</h2>
+      <ul class="list-disc ml-6 mb-4 text-gray-700">
+        <li><b>Salesforce Flow:</b> Automates lead nurture, assignment, approvals, and notifications.</li>
+        <li><b>Einstein AI:</b> Predictive lead scoring, opportunity forecasting, recommendations.</li>
+        <li><b>Assignment Rules:</b> Automatically route leads to the right reps/queues.</li>
+        <li><b>Validation & Duplicate Rules:</b> Ensure data quality and block duplicates.</li>
+        <li><b>Roll-ups & Reporting:</b> Summarize child records, visualize KPIs on dashboards.</li>
+      </ul>
+    </section>
+  
+    <!-- Textual Diagram Section -->
+    <section id="diagram" class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Textual Class Diagram</h2>
+      <pre class="bg-gray-100 border border-gray-300 rounded-md p-4 overflow-x-auto text-gray-800 mb-2 text-sm font-mono">
+  User
+   └─ owns → Lead
+        └─ converts to → Account
+             ├─ has → Contact
+             │     └─ can be → Opportunity.PrimaryContact
+             └─ has → Opportunity
+                   └─ has → OpportunityLineItem
+                          ├─ refers → Product2
+                          └─ refers → PricebookEntry
+  Pricebook2
+   └─ has → PricebookEntry
+  Campaign
+   └─ influences → Lead/Opportunity/Contact
+  Activity
+   └─ related to → Lead, Account, Contact, Opportunity
+      </pre>
+    </section>
+  
+    <!-- Conclusion -->
+    <section id="conclusion" class="mb-4">
+      <h2 class="text-xl font-bold text-gray-900 mb-2">5. Conclusion</h2>
+      <p class="mb-2 text-gray-700">
+        This formal class diagram and overview summarize the architecture and automation that make Salesforce Sales Cloud a leading CRM platform. Understanding these objects and relationships is key to building scalable, maintainable, and effective sales solutions.
+      </p>
+      <p class="text-gray-700">
+        For implementation or consulting support, <a href="/contact/" class="text-blue-800 underline hover:text-blue-600">contact SFX Support</a>.
+      </p>
+    </section>
+  
+    </div>
+  </div>
+    </main>
+
+    <footer class="relative z-10 text-gray-300 py-0"
+    style="background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
+        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
+        #14121e;">
+    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
+        <!-- Brand -->
+        <div class="flex items-center gap-3 mb-5">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
+                <!-- If you want logo, keep img below; else remove -->
+                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
+            </span>
+            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mb-4">
+            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
+                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
+                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
+                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
+                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
+                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Contact/Email -->
+
+        <!-- Copyright -->
+        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 SFX Support. All rights reserved.
+        </div>
+    </div>
+</footer>
+    <script>
+    // --- Desktop Dropdown fix (for header.html) ---
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
+        const panel = dropdown.querySelector('.dropdown-panel');
+        if (!panel) return;
+        let hoverTimeout = null;
+        function openPanel() {
+            clearTimeout(hoverTimeout);
+            panel.classList.remove('hidden');
+        }
+        function closePanel() {
+            hoverTimeout = setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 120);
+        }
+        dropdown.addEventListener('mouseenter', openPanel);
+        dropdown.addEventListener('mouseleave', closePanel);
+        panel.addEventListener('mouseenter', openPanel);
+        panel.addEventListener('mouseleave', closePanel);
+    });
+
+    // --- Mobile Menu Overlay & Accordion Functionality ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu overlay toggle
+        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
+        const body = document.body;
+
+        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
+            function openMobileMenu() {
+                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
+                mobileMenuOverlay.classList.add('translate-x-0');
+                body.classList.add('overflow-hidden');
+            }
+            function closeMobileMenu() {
+                mobileMenuOverlay.classList.remove('translate-x-0');
+                mobileMenuOverlay.classList.add('translate-x-full');
+                mobileMenuOverlay.addEventListener('transitionend', function handler() {
+                    mobileMenuOverlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                    mobileMenuOverlay.removeEventListener('transitionend', handler);
+                }, { once: true });
+            }
+            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
+            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
+
+            // Close menu on main link click (not accordion)
+            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
+            mainMobileNavLinks.forEach(link => {
+                if (!link.dataset.target) {
+                    link.addEventListener('click', closeMobileMenu);
+                }
+            });
+        }
+
+        // Mobile accordion - multiple open at once
+        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const targetSubmenu = document.getElementById(targetId);
+                targetSubmenu.classList.toggle('hidden');
+                // Optionally toggle arrow
+                const arrowIcon = this.querySelector('.accordion-arrow');
+                if (arrowIcon) {
+                    arrowIcon.classList.toggle('rotate-180');
+                }
+                // Update aria-expanded
+                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        if (backToTopButton) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('hidden');
+                    setTimeout(() => {
+                        backToTopButton.classList.remove('opacity-0');
+                        backToTopButton.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0');
+                    setTimeout(() => {
+                        if (window.scrollY <= 300) {
+                            backToTopButton.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            });
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
+    </script>
+</body>
+</html>
