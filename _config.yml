@@ -26,7 +26,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 url: "https://sfxsupport.github.io"   # Do NOT include trailing slash
-baseurl: "/main"                      # This is your repo name
+baseurl: "/"                      # This is your repo name
 
 twitter_username: jekyllrb
 github_username:  jekyll
