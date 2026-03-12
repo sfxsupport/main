@@ -22,11 +22,8 @@ title: SFxSupport
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Your Salesforce support site
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-
-url: "https://sfxsupport.github.io"   # Do NOT include trailing slash
-baseurl: "/"                      # This is your repo name
+url: "https://sfxsupport.com"
+baseurl: ""
 
 twitter_username: jekyllrb
 github_username:  jekyll
