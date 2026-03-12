@@ -1,104 +1,400 @@
-<body class="bg-[#17181b]">
-    <header
-      class="fixed top-4 left-1/2 -translate-x-1/2 z-20 flex h-[60px] w-full max-w-5xl bg-[#17181b] rounded-md shadow-md
-             px-[3%] lg:px-4 items-center justify-between transition-colors duration-300"
-    >
-      <!-- Logo and Branding -->
-      <a class="flex gap-2 items-center" href="/">
-        <div class="h-[30px] max-w-[100px]">
-          <img
-            src="/assets/images/FinalLogo.png"
-            alt="logo"
-            class="object-contain h-full w-full"
-          />
-        </div>
-      </a>
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/">Home</a>
-        <!-- Learning Dropdown -->
-        <div class="relative flex flex-col items-center group" tabindex="0">
-          <div class="flex header-links gap-1 items-center cursor-pointer select-none">
-            <span><a href="/learning">Learning</a></span>
-            <i class="text-sm bi bi-chevron-down"></i>
+<style>
+  :root {
+    --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515;
+    --b:   rgba(255,255,255,.06);
+    --b2:  rgba(255,255,255,.035);
+    --b3:  rgba(255,255,255,.015);
+    --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
+    --sun: 255,160,60;
+  }
+
+  /* ── HEADER ── */
+  .sfx-header {
+    position: fixed;
+    top: 14px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    width: calc(100% - 2.5rem);
+    max-width: 1060px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    background: rgba(8,8,8,.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--b2);
+    border-radius: 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.04) inset,
+      0 8px 32px rgba(0,0,0,.5),
+      0 0 0 1px rgba(var(--sun),.03);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+
+  /* Logo */
+  .sfx-logo {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .sfx-logo img { height: 21px; object-fit: contain; }
+  .sfx-logo-text {
+    font-size: .9rem; font-weight: 600;
+    color: var(--t); letter-spacing: -.01em;
+  }
+  .sfx-logo-sep { color: var(--t3); font-weight: 300; }
+
+  /* Desktop nav */
+  .sfx-nav {
+    display: flex; align-items: center; gap: 1.75rem;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
+  .sfx-nav a, .sfx-dd-btn {
+    font-size: .83rem; font-weight: 400;
+    color: var(--t3); text-decoration: none;
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; padding: 0;
+    display: flex; align-items: center; gap: 3px;
+    transition: color .15s; white-space: nowrap;
+  }
+  .sfx-nav a:hover, .sfx-dd-btn:hover { color: var(--t); }
+
+  /* Dropdown */
+  .sfx-dd { position: relative; }
+  .sfx-dd-chevron {
+    font-size: .58rem; color: var(--t3);
+    transition: transform .2s, color .15s;
+  }
+  .sfx-dd:hover .sfx-dd-chevron,
+  .sfx-dd:focus-within .sfx-dd-chevron {
+    transform: rotate(180deg); color: var(--t2);
+  }
+  .sfx-dd-menu {
+    position: absolute;
+    top: calc(100% + 14px); left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    width: 500px;
+    background: var(--bg2);
+    border: 1px solid var(--b);
+    border-radius: 12px; padding: 1.5rem;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .18s, visibility .18s, transform .18s;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(var(--sun),.04);
+  }
+  .sfx-dd:hover .sfx-dd-menu,
+  .sfx-dd:focus-within .sfx-dd-menu,
+  .sfx-dd.sfx-touch-open .sfx-dd-menu {
+    opacity: 1; visibility: visible; pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+  }
+  .sfx-dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .sfx-dd-label {
+    font-size: .63rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(var(--sun),.45); margin-bottom: .7rem;
+  }
+  .sfx-dd-menu a {
+    display: block; padding: .28rem 0;
+    font-size: .8rem; color: var(--t2); text-decoration: none;
+    transition: color .12s, padding-left .12s;
+  }
+  .sfx-dd-menu a:hover { color: var(--t); padding-left: 3px; }
+
+  /* View All row */
+  .sfx-dd-viewall {
+    margin-top: 1rem;
+    padding-top: .9rem;
+    border-top: 1px solid var(--b2);
+  }
+  .sfx-dd-viewall a {
+    font-size: .8rem !important;
+    font-weight: 600 !important;
+    color: rgba(var(--sun),.75) !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    padding: 0 !important;
+  }
+  .sfx-dd-viewall a:hover {
+    color: rgba(var(--sun),1) !important;
+    padding-left: 3px !important;
+  }
+
+  /* Actions */
+  .sfx-actions { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+
+  @keyframes sfx-pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .sfx-live {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #4ade80;
+    animation: sfx-pulse 2.2s ease-in-out infinite;
+    flex-shrink: 0; display: inline-block;
+  }
+  .sfx-krrish-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: .38rem 1rem;
+    background: var(--t); color: #000;
+    font-size: .8rem; font-weight: 600;
+    border-radius: 7px; text-decoration: none;
+    transition: background .15s, transform .15s;
+    white-space: nowrap; font-family: inherit;
+  }
+  .sfx-krrish-link:hover { background: #e0e0e0; transform: translateY(-1px); }
+
+  .sfx-btn-contact {
+    display: flex; align-items: center; gap: 6px;
+    padding: .38rem 1rem;
+    background: transparent; color: var(--t2);
+    font-size: .8rem; font-weight: 400;
+    border-radius: 7px; text-decoration: none;
+    border: 1px solid var(--b); cursor: pointer; font-family: inherit;
+    transition: all .15s; white-space: nowrap;
+  }
+  .sfx-btn-contact:hover { color: var(--t); border-color: rgba(255,255,255,.12); }
+
+  .sfx-mob-toggle {
+    display: none;
+    background: none; border: none;
+    color: var(--t2); font-size: 1.3rem;
+    cursor: pointer; padding: 0; transition: color .15s;
+  }
+  .sfx-mob-toggle:hover { color: var(--t); }
+
+  /* ── MOBILE MENU ── */
+  #sfx-mob-menu {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    z-index: 199;
+    display: flex; flex-direction: column;
+    padding: 5rem 1.75rem 2rem;
+    transform: translateX(100%);
+    transition: transform .3s cubic-bezier(.16,1,.3,1);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    overflow-y: auto;
+  }
+  #sfx-mob-menu.open { transform: translateX(0); }
+
+  .sfx-mob-close {
+    position: absolute; top: 1.1rem; right: 1.5rem;
+    background: none; border: none;
+    color: var(--t3); font-size: 1.2rem;
+    cursor: pointer; transition: color .15s;
+  }
+  .sfx-mob-close:hover { color: var(--t); }
+
+  .sfx-mob-link {
+    display: block; padding: .875rem 0;
+    border-bottom: 1px solid var(--b3);
+    color: var(--t); font-size: .975rem; font-weight: 400;
+    text-decoration: none; transition: color .15s;
+  }
+  .sfx-mob-link:hover { color: rgba(var(--sun),1); }
+
+  .sfx-mob-dd-btn {
+    width: 100%; text-align: left;
+    padding: .875rem 0;
+    border-bottom: 1px solid var(--b3);
+    border-top: none; border-left: none; border-right: none;
+    background: none; color: var(--t);
+    font-size: .975rem; font-weight: 400;
+    font-family: inherit; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .sfx-mob-dd-btn i { font-size: .75rem; color: var(--t3); transition: transform .25s; }
+  .sfx-mob-dd-btn.open i { transform: rotate(180deg); }
+
+  .sfx-mob-sub {
+    display: none; padding: .75rem 0 .25rem 1rem;
+    border-bottom: 1px solid var(--b3);
+  }
+  .sfx-mob-sub.open { display: block; }
+  .sfx-mob-sub-label {
+    font-size: .62rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(var(--sun),.4);
+    margin-bottom: .5rem; margin-top: .25rem;
+  }
+  .sfx-mob-sub a {
+    display: block; padding: .3rem 0;
+    font-size: .82rem; color: var(--t2);
+    text-decoration: none; transition: color .12s;
+  }
+  .sfx-mob-sub a:hover { color: var(--t); }
+  .sfx-mob-sub-viewall {
+    margin-top: .75rem;
+    padding-top: .75rem;
+    border-top: 1px solid var(--b3);
+  }
+  .sfx-mob-sub-viewall a {
+    font-weight: 600 !important;
+    color: rgba(var(--sun),.75) !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+  }
+  .sfx-mob-sub-viewall a:hover { color: rgba(var(--sun),1) !important; }
+
+  .sfx-mob-cta {
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2rem; padding: .8rem;
+    background: var(--t); color: #000;
+    font-size: .9rem; font-weight: 600;
+    border-radius: 8px; text-decoration: none;
+    transition: background .15s;
+  }
+  .sfx-mob-cta:hover { background: #e0e0e0; }
+
+  @media (max-width: 768px) {
+    .sfx-nav, .sfx-krrish-link, .sfx-btn-contact { display: none !important; }
+    .sfx-mob-toggle { display: block !important; }
+    .sfx-header { top: 10px; width: calc(100% - 1.5rem); }
+  }
+</style>
+
+<!-- ══ HEADER ══ -->
+<header class="sfx-header">
+
+  <a href="/" class="sfx-logo">
+    <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;font-size:.9rem;letter-spacing:-.01em;">SFX</span><span class="sfx-logo-text" style="font-weight:400;">&nbsp;Support</span>
+  </a>
+
+  <nav class="sfx-nav">
+    <a href="/">Home</a>
+
+    <div class="sfx-dd" tabindex="0">
+      <button class="sfx-dd-btn">
+        Learning
+        <i class="bi bi-chevron-down sfx-dd-chevron"></i>
+      </button>
+      <div class="sfx-dd-menu">
+        <div class="sfx-dd-grid">
+          <div>
+            <div class="sfx-dd-label">Developer &amp; Admin</div>
+            <a href="/apex-triggers/">Apex Triggers Mastery</a>
+            <a href="/asynchronous-apex/">Asynchronous Apex</a>
+            <a href="/soql-sosl/">SOQL &amp; SOSL</a>
+            <a href="/governor-limits/">Governor Limits</a>
+            <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
           </div>
-          <nav
-            class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden
-                    bg-[#17181b] shadow-lg border border-gray-800 p-4 transition z-30"
-          >
-            <div class="grid grid-cols-2 gap-8 w-full">
-              <div>
-                <div class="text-lg text-indigo-400 font-semibold mb-3">Developer & Admin</div>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/apex-triggers/">Apex Triggers Mastery</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/governor-limits/">Governor Limits & Best Practices</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/flows-process-builder/">Flows & Process Builder (Declarative Automation)</a>
-              </div>
-              <div>
-                <div class="text-lg text-indigo-400 font-semibold mb-3">Advanced Topics</div>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/security-sharing/">Security & Sharing Model</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/deployment-cicd/">Deployment & CI/CD</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/integration-patterns/">Salesforce Integration Patterns</a>
-              </div>
-            </div>
-          </nav>
+          <div>
+            <div class="sfx-dd-label">Advanced Topics</div>
+            <a href="/lwc-essentials/">LWC Essentials</a>
+            <a href="/security-sharing/">Security &amp; Sharing</a>
+            <a href="/salesforce-packaging/">Managed Packages</a>
+            <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
+            <a href="/integration-patterns/">Integration Patterns</a>
+          </div>
         </div>
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/resources/">Resources</a>
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/about/">About Us</a>
-      </nav>
-      <!-- Actions: Contact, Hamburger -->
-      <div class="flex items-center gap-4">
-        <a
-          href="/contact/"
-          class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
-        >Contact Us</a>
-        <!-- Hamburger for mobile -->
-        <button
-          class="bi bi-list absolute right-3 top-3 z-50 text-3xl text-gray-200 lg:hidden"
-          onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"
-          aria-label="menu"
-          id="collapse-btn"
-        ></button>
-      </div>
-    </header>
-    <!-- Mobile Menu -->
-    <nav id="mobileMenu"
-      class="fixed inset-0 bg-[#17181b] z-40 flex flex-col px-8 py-12 gap-6 text-xl text-gray-100 hidden"
-      style="transition: all 0.3s;"
-    >
-      <button
-        class="bi bi-x-lg absolute top-6 right-8 text-3xl"
-        onclick="document.getElementById('mobileMenu').classList.add('hidden')"
-        aria-label="close"
-      ></button>
-      <a href="/" class="py-2 border-b border-gray-700">Home</a>
-      
-      <!-- Learning (expandable) -->
-      <div>
-        <button onclick="document.getElementById('mobileLearning').classList.toggle('hidden')" class="w-full text-left py-2 border-b border-gray-700 flex justify-between items-center">
-          Learning <i class="bi bi-chevron-down"></i>
-        </button>
-        <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
-          <span class="text-indigo-400 font-semibold text-base">Developer & Admin</span>
-          <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
-          <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
-          <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
-          <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
-          <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
-          <span class="mt-2 text-indigo-400 font-semibold text-base">Advanced Topics</span>
-          <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
-          <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
-          <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
-          <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
-          <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+        <div class="sfx-dd-viewall">
+          <a href="/learning/">
+            <i class="bi bi-grid-3x3-gap-fill" style="font-size:.72rem;"></i>
+            View All Learning Modules →
+          </a>
         </div>
       </div>
-      <a href="/resources/" class="py-2 border-b border-gray-700">Resources</a>
-      <a href="/about/" class="py-2 border-b border-gray-700">About Us</a>
-      <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
-    </nav>
-    <!-- Your page content goes here -->
-  </body>
+    </div>
+
+    <a href="/resources/">Resources</a>
+    <a href="/about/">About</a>
+  </nav>
+
+  <div class="sfx-actions">
+    <a href="/chatbot/" class="sfx-krrish-link">
+      <span class="sfx-live"></span>
+      Ask Krrish
+    </a>
+    <a href="/contact/" class="sfx-btn-contact">Contact Us</a>
+    <button class="sfx-mob-toggle" onclick="sfxToggleMob()" aria-label="Menu">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+
+</header>
+
+<!-- ══ MOBILE MENU ══ -->
+<div id="sfx-mob-menu">
+  <button class="sfx-mob-close" onclick="sfxToggleMob()">
+    <i class="bi bi-x"></i>
+  </button>
+
+  <a href="/" class="sfx-mob-link">Home</a>
+
+  <button class="sfx-mob-dd-btn" id="sfx-learn-btn" onclick="sfxToggleSub()">
+    Learning <i class="bi bi-chevron-down"></i>
+  </button>
+  <div class="sfx-mob-sub" id="sfx-learn-sub">
+    <div class="sfx-mob-sub-label">Developer &amp; Admin</div>
+    <a href="/apex-triggers/">Apex Triggers Mastery</a>
+    <a href="/asynchronous-apex/">Asynchronous Apex</a>
+    <a href="/soql-sosl/">SOQL &amp; SOSL</a>
+    <a href="/governor-limits/">Governor Limits</a>
+    <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
+    <div class="sfx-mob-sub-label" style="margin-top:.875rem;">Advanced Topics</div>
+    <a href="/lwc-essentials/">LWC Essentials</a>
+    <a href="/security-sharing/">Security &amp; Sharing</a>
+    <a href="/salesforce-packaging/">Managed Packages</a>
+    <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
+    <a href="/integration-patterns/">Integration Patterns</a>
+    <div class="sfx-mob-sub-viewall">
+      <a href="/learning/">
+        <i class="bi bi-grid-3x3-gap-fill" style="font-size:.72rem;"></i>
+        View All Modules →
+      </a>
+    </div>
+  </div>
+
+  <a href="/resources/" class="sfx-mob-link">Resources</a>
+  <a href="/about/"     class="sfx-mob-link">About</a>
+  <a href="/chatbot/"   class="sfx-mob-link" style="display:flex;align-items:center;gap:6px;">
+    <span class="sfx-live"></span> Ask Krrish
+  </a>
+
+  <a href="/contact/" class="sfx-mob-cta">Contact Us</a>
+</div>
+
+<script>
+  function sfxToggleMob() {
+    const m = document.getElementById('sfx-mob-menu');
+    const open = m.classList.toggle('open');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  function sfxToggleSub() {
+    document.getElementById('sfx-learn-btn').classList.toggle('open');
+    document.getElementById('sfx-learn-sub').classList.toggle('open');
+  }
+  document.querySelectorAll('#sfx-mob-menu a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('sfx-mob-menu').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── Active nav link highlight ──
+  (function() {
+    var path = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.sfx-nav > a').forEach(function(a) {
+      var href = (a.getAttribute('href') || '').replace(/\/$/, '') || '/';
+      if (path === href || (href !== '' && href !== '/' && path.startsWith(href))) {
+        a.style.color = 'rgba(255,160,60,.85)';
+      }
+    });
+  })();
+
+  // ── Touch-friendly dropdown ──
+  document.querySelectorAll('.sfx-dd').forEach(function(dd) {
+    dd.addEventListener('click', function(e) {
+      if (window.matchMedia('(hover: none)').matches) {
+        e.preventDefault();
+        var isOpen = dd.classList.contains('sfx-touch-open');
+        document.querySelectorAll('.sfx-dd').forEach(function(d) { d.classList.remove('sfx-touch-open'); });
+        if (!isOpen) dd.classList.add('sfx-touch-open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.sfx-dd')) {
+      document.querySelectorAll('.sfx-dd').forEach(function(d) { d.classList.remove('sfx-touch-open'); });
+    }
+  });
+</script>

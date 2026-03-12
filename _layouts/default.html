@@ -1,155 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page.title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title | default: "SFX Support — Salesforce Expertise, On Demand" }}</title>
+  <meta name="description" content="{{ page.description | default: 'Expert Salesforce guidance — AI-powered tools and certified architects for development, architecture, deployment, and more.' }}">
+  <link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
 
-    <!-- Preconnects for web font performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- GA -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BXZVYY2G7X');</script>
 
-    <!-- Font Awesome & Tailwind CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!--<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/src/output.css' | relative_url }}">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="/src/output.css" rel="stylesheet"> -->
-     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  gtag('config', 'G-BXZVYY2G7X');
-</script>
+  <!-- Site CSS + Syntax highlighting -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/prism.css' | relative_url }}">
 
-    <!-- Site & syntax highlighting CSS -->
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/prism.css' | relative_url }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  {% if page.extra_head %}{{ page.extra_head }}{% endif %}
 
+  <style>
+    :root {
+      --bg:#080808; --bg2:#0e0e0e; --bg3:#151515; --bg4:#1c1c1c;
+      --b:rgba(255,255,255,.06); --b2:rgba(255,255,255,.035); --b3:rgba(255,255,255,.015);
+      --t:#f0f0f0; --t2:#8a8a8a; --t3:#404040;
+      --sun:255,160,60;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+      background:var(--bg); color:var(--t);
+      -webkit-font-smoothing:antialiased;
+      font-weight:300; font-size:16px;
+      min-height:100vh; display:flex; flex-direction:column;
+      overflow-x:hidden;
+    }
 
+    /* Ambient glow */
+    body::before {
+      content:''; position:fixed; top:-200px; right:-200px;
+      width:600px; height:600px; border-radius:50%;
+      background:radial-gradient(circle,rgba(var(--sun),.045) 0%,rgba(var(--sun),.015) 45%,transparent 70%);
+      pointer-events:none; z-index:0; filter:blur(40px);
+    }
+    /* Grain */
+    body::after {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:9998; opacity:.018;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        #back-to-top {
-            transition: opacity 0.3s ease-in-out;
-        }
-    </style>
+    /* Star canvas */
+    #star-canvas {
+      position:fixed; inset:0; width:100%; height:100%;
+      pointer-events:none; z-index:0;
+    }
+
+    main { flex:1; width:100%; margin-top:80px; position:relative; z-index:1; }
+
+    /* Scrollbar */
+    * { scrollbar-width:thin; scrollbar-color:#1c1c1c transparent; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-thumb { background:#1c1c1c; border-radius:4px; }
+
+    /* Back to top */
+    #back-to-top {
+      position:fixed; bottom:1.5rem; left:1.5rem; z-index:50;
+      width:38px; height:38px; border-radius:9px;
+      background:var(--bg2); border:1px solid var(--b2);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--t3); font-size:.85rem; cursor:pointer;
+      text-decoration:none;
+      transition:opacity .3s, color .15s, border-color .15s;
+    }
+    #back-to-top:hover { color:var(--t); border-color:var(--b); }
+    #back-to-top.hidden { display:none; }
+    #back-to-top.opacity-0 { opacity:0; }
+    #back-to-top.opacity-100 { opacity:1; }
+
+    /* Reveal */
+    .reveal-up { opacity:0; transform:translateY(18px); transition:opacity .55s ease,transform .55s ease; }
+    .reveal-up.active { opacity:1; transform:translateY(0); }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
-    {% include header.html %}
+<body>
 
-    <main>
-        {{ content }}
-    </main>
+  <canvas id="star-canvas"></canvas>
 
-    {% include footer.html %}
-    <script>
-    // --- Desktop Dropdown fix (for header.html) ---
-    document.querySelectorAll('.desktop-dropdown').forEach(function(dropdown) {
-        const panel = dropdown.querySelector('.dropdown-panel');
-        if (!panel) return;
-        let hoverTimeout = null;
-        function openPanel() {
-            clearTimeout(hoverTimeout);
-            panel.classList.remove('hidden');
-        }
-        function closePanel() {
-            hoverTimeout = setTimeout(() => {
-                panel.classList.add('hidden');
-            }, 120);
-        }
-        dropdown.addEventListener('mouseenter', openPanel);
-        dropdown.addEventListener('mouseleave', closePanel);
-        panel.addEventListener('mouseenter', openPanel);
-        panel.addEventListener('mouseleave', closePanel);
+  {% include FinalHeader.html %}
+
+  <main>
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+  <!-- Back to top -->
+  <a href="#" id="back-to-top" class="hidden opacity-0" aria-label="Back to top">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <!-- Theme toggle -->
+  <!-- Star canvas -->
+  <script src="{{ '/assets/js/star-canvas.js' | relative_url }}"></script>
+
+  <!-- Page JS -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Desktop dropdown (header.html backward-compat) ──
+    document.querySelectorAll('.desktop-dropdown').forEach(function(dd) {
+      const panel = dd.querySelector('.dropdown-panel');
+      if (!panel) return;
+      let t = null;
+      dd.addEventListener('mouseenter', () => { clearTimeout(t); panel.classList.remove('hidden'); });
+      dd.addEventListener('mouseleave', () => { t = setTimeout(() => panel.classList.add('hidden'), 120); });
+      panel.addEventListener('mouseenter', () => clearTimeout(t));
+      panel.addEventListener('mouseleave', () => { t = setTimeout(() => panel.classList.add('hidden'), 120); });
     });
 
-    // --- Mobile Menu Overlay & Accordion Functionality ---
-    document.addEventListener('DOMContentLoaded', function() {
-        // Mobile menu overlay toggle
-        const mobileMenuToggleButton = document.getElementById('mobileMenuToggleButton');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-        const mobileMenuCloseButton = document.getElementById('mobileMenuCloseButton');
-        const body = document.body;
+    // ── Mobile menu (header.html backward-compat) ──
+    const mobToggle  = document.getElementById('mobileMenuToggleButton');
+    const mobOverlay = document.getElementById('mobileMenuOverlay');
+    const mobClose   = document.getElementById('mobileMenuCloseButton');
+    if (mobToggle && mobOverlay && mobClose) {
+      function openMob()  { mobOverlay.classList.remove('hidden','translate-x-full'); mobOverlay.classList.add('translate-x-0'); document.body.style.overflow='hidden'; }
+      function closeMob() {
+        mobOverlay.classList.remove('translate-x-0'); mobOverlay.classList.add('translate-x-full');
+        mobOverlay.addEventListener('transitionend', function h() {
+          mobOverlay.classList.add('hidden'); document.body.style.overflow='';
+          mobOverlay.removeEventListener('transitionend', h);
+        }, {once:true});
+      }
+      mobToggle.addEventListener('click', openMob);
+      mobClose.addEventListener('click', closeMob);
+      mobOverlay.querySelectorAll('nav > ul > li > a').forEach(a => { if (!a.dataset.target) a.addEventListener('click', closeMob); });
+    }
 
-        if (mobileMenuToggleButton && mobileMenuOverlay && mobileMenuCloseButton) {
-            function openMobileMenu() {
-                mobileMenuOverlay.classList.remove('hidden', 'translate-x-full');
-                mobileMenuOverlay.classList.add('translate-x-0');
-                body.classList.add('overflow-hidden');
-            }
-            function closeMobileMenu() {
-                mobileMenuOverlay.classList.remove('translate-x-0');
-                mobileMenuOverlay.classList.add('translate-x-full');
-                mobileMenuOverlay.addEventListener('transitionend', function handler() {
-                    mobileMenuOverlay.classList.add('hidden');
-                    body.classList.remove('overflow-hidden');
-                    mobileMenuOverlay.removeEventListener('transitionend', handler);
-                }, { once: true });
-            }
-            mobileMenuToggleButton.addEventListener('click', openMobileMenu);
-            mobileMenuCloseButton.addEventListener('click', closeMobileMenu);
-
-            // Close menu on main link click (not accordion)
-            const mainMobileNavLinks = mobileMenuOverlay.querySelectorAll('nav > ul > li > a');
-            mainMobileNavLinks.forEach(link => {
-                if (!link.dataset.target) {
-                    link.addEventListener('click', closeMobileMenu);
-                }
-            });
-        }
-
-        // Mobile accordion - multiple open at once
-        const accordionButtons = document.querySelectorAll('.mobile-accordion-item button[data-target]');
-        accordionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const targetId = this.dataset.target;
-                const targetSubmenu = document.getElementById(targetId);
-                targetSubmenu.classList.toggle('hidden');
-                // Optionally toggle arrow
-                const arrowIcon = this.querySelector('.accordion-arrow');
-                if (arrowIcon) {
-                    arrowIcon.classList.toggle('rotate-180');
-                }
-                // Update aria-expanded
-                this.setAttribute('aria-expanded', targetSubmenu.classList.contains('hidden') ? 'false' : 'true');
-            });
-        });
-
-        // Back to Top Button
-        const backToTopButton = document.getElementById('back-to-top');
-        if (backToTopButton) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopButton.classList.remove('hidden');
-                    setTimeout(() => {
-                        backToTopButton.classList.remove('opacity-0');
-                        backToTopButton.classList.add('opacity-100');
-                    }, 10);
-                } else {
-                    backToTopButton.classList.remove('opacity-100');
-                    backToTopButton.classList.add('opacity-0');
-                    setTimeout(() => {
-                        if (window.scrollY <= 300) {
-                            backToTopButton.classList.add('hidden');
-                        }
-                    }, 300);
-                }
-            });
-            backToTopButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
+    // ── Mobile accordion ──
+    document.querySelectorAll('.mobile-accordion-item button[data-target]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const sub = document.getElementById(this.dataset.target);
+        if (!sub) return;
+        sub.classList.toggle('hidden');
+        const arrow = this.querySelector('.accordion-arrow');
+        if (arrow) arrow.classList.toggle('rotate-180');
+        this.setAttribute('aria-expanded', !sub.classList.contains('hidden'));
+      });
     });
-    </script>
+
+    // ── Back to top ──
+    const btt = document.getElementById('back-to-top');
+    if (btt) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          btt.classList.remove('hidden'); setTimeout(() => { btt.classList.remove('opacity-0'); btt.classList.add('opacity-100'); }, 10);
+        } else {
+          btt.classList.remove('opacity-100'); btt.classList.add('opacity-0');
+          setTimeout(() => { if (window.scrollY <= 300) btt.classList.add('hidden'); }, 300);
+        }
+      });
+      btt.addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+    }
+
+    // ── Reveal-up observer ──
+    document.querySelectorAll('.reveal-up').forEach(el => {
+      new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('active'); }), {threshold:.08}).observe(el);
+    });
+
+    // ── Contact modal close ──
+    window.addEventListener('click', e => {
+      const m = document.getElementById('contactModal');
+      if (m && e.target === m) m.classList.remove('active');
+    });
+
+  });
+  </script>
+
+  <script src="{{ '/assets/js/prism.js' | relative_url }}"></script>
+  {% if page.extra_body %}{{ page.extra_body }}{% endif %}
+
 </body>
 </html>

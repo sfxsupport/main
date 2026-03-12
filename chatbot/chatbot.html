@@ -1,0 +1,218 @@
+---
+layout: chatbot
+title: Ask Krrish
+permalink: /chatbot/
+---
+
+<div id="chatbot-page">
+
+  <!-- ── Topbar ── -->
+  <div id="topbar">
+    <div class="tb-brand">
+      <div class="tb-av">K</div>
+      <span class="tb-name">Ask <span>Krrish</span></span>
+      <span class="live" style="margin-left:5px;"></span>
+    </div>
+
+    <div class="tb-right">
+      <div class="usage-pill">
+        <div class="usage-track"><div id="usage-bar"></div></div>
+        <span id="usage-text">0 / 15</span>
+      </div>
+      <button id="clear-chat-btn" class="tb-btn" title="New chat">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <a href="/" class="tb-btn" title="Back to SFX Support">
+        <i class="bi bi-house"></i>
+      </a>
+      <button id="logout-btn" class="tb-btn danger" title="Sign out">
+        <i class="bi bi-box-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Messages ── -->
+  <div id="chat-messages" class="scrollable">
+    <div class="msgs-wrap">
+
+      <!-- Welcome -->
+      <div id="welcome-state" class="welcome-in">
+        <div class="welcome-av">K</div>
+        <div>
+          <div class="welcome-title">
+            Ask <span class="grd orange-gradient">Krrish</span>
+          </div>
+          <div class="welcome-sub">Ask anything about Salesforce — development, architecture, flows, SOQL, deployments, and more.</div>
+        </div>
+        <div class="chips-grid">
+          <button class="suggestion-chip" data-prompt="What is Salesforce and what are its core features?">
+            <div class="chip-title">What is Salesforce?</div>
+            <div class="chip-sub">Overview &amp; core features</div>
+          </button>
+          <button class="suggestion-chip" data-prompt="How do I write a bulk-safe Apex trigger? Show me the handler pattern with best practices.">
+            <div class="chip-title">Apex trigger pattern</div>
+            <div class="chip-sub">Bulk-safe handler design</div>
+          </button>
+          <button class="suggestion-chip" data-prompt="How do I write optimized SOQL queries? Explain relationships, aggregate functions, and how to avoid governor limits.">
+            <div class="chip-title">SOQL optimization</div>
+            <div class="chip-sub">Queries &amp; governor limits</div>
+          </button>
+          <button class="suggestion-chip" data-prompt="When should I use Salesforce Flow vs Apex? Explain the decision criteria with real examples.">
+            <div class="chip-title">Flow vs Apex</div>
+            <div class="chip-sub">When to use each</div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Typing indicator ── -->
+  <div id="typing-indicator">
+    <div class="typing-inner">
+      <div class="bot-av-sm">K</div>
+      <div class="typing-bubble">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Limit banner ── -->
+  <div id="limit-banner">
+    <div class="limit-inner">
+      <i class="bi bi-exclamation-circle" style="flex-shrink:0;"></i>
+      <div>
+        <span>Daily limit reached — resets <span id="limit-reset-time" style="font-weight:500;"></span></span>
+        <div style="margin-top:.35rem;font-size:.75rem;color:#fca5a5;">
+          Limit resets daily — keeping this accessible for everyone.<br>
+          Urgent issue?
+          <a href="/contact/" style="color:#fca5a5;text-decoration:underline;text-underline-offset:2px;">Reach out directly</a>
+          and we'll help.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Rating widget ── -->
+  <div id="rating-widget">
+    <div class="rating-inner">
+      <div class="rating-header">
+        <div class="rating-title">How was your experience?</div>
+        <button id="rating-close-btn" class="rating-close" title="Close"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="stars-row">
+        <button class="star-btn" data-val="1"><i class="bi bi-star-fill"></i></button>
+        <button class="star-btn" data-val="2"><i class="bi bi-star-fill"></i></button>
+        <button class="star-btn" data-val="3"><i class="bi bi-star-fill"></i></button>
+        <button class="star-btn" data-val="4"><i class="bi bi-star-fill"></i></button>
+        <button class="star-btn" data-val="5"><i class="bi bi-star-fill"></i></button>
+      </div>
+      <textarea id="rating-experience" placeholder="Tell us more… (optional)" rows="2"></textarea>
+      <button id="rating-submit-btn">Submit Feedback</button>
+    </div>
+  </div>
+
+  <!-- ── Input ── -->
+  <div id="input-area">
+    <div class="input-shell">
+      <textarea
+        id="chat-input"
+        rows="1"
+        placeholder="Ask anything about Salesforce…"
+        autocomplete="off"
+      ></textarea>
+      <div class="input-bottom">
+        <span class="input-hint">↵ send &nbsp;·&nbsp; ⇧↵ new line</span>
+        <button id="chat-send-btn" disabled>
+          <i class="bi bi-arrow-up"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Chat Footer ── -->
+  <div id="chat-footer">
+    <div class="chat-footer-inner">
+      <div class="footer-rate-wrap">
+        <span class="footer-label">Rate Krrish</span>
+        <div class="footer-stars-row">
+          <button class="fstar" data-val="1" onclick="sfxOpenRating(1)" title="1 star"><i class="bi bi-star-fill"></i></button>
+          <button class="fstar" data-val="2" onclick="sfxOpenRating(2)" title="2 stars"><i class="bi bi-star-fill"></i></button>
+          <button class="fstar" data-val="3" onclick="sfxOpenRating(3)" title="3 stars"><i class="bi bi-star-fill"></i></button>
+          <button class="fstar" data-val="4" onclick="sfxOpenRating(4)" title="4 stars"><i class="bi bi-star-fill"></i></button>
+          <button class="fstar" data-val="5" onclick="sfxOpenRating(5)" title="5 stars"><i class="bi bi-star-fill"></i></button>
+        </div>
+      </div>
+      <span class="footer-sep">·</span>
+      <a href="/contact/" class="footer-contact-link"><i class="bi bi-envelope"></i> Contact Us</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Logout modal ── -->
+<div id="logout-modal">
+  <div class="clear-modal-card">
+    <div class="clear-modal-icon"><i class="bi bi-box-arrow-right"></i></div>
+    <div class="clear-modal-title">Sign out?</div>
+    <div class="clear-modal-sub">You'll need to sign in again to use Ask Krrish.</div>
+    <div class="clear-modal-actions">
+      <button id="logout-cancel-btn">Stay</button>
+      <button id="logout-confirm-btn" style="background:rgba(239,68,68,.15);color:#f87171;box-shadow:none;">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Clear-chat modal ── -->
+<div id="clear-modal">
+  <div class="clear-modal-card">
+    <div class="clear-modal-icon"><i class="bi bi-chat-left-dots"></i></div>
+    <div class="clear-modal-title">Start a new conversation?</div>
+    <div class="clear-modal-sub">Your current chat history will be permanently cleared.</div>
+    <div class="clear-modal-actions">
+      <button id="clear-cancel-btn">Keep chat</button>
+      <button id="clear-confirm-btn"><i class="bi bi-trash3"></i> Clear &amp; start fresh</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div id="toast"><i class="bi bi-check2-circle"></i><span class="toast-msg"></span></div>
+
+<script type="module">
+  import { logoutUser, requireAuth } from "/assets/js/firebaseAuth.js";
+  import { initChat }               from "/assets/js/chatbot.js";
+
+  // Suggestion chips
+  document.querySelectorAll(".suggestion-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const inp = document.getElementById("chat-input");
+      if (inp && !inp.disabled) {
+        inp.value = chip.dataset.prompt;
+        inp.dispatchEvent(new Event("input"));
+        inp.focus();
+      }
+    });
+  });
+
+  // Enable send btn only when text present
+  const inp = document.getElementById("chat-input");
+  const btn = document.getElementById("chat-send-btn");
+  inp.addEventListener("input", () => {
+    btn.disabled = inp.value.trim().length === 0;
+  });
+
+  const page = document.getElementById("chatbot-page");
+
+  requireAuth(async (user) => {
+    page.classList.add("ready");
+    await initChat(user);
+    const logoutModal = document.getElementById("logout-modal");
+    document.getElementById("logout-btn").addEventListener("click", () => logoutModal.classList.add("show"));
+    document.getElementById("logout-cancel-btn").addEventListener("click", () => logoutModal.classList.remove("show"));
+    document.getElementById("logout-confirm-btn").addEventListener("click", () => logoutUser());
+    logoutModal.addEventListener("click", e => { if (e.target === logoutModal) logoutModal.classList.remove("show"); });
+  });
+</script>

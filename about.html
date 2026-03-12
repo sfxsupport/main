@@ -1,118 +1,402 @@
 ---
 layout: HomePageFinalTest
-title: Your Salesforce Lifeline Homepage
+title: About SFX Support
 permalink: /about/
 ---
 
-<div class="min-h-screen text-gray-100 relative z-10">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · SFX Support</title>
+  <meta name="description" content="Learn about SFX Support — a non-commercial initiative run by certified Salesforce architects and developers dedicated to helping the community.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515; --bg4: #1c1c1c;
+      --b:   rgba(255,255,255,.06); --b2: rgba(255,255,255,.035); --b3: rgba(255,255,255,.015);
+      --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
+      --sun: 255,160,60;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg); color: var(--t);
+      -webkit-font-smoothing: antialiased;
+      font-weight: 300; font-size: 16px;
+      overflow-x: hidden;
+    }
 
-  <!-- Hero/Intro Section -->
-  <section class="relative py-24 px-4 text-center overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-indigo-800/80 via-purple-900/70 to-pink-700/80 pointer-events-none"></div>
-    <div class="relative z-10 max-w-3xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-indigo-300 via-pink-200 to-yellow-200 text-transparent bg-clip-text">Meet SFX Support</h1>
-      <p class="text-xl md:text-2xl text-gray-200 mb-6 font-medium">
-        A non-commercial initiative to help Salesforce professionals, teams, and orgs in need—especially when it matters most.
+    /* ── STAR CANVAS ── */
+    #star-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── AMBIENT GLOW ── */
+    .amb-tr {
+      position: fixed; top: -180px; right: -180px;
+      width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; filter: blur(40px);
+    }
+    .amb-bl {
+      position: fixed; bottom: -200px; left: -150px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; filter: blur(50px);
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
+    section { padding: 7rem 0; position: relative; z-index: 1; }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-size: .65rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .13em;
+      color: var(--t3); margin-bottom: .875rem;
+      display: block;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 300; line-height: 1.08;
+      letter-spacing: -.03em; color: var(--t);
+      margin-bottom: 1.5rem;
+    }
+    h1 strong { font-weight: 600; }
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300; line-height: 1.14;
+      letter-spacing: -.025em; color: var(--t);
+      margin-bottom: .875rem;
+    }
+    h2 strong { font-weight: 600; }
+    .sub {
+      font-size: 1rem; font-weight: 300; line-height: 1.82;
+      color: var(--t2); max-width: 560px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding-top: 80px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .67rem; color: var(--t3);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .live { width:5px; height:5px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; display:inline-block; }
+
+    .hero-btns { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 2.5rem; }
+    .btn-w {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: .65rem 1.4rem;
+      background: var(--t); color: #000;
+      font-size: .85rem; font-weight: 600;
+      border-radius: 7px; text-decoration: none;
+      transition: background .15s, transform .15s;
+    }
+    .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); }
+    .btn-o {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: .65rem 1.4rem;
+      background: transparent; color: var(--t2);
+      font-size: .85rem; font-weight: 400;
+      border-radius: 7px; text-decoration: none;
+      border: 1px solid var(--b); transition: all .15s;
+    }
+    .btn-o:hover { color: var(--t); border-color: rgba(255,255,255,.12); }
+
+    /* ── GRID BOX ── */
+    .gbox {
+      background: var(--b3); border: 1px solid var(--b3);
+      border-radius: 14px; overflow: hidden; display: grid; gap: 1px;
+    }
+    .gc {
+      background: var(--bg); padding: 2.25rem;
+      transition: background .15s; position: relative; overflow: hidden;
+    }
+    .gc:hover { background: var(--bg2); }
+    .gc-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; margin-bottom: 1.1rem;
+      background: var(--bg3); color: var(--t3); border: 1px solid var(--b3);
+      transition: all .2s;
+    }
+    .gc:hover .gc-icon {
+      background: rgba(var(--sun),.07);
+      border-color: rgba(var(--sun),.15);
+      color: rgba(var(--sun),.7);
+    }
+    /* per-card glow on hover */
+    .gc::after {
+      content: '';
+      position: absolute; top: -60px; left: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
+      filter: blur(16px); pointer-events: none;
+      opacity: 0; transition: opacity .35s;
+    }
+    .gc:hover::after { opacity: 1; }
+    .gc h3 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .45rem; }
+    .gc p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 19px; top: 8px; bottom: 8px; width: 1px;
+      background: linear-gradient(to bottom, rgba(var(--sun),.25), rgba(var(--sun),.05));
+    }
+    .tl-item {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 2rem 0; border-bottom: 1px solid var(--b3);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-num {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 600; color: rgba(var(--sun),.9);
+      background: rgba(var(--sun),.06);
+      border: 1px solid rgba(var(--sun),.15);
+      position: relative; z-index: 1;
+    }
+    .tl-content h4 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .4rem; }
+    .tl-content p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
+
+    /* ── BLOCKQUOTE ── */
+    blockquote {
+      border-left: 2px solid rgba(var(--sun),.3);
+      padding: 1.25rem 1.5rem;
+      background: var(--bg2); border-radius: 0 10px 10px 0;
+      margin: 2rem 0;
+    }
+    blockquote p {
+      font-size: 1rem; line-height: 1.8; color: var(--t2); font-weight: 300;
+      font-style: italic;
+    }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
+
+    /* ── CTA CARD ── */
+    .cta-card {
+      background: var(--bg2); border: 1px solid var(--b);
+      border-radius: 16px; padding: 4rem 3.5rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
+      pointer-events: none; filter: blur(30px);
+    }
+    .cta-card h2 { margin-bottom: .875rem; }
+    .cta-card p  { font-size: .975rem; color: var(--t2); max-width: 480px; margin: 0 auto 2rem; line-height: 1.8; }
+
+    /* ── REVEAL ── */
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .52s ease, transform .52s ease; }
+    .r.v { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .07s; } .d2 { transition-delay: .14s; } .d3 { transition-delay: .21s; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 700px) {
+      /* Section spacing */
+      section { padding: 3.5rem 0; }
+      #hero { min-height: auto; padding-top: 6rem; padding-bottom: 3rem; }
+
+      /* Wrap */
+      .wrap { padding: 0 1.1rem; }
+
+      /* Typography */
+      h1 { font-size: clamp(2rem, 8vw, 2.6rem); margin-bottom: 1rem; }
+      h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .sub { font-size: .93rem; }
+
+      /* Hero */
+      .hero-btns { flex-direction: column; gap: .6rem; }
+      .btn-w, .btn-o { justify-content: center; text-align: center; }
+
+      /* Mission — single column */
+      .mission-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+
+      /* Timeline */
+      .tl-item { gap: 1rem; padding: 1.25rem 0; }
+      .tl-num { width: 32px; height: 32px; font-size: .75rem; flex-shrink: 0; }
+      .timeline::before { left: 15px; }
+
+      /* Blockquote */
+      blockquote { padding: 1rem 1.1rem; margin: 1.25rem 0; }
+
+      /* CTA card */
+      .cta-card { padding: 2rem 1.25rem; }
+      .cta-card p { font-size: .875rem; }
+
+      /* Grid cards */
+      .gc { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Star canvas -->
+<canvas id="star-canvas"></canvas>
+
+<!-- Ambient glows -->
+<div class="amb-tr"></div>
+<div class="amb-bl"></div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow r"><span class="live"></span>&nbsp;About SFX Support</div>
+    <h1 class="r d1">
+      A helping hand<br>
+      for <strong>Salesforce.</strong>
+    </h1>
+    <p class="sub r d2">
+      A non-commercial initiative to support Salesforce professionals, teams, and orgs — especially when it matters most. No commercial agenda. Entirely community-driven.
+    </p>
+    <div class="hero-btns r d3">
+      <a href="/contact/" class="btn-w">Request Help &rarr;</a>
+      <a href="/chatbot/" class="btn-o"><span class="live"></span>&nbsp;Ask Krrish AI</a>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ MISSION ═══ -->
+<section>
+  <div class="wrap">
+    <div class="mission-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
+      <div>
+        <span class="label r">Our Mission</span>
+        <h2 class="r d1">Here when it<br><strong>matters most.</strong></h2>
+        <p class="sub r d2" style="margin-bottom:1.75rem;">
+          Whether you're a solo developer debugging at midnight, an admin under pressure before go-live, or a team stuck on a complex integration — SFX is here to support, mentor, and unblock you.
+        </p>
+        <blockquote class="r d3">
+          <p>"We don't just solve problems. We help you breathe easier and move forward with confidence."</p>
+        </blockquote>
+      </div>
+      <div>
+        <div class="gbox r d2" style="grid-template-columns:1fr;">
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-compass"></i></div>
+            <h3>Non-Commercial</h3>
+            <p>SFX is not a business, consultancy, or agency. No hidden agenda — just genuine help when you need it.</p>
+          </div>
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-life-preserver"></i></div>
+            <h3>Emergency-First</h3>
+            <p>When you're stuck, stressed, or nearing go-live — SFX is designed to jump in quickly and get you moving again.</p>
+          </div>
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-people"></i></div>
+            <h3>Built on Trust</h3>
+            <p>We're not here to sell. You choose how to engage, how much to share, and if you ever want to give back.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section>
+  <div class="wrap">
+    <div style="max-width:480px;margin-bottom:3.5rem;">
+      <span class="label r">Process</span>
+      <h2 class="r d1">How SFX<br><strong>works.</strong></h2>
+      <p class="sub r d2">Three simple steps from problem to solution.</p>
+    </div>
+
+    <div class="timeline r d2" style="max-width:640px;">
+      <div class="tl-item">
+        <div class="tl-num">01</div>
+        <div class="tl-content">
+          <h4>Submit Your Request</h4>
+          <p>Use our contact form to describe what you're facing. Include screenshots, error messages, context — anything helps. Takes under 2 minutes.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">02</div>
+        <div class="tl-content">
+          <h4>We Review &amp; Respond</h4>
+          <p>If we can help, you'll hear from us quickly. If not, we'll point you in the right direction — no request goes ignored.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">03</div>
+        <div class="tl-content">
+          <h4>We Engage Directly</h4>
+          <p>Architecture reviews, debugging, flow validation, or strategic brainstorming — we work alongside you until the problem is resolved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ ETHOS ═══ -->
+<section>
+  <div class="wrap">
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+      <span class="label r" style="display:block;text-align:center;">Our Ethos</span>
+      <h2 class="r d1" style="text-align:center;">A quiet<br><strong>movement.</strong></h2>
+      <p class="sub r d2" style="margin:0 auto 1.75rem;text-align:center;">
+        SFX Support is a collective effort. Some contributors prefer to remain unnamed — what matters is the impact.
       </p>
-      <div class="flex flex-wrap justify-center gap-4 mt-8">
-        <a href="/contact/" class="inline-block bg-gradient-to-r from-indigo-600 to-pink-500 px-8 py-3 rounded-full font-bold shadow-lg hover:from-pink-500 hover:to-indigo-600 transition text-white text-lg button-shine">Request Help</a>
+      <blockquote class="r d3" style="text-align:left;">
+        <p>No logos. No upsells. Just help. And if this support makes a difference in your journey — we hope you'll pay it forward.</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ CTA ═══ -->
+<section style="padding-bottom:8rem;">
+  <div class="wrap">
+    <div class="cta-card r">
+      <span class="label" style="display:block;text-align:center;margin-bottom:1.25rem;">Get Involved</span>
+      <h2 style="text-align:center;">Support the<br><strong>mission.</strong></h2>
+      <p>Want to contribute, collaborate, or spread the word? Let's build a world where quality Salesforce help is never out of reach.</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/contact/" class="btn-w">Join the Effort &rarr;</a>
+        <a href="/" class="btn-o">Back to Home</a>
       </div>
     </div>
-    <svg class="absolute bottom-0 left-0 w-full h-32 opacity-40" viewBox="0 0 1440 320"><path fill="#232238" fill-opacity="1" d="M0,160L80,181.3C160,203,320,245,480,229.3C640,213,800,139,960,122.7C1120,107,1280,149,1360,170.7L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>
-  </section>
+  </div>
+</section>
 
-  <!-- SFX Mission & Vision -->
-  <section class="max-w-4xl mx-auto py-16 px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-indigo-200">Our Mission</h2>
-    <p class="text-lg md:text-xl text-gray-300 mb-8">
-      <span class="text-pink-300 font-semibold">To offer critical Salesforce support when it’s needed most—at no cost.</span><br>
-      Whether you're a solo developer, an admin under pressure, or a team stuck during a go-live, SFX is here to support, mentor, and unblock you.
-    </p>
-    <blockquote class="italic text-indigo-300 border-l-4 border-pink-400 pl-4 mb-6 text-lg">
-      “We don’t just solve problems. We help you breathe easier and move forward with confidence.”
-    </blockquote>
-  </section>
+<!-- ═══ STAR CANVAS ═══ -->
+<script src="/assets/js/star-canvas.js"></script>
+<script>
+  const obs = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });
+  }, { threshold: .07 });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
 
-  <!-- What Makes Us Different Section -->
-  <section class="py-12 px-4 max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold mb-8 text-center text-pink-300">What Makes Us Different?</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-[#232238]/90 rounded-2xl border border-indigo-700 p-7 flex flex-col items-center shadow-lg card-glow hover:scale-105 transition">
-        <div class="text-4xl mb-3 bg-gradient-to-br from-indigo-400 to-pink-400 bg-clip-text text-transparent">🧭</div>
-        <h3 class="font-semibold text-lg mb-2 text-indigo-200">Non-Commercial</h3>
-        <p class="text-gray-300 text-center text-base">SFX is not a business, consultancy, or agency. No hidden agenda—just help when you need it.</p>
-      </div>
-      <div class="bg-[#232238]/90 rounded-2xl border border-pink-700 p-7 flex flex-col items-center shadow-lg card-glow hover:scale-105 transition">
-        <div class="text-4xl mb-3 bg-gradient-to-br from-pink-400 to-indigo-400 bg-clip-text text-transparent">🛟</div>
-        <h3 class="font-semibold text-lg mb-2 text-pink-200">Emergency-First</h3>
-        <p class="text-gray-300 text-center text-base">When you're stuck, stressed, or near go-live—SFX is designed to jump in quickly and support you.</p>
-      </div>
-      <div class="bg-[#232238]/90 rounded-2xl border border-yellow-400 p-7 flex flex-col items-center shadow-lg card-glow hover:scale-105 transition">
-        <div class="text-4xl mb-3 bg-gradient-to-br from-yellow-300 to-pink-400 bg-clip-text text-transparent">🤝</div>
-        <h3 class="font-semibold text-lg mb-2 text-yellow-200">Built on Trust</h3>
-        <p class="text-gray-300 text-center text-base">We’re not here to sell. We’re here to serve. You choose how to engage, how much to share, and if you ever want to give back.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Timeline -->
-  <section class="py-16 px-4 max-w-5xl mx-auto">
-    <h2 class="text-2xl font-bold mb-8 text-center text-indigo-200">How SFX Works</h2>
-    <div class="relative">
-      <div class="border-l-2 border-indigo-700 absolute h-full left-6 top-0"></div>
-      <div class="space-y-12">
-        <div class="flex items-start relative">
-          <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mr-6">1</div>
-          <div>
-            <h4 class="text-xl font-semibold text-indigo-200 mb-1">Submit Your Request</h4>
-            <p class="text-gray-300">Use our form to tell us what you’re facing. Include screenshots, errors, context—anything you can.</p>
-          </div>
-        </div>
-        <div class="flex items-start relative">
-          <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-yellow-400 text-white rounded-full flex items-center justify-center text-2xl font-bold mr-6">2</div>
-          <div>
-            <h4 class="text-xl font-semibold text-pink-200 mb-1">We Review & Respond</h4>
-            <p class="text-gray-300">If we can help, you’ll hear from us quickly. If not, we’ll try to point you in the right direction.</p>
-          </div>
-        </div>
-        <div class="flex items-start relative">
-          <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-indigo-400 text-white rounded-full flex items-center justify-center text-2xl font-bold mr-6">3</div>
-          <div>
-            <h4 class="text-xl font-semibold text-yellow-200 mb-1">We Jump In</h4>
-            <p class="text-gray-300">Whether it's reviewing architecture, debugging, validating flow logic, or just brainstorming—we’re here to support.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-12">
-      <a href="/contact/" class="inline-block bg-gradient-to-r from-pink-600 to-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:from-indigo-600 hover:to-pink-600 transition button-shine">Request Help</a>
-    </div>
-  </section>
-
-  <!-- Team / Ethos -->
-  <section class="py-12 px-4 max-w-2xl mx-auto text-center reveal-up">
-    <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-400 via-pink-400 to-yellow-300 text-transparent bg-clip-text">
-      A Quiet Movement
-    </h2>
-    <div class="bg-[#232238]/80 border border-indigo-700 rounded-2xl p-8 shadow-xl mb-6 card-glow">
-      <p class="text-gray-200 mb-2">
-        SFX Support is a collective effort. <br>Some contributors prefer to remain unnamed—what matters is the impact.
-        <br>
-        <span class="italic text-pink-300">No logos. No upsells. Just help.</span>
-      </p>
-    </div>
-    <p class="text-gray-400">
-      And if this support makes a difference in your journey—we hope you'll pay it forward.
-    </p>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-16 px-4 text-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 mt-10 rounded-2xl max-w-5xl mx-auto shadow-lg border border-pink-700 mb-16">
-    <h2 class="text-2xl font-bold mb-4 text-pink-200">Support the Mission</h2>
-    <p class="text-lg text-gray-200 max-w-2xl mx-auto mb-6">
-      Want to contribute, collaborate, or spread the word? Let’s build a world where <span class="text-green-400 font-semibold">quality Salesforce help is never out of reach</span>.
-    </p>
-    <a href="/contact/" class="inline-block bg-gradient-to-r from-pink-600 to-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:from-indigo-600 hover:to-pink-600 transition button-shine">Join the Effort</a>
-  </section>
-
-</div>
+</body>
+</html>

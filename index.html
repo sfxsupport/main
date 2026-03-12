@@ -1,723 +1,1048 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Salesforce Lifeline Homepage</title>
-    <meta name="description" content="Get free, expert Salesforce help from certified architects and developers for critical challenges, go-lives, and architectural reviews.">
-    <link rel="icon" href="https://placehold.co/32x32/6366f1/ffffff?text=SFX" type="image/x-icon">
-    <link href="./src/output.css" rel="stylesheet">
-    <link href="/src/output.css" rel="stylesheet">
- <!-- Google tag (gtag.js) -->
- <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
- <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
- 
-   gtag('config', 'G-BXZVYY2G7X');
- </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFX Support — Salesforce Expertise, On Demand</title>
+<meta name="description" content="Expert Salesforce help — AI-powered tools and certified architects for development, architecture, deployment, and more.">
+<link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BXZVYY2G7X');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --bg:#080808; --bg2:#0e0e0e; --bg3:#151515; --bg4:#1c1c1c;
+  --b: rgba(255,255,255,.06); --b2:rgba(255,255,255,.035); --b3:rgba(255,255,255,.015);
+  --t: #f0f0f0; --t2:#8a8a8a; --t3:#404040;
+  --sun:255,160,60;           /* RGB only — used in rgba() */
+}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            background-color: #0f0d1a;
-            color: #e2e8f0;
-            background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
-                        #0f0d1a;
-            background-size: 200% 200%;
-            animation: background-pan 30s infinite alternate ease-in-out;
-        }
-        @keyframes background-pan {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
-        }
-        .card-glow:hover {
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.7), 0 0 30px rgba(139, 92, 246, 0.5);
-            transform: translateY(-5px) scale(1.02);
-        }
-        @keyframes shine {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        .button-shine {
-            background-image: linear-gradient(
-                to right,
-                var(--tw-gradient-from) 0%,
-                var(--tw-gradient-to) 50%,
-                var(--tw-gradient-from) 100%
-            );
-            background-size: 200% auto;
-            transition: background-position 0.4s ease-out;
-        }
-        .button-shine:hover {
-            background-position: -20% 0;
-            animation: shine 1.5s infinite linear;
-        }
-        #contactModal { display: none; }
-        #contactModal.active { display: flex; animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .faq-accordion i { transition: transform 0.3s ease-in-out; }
-        .faq-accordion.active i { transform: rotate(45deg);}
-        .faq .content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding-top: 0; padding-bottom: 0; }
-        .faq .content.active { max-height: 200px; padding-top: 1rem; padding-bottom: 1rem; }
-        #globalCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.5; }
-        .reveal-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-        .reveal-up.active { opacity: 1; transform: translateY(0); }
-    </style>
-    
+/* ─── RESET ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);color:var(--t);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  font-weight:300;
+  font-size:16px;
+}
+
+/* ─── GRAIN TEXTURE ─── */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+  opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── AMBIENT GLOW — soft orange warmth across page ─── */
+
+/* Top-right ambient */
+body::before{
+  content:'';
+  position:fixed;
+  top:-200px; right:-200px;
+  width:700px; height:700px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(var(--sun),.045) 0%,
+    rgba(var(--sun),.018) 40%,
+    transparent 70%);
+  pointer-events:none;
+  z-index:0;
+  filter:blur(40px);
+}
+
+/* Bottom-left faint warmth */
+body::after{
+  content:'';
+  position:fixed;
+  bottom:-300px; left:-200px;
+  width:600px; height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(var(--sun),.025) 0%,
+    transparent 65%);
+  pointer-events:none;
+  z-index:0;
+  filter:blur(60px);
+}
+
+/* ─── LAYOUT ─── */
+.wrap{max-width:1060px;margin:0 auto;padding:0 1.75rem;position:relative;z-index:1;}
+section{padding:7rem 0;position:relative;z-index:1;}
+hr.dv{border:none;border-top:1px solid var(--b3);position:relative;z-index:1;}
+
+/* ─── TYPOGRAPHY ─── */
+.label{
+  font-size:.65rem;font-weight:500;text-transform:uppercase;
+  letter-spacing:.13em;color:var(--t3);margin-bottom:.875rem;
+}
+h2{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:300;line-height:1.12;color:var(--t);
+  letter-spacing:-.025em;margin-bottom:.875rem;
+}
+h2 strong{font-weight:600;}
+.it{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:1.1em;letter-spacing:.01em;
+  color:rgba(var(--sun),.65);
+}
+.desc{font-size:.975rem;font-weight:300;line-height:1.85;color:var(--t2);max-width:460px;}
+
+/* ─── BUTTONS ─── */
+.btn-w{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:.62rem 1.35rem;
+  background:var(--t);color:#000;
+  font-size:.82rem;font-weight:600;
+  border-radius:6px;text-decoration:none;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:background .15s,transform .15s;
+}
+.btn-w:hover{background:#e2e2e2;transform:translateY(-1px);}
+.btn-o{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:.62rem 1.35rem;
+  background:transparent;color:var(--t2);
+  font-size:.82rem;font-weight:400;
+  border-radius:6px;text-decoration:none;
+  border:1px solid var(--b);
+  transition:all .15s;font-family:inherit;
+}
+.btn-o:hover{color:var(--t);border-color:rgba(255,255,255,.14);}
+
+/* ─── HEADER ─── */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:58px;
+  display:flex;align-items:center;
+  background:rgba(8,8,8,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--b3);
+}
+.hdr{max-width:1060px;margin:0 auto;padding:0 1.75rem;width:100%;
+  display:flex;align-items:center;justify-content:space-between;}
+.logo{
+  font-weight:600;font-size:.9rem;color:var(--t);
+  text-decoration:none;display:flex;align-items:center;gap:8px;letter-spacing:-.01em;
+}
+.logo img{height:19px;}
+.logo-div{color:var(--t3);font-weight:300;margin:0 1px;}
+nav.dnav{display:flex;align-items:center;gap:1.75rem;}
+nav.dnav a{color:var(--t3);font-size:.82rem;text-decoration:none;transition:color .15s;}
+nav.dnav a:hover{color:var(--t);}
+/* dropdown */
+.dd{position:relative;}
+.ddb{color:var(--t3);font-size:.82rem;font-weight:400;background:none;border:none;
+  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px;
+  transition:color .15s;padding:0;}
+.ddb:hover{color:var(--t);}
+.ddp{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);
+  width:490px;background:var(--bg2);border:1px solid var(--b);border-radius:10px;
+  padding:1.4rem;opacity:0;visibility:hidden;transition:opacity .15s,visibility .15s;pointer-events:none;}
+.dd:hover .ddp,.dd:focus-within .ddp{opacity:1;visibility:visible;pointer-events:all;}
+.ddg{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;}
+.ddt{font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(var(--sun),.38);margin-bottom:.65rem;}
+.ddp a{display:block;padding:.26rem 0;color:var(--t2);font-size:.78rem;text-decoration:none;transition:color .15s;}
+.ddp a:hover{color:var(--t);}
+.ha{display:flex;align-items:center;gap:.6rem;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.live{width:5px;height:5px;border-radius:50%;background:#4ade80;
+  animation:pulse 2.2s ease-in-out infinite;display:inline-block;flex-shrink:0;}
+.hbg{display:none;background:none;border:none;color:var(--t2);font-size:1.2rem;cursor:pointer;}
+
+/* mobile menu */
+#mob{position:fixed;inset:0;background:var(--bg);z-index:99;padding:5rem 2rem 2rem;
+  display:flex;flex-direction:column;transform:translateX(100%);
+  transition:transform .28s cubic-bezier(.16,1,.3,1);}
+#mob.open{transform:translateX(0);}
+#mob a,#mob .ml{display:block;padding:.8rem 0;border-bottom:1px solid var(--b3);
+  color:var(--t);font-size:.95rem;text-decoration:none;background:none;
+  border-top:none;border-left:none;border-right:none;
+  text-align:left;font-family:inherit;cursor:pointer;width:100%;}
+#mob .ms{display:none;padding-left:1rem;}
+#mob .ms.open{display:block;}
+#mob .ms a{font-size:.82rem;color:var(--t2);border:none;padding:.3rem 0;}
+.mx{position:absolute;top:1.1rem;right:1.6rem;background:none;border:none;
+  color:var(--t2);font-size:1.2rem;cursor:pointer;}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  padding-top:58px;          /* clear fixed header */
+  padding-bottom:5rem;
+  position:relative;z-index:1;
+  display:flex;
+  align-items:center;
+}
+.hero-inner{
+  max-width:1060px;margin:0 auto;padding:0 1.75rem;
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+
+/* left */
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.67rem;color:var(--t3);letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:1.75rem;
+}
+h1.hero-h{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(2.8rem,5.2vw,4.4rem);
+  font-weight:300;line-height:1.07;color:var(--t);
+  letter-spacing:-.03em;margin-bottom:1.5rem;
+}
+.hero-sub{
+  font-size:.925rem;font-weight:300;line-height:1.82;color:var(--t2);
+  max-width:400px;margin-bottom:2.5rem;
+}
+.hero-btns{display:flex;gap:.7rem;flex-wrap:wrap;}
+
+/* right — Krrish chat */
+.kc{
+  background:var(--bg2);
+  border:1px solid var(--b);
+  border-radius:16px;overflow:hidden;
+  display:flex;flex-direction:column;
+  max-height:calc(100vh - 58px - 6rem);  /* never taller than viewport */
+  box-shadow:0 0 80px 0 rgba(var(--sun),.06);
+}
+.kc-msgs{
+  flex:1;
+  overflow-y:auto;
+  scrollbar-width:none;           /* Firefox */
+}
+.kc-msgs::-webkit-scrollbar{display:none;}  /* Chrome/Safari */
+.kc-bar{
+  padding:.875rem 1.2rem;border-bottom:1px solid var(--b3);
+  display:flex;align-items:center;gap:9px;
+}
+.kc-av{
+  width:28px;height:28px;border-radius:7px;flex-shrink:0;
+  background:linear-gradient(140deg,rgba(var(--sun),.85) 0%,rgba(180,30,20,.8) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:600;color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.kc-bar .name{font-size:.82rem;font-weight:500;color:var(--t);}
+.kc-bar .online{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:.66rem;color:#4ade80;}
+.kc-msgs{padding:1.2rem;display:flex;flex-direction:column;gap:.8rem;overflow-y:auto;scrollbar-width:none;}
+.km{padding:.62rem .88rem;border-radius:9px;font-size:.77rem;line-height:1.62;max-width:90%;}
+.km.u{background:rgba(255,255,255,.04);border:1px solid var(--b3);color:var(--t2);
+  margin-left:auto;border-bottom-right-radius:3px;}
+.km.k{background:var(--bg3);border:1px solid var(--b3);color:var(--t2);border-bottom-left-radius:3px;}
+.km.k strong{color:var(--t);}
+.km.k code{
+  display:inline-block;
+  font-family:'SF Mono','Fira Code',monospace;
+  font-size:.7rem;color:rgba(var(--sun),.65);
+  background:rgba(var(--sun),.04);border-radius:3px;padding:0 3px;
+}
+.kc-input{
+  margin:0 1.2rem 1.2rem;
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg3);
+  border:1px solid var(--b3);
+  border-radius:8px;padding:.58rem .85rem;
+  transition:border-color .2s;
+}
+.kc-input:focus-within{
+  border-color:rgba(var(--sun),.25);
+  box-shadow:0 0 0 3px rgba(var(--sun),.05);
+}
+.kc-input input{
+  flex:1;background:none;border:none;outline:none;
+  font-size:.77rem;color:var(--t);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:300;
+}
+.kc-input input::placeholder{color:var(--t3);}
+.kc-send{
+  width:26px;height:26px;border-radius:5px;
+  background:var(--t);
+  display:flex;align-items:center;justify-content:center;
+  color:#000;font-size:.68rem;flex-shrink:0;
+  border:none;cursor:pointer;
+  transition:background .15s, transform .15s;
+  flex-shrink:0;
+}
+.kc-send:hover{background:#e2e2e2;transform:scale(1.08);}
+
+/* quick links below chat */
+.kc-chips{
+  padding:0 1.2rem 1.2rem;
+  display:flex;flex-wrap:wrap;gap:.45rem;
+}
+.chip{
+  padding:.28rem .72rem;border-radius:100px;
+  font-size:.66rem;color:var(--t3);
+  border:1px solid var(--b3);background:var(--bg3);
+  cursor:pointer;transition:all .15s;
+  font-family:inherit;
+}
+.chip:hover{color:var(--t2);border-color:var(--b);}
+
+/* ─── STATS ─── */
+#stats{
+  padding:2.5rem 0;
+  border-top:1px solid var(--b3);border-bottom:1px solid var(--b3);
+  position:relative;z-index:1;
+}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);}
+.st{text-align:center;padding:1.5rem;border-right:1px solid var(--b3);}
+.st:last-child{border-right:none;}
+.sn{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:2.2rem;font-weight:200;color:var(--t);
+  line-height:1;margin-bottom:.3rem;letter-spacing:-.03em;
+}
+.sn em{font-style:normal;color:rgba(var(--sun),.55);}
+.sl2{font-size:.68rem;color:var(--t3);font-weight:300;letter-spacing:.02em;}
+
+/* ─── GRID BOX pattern ─── */
+.gbox{
+  background:var(--b3);
+  border:1px solid var(--b3);border-radius:12px;overflow:hidden;
+  display:grid;gap:1px;
+}
+.gc{background:var(--bg);padding:2.25rem;transition:background .15s;}
+.gc:hover{background:var(--bg2);}
+.gc-icon{font-size:1rem;color:var(--t3);margin-bottom:1rem;}
+.gc h3{font-size:1rem;font-weight:500;color:var(--t);margin-bottom:.4rem;}
+.gc p{font-size:.875rem;color:var(--t2);line-height:1.75;font-weight:300;}
+
+/* ─── WHAT WE DO ─── */
+#what .wg{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:start;
+}
+.what-list{display:flex;flex-direction:column;gap:1px;
+  background:var(--b3);border:1px solid var(--b3);border-radius:12px;overflow:hidden;}
+.wi{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.6rem;background:var(--bg);
+  border-bottom:1px solid var(--b3);
+  transition:background .15s;
+  position:relative;overflow:hidden;
+}
+.wi:last-child{border-bottom:none;}
+.wi:hover{background:var(--bg2);}
+/* subtle warm glow on hover */
+.wi::after{
+  content:'';
+  position:absolute;top:-40px;left:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--sun),.06) 0%,transparent 70%);
+  filter:blur(12px);pointer-events:none;
+  opacity:0;transition:opacity .35s;
+}
+.wi:hover::after{opacity:1;}
+.wi-ic{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;
+  background:var(--bg3);color:var(--t3);border:1px solid var(--b3);
+  transition:all .2s;
+}
+.wi:hover .wi-ic{
+  background:rgba(var(--sun),.07);
+  border-color:rgba(var(--sun),.15);
+  color:rgba(var(--sun),.7);
+}
+.wi h4{font-size:.975rem;font-weight:500;color:var(--t);margin-bottom:.35rem;}
+.wi p{font-size:.875rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.wi-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
+.wtag{
+  padding:.15rem .5rem;border-radius:4px;font-size:.62rem;
+  color:var(--t3);background:var(--bg3);border:1px solid var(--b3);
+}
+
+/* ─── TOOLS ─── */
+#tools .tool-feat{
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:2rem;
+  padding:1.75rem 2.25rem;
+  background:var(--bg2);border:1px solid var(--b);
+  border-radius:12px;margin-bottom:.875rem;
+  text-decoration:none;transition:border-color .2s, box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+/* featured card ambient glow */
+#tools .tool-feat::before{
+  content:'';
+  position:absolute;top:-80px;right:-80px;
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(var(--sun),.07) 0%,
+    rgba(var(--sun),.025) 45%,
+    transparent 70%);
+  filter:blur(20px);pointer-events:none;
+}
+#tools .tool-feat:hover{
+  border-color:rgba(var(--sun),.2);
+  box-shadow:0 0 40px rgba(var(--sun),.04);
+}
+.tool-av{
+  width:46px;height:46px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(140deg,rgba(var(--sun),.8) 0%,rgba(160,25,15,.75) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:600;color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.tbdg{display:inline-flex;align-items:center;gap:4px;font-size:.63rem;color:#4ade80;margin-bottom:.3rem;}
+#tools .tool-feat h3{font-size:1.05rem;font-weight:500;color:var(--t);margin-bottom:.25rem;}
+#tools .tool-feat p{font-size:.78rem;color:var(--t2);line-height:1.6;font-weight:300;}
+.ttags{display:flex;flex-wrap:wrap;gap:4px;margin-top:.6rem;}
+.ttag{padding:.13rem .48rem;border-radius:4px;font-size:.62rem;
+  color:var(--t3);background:var(--bg3);border:1px solid var(--b3);}
+.tool-cta{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:.5rem 1.1rem;background:var(--t);color:#000;
+  font-size:.77rem;font-weight:600;border-radius:6px;
+  text-decoration:none;white-space:nowrap;transition:all .15s;font-family:inherit;
+}
+.tool-cta:hover{background:#e2e2e2;}
+
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;}
+.tool-card{
+  padding:1.4rem;background:var(--bg2);border:1px solid var(--b3);
+  border-radius:10px;opacity:.55;
+}
+.tool-card-ic{font-size:.9rem;color:var(--t3);margin-bottom:.8rem;}
+.tool-card h4{font-size:.82rem;font-weight:500;color:var(--t2);margin-bottom:.25rem;}
+.tool-card p{font-size:.73rem;color:var(--t3);line-height:1.55;font-weight:300;}
+.cs{display:inline-block;margin-top:.65rem;font-size:.6rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--t3);}
+
+/* ─── LEARNING ─── */
+#learning .lw{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start;}
+.lstk{position:sticky;top:78px;}
+.ll{display:flex;flex-direction:column;gap:1px;
+  background:var(--b3);border:1px solid var(--b3);border-radius:12px;overflow:hidden;}
+.li{display:flex;align-items:center;gap:.875rem;padding:1rem 1.3rem;
+  background:var(--bg);text-decoration:none;border-bottom:1px solid var(--b3);transition:background .15s;}
+.li:last-child{border-bottom:none;}
+.li:hover{background:var(--bg2);}
+.li-em{font-size:.95rem;flex-shrink:0;}
+.li h4{font-size:.8rem;font-weight:500;color:var(--t);margin-bottom:1px;}
+.li p{font-size:.7rem;color:var(--t3);font-weight:300;}
+.arr{margin-left:auto;color:var(--t3);font-size:.68rem;transition:all .15s;}
+.li:hover .arr{color:var(--t2);transform:translateX(2px);}
+
+/* ─── HOW IT WORKS ─── */
+.stps{grid-template-columns:repeat(3,1fr);}
+.gc.step-card{
+  position:relative;overflow:hidden;
+  padding:2.5rem 2.25rem 2rem;
+}
+/* per-card ambient glow */
+.gc.step-card::before{
+  content:'';
+  position:absolute;
+  top:-60px;left:-60px;
+  width:220px;height:220px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,
+    rgba(var(--sun),.07) 0%,
+    rgba(var(--sun),.02) 50%,
+    transparent 75%);
+  filter:blur(18px);
+  opacity:0;
+  transition:opacity .4s ease;
+}
+.gc.step-card:hover::before{opacity:1;}
+.stpn{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:4rem;font-weight:200;
+  background:linear-gradient(135deg,rgba(var(--sun),.22),rgba(var(--sun),.06));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:1.25rem;letter-spacing:-.04em;
+}
+.gc.step-card h3{font-size:1rem;font-weight:500;color:var(--t);margin-bottom:.5rem;}
+.gc.step-card p{font-size:.875rem;color:var(--t2);line-height:1.72;font-weight:300;}
+
+/* ─── FAQ ─── */
+#faq .faqw{max-width:700px;margin:3.5rem auto 0;
+  border:1px solid var(--b2);border-radius:14px;overflow:hidden;}
+.faqi{border-bottom:1px solid var(--b3);position:relative;overflow:hidden;}
+.faqi:last-child{border-bottom:none;}
+/* faint left accent when open */
+.faqi.open::after{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,rgba(var(--sun),.5),rgba(var(--sun),.1));
+}
+.faqq{width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:1.35rem 1.6rem;gap:1rem;background:var(--bg);border:none;cursor:pointer;
+  color:var(--t);font-size:.95rem;font-weight:400;text-align:left;font-family:inherit;transition:background .15s;}
+.faqq:hover{background:var(--bg2);}
+.fiq{color:var(--t3);font-size:.85rem;flex-shrink:0;transition:transform .28s cubic-bezier(.16,1,.3,1);}
+.faqi.open .fiq{transform:rotate(45deg);color:rgba(var(--sun),.6);}
+.faqa{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease;
+  font-size:.9rem;color:var(--t2);line-height:1.82;padding:0 1.6rem;
+  background:var(--bg);font-weight:300;}
+.faqi.open .faqa{max-height:260px;padding:0 1.6rem 1.35rem;}
+
+/* ─── CONTACT CTA ─── */
+#contact-cta{
+  position:relative;z-index:1;
+  padding:0 0 7rem;
+}
+.contact-card{
+  max-width:1060px;margin:0 auto;padding:0 1.75rem;
+}
+.cc-inner{
+  background:var(--bg2);
+  border:1px solid var(--b);
+  border-radius:18px;
+  padding:4rem 3.5rem;
+  display:grid;grid-template-columns:1fr auto;
+  gap:3rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+/* subtle warm corner on the contact card */
+.cc-inner::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--sun),.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cc-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.65rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--t3);
+  margin-bottom:1rem;
+}
+.cc-inner h2{
+  font-size:clamp(1.6rem,3.2vw,2.5rem);
+  font-weight:300;letter-spacing:-.025em;
+  color:var(--t);line-height:1.2;
+  margin-bottom:0;
+}
+.cc-inner h2 strong{font-weight:600;}
+.cc-inner p{font-size:.875rem;color:var(--t2);line-height:1.8;font-weight:300;margin-top:.875rem;max-width:480px;}
+.cc-action{display:flex;flex-direction:column;align-items:flex-end;gap:1rem;flex-shrink:0;}
+.btn-contact{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:.85rem 2rem;
+  background:var(--t);color:#000;
+  font-size:.9rem;font-weight:700;
+  border-radius:8px;text-decoration:none;
+  transition:all .2s;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.btn-contact:hover{background:#e2e2e2;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.cc-note{font-size:.7rem;color:var(--t3);text-align:right;line-height:1.5;}
+
+/* ─── FOOTER ─── */
+footer{
+  border-top:1px solid var(--b3);padding:1.6rem 0;
+  position:relative;z-index:1;
+}
+.fin{max-width:1060px;margin:0 auto;padding:0 1.75rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.flogo{font-weight:600;font-size:.85rem;color:var(--t);
+  text-decoration:none;display:flex;align-items:center;gap:6px;}
+.flogo img{height:16px;}
+.fnav{display:flex;gap:1.4rem;flex-wrap:wrap;}
+.fnav a{color:var(--t3);font-size:.72rem;text-decoration:none;transition:color .15s;}
+.fnav a:hover{color:var(--t2);}
+.fcp{font-size:.68rem;color:var(--t3);}
+.fdis{text-align:center;padding:.5rem 2rem 1.4rem;font-size:.65rem;color:var(--t3);position:relative;z-index:1;}
+
+/* ─── REVEAL ─── */
+.r{opacity:0;transform:translateY(16px);transition:opacity .52s ease,transform .52s ease;}
+.r.v{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.07s;}.d2{transition-delay:.14s;}.d3{transition-delay:.21s;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:860px){
+  #hero{padding-top:calc(58px + 2rem);}
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .kc{display:none;}
+  #what .wg{grid-template-columns:1fr;}
+  .tool-feat{grid-template-columns:auto 1fr;}.tool-feat .tool-cta{display:none;}
+  .tool-grid{grid-template-columns:1fr 1fr;}
+  #learning .lw{grid-template-columns:1fr;}.lstk{position:static;}
+  .stps{grid-template-columns:1fr;}
+  .sg{grid-template-columns:repeat(2,1fr);}
+  .cc-inner{grid-template-columns:1fr;}.cc-action{align-items:flex-start;}
+  nav.dnav,.bg-btn{display:none;}.hbg{display:block;}
+  .btn-contact{width:100%;justify-content:center;}
+}
+@media(max-width:520px){
+  .sg .st{border-right:none;border-bottom:1px solid var(--b3);}
+  .tool-grid{grid-template-columns:1fr;}
+  .hero-btns{flex-direction:column;}.btn-w,.btn-o{justify-content:center;}
+}
+</style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <canvas id="globalCanvas"></canvas>
+<body>
 
-    <!-- HEADER -->
-    <body class="bg-[#17181b]">
-    <header
-      class="fixed top-4 left-1/2 -translate-x-1/2 z-20 flex h-[60px] w-full max-w-5xl bg-[#17181b] rounded-md shadow-md
-             px-[3%] lg:px-4 items-center justify-between transition-colors duration-300"
-    >
-      <!-- Logo and Branding -->
-      <a class="flex gap-2 items-center" href="/">
-        <div class="h-[30px] max-w-[100px]">
-          <img
-            src="/assets/images/FinalLogo.png"
-            alt="logo"
-            class="object-contain h-full w-full"
-          />
-        </div>
-      </a>
-      <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-5 text-base mx-auto">
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/">Home</a>
-        <!-- Learning Dropdown -->
-        <div class="relative flex flex-col items-center group" tabindex="0">
-          <div class="flex header-links gap-1 items-center cursor-pointer select-none">
-            <span><a href="/learning">Learning</a></span>
-            <i class="text-sm bi bi-chevron-down"></i>
-          </div>
-          <nav
-            class="scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 absolute left-1/2 -translate-x-1/2 top-full w-[70vw] max-w-3xl h-[360px] rounded-lg overflow-hidden
-                    bg-[#17181b] shadow-lg border border-gray-800 p-4 transition z-30"
-          >
-            <div class="grid grid-cols-2 gap-8 w-full">
-              <div>
-                <div class="text-lg text-indigo-400 font-semibold mb-3">Developer & Admin</div>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/apex-triggers/">Apex Triggers Mastery</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/governor-limits/">Governor Limits & Best Practices</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/flows-process-builder/">Flows & Process Builder (Declarative Automation)</a>
-              </div>
-              <div>
-                <div class="text-lg text-indigo-400 font-semibold mb-3">Advanced Topics</div>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/security-sharing/">Security & Sharing Model</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/deployment-cicd/">Deployment & CI/CD</a>
-                <a class="header-links block mb-1 text-gray-100 hover:text-indigo-400" href="/integration-patterns/">Salesforce Integration Patterns</a>
-              </div>
+
+<!-- ═══ HEADER ═══ -->
+
+<header>
+  <div class="hdr">
+    <a href="/" class="logo">
+      <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
+    </a>
+    <nav class="dnav">
+      <a href="/">Home</a>
+      <div class="dd" tabindex="0">
+        <button class="ddb">Learning <i class="bi bi-chevron-down" style="font-size:.58rem"></i></button>
+        <div class="ddp">
+          <div class="ddg">
+            <div>
+              <div class="ddt">Developer &amp; Admin</div>
+              <a href="/apex-triggers/">Apex Triggers Mastery</a>
+              <a href="/asynchronous-apex/">Asynchronous Apex</a>
+              <a href="/soql-sosl/">SOQL &amp; SOSL</a>
+              <a href="/governor-limits/">Governor Limits</a>
+              <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
             </div>
-          </nav>
-        </div>
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/resources/">Resources</a>
-        <a class="header-links text-gray-100 hover:text-indigo-300 transition" href="/about/">About Us</a>
-      </nav>
-      <!-- Actions: Contact, Hamburger -->
-      <div class="flex items-center gap-4">
-        <a
-          href="/contact/"
-          class="hidden lg:flex px-6 py-2 bg-indigo-600 text-white rounded-md text-lg font-semibold hover:bg-indigo-700 transition shadow-md"
-        >Contact Us</a>
-        <!-- Hamburger for mobile -->
-        <button
-          class="bi bi-list absolute right-3 top-3 z-50 text-3xl text-gray-200 lg:hidden"
-          onclick="document.getElementById('mobileMenu').classList.toggle('hidden')"
-          aria-label="menu"
-          id="collapse-btn"
-        ></button>
-      </div>
-    </header>
-    <!-- Mobile Menu -->
-    <nav id="mobileMenu"
-      class="fixed inset-0 bg-[#17181b] z-40 flex flex-col px-8 py-12 gap-6 text-xl text-gray-100 hidden"
-      style="transition: all 0.3s;"
-    >
-      <button
-        class="bi bi-x-lg absolute top-6 right-8 text-3xl"
-        onclick="document.getElementById('mobileMenu').classList.add('hidden')"
-        aria-label="close"
-      ></button>
-      <a href="/" class="py-2 border-b border-gray-700">Home</a>
-      
-      <!-- Learning (expandable) -->
-      <div>
-        <button onclick="document.getElementById('mobileLearning').classList.toggle('hidden')" class="w-full text-left py-2 border-b border-gray-700 flex justify-between items-center">
-          Learning <i class="bi bi-chevron-down"></i>
-        </button>
-        <div id="mobileLearning" class="ml-4 mt-2 flex flex-col gap-1 hidden">
-          <span class="text-indigo-400 font-semibold text-base">Developer & Admin</span>
-          <a class="py-1 pl-2" href="/apex-triggers/">Apex Triggers Mastery</a>
-          <a class="py-1 pl-2" href="/asynchronous-apex/">Asynchronous Apex Essentials</a>
-          <a class="py-1 pl-2" href="/soql-sosl/">SOQL & SOSL Fundamentals</a>
-          <a class="py-1 pl-2" href="/governor-limits/">Governor Limits & Best Practices</a>
-          <a class="py-1 pl-2" href="/flows-process-builder/">Flows & Process Builder</a>
-          <span class="mt-2 text-indigo-400 font-semibold text-base">Advanced Topics</span>
-          <a class="py-1 pl-2" href="/lwc-essentials/">Lightning Web Components (LWC)</a>
-          <a class="py-1 pl-2" href="/security-sharing/">Security & Sharing Model</a>
-          <a class="py-1 pl-2" href="/salesforce-packaging/">Managed Packages & AppExchange</a>
-          <a class="py-1 pl-2" href="/deployment-cicd/">Deployment & CI/CD</a>
-          <a class="py-1 pl-2" href="/integration-patterns/">Salesforce Integration Patterns</a>
+            <div>
+              <div class="ddt">Advanced Topics</div>
+              <a href="/lwc-essentials/">LWC Essentials</a>
+              <a href="/security-sharing/">Security &amp; Sharing</a>
+              <a href="/salesforce-packaging/">Managed Packages</a>
+              <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
+              <a href="/integration-patterns/">Integration Patterns</a>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
+            <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
+              <i class="bi bi-grid-3x3-gap-fill"></i> View All Learning Modules →
+            </a>
+          </div>
         </div>
       </div>
-      <a href="/resources/" class="py-2 border-b border-gray-700">Resources</a>
-      <a href="/about/" class="py-2 border-b border-gray-700">About Us</a>
-      <a href="/contact/" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-md text-lg font-semibold text-center hover:bg-indigo-700 transition shadow-md">Contact Us</a>
+      <a href="/resources/">Resources</a>
+      <a href="/about/">About</a>
+      <a href="/chatbot/" style="color:var(--t2);display:flex;align-items:center;gap:5px;">
+        <span class="live"></span>Ask Krrish
+      </a>
     </nav>
-    <!-- Your page content goes here -->
-  </body>
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 w-full mt-16">
-        <!-- Hero Section -->
-<section id="hero-section" class="relative mt-16 flex min-h-[90vh] w-full max-w-full flex-col overflow-hidden items-center justify-center p-4">
-  <!-- Main Hero Content: Two-column layout -->
-  <div class="container mx-auto flex py-24 md:flex-row flex-col items-center relative z-10">
-      <!-- Left Column: Text Content -->
-      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center reveal-up">
-          <h1 class="title-font sm:text-5xl text-4xl mb-4 font-extrabold text-white leading-tight drop-shadow-lg">
-              SFX Support: A Free Helping Hand in the Salesforce Universe.
-          </h1>
-          <p class="mb-8 leading-relaxed text-lg sm:text-xl opacity-95 drop-shadow-md">
-              Unlock your Salesforce potential. Our certified architects and seasoned developers provide immediate, trusted guidance on critical challenges, seamless go-lives, and precision architectural reviews. <span class="font-semibold text-indigo-400">Your urgent needs are our priority.</span>
-          </p>
-          <div class="flex justify-center">
-              <a href="/contact" class="inline-flex text-white bg-indigo-600 border-0 py-3 px-8 focus:outline-none hover:bg-indigo-700 rounded-full text-lg font-bold transition duration-300 ease-in-out shadow-xl transform hover:scale-105 button-shine">
-                  Request Free Help
-              </a>
-              <a href="#solutions" class="ml-4 inline-flex text-indigo-300 bg-transparent border-2 border-indigo-500 py-3 px-8 focus:outline-none hover:bg-indigo-700 hover:text-white rounded-full text-lg font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105">
-                  Explore All Services
-              </a>
-          </div>
-      </div>
-      <!-- Right Column: Image -->
-      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 reveal-up">
-          <img class="object-cover object-center rounded-xl shadow-2xl border border-white/20" alt="Salesforce Solutions" src="./assets/images/ChatGPT Image Jun 9, 2025, 02_41_35 AM.png">
-      </div>
-  </div>
-</section>
-
-<!-- What We Offer Section -->
-<section id="solutions" class="relative py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
-  <!-- Section Heading -->
-  <div class="text-center mb-12 relative z-30">
-      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
-          What We Offer: Your Solutions, Our Expertise
-      </h3>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
-          We understand that Salesforce isn't just a tool; it's the backbone of your business. That's why SFX Salesforce provides specialized, on-demand expertise designed to tackle your most complex issues, ensure smooth deployments, and optimize your entire Salesforce ecosystem.
-      </p>
-      <div class="flex mt-6 justify-center">
-          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
-      </div>
-  </div>
-
-  <!-- Service Cards Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 max-w-6xl mx-auto px-5 relative z-30">
-      <!-- Card 1: Strategic Architecture Review -->
-      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
-          <div class="flex items-center justify-center min-h-[100px] mb-4">
-              <i class="bi bi-diagram-3 text-5xl text-indigo-400"></i>
-          </div>
-          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Strategic Architecture Review</h3>
-          <p class="text-gray-300 mb-4">
-              In-depth assessments of your Salesforce architecture so it's not just functional, but robust, scalable, and aligned with your long-term business strategy. Identify bottlenecks, mitigate risks, and build for future growth with confidence.
-          </p>
-          <div class="mt-auto flex items-center gap-2">
-              <span class="text-indigo-400 font-medium">Learn more</span>
-              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-indigo-400"></i>
-          </div>
+    <div class="ha">
+      <a href="/contact/" class="btn-o bg-btn" style="padding:.35rem .8rem;font-size:.78rem;">Contact</a>
+      <a href="/chatbot/" class="btn-w" style="padding:.35rem .8rem;font-size:.78rem;">
+        <span class="live"></span>Ask Krrish
       </a>
-
-      <!-- Card 2: Complex Workarounds & Custom Solutions -->
-      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
-          <div class="flex items-center justify-center min-h-[100px] mb-4">
-              <i class="bi bi-tools text-5xl text-purple-400"></i>
-          </div>
-          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Complex Workarounds & Custom Solutions</h3>
-          <p class="text-gray-300 mb-4">
-              Stuck on a tricky integration or unique requirement? Our experts craft innovative workarounds and bespoke solutions, turning obstacles into opportunities and resolving your most intricate Salesforce challenges.
-          </p>
-          <div class="mt-auto flex items-center gap-2">
-              <span class="text-purple-400 font-medium">Learn more</span>
-              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-purple-400"></i>
-          </div>
-      </a>
-
-      <!-- Card 3: Guaranteed Go-Live Readiness -->
-      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col p-10 h-full transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
-          <div class="flex items-center justify-center min-h-[100px] mb-4">
-              <i class="bi bi-rocket-takeoff text-5xl text-pink-400"></i>
-          </div>
-          <h3 class="text-2xl font-semibold mb-3 mt-5 text-white">Guaranteed Go-Live Readiness</h3>
-          <p class="text-gray-300 mb-4">
-              Before launch, we provide meticulous last-minute checks, performance optimizations, and critical support to guarantee a flawless and confident Salesforce deployment. Minimize surprises and ensure a smooth transition.
-          </p>
-          <div class="mt-auto flex items-center gap-2">
-              <span class="text-pink-400 font-medium">Learn more</span>
-              <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-pink-400"></i>
-          </div>
-      </a>
-  </div>
-  <!-- Large card below the grid for Rapid Urgent Troubleshooting -->
-  <div class="mt-8 flex justify-center relative z-30">
-      <a href="/about/" class="group bg-transparent rounded-3xl shadow-lg flex flex-col md:flex-row items-center w-full max-w-4xl p-10 transition-all duration-300 cursor-pointer card-glow reveal-up focus:outline-none">
-          <div class="flex items-center justify-center min-h-[100px] mb-4 md:mb-0 md:mr-8 flex-shrink-0">
-              <i class="bi bi-lightning-charge-fill text-5xl text-yellow-400"></i>
-          </div>
-          <div>
-              <h3 class="text-2xl font-semibold mb-3 text-white">Rapid Urgent Troubleshooting</h3>
-              <p class="text-gray-300">
-                  When every second counts. Get immediate, effective resolutions and expert guidance for any pressing Salesforce issues you encounter. Our rapid response ensures minimal downtime, allowing you to get back to business quickly.
-              </p>
-              <div class="mt-4 flex items-center gap-2">
-                  <span class="text-yellow-400 font-medium">Learn more</span>
-                  <i class="bi bi-arrow-right transform transition-transform duration-300 group-hover:translate-x-2 text-yellow-400"></i>
-              </div>
-          </div>
-      </a>
-  </div>
-</section>
-
-<section id="how-it-works" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
-<div class="text-center mb-12">
-<h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
-How It Works: Simple Steps to Expert Support
-</h3>
-<p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
-Accessing top-tier Salesforce expertise shouldn't be complicated. We've streamlined our process into three easy steps to get you the help you need, fast.
-</p>
-<div class="flex mt-6 justify-center">
-<div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
-</div>
-</div>
-
-<!-- Stack image above steps on all devices -->
-<div class="mt-10 flex flex-col items-center justify-center gap-10">
-<!-- Image Card -->
-<div class="w-full max-w-4xl h-[600px] rounded-2xl overflow-hidden bg-transparent shadow-lg flex-shrink-0 reveal-up">
-  <img
-    src="/assets/images/ChatGPT Image Jun 14, 2025, 02_53_10 PM.png"
-    alt="How It Works process visualization"
-    class="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.08)]"
-    onerror="this.onerror=null; this.src='https://placehold.co/1000x500/8A2BE2/FFFFFF/abstract-process-flow?text=How+It+Works+Image';"
-  />
-</div>
-
-<!-- Steps Content (Stacked) -->
-<div class="flex flex-col justify-center gap-7 w-full max-w-xl mx-auto">
-<!-- Step 1 -->
-<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
-  <div class="flex-shrink-0">
-    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-white font-bold text-lg border-4 border-gray-900">1</span>
-  </div>
-  <div>
-    <h4 class="font-semibold text-lg mb-1 text-indigo-400">Submit Your Request</h4>
-    <p class="text-gray-300 text-base">
-      Briefly tell us about your Salesforce challenge through our quick online form. It only takes a few minutes, and the more detail you provide, the better we can prepare.
-    </p>
-  </div>
-</div>
-<!-- Step 2 -->
-<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
-  <div class="flex-shrink-0">
-    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-purple-600 text-white font-bold text-lg border-4 border-gray-900">2</span>
-  </div>
-  <div>
-    <h4 class="font-semibold text-lg mb-1 text-purple-400">We Review &amp; Connect</h4>
-    <p class="text-gray-300 text-base">
-      Our team of certified Salesforce experts promptly reviews your submission to understand your needs. We'll then match you with the specialist best equipped to help you.
-    </p>
-  </div>
-</div>
-<!-- Step 3 -->
-<div class="bg-transparent p-6 rounded-xl shadow-md flex gap-4 items-start card-glow reveal-up">
-  <div class="flex-shrink-0">
-    <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-lg border-4 border-gray-900">3</span>
-  </div>
-  <div>
-    <h4 class="font-semibold text-lg mb-1 text-blue-400">Get Immediate Guidance</h4>
-    <p class="text-gray-300 text-base">
-      Receive direct, actionable advice and solutions tailored to your specific problem. Get the answers and support you need, precisely when you need it.
-    </p>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- CTA Button -->
-<div class="mt-16 text-center">
-<a href="/contact" class="inline-flex items-center justify-center text-white bg-gradient-to-r from-indigo-600 to-purple-700 border-0 py-4 px-12 focus:outline-none hover:from-indigo-700 hover:to-purple-800 rounded-full text-xl font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105 button-shine">
-Get Salesforce Help Now &rarr;
-</a>
-</div>
-</section>
-
-
-<!-- Insights & Resources: Empowering Your Salesforce Journey (Learning Content) -->
-<section id="learning-content" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
-  <div class="text-center mb-12">
-      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
-          Insights & Resources: Empowering Your Salesforce Journey
-      </h3>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
-          Beyond direct help, we believe in empowering our clients with knowledge. Our learning hub is a curated collection of best practices, insightful articles, and practical guides designed to help you continuously optimize your Salesforce environment.
-      </p>
-      <div class="flex mt-6 justify-center">
-          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
-      </div>
-  </div>
-
-  <div class="mt-10 flex flex-wrap place-content-center gap-10 max-lg:flex-col items-start justify-center">
-      <!-- Left Column: Section Title and CTA -->
-      <div class="relative flex max-w-sm lg:max-w-[30%] flex-col items-center lg:items-start gap-4 p-2 lg:sticky lg:top-20 lg:h-fit max-lg:w-full text-center lg:text-left reveal-up">
-          <h2 class="text-4xl lg:text-5xl font-extrabold text-white mb-4">
-              Salesforce Developer Learning Guide
-          </h2>
-          <a href="/learning/" class="inline-flex items-center justify-center bg-indigo-600 text-white font-semibold text-lg px-8 py-4 rounded-full shadow hover:bg-indigo-700 transition-all duration-300 button-shine">
-              Explore Full Guide &rarr;
-          </a>
-      </div>
-
-      <!-- Right Column: Learning Topics as Cards -->
-      <div class="flex flex-col gap-6 max-w-lg lg:max-w-[60%] px-4 lg:px-0 w-full reveal-up">
-          <!-- Example Card 1 -->
-          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
-              <div class="text-4xl text-indigo-400 flex-shrink-0">
-                  <i class="bi bi-lightning-fill"></i>
-              </div>
-              <div class="flex flex-col gap-2">
-                  <h3 class="text-xl font-semibold text-white">Apex Triggers Mastery</h3>
-                  <p class="text-gray-300 text-base">
-                      Deep dive into Apex triggers, best practices, and use cases for powerful automation.
-                  </p>
-                  <a href="/apex-triggers/" class="mt-auto flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors">
-                      <span class="underline underline-offset-4">Learn more</span>
-                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
-                  </a>
-              </div>
-          </div>
-
-          <!-- Example Card 2 -->
-          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
-              <div class="text-4xl text-purple-400 flex-shrink-0">
-                  <i class="bi bi-clock-history"></i>
-              </div>
-              <div class="flex flex-col gap-2">
-                  <h3 class="text-xl font-semibold text-white">Asynchronous Apex Essentials</h3>
-                  <p class="text-gray-300 text-base">
-                      Understand future methods, batch Apex, queueables, and scheduled jobs for scalability.
-                  </p>
-                  <a href="/asynchronous-apex/" class="mt-auto flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
-                      <span class="underline underline-offset-4">Learn more</span>
-                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
-                  </a>
-              </div>
-          </div>
-
-          <!-- Example Card 3 -->
-          <div class="group bg-transparent p-6 rounded-xl shadow-lg flex gap-6 card-glow">
-              <div class="text-4xl text-blue-400 flex-shrink-0">
-                  <i class="bi bi-search"></i>
-              </div>
-              <div class="flex flex-col gap-2">
-                  <h3 class="text-xl font-semibold text-white">SOQL & SOSL Fundamentals</h3>
-                  <p class="text-gray-300 text-base">
-                      Master Salesforce Object Query Language and Search for advanced data retrieval.
-                  </p>
-                  <a href="/soql-sosl/" class="mt-auto flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-                      <span class="underline underline-offset-4">Learn more</span>
-                      <i class="bi bi-arrow-up-right group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 transition-transform"></i>
-                  </a>
-              </div>
-          </div>
-          </div>
-  </div>
-</section>
-
-<!-- Why Trust Us Section -->
-<section id="why-trust-us" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
-  <div class="text-center mb-12">
-      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
-          Why Trust SFX Salesforce? Our Foundation is Your Success.
-      </h3>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
-          Choosing an expert partner for your Salesforce needs is a critical decision. At SFX Salesforce, we don't just solve problems; we build lasting relationships based on unparalleled expertise, unwavering commitment, and transparent processes.
-      </p>
-      <div class="flex mt-6 justify-center">
-          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
-      </div>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 px-5">
-      <!-- Trust Point 1: Certified Salesforce Experts -->
-      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
-          <div class="text-5xl mb-4 text-indigo-400">
-              <i class="fas fa-certificate"></i>
-          </div>
-          <h4 class="text-xl font-semibold mb-2 text-white">Certified Salesforce Experts</h4>
-          <p class="text-gray-300">
-              Our team holds numerous Salesforce certifications and years of practical experience, demonstrating proven proficiency and a deep understanding of the platform's intricacies.
-          </p>
-      </div>
-      <!-- Trust Point 2: Tailored & Scalable Solutions -->
-      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
-          <div class="text-5xl mb-4 text-purple-400">
-              <i class="fas fa-cogs"></i>
-          </div>
-          <h4 class="text-xl font-semibold mb-2 text-white">Tailored & Scalable Solutions</h4>
-          <p class="text-gray-300">
-              Generic solutions rarely fit. We offer guidance tailored to your needs, with a focus on learning, support, and clarity today, while ensuring they are ready to scale seamlessly for future growth.
-          </p>
-      </div>
-      <!-- Trust Point 3: Transparent Communication -->
-      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up">
-          <div class="text-5xl mb-4 text-blue-400">
-              <i class="fas fa-comments"></i>
-          </div>
-          <h4 class="text-xl font-semibold mb-2 text-white">Transparent Communication</h4>
-          <p class="text-gray-300">
-              You are always in the loop. We maintain clear, open communication and foster collaborative processes, ensuring you understand every step and decision we make together.
-          </p>
-      </div>
-      <!-- Trust Point 4: Results-Driven Approach -->
-      <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up md:col-span-2 lg:col-span-1 mx-auto lg:mx-0">
-          <div class="text-5xl mb-4 text-green-400">
-              <i class="fas fa-chart-line"></i>
-          </div>
-          <h4 class="text-xl font-semibold mb-2 text-white">Results-Driven Approach</h4>
-          <p class="text-gray-300">
-              Our ultimate goal is your tangible success. We focus on delivering measurable outcomes that improve your efficiency, boost your ROI, and transform your Salesforce challenges into powerful business advantages.
-          </p>
-      </div>
-       <!-- Trust Point 5: Community-Focused Mission (Added based on "Who We Are" content) -->
-       <div class="group bg-transparent p-8 rounded-xl shadow-lg text-center card-glow reveal-up md:col-span-2 lg:col-span-1 mx-auto lg:mx-0">
-          <div class="text-5xl mb-4 text-cyan-400">
-              <i class="fas fa-handshake"></i>
-          </div>
-          <h4 class="text-xl font-semibold mb-2 text-white">Community-Focused Mission</h4>
-          <p class="text-gray-300">
-              Born from a desire to give back, we're committed to helping the Salesforce community thrive, sharing our hard-won knowledge to prevent common pitfalls and ignite new possibilities.
-          </p>
-      </div>
-  </div>
-</section>
-
-<!-- Frequently Asked Questions (FAQ) -->
-<section id="faq" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden">
-  <div class="text-center mb-12">
-      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-4 reveal-up">
-          Frequently Asked Questions (FAQ)
-      </h3>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed reveal-up">
-          Find quick answers to the most common questions about our Salesforce expert help and services.
-      </p>
-      <div class="flex mt-6 justify-center">
-          <div class="w-24 h-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 inline-flex shadow-md"></div>
-      </div>
-  </div>
-
-  <div class="mt-10 flex flex-col gap-4 max-w-3xl mx-auto px-5">
-      <!-- FAQ 1 -->
-      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
-          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
-              <span>What types of Salesforce challenges can SFX Salesforce help with?</span>
-              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
-          </h4>
-          <div class="content mt-4 text-gray-300">
-              SFX Salesforce offers expert assistance for a wide range of critical Salesforce challenges, including strategic architecture reviews, complex workarounds and custom solutions, ensuring go-live readiness, and providing rapid urgent troubleshooting. Our certified experts are equipped to handle intricate issues and help you optimize your entire Salesforce ecosystem.
-          </div>
-      </div>
-      <!-- FAQ 2 -->
-      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
-          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
-              <span>How quickly can I expect to get help after submitting my request?</span>
-              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
-          </h4>
-          <div class="content mt-4 text-gray-300">
-              Our "How It Works" process is streamlined for rapid assistance. After you submit your request through our quick online form, our certified Salesforce experts promptly review your submission and connect you with the specialist best equipped to provide immediate guidance and actionable advice.
-          </div>
-      </div>
-      <!-- FAQ 3 -->
-      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
-          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
-              <span>What makes SFX Salesforce different from other Salesforce consulting services?</span>
-              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
-          </h4>
-          <div class="content mt-4 text-gray-300">
-              SFX Salesforce combines deep Salesforce expertise with a client-first approach, focusing on delivering solutions that are not just technically sound but perfectly aligned with your business objectives. We emphasize transparent communication, tailored and scalable solutions, and are driven by a pledge to help our clients achieve tangible results and unlock their full Salesforce potential.
-          </div>
-      </div>
-      <!-- FAQ 4 -->
-      <div class="faq w-full bg-transparent p-6 rounded-xl shadow-lg card-glow reveal-up">
-          <h4 class="faq-accordion flex w-full select-none text-xl lg:text-lg font-semibold items-center text-white cursor-pointer">
-              <span>Is the initial expert consultation truly free? What does it cover?</span>
-              <i class="bi bi-plus text-xl origin-center duration-300 transition-transform ml-auto font-semibold text-indigo-400"></i>
-          </h4>
-          <div class="content mt-4 text-gray-300">
-              Yes, our goal is to "Get Free Salesforce Expert Help — When You Need It Most." The initial consultation is designed for you to connect with our certified architects and developers for immediate, trusted guidance on your critical challenges, allowing us to understand your needs and for you to experience our expertise without commitment.
-          </div>
-      </div>
-  </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact-us" class="py-16 px-4 bg-transparent rounded-xl shadow-2xl mx-auto max-w-6xl my-16 backdrop-blur-lg overflow-hidden text-center">
-  <div class="max-w-4xl mx-auto p-8 rounded-xl bg-transparent shadow-lg relative z-10 reveal-up">
-      <h3 class="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-6 leading-normal">
-          Ready to Transform Your Salesforce?
-      </h3>
-      <p class="text-xl text-gray-300 opacity-95 mb-8 max-w-2xl mx-auto leading-relaxed">
-          Stop letting Salesforce complexities hold you back. Whether it's an urgent fix, a strategic review, or preparation for a major launch, SFX Salesforce is here to provide the expert help you need.
-      </p>
-      <a href="/contact" class="inline-flex items-center justify-center text-white bg-gradient-to-r from-indigo-600 to-purple-700 border-0 py-4 px-12 focus:outline-none hover:from-indigo-700 hover:to-purple-800 rounded-full text-xl font-bold transition duration-300 ease-in-out shadow-lg transform hover:scale-105 cursor-pointer button-shine">
-          Get Your Free Expert Consultation Today &rarr;
-      </a>
-  </div>
-</section>
-</div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="relative z-10 text-gray-300 py-0"
-    style="background:
-        radial-gradient(circle at top left, rgba(79, 70, 229, 0.10) 0%, transparent 30%),
-        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.10) 0%, transparent 30%),
-        #14121e;">
-    <div class="max-w-2xl mx-auto px-4 flex flex-col items-center py-8">
-        <!-- Brand -->
-        <div class="flex items-center gap-3 mb-5">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600/80 shadow-lg">
-                <!-- If you want logo, keep img below; else remove -->
-                <img src="/assets/images/FinalLogo.png" alt="SFX Logo" class="h-7 w-7" />
-            </span>
-            <span class="font-extrabold text-2xl text-white tracking-tight"><span class="text-indigo-300">SFX</span>Support</span>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="mb-4">
-            <ul class="flex flex-wrap justify-center gap-8 text-base font-medium">
-                <li><a href="/" class="hover:text-indigo-200 transition">Home</a></li>
-                <li><a href="/about/" class="hover:text-indigo-200 transition">About</a></li>
-                <li><a href="/learning/" class="hover:text-indigo-200 transition">Learning</a></li>
-                <li><a href="/resources/" class="hover:text-indigo-200 transition">Resources</a></li>
-                <li><a href="/contact/" class="hover:text-indigo-200 transition">Contact</a></li>
-            </ul>
-        </nav>
-
-        <!-- Contact/Email -->
-
-        <!-- Copyright -->
-        <div class="border-t border-gray-800 w-full mt-6 pt-5 text-center text-xs text-gray-500">
-            &copy; 2025 SFX Support. All rights reserved.
-        </div>
+      <button class="hbg" onclick="toggleMob()"><i class="bi bi-list"></i></button>
     </div>
+  </div>
+</header>
+
+<!-- Mobile -->
+<div id="mob">
+  <button class="mx" onclick="toggleMob()"><i class="bi bi-x"></i></button>
+  <a href="/">Home</a>
+  <button class="ml" onclick="document.getElementById('ms').classList.toggle('open')">Learning</button>
+  <div id="ms" class="ms">
+    <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;">All Modules</a>
+    <a href="/apex-triggers/">Apex Triggers</a>
+    <a href="/asynchronous-apex/">Async Apex</a>
+    <a href="/soql-sosl/">SOQL &amp; SOSL</a>
+    <a href="/governor-limits/">Governor Limits</a>
+    <a href="/flows-process-builder/">Flows</a>
+    <a href="/lwc-essentials/">LWC</a>
+    <a href="/security-sharing/">Security &amp; Sharing</a>
+    <a href="/salesforce-packaging/">Managed Packages</a>
+    <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
+    <a href="/integration-patterns/">Integration Patterns</a>
+  </div>
+  <a href="/resources/">Resources</a>
+  <a href="/about/">About</a>
+  <a href="/chatbot/">Ask Krrish</a>
+  <a href="/contact/">Contact</a>
+</div>
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+  <!-- Left -->
+  <div>
+    <div class="hero-eyebrow r">
+      <span class="live"></span>&nbsp;Ask Krrish &mdash; AI now live
+    </div>
+    <h1 class="hero-h r d1">
+      Salesforce<br>
+      expertise,<br>
+      <span class="it">on demand.</span>
+    </h1>
+    <p class="hero-sub r d2">
+      A helping hand for every Salesforce challenge — development, architecture, deployment, and beyond. Backed by certified experts and AI.
+    </p>
+    <div class="hero-btns r d3">
+      <a href="/chatbot/" class="btn-w"><span class="live"></span>&nbsp;Ask Krrish AI</a>
+      <a href="#contact-cta" class="btn-o">Get expert help &darr;</a>
+    </div>
+  </div>
+
+  <!-- Right — Ask Krrish chat -->
+  <div class="kc r d2">
+    <div class="kc-bar">
+      <div class="kc-av">K</div>
+      <span class="name">Ask Krrish</span>
+      <span class="online">
+        <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
+        &nbsp;Online
+      </span>
+    </div>
+    <div class="kc-msgs">
+      <div class="km u">My trigger is hitting governor limits on bulk insert. What's wrong?</div>
+      <div class="km k">
+        Classic bulk issue — you're likely doing <strong>DML or SOQL inside a loop</strong>.<br><br>
+        Move your query outside:<br>
+        <code>Map&lt;Id,Account&gt; accMap = new Map&lt;Id,Account&gt;([SELECT Id FROM Account WHERE ...]);</code><br><br>
+        Then loop over <code>Trigger.new</code> and reference the map. This keeps you within the <strong>100 SOQL / 150 DML</strong> limits.
+      </div>
+      <div class="km u">Can you show me the full handler pattern?</div>
+      <div class="km k">Of course — here's a <strong>TriggerHandler architecture</strong> with a dispatcher, handler interface, and bulk-safe implementation. Want Apex or a Flow alternative?</div>
+    </div>
+    <div class="kc-chips">
+      <span class="chip">Apex trigger help</span>
+      <span class="chip">SOQL optimization</span>
+      <span class="chip">Flow vs Apex?</span>
+      <span class="chip">Review my code</span>
+    </div>
+    <div class="kc-input" id="hero-input-wrap">
+      <input
+        type="text"
+        id="hero-chat-input"
+        placeholder="Ask anything about Salesforce…"
+        autocomplete="off"
+        maxlength="300"
+      >
+      <button class="kc-send" id="hero-send-btn" onclick="redirectToChat()" aria-label="Send">
+        <i class="bi bi-arrow-up"></i>
+      </button>
+    </div>
+  </div>
+  </div><!-- /hero-inner -->
+</section>
+
+<!-- ═══ STATS ═══ -->
+<div id="stats">
+  <div class="wrap">
+    <div class="sg">
+      <div class="st r"><div class="sn">10<em>+</em></div><div class="sl2">Learning guides</div></div>
+      <div class="st r d1"><div class="sn">24<em>/7</em></div><div class="sl2">AI availability</div></div>
+      <div class="st r d2"><div class="sn"><em>∞</em></div><div class="sl2">Salesforce topics</div></div>
+      <div class="st r d3"><div class="sn">0<em>$</em></div><div class="sl2">Cost to you</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="dv">
+
+<!-- ═══ WHAT WE DO ═══ -->
+<section id="what">
+  <div class="wrap">
+    <div class="wg">
+      <div>
+        <div class="label r">What We Do</div>
+        <h2 class="r d1">A helping hand<br>for every part of<br><strong>Salesforce.</strong></h2>
+        <p class="desc r d2" style="margin-bottom:2.5rem;">
+          Whether you're a developer stuck on a governor limit, an architect reviewing a complex org, or a team navigating a critical deployment — we're here. No consulting fees, no gatekeeping.
+        </p>
+        <a href="/contact/" class="btn-w r d3">Request support &rarr;</a>
+      </div>
+      <div class="what-list r d2">
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-lightning-fill"></i></div>
+          <div>
+            <h4>Apex Development</h4>
+            <p>Trigger design, async patterns, test classes, code review, and governor limit guidance.</p>
+            <div class="wi-tags">
+              <span class="wtag">Apex</span><span class="wtag">Async</span>
+              <span class="wtag">Test Classes</span><span class="wtag">Governor Limits</span>
+            </div>
+          </div>
+        </div>
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-grid-1x2"></i></div>
+          <div>
+            <h4>LWC &amp; UI Development</h4>
+            <p>Component architecture, lifecycle hooks, wire adapters, custom events, and Aura migration.</p>
+            <div class="wi-tags">
+              <span class="wtag">LWC</span><span class="wtag">Aura</span>
+              <span class="wtag">Wire</span><span class="wtag">Events</span>
+            </div>
+          </div>
+        </div>
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-diagram-2"></i></div>
+          <div>
+            <h4>Flow &amp; Automation</h4>
+            <p>Screen Flows, record-triggered automation, subflows, error handling, Flow vs Apex decisions.</p>
+            <div class="wi-tags">
+              <span class="wtag">Flows</span><span class="wtag">Process Builder</span>
+              <span class="wtag">Automation</span>
+            </div>
+          </div>
+        </div>
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-layers"></i></div>
+          <div>
+            <h4>Architecture &amp; Code Review</h4>
+            <p>Org health assessments, scalability planning, design patterns, technical debt analysis.</p>
+            <div class="wi-tags">
+              <span class="wtag">Architecture</span><span class="wtag">Code Review</span>
+              <span class="wtag">Design Patterns</span>
+            </div>
+          </div>
+        </div>
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-rocket-takeoff"></i></div>
+          <div>
+            <h4>Deployment &amp; CI/CD</h4>
+            <p>SFDX pipelines, scratch orgs, change sets, metadata strategies, and automated testing.</p>
+            <div class="wi-tags">
+              <span class="wtag">SFDX</span><span class="wtag">CI/CD</span>
+              <span class="wtag">Pipelines</span><span class="wtag">Scratch Orgs</span>
+            </div>
+          </div>
+        </div>
+        <div class="wi">
+          <div class="wi-ic"><i class="bi bi-plug"></i></div>
+          <div>
+            <h4>Integrations</h4>
+            <p>REST &amp; SOAP APIs, Platform Events, Change Data Capture, middleware patterns, error handling.</p>
+            <div class="wi-tags">
+              <span class="wtag">REST</span><span class="wtag">Platform Events</span>
+              <span class="wtag">CDC</span><span class="wtag">MuleSoft</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- ═══ AI TOOLS ═══ -->
+<section id="tools">
+  <div class="wrap">
+    <div class="label r">AI Tools</div>
+    <h2 class="r d1">Salesforce tools,<br><strong>powered by AI.</strong></h2>
+    <p class="desc r d2" style="margin-bottom:3rem;">Ask Krrish is available now. More purpose-built tools on the way.</p>
+
+    <a href="/chatbot/" class="tool-feat r d2">
+      <div class="tool-av">K</div>
+      <div>
+        <div class="tbdg">
+          <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
+          Live Now
+        </div>
+        <h3>Ask Krrish</h3>
+        <p>An AI built for Salesforce — ask anything from a basic SOQL question to a full architecture review. Sign in with Google and start instantly.</p>
+        <div class="ttags">
+          <span class="ttag">Apex</span><span class="ttag">SOQL</span><span class="ttag">Flows</span>
+          <span class="ttag">LWC</span><span class="ttag">Troubleshooting</span>
+          <span class="ttag">Deployment</span><span class="ttag">Architecture</span>
+        </div>
+      </div>
+      <span class="tool-cta">Open Chat &rarr;</span>
+    </a>
+
+    <div class="tool-grid r d3">
+      <div class="tool-card">
+        <div class="tool-card-ic"><i class="bi bi-search"></i></div>
+        <h4>SOQL Generator</h4>
+        <p>Describe your data need in plain English and get an optimized query with relationships and aggregations.</p>
+        <span class="cs">Coming soon</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-ic"><i class="bi bi-code-slash"></i></div>
+        <h4>Apex Generator</h4>
+        <p>Generate production-ready Apex classes, triggers, and test classes with best practices built in.</p>
+        <span class="cs">Coming soon</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-ic"><i class="bi bi-shield-check"></i></div>
+        <h4>Deployment Checker</h4>
+        <p>Pre-deployment checklist, metadata conflict detection, and test coverage analysis.</p>
+        <span class="cs">Coming soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- ═══ LEARNING ═══ -->
+<section id="learning">
+  <div class="wrap">
+    <div class="lw">
+      <div class="lstk r">
+        <div class="label">Knowledge Base</div>
+        <h2>Learn Salesforce<br><span class="it">properly.</span></h2>
+        <p class="desc" style="margin-bottom:2rem;">Deep guides written by practitioners — not documentation rewrites.</p>
+        <a href="/learning/" class="btn-w">Browse all guides &rarr;</a>
+      </div>
+      <div class="ll r d1">
+        <a href="/apex-triggers/" class="li"><span class="li-em">&#x26A1;</span><div><h4>Apex Triggers Mastery</h4><p>Handler patterns, bulk-safe design</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/asynchronous-apex/" class="li"><span class="li-em">&#x23F3;</span><div><h4>Asynchronous Apex</h4><p>Batch, Future, Queueable, Scheduled</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/soql-sosl/" class="li"><span class="li-em">&#x1F50D;</span><div><h4>SOQL &amp; SOSL Fundamentals</h4><p>Advanced queries, optimization techniques</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/governor-limits/" class="li"><span class="li-em">&#x1F4CA;</span><div><h4>Governor Limits &amp; Best Practices</h4><p>Write scalable, limit-safe code</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/flows-process-builder/" class="li"><span class="li-em">&#x1F500;</span><div><h4>Flows &amp; Process Builder</h4><p>Automation patterns, when to use what</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/lwc-essentials/" class="li"><span class="li-em">&#x2699;&#xFE0F;</span><div><h4>LWC Essentials</h4><p>Components, lifecycle, events, binding</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/deployment-cicd/" class="li"><span class="li-em">&#x1F680;</span><div><h4>Deployment &amp; CI/CD</h4><p>SFDX, pipelines, metadata strategies</p></div><i class="bi bi-arrow-right arr"></i></a>
+        <a href="/integration-patterns/" class="li"><span class="li-em">&#x1F517;</span><div><h4>Integration Patterns</h4><p>REST, SOAP, Platform Events, CDC</p></div><i class="bi bi-arrow-right arr"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section id="how">
+  <div class="wrap">
+    <div style="max-width:400px;margin:0 auto;text-align:center;">
+      <div class="label r">Process</div>
+      <h2 class="r d1">Expert help in<br><strong>three steps.</strong></h2>
+    </div>
+    <div class="gbox stps r d2" style="margin-top:3.5rem;">
+      <div class="gc step-card"><div class="stpn">01</div><h3>Submit Your Request</h3><p>Share your challenge through our contact form. Tell us the context, the problem, and any constraints. Under 2 minutes.</p></div>
+      <div class="gc step-card"><div class="stpn">02</div><h3>We Review &amp; Match</h3><p>Our team reviews your submission and pairs you with the right specialist — developer, architect, or automation expert.</p></div>
+      <div class="gc step-card"><div class="stpn">03</div><h3>Get Expert Guidance</h3><p>Receive direct, specific advice tailored to your org and your challenge — not a generic answer.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq">
+  <div class="wrap">
+    <div style="max-width:400px;margin:0 auto;text-align:center;">
+      <div class="label r">FAQ</div>
+      <h2 class="r d1">Common<br><strong>questions.</strong></h2>
+    </div>
+    <div class="faqw r d2">
+      <div class="faqi"><button class="faqq" onclick="faq(this)">Who is behind SFX Support?<i class="bi bi-plus fiq"></i></button><div class="faqa">SFX is a volunteer-led initiative run by certified Salesforce architects and developers who wanted to give back to the community. We are not a consulting firm — we're practitioners who help because we can.</div></div>
+      <div class="faqi"><button class="faqq" onclick="faq(this)">What kinds of Salesforce problems can you help with?<i class="bi bi-plus fiq"></i></button><div class="faqa">Everything from a single Apex error to a full architecture review — Apex, LWC, Flows, SOQL, integrations, deployments, code reviews, go-live readiness, and more. If it's Salesforce, we can help.</div></div>
+      <div class="faqi"><button class="faqq" onclick="faq(this)">How does Ask Krrish work?<i class="bi bi-plus fiq"></i></button><div class="faqa">Ask Krrish is an AI tuned for Salesforce. It handles technical questions instantly — code generation, debugging, best practice guidance. For complex strategic questions, our human team steps in.</div></div>
+      <div class="faqi"><button class="faqq" onclick="faq(this)">Is there any cost involved?<i class="bi bi-plus fiq"></i></button><div class="faqa">No — never. SFX Support is a community initiative with no fees and no subscriptions. Ask Krrish has a daily message limit to keep the service sustainable and accessible, but it resets every 24 hours.</div></div>
+      <div class="faqi"><button class="faqq" onclick="faq(this)">Is SFX affiliated with Salesforce?<i class="bi bi-plus fiq"></i></button><div class="faqa">No. SFX Support is an independent, volunteer-led initiative. We are not affiliated with, endorsed by, or connected to Salesforce.com, Inc. in any way.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="dv">
+
+<!-- ═══ CONTACT CTA ═══ -->
+<section id="contact-cta" style="padding-top:7rem;">
+  <div class="contact-card">
+    <div class="cc-inner r">
+      <div>
+        <div class="cc-tag">
+          <i class="bi bi-envelope" style="font-size:.75rem;"></i>
+          Get in touch
+        </div>
+        <h2>
+          The Salesforce help<br>
+          you <strong>deserve.</strong>
+        </h2>
+        <p>
+          Stuck on a complex integration? Need a second opinion on your architecture? Preparing for a critical go-live? Reach out — our certified architects and developers are here to help, at no cost to you.
+        </p>
+      </div>
+      <div class="cc-action">
+        <a href="/contact/" class="btn-contact">
+          <i class="bi bi-arrow-right-circle-fill" style="font-size:1rem;"></i>
+          Contact Us
+        </a>
+        <div class="cc-note">
+          Certified architects &amp; developers<br>
+          No fees &middot; No obligations
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="fin">
+    <a href="/" class="flogo">
+      <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
+    </a>
+    <nav class="fnav">
+      <a href="/">Home</a><a href="/about/">About</a>
+      <a href="/learning/">Learning</a><a href="/resources/">Resources</a>
+      <a href="/chatbot/">Ask Krrish</a><a href="/contact/">Contact</a>
+    </nav>
+    <span class="fcp">&copy; 2025 SFX Support</span>
+  </div>
 </footer>
-<p class="text-xs text-gray-500 mt-4 text-center">
-  SFX Support is a volunteer-led, non-commercial knowledge-sharing initiative. This site is not affiliated with Salesforce.com.
-</p>
+<p class="fdis">Independent community initiative. Not affiliated with Salesforce.com, Inc.</p>
 
+<script>
+function toggleMob(){document.getElementById('mob').classList.toggle('open');}
 
-    <!-- JS: Modal, FAQ, Reveal, Canvas Animation -->
-    <script>
-        window.onclick = function(event) {
-            var modal = document.getElementById('contactModal');
-            if (event.target === modal) {
-                modal.classList.remove('active');
-            }
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const faqAccordions = document.querySelectorAll('.faq-accordion');
-            faqAccordions.forEach(accordion => {
-                accordion.addEventListener('click', () => {
-                    const content = accordion.nextElementSibling;
-                    accordion.classList.toggle('active');
-                    content.classList.toggle('active');
-                });
-            });
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal-up').forEach(element => observer.observe(element));
-            const globalCanvas = document.getElementById('globalCanvas');
-            const ctxCanvas = globalCanvas.getContext('2d');
-            let animationFrameIdCanvas;
-            let particles = [];
-            const colors = ['#818cf8', '#a78bfa', '#c4b5fd', '#e0caff', '#d8b4fe'];
-            function resizeGlobalCanvas() {
-                globalCanvas.width = window.innerWidth;
-                globalCanvas.height = window.innerHeight;
-            }
-            class Particle {
-                constructor(x, y, radius, color, velocity) {
-                    this.x = x; this.y = y; this.radius = radius; this.color = color; this.velocity = velocity; this.alpha = 1;
-                }
-                draw() {
-                    ctxCanvas.save();
-                    ctxCanvas.globalAlpha = this.alpha;
-                    ctxCanvas.beginPath();
-                    ctxCanvas.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-                    ctxCanvas.fillStyle = this.color;
-                    ctxCanvas.fill();
-                    ctxCanvas.restore();
-                }
-                update() {
-                    this.draw();
-                    this.x += this.velocity.x; this.y += this.velocity.y;
-                    this.alpha -= 0.005; this.radius *= 0.99;
-                }
-            }
-            function addParticle(x, y) {
-                const radius = Math.random() * 2 + 1;
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 0.5 + 0.1;
-                const velocity = { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed };
-                particles.push(new Particle(x, y, radius, color, velocity));
-            }
-            function animateGlobalCanvas() {
-                animationFrameIdCanvas = requestAnimationFrame(animateGlobalCanvas);
-                ctxCanvas.clearRect(0, 0, globalCanvas.width, globalCanvas.height);
-                for (let i = 0; i < particles.length; i++) {
-                    if (particles[i].alpha <= 0.1 || particles[i].radius <= 0.5) {
-                        particles.splice(i, 1); i--;
-                    } else { particles[i].update(); }
-                }
-                if (Math.random() < 0.2) {
-                    const x = Math.random() * globalCanvas.width;
-                    const y = Math.random() * globalCanvas.height;
-                    addParticle(x, y);
-                }
-            }
-            globalCanvas.addEventListener('mousemove', (event) => {
-                const rect = globalCanvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-                for (let i = 0; i < 3; i++) { addParticle(x, y); }
-            });
-            resizeGlobalCanvas();
-            animateGlobalCanvas();
-            window.addEventListener('resize', resizeGlobalCanvas);
-        });
-    </script>
-    
+function faq(btn){
+  const i=btn.closest('.faqi'),o=i.classList.contains('open');
+  document.querySelectorAll('.faqi').forEach(x=>x.classList.remove('open'));
+  if(!o)i.classList.add('open');
+}
+
+// Hero chat input → redirect to /chatbot/ with prefilled message
+function redirectToChat(){
+  const input = document.getElementById('hero-chat-input');
+  const msg = input ? input.value.trim() : '';
+  if(msg){
+    window.location.href = '/chatbot/?q=' + encodeURIComponent(msg);
+  } else {
+    window.location.href = '/chatbot/';
+  }
+}
+
+// Enter key on hero input also redirects
+document.addEventListener('DOMContentLoaded', function(){
+  const inp = document.getElementById('hero-chat-input');
+  if(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key === 'Enter') redirectToChat();
+    });
+  }
+});
+
+// Chip clicks prefill the input
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', function(){
+    const inp = document.getElementById('hero-chat-input');
+    if(inp){
+      inp.value = this.textContent.trim();
+      inp.focus();
+    }
+  });
+});
+
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});
+},{threshold:.07});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+
+<!-- ═══ STAR CANVAS ═══ -->
+<canvas id="star-canvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<script src="/assets/js/star-canvas.js"></script>
+
 </body>
 </html>

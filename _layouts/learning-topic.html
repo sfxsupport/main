@@ -1,143 +1,261 @@
 ---
-layout: default
+layout: learning
 ---
 
-<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 text-gray-800 font-sans antialiased mt-16">
-    <aside class="w-full lg:w-72 lg:flex-shrink-0 py-8 px-6 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 shadow-md relative z-20">
-        <h2 class="text-2xl md:text-3xl font-extrabold mb-8 text-gray-900 leading-tight">
-            {{ page.sidebar_title | default: site.data.learning_config.default_sidebar_title }}
-        </h2>
-        <nav class="topic-navigation flex flex-col gap-2" id="learning-topic-navigation">
-            {% if page.topics %}
-                {% for topic in page.topics %}
-                    <a href="#{{ topic.id }}"
-                       data-topic-id="{{ topic.id }}"
-                       class="topic-nav-item group flex items-start gap-3 px-4 py-3 rounded-lg text-base md:text-lg font-medium transition-all duration-200 ease-out
-                              hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm
-                              focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <span class="w-7 h-7 flex-shrink-0 rounded-full border-2 border-blue-400 bg-white text-blue-600 flex items-center justify-center text-sm font-semibold
-                                     group-[.active]:bg-blue-500 group-[.active]:text-white group-[.active]:border-blue-500 transition-all duration-200">
-                            {{ topic.number }}
-                        </span>
-                        <span class="flex-grow">
-                            <span class="block text-gray-600 group-hover:text-blue-700 group-[.active]:text-blue-800 transition-colors">{{ topic.title }}</span>
-                        </span>
-                    </a>
-                {% endfor %}
-            {% else %}
-                <p class="p-4 text-center text-gray-500 text-sm">No topics defined for this module.</p>
-            {% endif %}
-        </nav>
-    </aside>
+<style>
+  /* ── Learning Topic — SFX dark theme ── */
+  .lp-wrap {
+    display: flex;
+    min-height: calc(100vh - 80px);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
 
-    <main class="learning-content-area flex-1 py-10 px-6 md:px-10 lg:px-16 overflow-y-auto relative z-10">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-gray-900 leading-tight">
-                    {{ page.title }}
-                </h1>
-                <p class="intro-text text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
-                    {{ page.intro_text | default: "Welcome to this comprehensive guide!" }}
-                </p>
-            </div>
-            
-            <a href="/contact/"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-md hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-200"
-               style="backdrop-filter: blur(2px); white-space: nowrap;">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
-                Need hands-on training?
-            </a>
-        </div>
+  /* ── Sidebar ── */
+  .lp-sidebar {
+    width: 272px; flex-shrink: 0;
+    padding: 2.25rem 1.4rem;
+    background: var(--bg2);
+    border-right: 1px solid var(--b3);
+    position: sticky; top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg4) transparent;
+  }
+  .lp-sidebar::-webkit-scrollbar{width:3px;}
+  .lp-sidebar::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px;}
 
-        {{ content }}
-    </main>
-   
-    <a href="/contact/"
-       class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold text-lg shadow-xl hover:scale-105 hover:shadow-pink-300/30 transition-all duration-200 flex items-center gap-2"
-       style="backdrop-filter: blur(4px); display: none;"
-       id="sticky-training-cta">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 2v6a2 2 0 002 2h6M2 16v6m20-6v6M8 2v6a2 2 0 01-2 2H2"/></svg>
-        Questions? Book Training
-    </a>
+  .lp-sidebar-title {
+    font-size: 1rem; font-weight: 600;
+    color: var(--t); letter-spacing: -.015em;
+    margin-bottom: 1.5rem; line-height: 1.35;
+  }
+
+  .lp-nav { display: flex; flex-direction: column; gap: 2px; }
+
+  .topic-nav-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: .6rem .875rem; border-radius: 7px;
+    text-decoration: none; cursor: pointer;
+    border: none; background: none;
+    font-family: inherit; width: 100%; text-align: left;
+    transition: background .15s;
+  }
+  .topic-nav-item:hover { background: var(--bg3); }
+  .topic-nav-item.active { background: rgba(var(--sun),.07); }
+
+  .lp-num {
+    width: 24px; height: 24px; flex-shrink: 0;
+    border-radius: 6px; border: 1px solid var(--b2);
+    background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; font-weight: 600; color: var(--t3);
+    transition: all .15s;
+  }
+  .topic-nav-item:hover .lp-num { border-color:rgba(var(--sun),.2); color:rgba(var(--sun),.7); background:rgba(var(--sun),.06); }
+  .topic-nav-item.active .lp-num { border-color:rgba(var(--sun),.35); color:rgba(var(--sun),.9); background:rgba(var(--sun),.08); }
+
+  .lp-topic-text {
+    font-size: .8rem; font-weight: 400;
+    color: var(--t3); line-height: 1.4; transition: color .15s;
+  }
+  .topic-nav-item:hover .lp-topic-text { color: var(--t2); }
+  .topic-nav-item.active .lp-topic-text { color: var(--t); font-weight: 500; }
+
+  /* ── Main ── */
+  .lp-main {
+    flex: 1; padding: 3rem 3.5rem 5rem;
+    overflow-y: auto; min-width: 0;
+  }
+
+  .lp-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 2rem;
+    margin-bottom: 2.5rem; padding-bottom: 2rem;
+    border-bottom: 1px solid var(--b3);
+  }
+
+  .lp-title {
+    font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--t); letter-spacing: -.025em;
+    margin-bottom: .65rem;
+  }
+  .lp-title strong { font-weight: 600; }
+
+  .intro-text {
+    font-size: .95rem; color: var(--t2);
+    line-height: 1.8; max-width: 580px; font-weight: 300;
+  }
+
+  .lp-cta-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: .55rem 1.1rem; flex-shrink: 0;
+    background: var(--t); color: #000;
+    font-size: .8rem; font-weight: 600;
+    border-radius: 8px; text-decoration: none;
+    transition: background .15s, transform .15s; white-space: nowrap;
+  }
+  .lp-cta-btn:hover { background:#e0e0e0; transform:translateY(-1px); }
+
+  /* ── Content typography ── */
+  .topic-content-section { display: none; }
+  .topic-content-section.active { display: block; }
+
+  .lp-main h2 { font-size:1.45rem; font-weight:500; color:var(--t); letter-spacing:-.02em; margin:2.5rem 0 .875rem; line-height:1.25; }
+  .lp-main h3 { font-size:1.05rem; font-weight:500; color:var(--t); margin:2rem 0 .6rem; }
+  .lp-main h4 { font-size:.95rem; font-weight:500; color:var(--t2); margin:1.5rem 0 .5rem; }
+  .lp-main p  { font-size:.93rem; color:var(--t2); line-height:1.82; margin-bottom:1rem; font-weight:300; }
+  .lp-main ul, .lp-main ol { margin:.75rem 0 1rem 1.5rem; }
+  .lp-main li { font-size:.93rem; color:var(--t2); line-height:1.75; margin-bottom:.3rem; font-weight:300; }
+  .lp-main strong { color:var(--t); font-weight:500; }
+  .lp-main a { color:rgba(var(--sun),.75); text-decoration:none; transition:color .15s; }
+  .lp-main a:hover { color:rgba(var(--sun),1); }
+  .lp-main hr { border:none; border-top:1px solid var(--b3); margin:2rem 0; }
+
+  .lp-main code {
+    font-family:'SF Mono','Fira Code','Cascadia Code',monospace;
+    font-size:.8rem; color:rgba(var(--sun),.8);
+    background:rgba(var(--sun),.06); border:1px solid rgba(var(--sun),.1);
+    border-radius:4px; padding:.1em .38em;
+  }
+  .lp-main pre {
+    background:var(--bg2); border:1px solid var(--b2);
+    border-radius:10px; padding:1.25rem 1.4rem;
+    margin:1rem 0; overflow-x:auto;
+  }
+  .lp-main pre code { background:none; border:none; padding:0; font-size:.8rem; color:var(--t2); }
+
+  .lp-main blockquote {
+    border-left:2px solid rgba(var(--sun),.3);
+    padding:.875rem 1.25rem;
+    background:var(--bg2); border-radius:0 8px 8px 0; margin:1.25rem 0;
+  }
+  .lp-main blockquote p { margin:0; font-style:italic; }
+
+  .lp-main table { width:100%; border-collapse:collapse; margin:1.25rem 0; font-size:.875rem; }
+  .lp-main th { text-align:left; padding:.6rem 1rem; background:var(--bg3); color:var(--t); font-weight:500; border-bottom:1px solid var(--b2); }
+  .lp-main td { padding:.55rem 1rem; color:var(--t2); border-bottom:1px solid var(--b3); }
+  .lp-main tr:hover td { background:var(--bg2); }
+
+  /* ── Sticky CTA ── */
+  #sticky-training-cta {
+    position:fixed; bottom:1.5rem; right:1.5rem; z-index:50;
+    display:none; align-items:center; gap:7px;
+    padding:.6rem 1.2rem;
+    background:var(--t); color:#000;
+    font-size:.8rem; font-weight:600;
+    border-radius:100px; text-decoration:none;
+    box-shadow:0 8px 28px rgba(0,0,0,.5);
+    transition:background .15s, transform .15s;
+    font-family:'Plus Jakarta Sans',sans-serif;
+  }
+  #sticky-training-cta:hover { background:#e0e0e0; transform:translateY(-2px); }
+
+  /* ── Responsive ── */
+  @media(max-width:860px) {
+    .lp-wrap { flex-direction:column; }
+    .lp-sidebar { width:100%; position:static; height:auto; border-right:none; border-bottom:1px solid var(--b3); }
+    .lp-main { padding:2rem 1.25rem 4rem; }
+    .lp-header { flex-direction:column; }
+  }
+</style>
+
+<div class="lp-wrap">
+
+  <!-- ── Sidebar ── -->
+  <aside class="lp-sidebar">
+    <div class="lp-sidebar-title">
+      {{ page.sidebar_title | default: site.data.learning_config.default_sidebar_title }}
+    </div>
+    <nav class="lp-nav" id="learning-topic-navigation">
+      {% if page.topics %}
+        {% for topic in page.topics %}
+          <a href="#{{ topic.id }}"
+             data-topic-id="{{ topic.id }}"
+             class="topic-nav-item">
+            <span class="lp-num">{{ topic.number }}</span>
+            <span class="lp-topic-text">{{ topic.title }}</span>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p style="font-size:.78rem;color:var(--t3);padding:.5rem 0;">No topics defined.</p>
+      {% endif %}
+    </nav>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="lp-main learning-content-area">
+    <div class="lp-header">
+      <div>
+        <h1 class="lp-title">{{ page.title }}</h1>
+        <p class="intro-text">{{ page.intro_text | default: "Welcome to this comprehensive guide!" }}</p>
+      </div>
+      <a href="/contact/" class="lp-cta-btn">
+        <i class="bi bi-person-check"></i>
+        Need hands-on help?
+      </a>
+    </div>
+
+    {{ content }}
+  </main>
+
 </div>
 
-<link href="{{ '/assets/css/prism.css' | relative_url }}" rel="stylesheet" />
-<script src="{{ '/assets/js/prism.js' | relative_url }}"></script>
+<!-- Sticky CTA -->
+<a href="/contact/" id="sticky-training-cta">
+  <i class="bi bi-chat-dots"></i>
+  Get Expert Help
+</a>
 
 <script>
-    // Sticky CTA after scroll
-    document.addEventListener('DOMContentLoaded', function() {
-        const cta = document.getElementById('sticky-training-cta');
-        function toggleCTA() {
-            if (window.scrollY > 200) {
-                cta.style.display = 'flex';
-            } else {
-                cta.style.display = 'none';
-            }
-        }
-        cta.style.display = 'none';
-        window.addEventListener('scroll', toggleCTA);
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── Sticky CTA ──
+  const cta = document.getElementById('sticky-training-cta');
+  window.addEventListener('scroll', () => {
+    cta.style.display = window.scrollY > 220 ? 'flex' : 'none';
+  });
+
+  // ── Topic navigation ──
+  const navItems  = document.querySelectorAll('.topic-nav-item');
+  const sections  = document.querySelectorAll('.topic-content-section');
+  const mainArea  = document.querySelector('.learning-content-area');
+  const introText = document.querySelector('.intro-text');
+
+  function showTopic(id) {
+    navItems.forEach(n => n.classList.remove('active'));
+    sections.forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+
+    if (introText) introText.style.display = (!id || id === 'main-intro') ? 'block' : 'none';
+
+    const activeNav = document.querySelector(`.topic-nav-item[data-topic-id="${id}"]`);
+    if (activeNav) activeNav.classList.add('active');
+
+    const activeSection = document.getElementById(`content-${id}`);
+    if (activeSection) {
+      activeSection.style.display = 'block';
+      activeSection.classList.add('active');
+      if (mainArea) mainArea.scrollTop = 0;
+    }
+  }
+
+  const initial = window.location.hash
+    ? window.location.hash.substring(1)
+    : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
+  showTopic(initial);
+
+  navItems.forEach(item => {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      showTopic(this.dataset.topicId);
+      history.pushState(null, '', `#${this.dataset.topicId}`);
     });
+  });
 
-    // Topic navigation logic
-    document.addEventListener('DOMContentLoaded', function() {
-        const navItems = document.querySelectorAll('.topic-nav-item');
-        const contentSections = document.querySelectorAll('.topic-content-section');
-        const learningContentArea = document.querySelector('.learning-content-area');
-        const introText = document.querySelector('.learning-content-area .intro-text');
+  window.addEventListener('hashchange', () => {
+    showTopic(window.location.hash ? window.location.hash.substring(1) : 'main-intro');
+  });
 
-        function showTopic(topicIdToShow) {
-            navItems.forEach(item => {
-                item.classList.remove('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
-                item.querySelector('span:first-child').classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
-                item.querySelector('span:first-child').classList.add('bg-white', 'text-blue-600', 'border-blue-400');
-                item.querySelector('span:last-child > span').classList.remove('text-blue-800', 'font-semibold');
-                item.querySelector('span:last-child > span').classList.add('text-gray-600');
-            });
-
-            contentSections.forEach(section => {
-                section.classList.remove('active', 'block', 'opacity-100', 'translate-y-0');
-                section.classList.add('hidden', 'opacity-0', 'translate-y-4');
-            });
-
-            if (topicIdToShow === 'main-intro' || !topicIdToShow) {
-                if (introText) introText.style.display = 'block';
-            } else {
-                if (introText) introText.style.display = 'none';
-            }
-
-            const selectedNavItem = document.querySelector(`.topic-nav-item[data-topic-id="${topicIdToShow}"]`);
-            if (selectedNavItem) {
-                selectedNavItem.classList.add('active', 'bg-blue-100', 'text-blue-800', 'font-bold');
-                selectedNavItem.querySelector('span:first-child').classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-                selectedNavItem.querySelector('span:first-child').classList.remove('bg-white', 'text-blue-600', 'border-blue-400');
-                selectedNavItem.querySelector('span:last-child > span').classList.add('text-blue-800', 'font-semibold');
-                selectedNavItem.querySelector('span:last-child > span').classList.remove('text-gray-600');
-            }
-
-            const selectedContentSection = document.getElementById(`content-${topicIdToShow}`);
-            if (selectedContentSection) {
-                selectedContentSection.classList.remove('hidden');
-                selectedContentSection.classList.add('block', 'opacity-100', 'translate-y-0');
-                learningContentArea.scrollTop = 0;
-            }
-        }
-
-        const initialTopicId = window.location.hash ? window.location.hash.substring(1) : (navItems.length > 0 ? navItems[0].dataset.topicId : 'main-intro');
-        showTopic(initialTopicId);
-
-        navItems.forEach(item => {
-            const topicId = item.dataset.topicId;
-            item.addEventListener('click', function(event) {
-                event.preventDefault();
-                showTopic(topicId);
-                history.pushState(null, '', `#${topicId}`);
-            });
-        });
-
-        window.addEventListener('hashchange', function() {
-            const newTopicId = window.location.hash ? window.location.hash.substring(1) : 'main-intro';
-            showTopic(newTopicId);
-        });
-    });
+});
 </script>

@@ -1,5 +1,5 @@
 ---
-layout: learning-topic # This now points to the new, updated learning-topic layout
+layout: learning-topic
 title: "Asynchronous Apex - Mastering Salesforce Development"
 permalink: /asynchronous-apex/
 sidebar_title: "Asynchronous Apex Topics"
@@ -31,75 +31,143 @@ topics:
     title: "Conclusion & Best Practices"
 ---
 
-<section id="content-introduction" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">1. Introduction to Asynchronous Apex</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Salesforce operates within a multi-tenant environment, meaning resources are shared among many customers. To ensure fair usage and prevent any single organization from monopolizing resources, Salesforce imposes strict <a href="/governor-limits/" target="_blank" class="text-blue-600 hover:underline transition-colors duration-200">governor limits</a> on synchronous (real-time) Apex transactions.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">What is Asynchronous Apex?</h3>
-    <p class="text-gray-700 leading-relaxed mb-4">Asynchronous Apex refers to Apex code that executes in the background, at a later time, rather than immediately. This execution occurs in a separate thread, allowing the main transaction to complete without waiting for the asynchronous process. This is crucial for:</p>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Bypassing Governor Limits:</strong> Asynchronous operations have higher or different governor limits (e.g., higher SOQL query limits, longer CPU time).</li>
-        <li><strong>Long-Running Operations:</strong> Performing complex calculations, large data processing, or extensive callouts that would exceed synchronous limits.</li>
-        <li><strong>Callouts to External Systems:</strong> HTTP callouts to external web services must be made asynchronously to prevent holding up the transaction.</li>
-        <li><strong>Better User Experience:</strong> Prevents users from waiting for long processes to complete, improving responsiveness of the UI.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">When to use Asynchronous Apex?</h3>
-    <p class="text-gray-700 leading-relaxed mb-4">Consider asynchronous Apex when your business logic involves:</p>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li>Making callouts to external web services.</li>
-        <li>Processing a large number of records (e.g., batch updates).</li>
-        <li>Performing complex calculations that require more CPU time.</li>
-        <li>Executing operations that don't need to happen immediately.</li>
-        <li>Chaining multiple operations together.</li>
-    </ul>
-    <p class="text-gray-700 leading-relaxed mb-4">Salesforce provides several asynchronous Apex options, each suited for different use cases:</p>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><code>@future</code> Methods</li>
-        <li>Queueable Apex</li>
-        <li>Batch Apex</li>
-        <li>Scheduled Apex</li>
-    </ul>
+<style>
+  /* ── Topic section base ── */
+  .topic-content-section {
+    display: none;
+    margin-bottom: 2rem;
+  }
+  .topic-content-section.active { display: block; }
+
+  /* Typography inside sections */
+  .topic-content-section h2 {
+    font-size: 1.5rem; font-weight: 500;
+    color: var(--t); letter-spacing: -.02em;
+    margin-bottom: 1rem; padding-bottom: .75rem;
+    border-bottom: 1px solid var(--b3);
+  }
+  .topic-content-section h3 {
+    font-size: 1.05rem; font-weight: 500;
+    color: var(--t); margin: 2rem 0 .65rem;
+  }
+  .topic-content-section p {
+    font-size: .93rem; color: var(--t2);
+    line-height: 1.82; margin-bottom: 1rem; font-weight: 300;
+  }
+  .topic-content-section ul,
+  .topic-content-section ol {
+    padding-left: 1.4rem; margin-bottom: 1rem;
+  }
+  .topic-content-section li {
+    font-size: .93rem; color: var(--t2);
+    line-height: 1.75; margin-bottom: .35rem; font-weight: 300;
+  }
+  .topic-content-section strong, .topic-content-section b {
+    color: var(--t); font-weight: 500;
+  }
+  .topic-content-section a {
+    color: rgba(var(--sun),.75); text-decoration: none; transition: color .15s;
+  }
+  .topic-content-section a:hover { color: rgba(var(--sun),1); }
+
+  /* Inline code */
+  .topic-content-section code {
+    font-family: 'SF Mono','Fira Code','Cascadia Code',monospace;
+    font-size: .8rem; color: rgba(var(--sun),.8);
+    background: rgba(var(--sun),.06);
+    border: 1px solid rgba(var(--sun),.1);
+    border-radius: 4px; padding: .1em .38em;
+  }
+
+  /* Code block */
+  .apex-block {
+    background: var(--bg2);
+    border: 1px solid var(--b2);
+    border-radius: 10px;
+    padding: 1.25rem 1.4rem;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+  }
+  .apex-block-label {
+    font-size: .68rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: rgba(var(--sun),.4);
+    margin-bottom: .75rem;
+  }
+  .apex-block pre {
+    margin: 0; background: none; border: none; padding: 0;
+  }
+  .apex-block code {
+    background: none; border: none; padding: 0;
+    font-size: .78rem; color: var(--t2);
+    line-height: 1.7;
+  }
+</style>
+
+<!-- ══ SECTION 1 ══ -->
+<section id="content-introduction" class="topic-content-section">
+  <h2>1. Introduction to Asynchronous Apex</h2>
+  <p>Salesforce operates within a multi-tenant environment, meaning resources are shared among many customers. To ensure fair usage, Salesforce imposes strict <a href="/governor-limits/" target="_blank">governor limits</a> on synchronous Apex transactions.</p>
+  <h3>What is Asynchronous Apex?</h3>
+  <p>Asynchronous Apex executes in the background, at a later time, in a separate thread. This allows the main transaction to complete without waiting. This is crucial for:</p>
+  <ul>
+    <li><strong>Bypassing Governor Limits:</strong> Async operations have higher limits (e.g., higher SOQL query limits, longer CPU time).</li>
+    <li><strong>Long-Running Operations:</strong> Complex calculations, large data processing, or extensive callouts.</li>
+    <li><strong>Callouts to External Systems:</strong> HTTP callouts must be made asynchronously.</li>
+    <li><strong>Better User Experience:</strong> Prevents users from waiting for long processes to complete.</li>
+  </ul>
+  <h3>When to use Asynchronous Apex?</h3>
+  <p>Consider asynchronous Apex when your business logic involves:</p>
+  <ul>
+    <li>Making callouts to external web services.</li>
+    <li>Processing a large number of records (e.g., batch updates).</li>
+    <li>Performing complex calculations that require more CPU time.</li>
+    <li>Executing operations that don't need to happen immediately.</li>
+    <li>Chaining multiple operations together.</li>
+  </ul>
+  <p>Salesforce provides several async options:</p>
+  <ul>
+    <li><code>@future</code> Methods</li>
+    <li>Queueable Apex</li>
+    <li>Batch Apex</li>
+    <li>Scheduled Apex</li>
+  </ul>
 </section>
 
-<section id="content-future-methods" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">2. @future Methods</h2>
-    <p class="text-gray-700 leading-relaxed mb-4"><code>@future</code> methods are a simple way to run Apex code in its own thread, at a later time. They are particularly useful for making callouts to external web services and for offloading long-running operations from the main transaction.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Static Method:</strong> Must be a <code>static</code> method.</li>
-        <li><strong><code>@future</code> Annotation:</strong> Must be annotated with <code>@future</code>.</li>
-        <li><strong>Void Return Type:</strong> Must return <code>void</code>.</li>
-        <li><strong>Primitive Parameters:</strong> Parameters must be primitive data types (<code>String</code>, <code>Integer</code>, <code>Id</code>, <code>List&lt;String&gt;</code>, <code>Set&lt;Id&gt;</code>, etc.). You cannot pass sObjects or collections of sObjects directly. If you need to pass sObjects, pass their IDs and query them within the <code>@future</code> method.</li>
-        <li><strong>Callouts:</strong> If the method makes a callout, it must be annotated with <code>@future(callout=true)</code>.</li>
-        <li><strong>No Chaining:</strong> You cannot chain <code>@future</code> methods directly (i.e., one <code>@future</code> method cannot call another <code>@future</code> method).</li>
-        <li><strong>Limited Queue:</strong> Up to 50 <code>@future</code> calls per transaction.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Making a Callout</h3>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">public class ExternalServiceCallout {
+<!-- ══ SECTION 2 ══ -->
+<section id="content-future-methods" class="topic-content-section">
+  <h2>2. @future Methods</h2>
+  <p><code>@future</code> methods run Apex code in its own thread, at a later time. Particularly useful for making callouts to external web services and offloading long-running operations.</p>
+  <h3>Key Characteristics:</h3>
+  <ul>
+    <li><strong>Static Method:</strong> Must be a <code>static</code> method.</li>
+    <li><strong><code>@future</code> Annotation:</strong> Must be annotated with <code>@future</code>.</li>
+    <li><strong>Void Return Type:</strong> Must return <code>void</code>.</li>
+    <li><strong>Primitive Parameters:</strong> Parameters must be primitive data types. Cannot pass sObjects directly — pass IDs and query within the method.</li>
+    <li><strong>Callouts:</strong> If making a callout, annotate with <code>@future(callout=true)</code>.</li>
+    <li><strong>No Chaining:</strong> One <code>@future</code> method cannot call another.</li>
+    <li><strong>Limited Queue:</strong> Up to 50 <code>@future</code> calls per transaction.</li>
+  </ul>
+  <h3>Example: Making a Callout</h3>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">public class ExternalServiceCallout {
     @future(callout=true)
     public static void sendAccountToExternalSystem(Set&lt;Id&gt; accountIds) {
         List&lt;Account&gt; accounts = [SELECT Id, Name, AnnualRevenue FROM Account WHERE Id IN :accountIds];
-
-        // Simulate a callout to an external system
         System.debug('Sending ' + accounts.size() + ' accounts to external system asynchronously.');
         for (Account acc : accounts) {
             System.debug('Processing Account: ' + acc.Name + ' (' + acc.Id + ')');
-            // Example: Http request setup
             // HttpRequest req = new HttpRequest();
             // req.setEndpoint('http://api.external.com/accounts');
             // req.setMethod('POST');
             // req.setBody(JSON.serialize(acc));
             // Http http = new Http();
             // HTTPResponse res = http.send(req);
-            // System.debug('Callout response: ' + res.getBody());
         }
     }
 }
 
-// How to call it from a trigger or other Apex code:
 trigger AccountAfterInsert on Account (after insert) {
     Set&lt;Id&gt; newAccountIds = new Set&lt;Id&gt;();
     for (Account acc : Trigger.new) {
@@ -108,34 +176,33 @@ trigger AccountAfterInsert on Account (after insert) {
     if (!newAccountIds.isEmpty()) {
         ExternalServiceCallout.sendAccountToExternalSystem(newAccountIds);
     }
-}
-</code></pre>
-    </div>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Limitations:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li>Cannot monitor progress directly.</li>
-        <li>No guaranteed execution order for multiple <code>@future</code> calls.</li>
-        <li>Cannot pass sObjects directly, requiring extra SOQL queries.</li>
-    </ul>
+}</code></pre>
+  </div>
+  <h3>Limitations:</h3>
+  <ul>
+    <li>Cannot monitor progress directly.</li>
+    <li>No guaranteed execution order for multiple <code>@future</code> calls.</li>
+    <li>Cannot pass sObjects directly, requiring extra SOQL queries.</li>
+  </ul>
 </section>
 
-<section id="content-queueable-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">3. Queueable Apex</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Queueable Apex provides a more flexible and robust way to run asynchronous Apex code compared to <code>@future</code> methods. It implements the <code>Queueable</code> interface and allows for chaining jobs and passing sObjects.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong><code>Queueable</code> Interface:</strong> Class must implement <code>Database.Queueable</code>.</li>
-        <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method.</li>
-        <li><strong>sObject Parameters:</strong> Can accept sObjects and collections of sObjects as parameters.</li>
-        <li><strong>Chaining:</strong> A Queueable job can enqueue another Queueable job (up to 50 jobs in a chain). This allows for sequential processing of complex logic.</li>
-        <li><strong>Job ID:</strong> The <code>System.enqueueJob</code> method returns a job ID, which can be used to monitor the job's progress.</li>
-        <li><strong>Higher Limits:</strong> Generally has higher limits than <code>@future</code> methods, especially for heap size.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Chaining Updates</h3>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">public class AccountContactUpdater implements Queueable {
+<!-- ══ SECTION 3 ══ -->
+<section id="content-queueable-apex" class="topic-content-section">
+  <h2>3. Queueable Apex</h2>
+  <p>Queueable Apex provides a more flexible and robust way to run async Apex. Implements the <code>Queueable</code> interface and allows chaining jobs and passing sObjects.</p>
+  <h3>Key Characteristics:</h3>
+  <ul>
+    <li><strong><code>Queueable</code> Interface:</strong> Class must implement <code>Database.Queueable</code>.</li>
+    <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method.</li>
+    <li><strong>sObject Parameters:</strong> Can accept sObjects and collections as parameters.</li>
+    <li><strong>Chaining:</strong> A Queueable job can enqueue another (up to 50 jobs in a chain).</li>
+    <li><strong>Job ID:</strong> <code>System.enqueueJob</code> returns a job ID for monitoring.</li>
+    <li><strong>Higher Limits:</strong> Generally higher limits than <code>@future</code>, especially heap size.</li>
+  </ul>
+  <h3>Example: Chaining Updates</h3>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">public class AccountContactUpdater implements Queueable {
     private List&lt;Account&gt; accountsToProcess;
     private Boolean updateContacts;
 
@@ -145,43 +212,31 @@ trigger AccountAfterInsert on Account (after insert) {
     }
 
     public void execute(QueueableContext context) {
-        System.debug('Executing AccountContactUpdater Queueable job. Batch ID: ' + context.getJobId());
-
         List&lt;Contact&gt; contactsToUpdate = new List&lt;Contact&gt;();
         for (Account acc : accountsToProcess) {
-            // Logic to update account fields (e.g., based on some criteria)
             acc.Description = 'Processed by Queueable Apex.';
-            // update acc; // DML on triggering records should be avoided if possible, or handled carefully
-
             if (updateContacts) {
-                // Query related contacts and update them
-                for (Contact con : [SELECT Id, FirstName, LastName, MailingCity FROM Contact WHERE AccountId = :acc.Id]) {
-                    con.MailingCity = acc.BillingCity; // Update contact city based on account
+                for (Contact con : [SELECT Id, MailingCity FROM Contact WHERE AccountId = :acc.Id]) {
+                    con.MailingCity = acc.BillingCity;
                     contactsToUpdate.add(con);
                 }
             }
         }
-
         if (!contactsToUpdate.isEmpty()) {
             update contactsToUpdate;
-            System.debug('Updated ' + contactsToUpdate.size() + ' contacts.');
         }
-
-        // Example of chaining another Queueable job
-        // If there's more work to do, enqueue another job
-        if (accountsToProcess.size() > 100) { // Arbitrary condition for chaining
-            System.debug('Chaining another AccountContactUpdater job.');
-            System.enqueueJob(new AccountContactUpdater(accountsToProcess.subList(100, accountsToProcess.size()), updateContacts));
+        // Chain another job if needed
+        if (accountsToProcess.size() > 100) {
+            System.enqueueJob(new AccountContactUpdater(
+                accountsToProcess.subList(100, accountsToProcess.size()), updateContacts));
         }
     }
 }
 
-// How to call it from a trigger or other Apex code:
 trigger AccountQueueableTrigger on Account (after insert, after update) {
     if (Trigger.isAfter) {
         List&lt;Account&gt; accountsToProcess = new List&lt;Account&gt;();
         for (Account acc : Trigger.new) {
-            // Add accounts that meet certain criteria for processing
             if (acc.AnnualRevenue != null && acc.AnnualRevenue > 1000000) {
                 accountsToProcess.add(acc);
             }
@@ -190,35 +245,34 @@ trigger AccountQueueableTrigger on Account (after insert, after update) {
             System.enqueueJob(new AccountContactUpdater(accountsToProcess, true));
         }
     }
-}
-</code></pre>
-    </div>
+}</code></pre>
+  </div>
 </section>
 
-<section id="content-batch-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">4. Batch Apex</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Batch Apex is designed for processing large numbers of records (up to 50 million) that would exceed normal governor limits. It breaks down the processing into smaller, manageable chunks (batches) that can be processed asynchronously.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong><code>Database.Batchable</code> Interface:</strong> Class must implement <code>Database.Batchable&lt;sObject&gt;</code> (or a custom type).</li>
-        <li><strong>Three Methods:</strong>
-            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-                <li><code>start(Database.BatchableContext bc)</code>: Called once at the beginning. Used to collect the records or objects to be passed to the <code>execute</code> method. Typically returns a <code>Database.QueryLocator</code> for SOQL queries or an <code>Iterable</code> for custom logic.</li>
-                <li><code>execute(Database.BatchableContext bc, List&lt;sObject&gt; scope)</code>: Called for each batch of records. The <code>scope</code> parameter contains the chunk of records to process (up to 200 by default). This is where your main processing logic resides.</li>
-                <li><code>finish(Database.BatchableContext bc)</code>: Called once after all batches are processed. Used for post-processing operations like sending email notifications or logging.</li>
-            </ul>
-        </li>
-        <li><strong>Higher Limits:</strong> Each <code>execute</code> method call runs in its own set of governor limits.</li>
-        <li><strong>Monitoring:</strong> Batch jobs can be monitored in the Apex Jobs page in Setup.</li>
-        <li><strong>Queue:</strong> Up to 5 concurrent batch jobs can run at a time.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Mass Data Update</h3>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">public class AccountRatingBatch implements Database.Batchable&lt;sObject&gt;, Database.AllowsCallouts {
-    public String query; // SOQL query to select accounts
-    public String newRating; // New rating to set
+<!-- ══ SECTION 4 ══ -->
+<section id="content-batch-apex" class="topic-content-section">
+  <h2>4. Batch Apex</h2>
+  <p>Batch Apex processes large numbers of records (up to 50 million) by breaking them into smaller chunks processed asynchronously.</p>
+  <h3>Key Characteristics:</h3>
+  <ul>
+    <li><strong><code>Database.Batchable</code> Interface:</strong> Class must implement <code>Database.Batchable&lt;sObject&gt;</code>.</li>
+    <li><strong>Three Methods:</strong>
+      <ul>
+        <li><code>start()</code>: Called once. Returns a <code>Database.QueryLocator</code> or <code>Iterable</code>.</li>
+        <li><code>execute()</code>: Called per batch chunk (up to 200 records by default). Main processing logic here.</li>
+        <li><code>finish()</code>: Called once after all batches. Used for notifications or cleanup.</li>
+      </ul>
+    </li>
+    <li><strong>Higher Limits:</strong> Each <code>execute</code> call runs with its own set of governor limits.</li>
+    <li><strong>Monitoring:</strong> Visible in Setup → Apex Jobs.</li>
+    <li><strong>Queue:</strong> Up to 5 concurrent batch jobs.</li>
+  </ul>
+  <h3>Example: Mass Data Update</h3>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">public class AccountRatingBatch implements Database.Batchable&lt;sObject&gt;, Database.AllowsCallouts {
+    public String query;
+    public String newRating;
 
     public AccountRatingBatch(String q, String rating) {
         this.query = q;
@@ -226,12 +280,10 @@ trigger AccountQueueableTrigger on Account (after insert, after update) {
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        System.debug('Batch Start: ' + query);
         return Database.getQueryLocator(query);
     }
 
     public void execute(Database.BatchableContext bc, List&lt;Account&gt; scope) {
-        System.debug('Batch Execute: Processing ' + scope.size() + ' accounts.');
         List&lt;Account&gt; accountsToUpdate = new List&lt;Account&gt;();
         for (Account acc : scope) {
             acc.Rating = newRating;
@@ -240,208 +292,160 @@ trigger AccountQueueableTrigger on Account (after insert, after update) {
         if (!accountsToUpdate.isEmpty()) {
             update accountsToUpdate;
         }
-        // Example: Make a callout for each batch (if Database.AllowsCallouts is implemented)
-        // ExternalServiceCallout.sendBatchSummary(scope.size());
     }
 
     public void finish(Database.BatchableContext bc) {
-        AsyncApexJob job = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems FROM AsyncApexJob WHERE Id = :bc.getJobId()];
-        System.debug('Batch Finish: Job ' + job.Id + ' finished with status ' + job.Status);
-        System.debug('Processed ' + job.JobItemsProcessed + ' items with ' + job.NumberOfErrors + ' errors.');
-
-        // Send an email notification upon completion
+        AsyncApexJob job = [SELECT Id, Status, NumberOfErrors, JobItemsProcessed, TotalJobItems
+                            FROM AsyncApexJob WHERE Id = :bc.getJobId()];
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        String[] toAddresses = new String[] {'admin@example.com'};
-        mail.setToAddresses(toAddresses);
-        mail.setSubject('Account Rating Batch Job Completed');
-        mail.setPlainTextBody('The Account Rating batch job has completed. Status: ' + job.Status + '. Processed: ' + job.JobItemsProcessed + '. Errors: ' + job.NumberOfErrors);
+        mail.setToAddresses(new String[] {'admin@example.com'});
+        mail.setSubject('Account Rating Batch Completed');
+        mail.setPlainTextBody('Status: ' + job.Status + '. Processed: ' + job.JobItemsProcessed);
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
     }
 }
 
-// How to execute the batch job:
-// From Developer Console or anonymous Apex:
-Database.executeBatch(new AccountRatingBatch('SELECT Id, Name, Rating FROM Account WHERE CreatedDate = LAST_N_DAYS:30', 'Hot'), 200);
-// The second parameter (200) is the batch size.
-</code></pre>
-    </div>
+// Execute:
+Database.executeBatch(new AccountRatingBatch(
+    'SELECT Id, Name, Rating FROM Account WHERE CreatedDate = LAST_N_DAYS:30', 'Hot'), 200);</code></pre>
+  </div>
 </section>
 
-<section id="content-scheduled-apex" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">5. Scheduled Apex</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Scheduled Apex allows you to execute Apex classes at specific times using the Salesforce scheduler. This is ideal for tasks that need to run regularly, such as daily data cleanups, weekly report generation, or monthly data synchronizations.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Characteristics:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong><code>Schedulable</code> Interface:</strong> Class must implement <code>Schedulable</code>.</li>
-        <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method that takes a <code>SchedulableContext</code> parameter.</li>
-        <li><strong>Cron Expression:</strong> Scheduling is done using a Cron expression (e.g., '0 0 1 * * ?' for 1 AM daily) or by specifying a frequency in the UI.</li>
-        <li><strong>Single Instance:</strong> Only one instance of a specific Scheduled Apex class can be scheduled at a time.</li>
-        <li><strong>Combine with Batch Apex:</strong> Often used to schedule Batch Apex jobs for large data processing.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Example: Daily Data Cleanup</h3>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">public class DailyDataCleanupScheduler implements Schedulable {
+<!-- ══ SECTION 5 ══ -->
+<section id="content-scheduled-apex" class="topic-content-section">
+  <h2>5. Scheduled Apex</h2>
+  <p>Scheduled Apex executes Apex classes at specific times — ideal for daily cleanups, weekly reports, or monthly data syncs.</p>
+  <h3>Key Characteristics:</h3>
+  <ul>
+    <li><strong><code>Schedulable</code> Interface:</strong> Class must implement <code>Schedulable</code>.</li>
+    <li><strong><code>execute</code> Method:</strong> Takes a <code>SchedulableContext</code> parameter.</li>
+    <li><strong>Cron Expression:</strong> E.g., <code>'0 0 1 * * ?'</code> for 1 AM daily.</li>
+    <li><strong>Single Instance:</strong> Only one instance of a class can be scheduled at a time.</li>
+    <li><strong>Combine with Batch:</strong> Often used to schedule Batch jobs.</li>
+  </ul>
+  <h3>Example: Daily Data Cleanup</h3>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">public class DailyDataCleanupScheduler implements Schedulable {
     public void execute(SchedulableContext sc) {
-        System.debug('Daily Data Cleanup: Starting scheduled job.');
-
-        // Example: Delete old records
         List&lt;Task&gt; oldTasks = [SELECT Id FROM Task WHERE CreatedDate &lt; LAST_N_DAYS:365 LIMIT 10000];
         if (!oldTasks.isEmpty()) {
             delete oldTasks;
-            System.debug('Deleted ' + oldTasks.size() + ' old tasks.');
         }
-
-        // Or, more commonly, kick off a Batch Apex job for large-scale cleanup
-        Database.executeBatch(new OldCaseCleanupBatch()); // Assuming OldCaseCleanupBatch is a Batch Apex class
+        // Kick off a Batch job for large-scale cleanup
+        Database.executeBatch(new OldCaseCleanupBatch());
     }
 }
 
-// How to schedule it:
-// 1. From Developer Console (anonymous Apex):
-System.schedule('Daily Cleanup Job', '0 0 0 * * ?', new DailyDataCleanupScheduler()); // Runs every day at midnight (GMT)
-
-// 2. From Salesforce UI: Setup -> Apex Classes -> Schedule Apex
-//    You can specify the class, job name, and frequency there.
-</code></pre>
-    </div>
+// Schedule it:
+System.schedule('Daily Cleanup Job', '0 0 0 * * ?', new DailyDataCleanupScheduler());</code></pre>
+  </div>
 </section>
 
-<section id="content-choosing-tool" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">6. Choosing the Right Asynchronous Tool</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Selecting the appropriate asynchronous Apex tool depends on your specific requirements:</p>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong><code>@future</code> Methods:</strong>
-            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-                <li><strong>Use when:</strong> You need to perform a single callout or offload a small, self-contained operation immediately after a transaction, and you don't need to monitor its progress or chain it.</li>
-                <li><strong>Limitations:</strong> Cannot pass sObjects, no chaining, limited monitoring.</li>
-            </ul>
-        </li>
-        <li><strong>Queueable Apex:</strong>
-            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-                <li><strong>Use when:</strong> You need to pass sObjects, chain jobs together, or require more flexibility and higher limits than <code>@future</code> methods for a single, non-batch operation.</li>
-                <li><strong>Advantages:</strong> sObject parameters, chaining, job ID for monitoring.</li>
-            </ul>
-        </li>
-        <li><strong>Batch Apex:</strong>
-            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-                <li><strong>Use when:</strong> You need to process a very large number of records (thousands to millions) that would hit governor limits in a single transaction. Ideal for mass data updates, deletions, or calculations.</li>
-                <li><strong>Advantages:</strong> Processes records in chunks, separate governor limits per chunk, robust error handling, built-in progress monitoring.</li>
-            </ul>
-        </li>
-        <li><strong>Scheduled Apex:</strong>
-            <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-                <li><strong>Use when:</strong> You need to run a specific Apex class (often a Batch Apex job or a Queueable job) at a predetermined time or on a recurring schedule.</li>
-                <li><strong>Advantages:</strong> Automation of recurring tasks, time-based execution.</li>
-            </ul>
-        </li>
-    </ul>
-    <p class="text-gray-700 leading-relaxed mb-4"><strong>General Rule of Thumb:</strong></p>
-    <ol class="list-decimal pl-5 space-y-2 mb-4 text-gray-700">
-        <li>Start with declarative automation (Flows, Process Builder).</li>
-        <li>If code is required, consider <code>@future</code> for simple fire-and-forget callouts or small background tasks.</li>
-        <li>If you need to pass sObjects or chain jobs, move to Queueable Apex.</li>
-        <li>For large data volumes, use Batch Apex.</li>
-        <li>For recurring tasks, use Scheduled Apex (often to kick off a Batch or Queueable job).</li>
-    </ol>
+<!-- ══ SECTION 6 ══ -->
+<section id="content-choosing-tool" class="topic-content-section">
+  <h2>6. Choosing the Right Asynchronous Tool</h2>
+  <p>Select the appropriate tool based on your requirements:</p>
+  <ul>
+    <li><strong><code>@future</code> Methods:</strong> Simple fire-and-forget callouts or small background tasks. No sObject passing, no chaining.</li>
+    <li><strong>Queueable Apex:</strong> Need to pass sObjects, chain jobs, or require more flexibility than <code>@future</code>. Returns a job ID for monitoring.</li>
+    <li><strong>Batch Apex:</strong> Processing thousands to millions of records. Separate governor limits per chunk, built-in monitoring.</li>
+    <li><strong>Scheduled Apex:</strong> Run a class at a predetermined time or recurring schedule. Often used to kick off a Batch or Queueable job.</li>
+  </ul>
+  <h3>General Rule of Thumb:</h3>
+  <ol>
+    <li>Start with declarative automation (Flows, Process Builder).</li>
+    <li>For simple fire-and-forget callouts → <code>@future</code>.</li>
+    <li>If you need sObjects or chaining → Queueable Apex.</li>
+    <li>For large data volumes → Batch Apex.</li>
+    <li>For recurring tasks → Scheduled Apex (often kicking off Batch or Queueable).</li>
+  </ol>
 </section>
 
-<section id="content-monitoring-debugging" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">7. Monitoring & Debugging Asynchronous Apex</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Monitoring and debugging asynchronous Apex jobs are crucial for ensuring your background processes are running correctly and efficiently.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Monitoring Asynchronous Jobs:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Setup -&gt; Apex Jobs:</strong> This page provides a comprehensive list of all asynchronous Apex jobs (Batch, Queueable, Scheduled, and <code>@future</code> methods). You can see their status (Queued, Processing, Completed, Failed), submission date, completion date, and any errors.</li>
-        <li><strong>Setup -&gt; Scheduled Jobs:</strong> Specifically for Scheduled Apex, this page shows all jobs currently scheduled to run. You can delete or reschedule jobs from here.</li>
-        <li><strong>AsyncApexJob Object:</strong> You can query the <code>AsyncApexJob</code> sObject to programmatically get information about your jobs. This is useful for building custom monitoring tools or for checking job status within Apex code.</li>
-    </ul>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">// Example SOQL query to get job status
-List&lt;AsyncApexJob&gt; jobs = [SELECT Id, JobType, Status, ApexClass.Name, JobItemsProcessed, TotalJobItems, NumberOfErrors
-                           FROM AsyncApexJob
-                           WHERE JobType IN ('BatchApex', 'Queueable', 'Future')
-                           ORDER BY CreatedDate DESC LIMIT 10];
+<!-- ══ SECTION 7 ══ -->
+<section id="content-monitoring-debugging" class="topic-content-section">
+  <h2>7. Monitoring &amp; Debugging Asynchronous Apex</h2>
+  <p>Monitoring and debugging async jobs is crucial for ensuring background processes run correctly.</p>
+  <h3>Monitoring Asynchronous Jobs:</h3>
+  <ul>
+    <li><strong>Setup → Apex Jobs:</strong> Lists all async jobs with status, submission date, errors.</li>
+    <li><strong>Setup → Scheduled Jobs:</strong> Shows all currently scheduled jobs.</li>
+    <li><strong>AsyncApexJob Object:</strong> Query programmatically to get job info.</li>
+  </ul>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">List&lt;AsyncApexJob&gt; jobs = [
+    SELECT Id, JobType, Status, ApexClass.Name, JobItemsProcessed, TotalJobItems, NumberOfErrors
+    FROM AsyncApexJob
+    WHERE JobType IN ('BatchApex', 'Queueable', 'Future')
+    ORDER BY CreatedDate DESC LIMIT 10];
 
 for (AsyncApexJob job : jobs) {
-    System.debug('Job ID: ' + job.Id + ', Type: ' + job.JobType + ', Status: ' + job.Status + ', Class: ' + job.ApexClass.Name);
+    System.debug('Job: ' + job.ApexClass.Name + ' | Status: ' + job.Status);
     if (job.NumberOfErrors > 0) {
         System.debug('Errors: ' + job.NumberOfErrors);
     }
-}
-</code></pre>
-    </div>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Debugging Asynchronous Jobs:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Debug Logs:</strong> The primary tool for debugging. Set up debug logs for the user who initiated the asynchronous job (or the Automated Process user for scheduled jobs). Ensure logging levels are appropriate (e.g., Apex Code: FINEST, Workflow: FINEST).</li>
-        <li><strong>System.debug():</strong> Use <code>System.debug()</code> statements liberally within your asynchronous code to track execution flow, variable values, and DML operations.</li>
-        <li><strong>Exception Handling:</strong> Implement robust <code>try-catch</code> blocks within your asynchronous methods. Log any exceptions to a custom error object or using <code>System.debug()</code>. For Batch Apex, exceptions in the <code>execute</code> method will be reported in the <code>AsyncApexJob</code> record.</li>
-        <li><strong>Limits.get*() Methods:</strong> Use methods from the <code>Limits</code> class (e.g., <code>Limits.getLimitQueries()</code>, <code>Limits.getQueries()</code>) to monitor governor limit consumption within your <code>execute</code> methods, especially in Batch Apex.</li>
-    </ul>
-    <div class="bg-gray-800 p-6 rounded-lg text-sm overflow-x-auto shadow-inner-lg my-6 border border-gray-700 text-gray-200">
-        <p class="text-gray-400 font-bold mb-3">Apex Code Example:</p>
-        <pre><code class="language-apex">public class DebuggingBatchExample implements Database.Batchable&lt;sObject&gt; {
+}</code></pre>
+  </div>
+  <h3>Debugging Asynchronous Jobs:</h3>
+  <ul>
+    <li><strong>Debug Logs:</strong> Set up logs for the user who initiated the async job. Use appropriate logging levels.</li>
+    <li><strong>System.debug():</strong> Use liberally to track execution flow and variable values.</li>
+    <li><strong>Exception Handling:</strong> Implement <code>try-catch</code> blocks. Log exceptions to a custom error object.</li>
+    <li><strong>Limits.get*() Methods:</strong> Monitor governor limit consumption, especially in Batch <code>execute</code> methods.</li>
+  </ul>
+  <div class="apex-block">
+    <div class="apex-block-label">Apex Code Example</div>
+    <pre><code class="language-apex">public class DebuggingBatchExample implements Database.Batchable&lt;sObject&gt; {
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator('SELECT Id, Name FROM Account');
     }
 
     public void execute(Database.BatchableContext bc, List&lt;Account&gt; scope) {
-        System.debug('--- Batch Execute Start ---');
-        System.debug('Current Heap Size: ' + Limits.getHeapSize() + ' / ' + Limits.getLimitHeapSize());
-        System.debug('Queries Used: ' + Limits.getQueries() + ' / ' + Limits.getLimitQueries());
-
+        System.debug('Heap: ' + Limits.getHeapSize() + ' / ' + Limits.getLimitHeapSize());
+        System.debug('Queries: ' + Limits.getQueries() + ' / ' + Limits.getLimitQueries());
         try {
             for (Account acc : scope) {
-                // Simulate an error for debugging
                 if (acc.Name == 'Error Account') {
-                    throw new MyCustomException('Account named "Error Account" encountered!');
+                    throw new MyCustomException('Error Account encountered!');
                 }
-                acc.Description = 'Processed by Debugging Batch';
+                acc.Description = 'Processed';
             }
             update scope;
         } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error in batch execute: ' + e.getMessage() + ' at line ' + e.getLineNumber());
-            // Optionally, log to a custom error object
-            // Error_Log__c error = new Error_Log__c(Message__c = e.getMessage(), Stack_Trace__c = e.getStackTraceString());
-            // insert error;
+            System.debug(LoggingLevel.ERROR, 'Error: ' + e.getMessage() + ' line ' + e.getLineNumber());
         }
-        System.debug('--- Batch Execute End ---');
     }
 
     public void finish(Database.BatchableContext bc) {
-        // Post-processing and final logging
         System.debug('Batch Finished.');
     }
 
     public class MyCustomException extends Exception {}
-}
-</code></pre>
-    </div>
+}</code></pre>
+  </div>
 </section>
 
-<section id="content-conclusion" class="topic-content-section bg-white p-8 lg:p-10 rounded-xl shadow-md mb-8
-    hidden opacity-0 transform translate-y-4 transition-all duration-300 ease-out">
-    <h2 class="text-3xl font-bold mb-5 text-blue-700">8. Conclusion & Best Practices</h2>
-    <p class="text-gray-700 leading-relaxed mb-4">Asynchronous Apex is an indispensable part of Salesforce development, enabling you to build robust, scalable, and efficient applications that can handle complex business requirements and large data volumes without hitting governor limits.</p>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">Key Takeaways:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Governor Limits:</strong> Asynchronous Apex helps you work around the stricter limits of synchronous transactions.</li>
-        <li><strong>Callouts:</strong> HTTP callouts must be made asynchronously.</li>
-        <li><strong>Tool Selection:</strong> Choose the right tool (<code>@future</code>, Queueable, Batch, Scheduled) based on the specific use case (simple callout, chaining, large data volume, recurring tasks).</li>
-        <li><strong>Bulkification:</strong> Always write asynchronous code with bulkification in mind, avoiding SOQL/DML inside loops.</li>
-        <li><strong>Error Handling:</strong> Implement comprehensive <code>try-catch</code> blocks and logging for better debugging and monitoring.</li>
-        <li><strong>Monitoring:</strong> Regularly check Apex Jobs and Scheduled Jobs in Setup, or query <code>AsyncApexJob</code>.</li>
-    </ul>
-    <h3 class="text-2xl font-semibold mb-4 mt-8 text-blue-600">General Best Practices for Asynchronous Apex:</h3>
-    <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-700">
-        <li><strong>Keep it Lean:</strong> Asynchronous methods should focus on their core task. Delegate complex logic to helper classes.</li>
-        <li><strong>Idempotency:</strong> Design your asynchronous operations to be idempotent, meaning running them multiple times with the same inputs produces the same result without unintended side effects. This helps in case of retries or unexpected re-executions.</li>
-        <li><strong>Test Thoroughly:</strong> Write comprehensive unit tests for all asynchronous Apex, including positive, negative, and bulk scenarios. Ensure proper governor limit testing.</li>
-        <li><strong>Consider Platform Events:</strong> For complex, decoupled integrations or event-driven architectures, consider <a href="https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/" target="_blank" class="text-blue-600 hover:underline transition-colors duration-300">Platform Events</a> as another powerful asynchronous option.</li>
-        <li><strong>Use the Right Tool for the Job:</strong> Don't just pick the first asynchronous method you know. Evaluate the requirements carefully against the strengths and weaknesses of each option.</li>
-    </ul>
-    <p class="text-gray-700 leading-relaxed mb-4">By mastering these asynchronous patterns, you'll be able to build more powerful and resilient Salesforce applications.</p>
+<!-- ══ SECTION 8 ══ -->
+<section id="content-conclusion" class="topic-content-section">
+  <h2>8. Conclusion &amp; Best Practices</h2>
+  <p>Asynchronous Apex is indispensable for building robust, scalable Salesforce applications that handle complex requirements without hitting governor limits.</p>
+  <h3>Key Takeaways:</h3>
+  <ul>
+    <li><strong>Governor Limits:</strong> Async Apex helps you work around stricter synchronous limits.</li>
+    <li><strong>Callouts:</strong> HTTP callouts must be made asynchronously.</li>
+    <li><strong>Tool Selection:</strong> Match the tool to the use case — <code>@future</code>, Queueable, Batch, or Scheduled.</li>
+    <li><strong>Bulkification:</strong> Always avoid SOQL/DML inside loops.</li>
+    <li><strong>Error Handling:</strong> Implement comprehensive <code>try-catch</code> and logging.</li>
+    <li><strong>Monitoring:</strong> Regularly check Apex Jobs and query <code>AsyncApexJob</code>.</li>
+  </ul>
+  <h3>General Best Practices:</h3>
+  <ul>
+    <li><strong>Keep it Lean:</strong> Focus async methods on their core task. Delegate complex logic to helper classes.</li>
+    <li><strong>Idempotency:</strong> Design operations so running them multiple times with the same input produces the same result.</li>
+    <li><strong>Test Thoroughly:</strong> Write unit tests covering positive, negative, and bulk scenarios.</li>
+    <li><strong>Consider Platform Events:</strong> For complex, decoupled integrations, <a href="https://developer.salesforce.com/docs/atlas.en-us.platform_events.meta/platform_events/" target="_blank">Platform Events</a> are a powerful async option.</li>
+    <li><strong>Right Tool for the Job:</strong> Evaluate requirements carefully before picking an async method.</li>
+  </ul>
+  <p>By mastering these asynchronous patterns, you'll build more powerful and resilient Salesforce applications.</p>
 </section>

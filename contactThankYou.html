@@ -1,20 +1,108 @@
 ---
 layout: HomePageFinalTest
-title: Thank You
+title: Thank You · SFX Support
 permalink: /contact-thank-you/
+description: "Your message has been received by SFX Support. Our team will review your request and get back to you shortly."
 ---
 
-<body class="min-h-screen bg-[#17181b] text-gray-100 flex flex-col">
-    <section class="flex-1 flex flex-col items-center justify-center px-4 pt-32">
-      <div class="max-w-xl w-full mx-auto text-center">
-        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-indigo-300 to-pink-400 text-transparent bg-clip-text mb-4">Thank You!</h1>
-        <p class="text-lg text-gray-300 mb-6">
-          Thanks for reaching out to SFX Support.<br>
-          We’ve received your message and our team will get back to you soon.
-        </p>
-        <a href="/" class="inline-block mt-8 px-8 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-pink-500 text-white font-bold shadow-lg hover:scale-105 transition-transform duration-200">
-          Back to Homepage
-        </a>
-      </div>
-    </section>
-  </body>
+<style>
+  .thankyou-wrap {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 24px 80px;
+    text-align: center;
+  }
+
+  .thankyou-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(var(--sun), .1);
+    border: 1px solid rgba(var(--sun), .25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+  }
+
+  .thankyou-icon i {
+    font-size: 2rem;
+    color: rgba(var(--sun), .85);
+  }
+
+  .thankyou-wrap h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: var(--t);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .thankyou-wrap h1 span {
+    color: rgba(var(--sun), .85);
+  }
+
+  .thankyou-wrap p {
+    font-size: 1.1rem;
+    color: var(--t2);
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 auto 36px;
+  }
+
+  .thankyou-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 32px;
+    background: var(--t);
+    color: #000;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+  }
+
+  .thankyou-btn:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="thankyou-wrap">
+  <div class="thankyou-icon">
+    <i class="bi bi-check-lg"></i>
+  </div>
+  <h1>Thank <span>You!</span></h1>
+  <p>
+    We've received your message. Our team reviews every submission personally — expect a response within 1–2 business days.
+  </p>
+
+  <!-- Next steps -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;width:100%;max-width:640px;margin-bottom:2.5rem;">
+    <a href="/chatbot/" style="display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;padding:1.25rem;background:var(--bg2);border:1px solid var(--b2);border-radius:12px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,160,60,.3)'" onmouseout="this.style.borderColor='var(--b2)'">
+      <span style="font-size:1.1rem;">⚡</span>
+      <span style="font-size:.82rem;font-weight:600;color:var(--t);">Ask Krrish Now</span>
+      <span style="font-size:.72rem;color:var(--t3);line-height:1.5;">Get instant AI answers while you wait</span>
+    </a>
+    <a href="/learning/" style="display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;padding:1.25rem;background:var(--bg2);border:1px solid var(--b2);border-radius:12px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,160,60,.3)'" onmouseout="this.style.borderColor='var(--b2)'">
+      <span style="font-size:1.1rem;">📚</span>
+      <span style="font-size:.82rem;font-weight:600;color:var(--t);">Browse Learning</span>
+      <span style="font-size:.72rem;color:var(--t3);line-height:1.5;">Deep guides on Apex, LWC, Flows & more</span>
+    </a>
+    <a href="/resources/" style="display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;padding:1.25rem;background:var(--bg2);border:1px solid var(--b2);border-radius:12px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,160,60,.3)'" onmouseout="this.style.borderColor='var(--b2)'">
+      <span style="font-size:1.1rem;">🗂️</span>
+      <span style="font-size:.82rem;font-weight:600;color:var(--t);">Resources</span>
+      <span style="font-size:.72rem;color:var(--t3);line-height:1.5;">Architecture diagrams & reference material</span>
+    </a>
+  </div>
+
+  <a href="/" class="thankyou-btn">
+    <i class="bi bi-house-fill"></i> Back to Homepage
+  </a>
+</div>

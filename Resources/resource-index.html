@@ -1,70 +1,207 @@
 ---
 layout: default
-title: Salesforce Resources & Solutions Library
+title: "Resources & Solutions Library — SFX Support"
 permalink: /resources/
 ---
 
-<canvas id="globalCanvas"></canvas>
+<style>
+  .res-wrap {
+    max-width: 1060px; margin: 0 auto;
+    padding: 4rem 1.75rem 6rem;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
 
-<div class="w-full bg-gray-100 min-h-screen py-10">
-  <div class="max-w-5xl mx-auto px-2">
+  /* Hero */
+  .res-hero { text-align: center; margin-bottom: 4rem; }
+  .res-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .68rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; color: rgba(var(--sun),.5);
+    margin-bottom: 1.25rem;
+  }
+  .res-eyebrow span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(var(--sun),.5); display: inline-block;
+  }
+  .res-hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--t); letter-spacing: -.03em; margin-bottom: 1rem;
+  }
+  .res-hero h1 strong { font-weight: 600; }
+  .res-hero p {
+    font-size: 1rem; color: var(--t2); line-height: 1.8;
+    max-width: 520px; margin: 0 auto; font-weight: 300;
+  }
 
-    <!-- Hero -->
-    <section class="text-center mb-12">
-      <h1 class="text-5xl font-extrabold text-gray-900 mb-3 bg-gradient-to-r from-indigo-700 via-pink-500 to-yellow-400 text-transparent bg-clip-text">Resource & Solution Hub</h1>
-      <p class="text-xl text-gray-700 mb-6">Explore deep-dive guides, conceptual models, and proven blueprints for Salesforce mastery.<br>Hand-crafted by SFX Support architects.</p>
-    </section>
+  /* Grid */
+  .res-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--b3);
+    border: 1px solid var(--b3); border-radius: 14px;
+    overflow: hidden; margin-bottom: 5rem;
+  }
 
-    <!-- Resource Card Grid (No Images) -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Sales Cloud -->
-      <a href="/salesforce-sales-cloud-class-diagram/" class="group relative bg-white rounded-xl shadow-xl border border-indigo-200 p-7 flex flex-col transition-transform hover:-translate-y-2 hover:shadow-2xl hover:border-indigo-400 focus:outline-none">
-        <div class="absolute top-3 right-3 bg-indigo-600 text-white text-xs px-3 py-1 rounded-full shadow">Featured</div>
-        <h2 class="font-bold text-xl text-indigo-900 mb-2 group-hover:text-pink-500 transition">Salesforce Sales Cloud<br>Class Diagram</h2>
-        <p class="text-gray-600 mb-6 text-base">The ultimate reference for Sales Cloud data model, key objects, and automations. Includes a formal diagram and implementation best practices.</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-indigo-600 text-white rounded-full font-semibold text-sm shadow group-hover:bg-pink-600 transition">View Resource →</span>
-      </a>
-      <!-- Service Cloud -->
-      <div class="relative bg-white rounded-xl shadow-xl border border-gray-200 p-7 flex flex-col opacity-70 grayscale pointer-events-none">
-        <div class="absolute top-3 right-3 bg-gray-400 text-white text-xs px-3 py-1 rounded-full shadow">Coming Soon</div>
-        <h2 class="font-bold text-xl text-gray-700 mb-2">Salesforce Service Cloud<br>Data Model</h2>
-        <p class="text-gray-500 mb-6 text-base">Comprehensive reference to Service Cloud objects and support processes.</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-gray-400 text-white rounded-full font-semibold text-sm shadow">Coming Soon</span>
-      </div>
-      <!-- Automation Patterns -->
-      <div class="relative bg-white rounded-xl shadow-xl border border-gray-200 p-7 flex flex-col opacity-70 grayscale pointer-events-none">
-        <div class="absolute top-3 right-3 bg-gray-400 text-white text-xs px-3 py-1 rounded-full shadow">Coming Soon</div>
-        <h2 class="font-bold text-xl text-gray-700 mb-2">Salesforce Automation<br>Patterns & Blueprints</h2>
-        <p class="text-gray-500 mb-6 text-base">Best practices: Flow, Process Builder, Apex, and real-world use cases.</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-gray-400 text-white rounded-full font-semibold text-sm shadow">Coming Soon</span>
-      </div>
-      <!-- Data Quality -->
-      <div class="relative bg-white rounded-xl shadow-xl border border-gray-200 p-7 flex flex-col opacity-70 grayscale pointer-events-none">
-        <div class="absolute top-3 right-3 bg-gray-400 text-white text-xs px-3 py-1 rounded-full shadow">Coming Soon</div>
-        <h2 class="font-bold text-xl text-gray-700 mb-2">Salesforce Data Quality & Governance</h2>
-        <p class="text-gray-500 mb-6 text-base">How to keep your Salesforce data clean, trustworthy, and compliant.</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-gray-400 text-white rounded-full font-semibold text-sm shadow">Coming Soon</span>
-      </div>
-      <!-- Integrations -->
-      <div class="relative bg-white rounded-xl shadow-xl border border-gray-200 p-7 flex flex-col opacity-70 grayscale pointer-events-none">
-        <div class="absolute top-3 right-3 bg-gray-400 text-white text-xs px-3 py-1 rounded-full shadow">Coming Soon</div>
-        <h2 class="font-bold text-xl text-gray-700 mb-2">Integration Patterns & API Reference</h2>
-        <p class="text-gray-500 mb-6 text-base">In-depth API docs, integration strategies, and architecture recipes.</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-gray-400 text-white rounded-full font-semibold text-sm shadow">Coming Soon</span>
-      </div>
-      <!-- Suggest a Resource -->
-      <a href="/contact/" class="group relative bg-gradient-to-br from-indigo-100 via-pink-100 to-yellow-100 rounded-xl shadow-xl border border-indigo-200 p-7 flex flex-col transition-transform hover:-translate-y-2 hover:shadow-2xl focus:outline-none">
-        <h2 class="font-bold text-xl text-indigo-900 mb-2 group-hover:text-pink-500 transition">Suggest a Resource</h2>
-        <p class="text-gray-700 mb-6 text-base">Looking for a topic that’s not here? Let us know and we’ll create it!</p>
-        <span class="mt-auto inline-block px-4 py-2 bg-indigo-600 text-white rounded-full font-semibold text-sm shadow group-hover:bg-pink-600 transition">Suggest Now →</span>
-      </a>
-    </section>
+  /* Card */
+  .res-card {
+    position: relative; background: var(--bg2);
+    padding: 2rem 1.75rem;
+    display: flex; flex-direction: column;
+    text-decoration: none; transition: background .18s; overflow: hidden;
+  }
+  .res-card::before {
+    content: ''; position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--sun),.07) 0%, transparent 70%);
+    pointer-events: none; opacity: 0; transition: opacity .25s;
+  }
+  .res-card:hover { background: var(--bg3); }
+  .res-card:hover::before { opacity: 1; }
 
-    <!-- Call to Action -->
-    <section class="mt-16 text-center">
-      <h3 class="text-xl text-gray-900 font-semibold mb-3">Want a deeper dive or a custom reference?</h3>
-      <p class="mb-6 text-gray-600">Our team curates content on demand for the Salesforce community.</p>
-      <a href="/contact/" class="bg-indigo-700 hover:bg-pink-600 text-white px-8 py-3 rounded-full font-bold shadow transition text-lg">Contact SFX Support</a>
-    </section>
+  .res-card.featured { border-top: 2px solid rgba(var(--sun),.3); }
+  .res-card.featured::before { opacity: .5; }
+
+  .res-card.disabled { pointer-events: none; opacity: .42; }
+
+  .res-card.suggest { border-top: 2px solid var(--b2); }
+
+  /* Badge */
+  .res-badge {
+    display: inline-flex; align-items: center;
+    font-size: .62rem; font-weight: 500;
+    letter-spacing: .07em; text-transform: uppercase;
+    padding: .18rem .55rem; border-radius: 4px;
+    margin-bottom: 1rem; width: fit-content;
+  }
+  .res-badge.live {
+    color: rgba(var(--sun),.9); background: rgba(var(--sun),.08);
+    border: 1px solid rgba(var(--sun),.15);
+  }
+  .res-badge.soon {
+    color: var(--t3); background: var(--bg3); border: 1px solid var(--b2);
+  }
+
+  .res-card-title {
+    font-size: .975rem; font-weight: 500;
+    color: var(--t); line-height: 1.35;
+    margin-bottom: .6rem; letter-spacing: -.01em;
+  }
+  .res-card.disabled .res-card-title { color: var(--t2); }
+
+  .res-card-desc {
+    font-size: .82rem; color: var(--t3);
+    line-height: 1.7; margin-bottom: 1.5rem;
+    font-weight: 300; flex: 1;
+  }
+
+  .res-card-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .78rem; font-weight: 500;
+    color: rgba(var(--sun),.65); margin-top: auto;
+    transition: color .15s, gap .15s;
+  }
+  .res-card:hover .res-card-link { color: rgba(var(--sun),1); gap: 8px; }
+  .res-card.disabled .res-card-link { color: var(--t3); }
+  .res-card.suggest .res-card-link { color: var(--t2); }
+  .res-card.suggest:hover .res-card-link { color: var(--t); }
+
+  /* CTA */
+  .res-cta {
+    text-align: center; padding: 3rem 2rem;
+    background: var(--bg2); border: 1px solid var(--b3);
+    border-radius: 14px; position: relative; overflow: hidden;
+  }
+  .res-cta::before {
+    content: ''; position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--sun),.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .res-cta h3 {
+    font-size: 1.2rem; font-weight: 500;
+    color: var(--t); letter-spacing: -.02em; margin-bottom: .6rem;
+  }
+  .res-cta p {
+    font-size: .88rem; color: var(--t2);
+    margin-bottom: 1.75rem; font-weight: 300; line-height: 1.7;
+  }
+  .res-cta-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: .65rem 1.5rem;
+    background: var(--t); color: #000;
+    font-size: .85rem; font-weight: 600;
+    border-radius: 8px; text-decoration: none;
+    transition: background .15s, transform .15s;
+  }
+  .res-cta-btn:hover { background: #e0e0e0; transform: translateY(-1px); }
+
+  @media(max-width: 768px) { .res-grid { grid-template-columns: 1fr; } }
+  @media(min-width: 769px) and (max-width: 1024px) { .res-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+
+<div class="res-wrap">
+
+  <div class="res-hero reveal-up">
+    <div class="res-eyebrow"><span></span> SFX Resource Hub</div>
+    <h1>Deep-dive guides &amp; <strong>proven blueprints.</strong></h1>
+    <p>Hand-crafted references, conceptual models, and architectural patterns for Salesforce mastery — by SFX architects.</p>
   </div>
+
+  <div class="res-grid reveal-up">
+
+    <a href="/salesforce-sales-cloud-class-diagram/" class="res-card featured">
+      <span class="res-badge live">&#9679;&nbsp; Live</span>
+      <div class="res-card-title">Salesforce Sales Cloud<br>Class Diagram</div>
+      <p class="res-card-desc">The definitive reference for the Sales Cloud data model — key objects, relationships, automations, and implementation best practices.</p>
+      <span class="res-card-link">View Resource <i class="bi bi-arrow-right"></i></span>
+    </a>
+
+    <a href="/Second-Generation-Packaging/" class="res-card featured">
+      <span class="res-badge live">&#9679;&nbsp; Live</span>
+      <div class="res-card-title">Salesforce 2GP<br>Managed Packages</div>
+      <p class="res-card-desc">Complete guide to Second-Generation Packaging — architecture, managed vs unlocked, interactive CLI workflow, and CI/CD best practices.</p>
+      <span class="res-card-link">View Resource <i class="bi bi-arrow-right"></i></span>
+    </a>
+
+    <div class="res-card disabled">
+      <span class="res-badge soon">Coming Soon</span>
+      <div class="res-card-title">Automation Patterns<br>&amp; Blueprints</div>
+      <p class="res-card-desc">Best practices across Flow, Process Builder, Apex, and real-world automation use cases.</p>
+      <span class="res-card-link"><i class="bi bi-clock"></i> In progress</span>
+    </div>
+
+    <div class="res-card disabled">
+      <span class="res-badge soon">Coming Soon</span>
+      <div class="res-card-title">Data Quality &amp;<br>Governance</div>
+      <p class="res-card-desc">How to keep your Salesforce data clean, trustworthy, and compliant at scale.</p>
+      <span class="res-card-link"><i class="bi bi-clock"></i> In progress</span>
+    </div>
+
+    <div class="res-card disabled">
+      <span class="res-badge soon">Coming Soon</span>
+      <div class="res-card-title">Integration Patterns<br>&amp; API Reference</div>
+      <p class="res-card-desc">In-depth API docs, integration strategies, and architecture recipes for connected Salesforce orgs.</p>
+      <span class="res-card-link"><i class="bi bi-clock"></i> In progress</span>
+    </div>
+
+    <a href="/contact/" class="res-card suggest">
+      <span class="res-badge soon">Community</span>
+      <div class="res-card-title">Suggest a Resource</div>
+      <p class="res-card-desc">Can't find what you're looking for? Tell us and we'll build it for the community.</p>
+      <span class="res-card-link">Suggest Now <i class="bi bi-arrow-right"></i></span>
+    </a>
+
+  </div>
+
+  <div class="res-cta reveal-up">
+    <h3>Need a custom reference or deeper dive?</h3>
+    <p>Our team curates content on demand for the Salesforce community — no cost, no obligations.</p>
+    <a href="/contact/" class="res-cta-btn">
+      <i class="bi bi-envelope"></i>
+      Contact SFX Support
+    </a>
+  </div>
+
 </div>
