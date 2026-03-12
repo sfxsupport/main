@@ -205,11 +205,16 @@
     .bot-text .code-wrap pre {
       margin: 0; border: none; border-radius: 0;
       background: none !important; padding: 1rem 1.1rem;
+      overflow-x: auto;
+      white-space: pre;
     }
     .bot-text .code-wrap pre code {
       border: none; padding: 0;
       background: transparent !important;
       font-size: .82rem; line-height: 1.6;
+      white-space: pre;
+      word-break: normal;
+      overflow-wrap: normal;
     }
     /* hljs override — keep our bg */
     .code-wrap .hljs { background: transparent !important; }
@@ -578,12 +583,15 @@
         line-height: 1.78;
       }
 
-      /* Code blocks — ensure they scroll horizontally, not overflow */
+      /* Code blocks — scroll horizontally, don't wrap & don't overflow */
       .code-wrap {
-        font-size: .78rem;
+        max-width: 100%;
+      }
+      .bot-text .code-wrap pre {
+        padding: .75rem .875rem;
       }
       .bot-text .code-wrap pre code {
-        font-size: .76rem;
+        font-size: .74rem;
       }
 
       /* History divider — tighter spacing */
