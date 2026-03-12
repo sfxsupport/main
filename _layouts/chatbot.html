@@ -549,9 +549,67 @@
 
     /* ── Mobile ── */
     @media(max-width:520px) {
+      /* Welcome screen */
       .chips-grid { grid-template-columns: 1fr; }
       .welcome-title { font-size: 1.65rem; }
       .usage-pill { display: none; }
+
+      /* Messages area — tighter padding on small screens */
+      #chat-messages {
+        padding: 1.25rem 0.75rem 0.75rem;
+      }
+
+      /* User bubble — wider on mobile so it doesn't look too narrow */
+      .user-bubble {
+        max-width: min(85%, 500px);
+        font-size: .875rem;
+        padding: .6rem .9rem;
+      }
+
+      /* Bot message row — reduce avatar gap */
+      .bot-av-sm {
+        width: 24px; height: 24px;
+        font-size: .65rem;
+      }
+
+      /* Bot text — slightly smaller */
+      .bot-text {
+        font-size: .875rem;
+        line-height: 1.78;
+      }
+
+      /* Code blocks — ensure they scroll horizontally, not overflow */
+      .code-wrap {
+        font-size: .78rem;
+      }
+      .bot-text .code-wrap pre code {
+        font-size: .76rem;
+      }
+
+      /* History divider — tighter spacing */
+      .history-divider {
+        padding: .15rem 0 .4rem;
+        gap: .5rem;
+      }
+      .hdiv-label { font-size: .65rem; }
+
+      /* Input area — less padding */
+      #input-area {
+        padding: .625rem 0.75rem 1rem;
+      }
+
+      /* Hide keyboard shortcut hint — not relevant on touch */
+      .input-hint { display: none; }
+
+      /* Footer — compact */
+      #chat-footer {
+        padding: .35rem 1rem .5rem;
+      }
+      .chat-footer-inner {
+        gap: .6rem;
+        padding-top: .4rem;
+      }
+      .footer-label { display: none; }
     }
   </style>
 </head>
