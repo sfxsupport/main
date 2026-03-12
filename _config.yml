@@ -47,13 +47,14 @@ plugins:
 exclude:
   - .sass-cache/
   - .jekyll-cache/
+  - gemfiles/
   - Gemfile
   - Gemfile.lock
   - node_modules/
-  - "node_modules 2/"
-  - vendor/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
   - package.json
-  - package-lock.json
   - tailwind.config.js
-  - assets/css/input.css
   - src/
