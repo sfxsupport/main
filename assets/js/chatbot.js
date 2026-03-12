@@ -39,6 +39,15 @@ export async function initChat(user) {
   inputEl.addEventListener("input", autoResize);
   clearBtn?.addEventListener("click", handleClear);
 
+  // ── Mobile keyboard: scroll to latest message when keyboard opens ──
+  inputEl.addEventListener("focus", () => {
+    setTimeout(scrollBottom, 350);
+  });
+  // visualViewport fires on every keyboard resize (Android + iOS)
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", scrollBottom);
+  }
+
   // ── Clear modal handlers ──
   document.getElementById("clear-cancel-btn")?.addEventListener("click", hideClearModal);
   document.getElementById("clear-confirm-btn")?.addEventListener("click", async () => {
@@ -109,6 +118,11 @@ async function handleSend() {
 
   abortController = new AbortController();
 
+  // Safety timeout — force-stop if stream never finishes after 45s
+  const streamTimeout = setTimeout(() => {
+    if (isStreaming) abortController?.abort();
+  }, 45000);
+
   await sendMessage(currentUserId, text, {
     onChunk(chunk) {
       setTyping(false);
@@ -117,11 +131,14 @@ async function handleSend() {
       scrollBottom();
     },
     onDone(usage) {
+      clearTimeout(streamTimeout);
       setTyping(false);
       setLocked(false);
       isStreaming = false;
       abortController = null;
       renderChunk(bubble, fullReply, false);
+      // Remove any lingering cursors
+      document.querySelectorAll(".stream-cursor").forEach(el => el.remove());
       bubble.querySelectorAll(".code-wrap code").forEach(el => hljs?.highlightElement(el));
       if (usage?.used != null) {
         updateUsage(usage.used, usage.limit ?? 15);
@@ -130,6 +147,7 @@ async function handleSend() {
       scrollBottom();
     },
     onError(err) {
+      clearTimeout(streamTimeout);
       setTyping(false);
       setLocked(false);
       isStreaming = false;

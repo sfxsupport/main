@@ -87,8 +87,9 @@ export async function sendMessage(userId, message, { onChunk, onDone, onError },
     const reader  = res.body.getReader();
     const decoder = new TextDecoder();
     let   buffer  = "";
+    let   doneCalled = false;
 
-    while (true) {
+    outer: while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
@@ -114,13 +115,20 @@ export async function sendMessage(userId, message, { onChunk, onDone, onError },
           }
 
           if (parsed.done) {
+            doneCalled = true;
             onDone?.({ used: parsed.used, remaining: parsed.remaining, limit: parsed.limit });
+            break outer; // stream is done — stop reading immediately
           }
 
         } catch {
           // Skip malformed SSE lines
         }
       }
+    }
+
+    // Fallback: stream closed without a done event
+    if (!doneCalled) {
+      onDone?.({});
     }
 
   } catch (err) {

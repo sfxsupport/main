@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
   <title>{{ page.title }} · SFX Support</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -552,72 +552,110 @@
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     #toast i { color: #4ade80; font-size: .9rem; }
 
-    /* ── Mobile ── */
+    /* ══════════════════════════════════════════
+       MOBILE  (≤ 520px)
+    ══════════════════════════════════════════ */
     @media(max-width:520px) {
-      /* Welcome screen */
-      .chips-grid { grid-template-columns: 1fr; }
-      .welcome-title { font-size: 1.65rem; }
+
+      /* Dynamic viewport — shrinks when keyboard appears */
+      html { height: 100%; }
+      body { height: 100dvh; min-height: -webkit-fill-available; }
+      #chatbot-page { height: 100dvh; min-height: -webkit-fill-available; }
+
+      /* Smooth momentum scroll on iOS */
+      #chat-messages { -webkit-overflow-scrolling: touch; }
+
+      /* ── Topbar ── */
+      #topbar { height: 50px; padding: 0 .875rem; }
+      .tb-av { width: 28px; height: 28px; font-size: .78rem; border-radius: 8px; }
+      .tb-name { font-size: .88rem; }
+      .tb-btn { width: 34px; height: 34px; }
       .usage-pill { display: none; }
 
-      /* Messages area — tighter padding on small screens */
-      #chat-messages {
-        padding: 1.25rem 0.75rem 0.75rem;
-      }
+      /* ── Welcome screen ── */
+      #welcome-state { gap: 1.4rem; padding: 1.5rem .875rem; }
+      .welcome-av { width: 52px; height: 52px; font-size: 1.3rem; border-radius: 14px; }
+      .welcome-title { font-size: 1.5rem; }
+      .welcome-sub { font-size: .82rem; max-width: 280px; }
+      .chips-grid { grid-template-columns: 1fr; gap: .6rem; }
+      .suggestion-chip { padding: .75rem .875rem; border-radius: 10px; }
+      .chip-title { font-size: .82rem; }
+      .chip-sub { font-size: .7rem; }
 
-      /* User bubble — wider on mobile so it doesn't look too narrow */
+      /* ── Messages ── */
+      #chat-messages { padding: 1rem .875rem .5rem; }
+
+      /* User bubble */
       .user-bubble {
-        max-width: min(85%, 500px);
-        font-size: .875rem;
-        padding: .6rem .9rem;
+        max-width: min(88%, 480px);
+        font-size: .875rem; line-height: 1.7;
+        padding: .55rem .875rem;
+        border-radius: 16px; border-bottom-right-radius: 4px;
       }
 
-      /* Bot message row — reduce avatar gap */
-      .bot-av-sm {
-        width: 24px; height: 24px;
-        font-size: .65rem;
-      }
+      /* Bot row */
+      .bot-av-sm { width: 24px; height: 24px; font-size: .62rem; border-radius: 7px; }
+      .bot-text { font-size: .875rem; line-height: 1.75; }
 
-      /* Bot text — slightly smaller */
-      .bot-text {
-        font-size: .875rem;
-        line-height: 1.78;
-      }
-
-      /* Code blocks — scroll horizontally, don't wrap & don't overflow */
-      .code-wrap {
-        max-width: 100%;
-      }
+      /* ── Code blocks ──
+         Only the <pre> gets max-height + scroll so the
+         code-header (lang label + copy btn) stays always visible */
+      .code-wrap { max-width: 100%; }
+      .code-header { padding: .28rem .75rem; }
+      .code-lang { font-size: .65rem; }
+      .copy-btn { font-size: .65rem; padding: .15rem .35rem; }
       .bot-text .code-wrap pre {
-        padding: .75rem .875rem;
+        max-height: 220px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: .65rem .875rem;
       }
-      .bot-text .code-wrap pre code {
-        font-size: .74rem;
-      }
+      .bot-text .code-wrap pre code { font-size: .72rem; line-height: 1.55; }
 
-      /* History divider — tighter spacing */
-      .history-divider {
-        padding: .15rem 0 .4rem;
-        gap: .5rem;
-      }
-      .hdiv-label { font-size: .65rem; }
+      /* ── History divider ── */
+      .history-divider { padding: .1rem 0 .3rem; gap: .4rem; }
+      .hdiv-label { font-size: .62rem; }
 
-      /* Input area — less padding */
+      /* ── Typing indicator ── */
+      #typing-indicator { padding: 0 .875rem .35rem; }
+
+      /* ── Limit banner ── */
+      #limit-banner { padding: 0 .875rem .4rem; }
+      .limit-inner { font-size: .78rem; padding: .55rem .875rem; }
+
+      /* ── Input area — single-line row on mobile ── */
       #input-area {
-        padding: .625rem 0.75rem 1rem;
+        padding: .4rem .75rem calc(.4rem + env(safe-area-inset-bottom, 0px));
       }
-
-      /* Hide keyboard shortcut hint — not relevant on touch */
+      .input-shell {
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        padding: 0 .5rem 0 .875rem;
+      }
+      #chat-input {
+        flex: 1;
+        font-size: .9rem;
+        padding: .65rem 0;
+        min-height: unset;
+        max-height: 80px;
+        line-height: 1.4;
+      }
       .input-hint { display: none; }
+      .input-bottom {
+        padding: 0;
+        flex-shrink: 0;
+        align-self: center;
+      }
+      #chat-send-btn {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        font-size: .8rem;
+        margin: 0 0 0 .4rem;
+      }
 
-      /* Footer — compact */
-      #chat-footer {
-        padding: .35rem 1rem .5rem;
-      }
-      .chat-footer-inner {
-        gap: .6rem;
-        padding-top: .4rem;
-      }
-      .footer-label { display: none; }
+      /* ── Footer — hide on mobile, rating auto-shows on limit ── */
+      #chat-footer { display: none; }
     }
   </style>
 </head>
