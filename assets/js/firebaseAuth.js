@@ -20,7 +20,7 @@ import {
 // -----------------------------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyDe6wr2S1mV1fLh6oUyJU-peFePXUrFaJ8",
-  authDomain: "ai-learning-platform-f7628.firebaseapp.com",
+  authDomain: "auth.sfxsupport.com",
   projectId: "ai-learning-platform-f7628",
   storageBucket: "ai-learning-platform-f7628.firebasestorage.app",
   messagingSenderId: "936110831826",
