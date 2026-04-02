@@ -1,0 +1,316 @@
+---
+layout: HomePageFinalTest
+title: Privacy Policy — SFX Debug Analyzer
+permalink: /privacy/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy · SFX Support</title>
+  <meta name="description" content="Privacy policy for SFX Debug Analyzer — a free community tool for Salesforce developers. Plain language, no legalese.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515; --bg4: #1c1c1c;
+      --b:   rgba(255,255,255,.06); --b2: rgba(255,255,255,.035); --b3: rgba(255,255,255,.015);
+      --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
+      --sun: 255,160,60;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg); color: var(--t);
+      -webkit-font-smoothing: antialiased;
+      font-weight: 300; font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    #star-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .amb-tr { position: fixed; top: -180px; right: -180px; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%); pointer-events: none; z-index: 0; filter: blur(40px); }
+    .amb-bl { position: fixed; bottom: -200px; left: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(var(--sun),.03) 0%, transparent 70%); pointer-events: none; z-index: 0; filter: blur(50px); }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
+    section { padding: 5rem 0; position: relative; z-index: 1; }
+
+    .label { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .13em; color: var(--t3); margin-bottom: .875rem; display: block; }
+
+    h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 300; line-height: 1.1; letter-spacing: -.03em; color: var(--t); margin-bottom: 1rem; }
+    h1 strong { font-weight: 600; }
+
+    .updated { font-size: .8rem; color: var(--t3); margin-top: .75rem; }
+    .intro { font-size: 1rem; color: var(--t2); line-height: 1.8; max-width: 600px; margin-top: 1.25rem; }
+
+    .highlight {
+      background: var(--bg2);
+      border: 1px solid rgba(var(--sun),.15);
+      border-left: 3px solid rgba(var(--sun),.5);
+      border-radius: 0 10px 10px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 2rem 0;
+      font-size: .9rem; color: var(--t2); line-height: 1.7;
+    }
+    .highlight strong { color: var(--t); }
+
+    hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
+
+    .policy-section { padding: 2.75rem 0; border-bottom: 1px solid var(--b3); }
+    .policy-section:last-of-type { border-bottom: none; }
+
+    .policy-section h2 {
+      font-size: 1.05rem; font-weight: 600; color: var(--t);
+      margin-bottom: 1rem; display: flex; align-items: center; gap: .65rem;
+    }
+    .policy-section h2 .num {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 700; color: rgba(var(--sun),.9);
+      background: rgba(var(--sun),.07); border: 1px solid rgba(var(--sun),.15);
+    }
+
+    .policy-section p { font-size: .9rem; color: var(--t2); line-height: 1.82; margin-bottom: .75rem; }
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: .55rem; margin-top: .5rem; }
+    .policy-section ul li {
+      font-size: .875rem; color: var(--t2); line-height: 1.75;
+      padding-left: 1.25rem; position: relative;
+    }
+    .policy-section ul li::before {
+      content: ''; position: absolute; left: 0; top: .65em;
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(var(--sun),.45);
+    }
+    .policy-section ul li strong { color: var(--t); font-weight: 500; }
+    .policy-section ul li code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: .8rem; background: var(--bg3);
+      border: 1px solid var(--b); border-radius: 4px;
+      padding: 1px 6px; color: rgba(var(--sun),.8);
+    }
+
+    a { color: rgba(var(--sun),.8); text-decoration: none; }
+    a:hover { color: rgba(var(--sun),1); text-decoration: underline; }
+
+    .third-party-list { display: flex; flex-direction: column; gap: .6rem; margin-top: .75rem; }
+    .tp-item {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--bg2); border: 1px solid var(--b3);
+      border-radius: 9px; padding: .75rem 1rem;
+      font-size: .85rem; color: var(--t2); transition: border-color .15s;
+    }
+    .tp-item:hover { border-color: var(--b); }
+    .tp-item i { color: rgba(var(--sun),.6); font-size: .95rem; flex-shrink: 0; }
+
+    .contact-card {
+      background: var(--bg2); border: 1px solid var(--b);
+      border-radius: 14px; padding: 2.5rem;
+      margin-top: 3rem; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%);
+      pointer-events: none; filter: blur(24px);
+    }
+    .contact-card h3 { font-size: 1.2rem; font-weight: 500; color: var(--t); margin-bottom: .5rem; }
+    .contact-card p { font-size: .875rem; color: var(--t2); line-height: 1.8; margin-bottom: 1.5rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+    .btn-w { display: inline-flex; align-items: center; gap: 7px; padding: .6rem 1.4rem; background: var(--t); color: #000; font-size: .85rem; font-weight: 600; border-radius: 7px; text-decoration: none; transition: background .15s, transform .15s; }
+    .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); color: #000; }
+    .btn-o { display: inline-flex; align-items: center; gap: 7px; padding: .6rem 1.4rem; background: transparent; color: var(--t2); font-size: .85rem; font-weight: 400; border-radius: 7px; text-decoration: none; border: 1px solid var(--b); transition: all .15s; }
+    .btn-o:hover { color: var(--t); border-color: rgba(255,255,255,.12); }
+
+    .r { opacity: 0; transform: translateY(14px); transition: opacity .48s ease, transform .48s ease; }
+    .r.v { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .06s; } .d2 { transition-delay: .12s; } .d3 { transition-delay: .18s; }
+
+    @media(max-width: 640px) {
+      section { padding: 3rem 0; }
+      .wrap { padding: 0 1.1rem; }
+      h1 { font-size: clamp(1.9rem, 8vw, 2.4rem); }
+      .contact-card { padding: 1.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="star-canvas"></canvas>
+<div class="amb-tr"></div>
+<div class="amb-bl"></div>
+
+<!-- ═══ HERO ═══ -->
+<section style="padding-top: 7rem;">
+  <div class="wrap">
+    <span class="label r">Legal · Community Tool</span>
+    <h1 class="r d1">Privacy <strong>Policy.</strong></h1>
+    <p class="updated r d2">SFX Debug Analyzer Chrome Extension &nbsp;·&nbsp; Last updated: April 2, 2026</p>
+    <p class="intro r d3">
+      SFX Debug Analyzer is a free, community-built tool for Salesforce developers —
+      no commercial agenda, no hidden tracking. This page explains exactly what data the
+      extension touches and why.
+    </p>
+
+    <div class="highlight r d3">
+      <strong>The short version:</strong> Your Salesforce credentials and debug logs never leave
+      your browser except to your own org. AI analysis is opt-in. We don't collect, store,
+      or sell personal data. This is a community tool — your trust is everything.
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section style="padding-top: 2rem; padding-bottom: 5rem;">
+  <div class="wrap">
+
+    <div class="policy-section r">
+      <h2><span class="num">1</span> Who Built This</h2>
+      <p>
+        SFX Debug Analyzer was built by <strong>Krrish Joshi</strong> as part of
+        <a href="https://sfxsupport.com">SFXSupport.com</a> — a non-commercial initiative
+        dedicated to helping the Salesforce community. This tool exists to make debugging
+        less painful for every Salesforce developer, for free, forever.
+      </p>
+      <p>
+        Questions or concerns: <a href="mailto:hello@sfxsupport.com">hello@sfxsupport.com</a>
+      </p>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">2</span> What the Extension Accesses</h2>
+      <ul>
+        <li>
+          <strong>Salesforce session cookie (<code>sid</code>)</strong> — Read from your browser
+          to authenticate calls to <em>your own Salesforce org</em>. Never sent to our servers,
+          never stored, never shared.
+        </li>
+        <li>
+          <strong>Org name &amp; username</strong> — Read from the active Salesforce page to show
+          in the extension UI. Stays in your browser only.
+        </li>
+        <li>
+          <strong>Apex debug logs</strong> — Fetched directly from your org via the Salesforce
+          Tooling API. Stored temporarily in <code>chrome.storage.local</code> on your device.
+          Cleared when you click "Clear" or uninstall the extension.
+        </li>
+      </ul>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">3</span> AI Analysis — Opt-in Only</h2>
+      <p>
+        When you click <strong>"Analyze with AI"</strong>, the log text you selected is sent to our
+        Cloudflare Worker proxy, which forwards it to the Anthropic Claude API.
+      </p>
+      <ul>
+        <li>Only the log content is sent — never your session, credentials, or org metadata.</li>
+        <li>Log content is not stored on our servers. It is processed in memory and immediately discarded.</li>
+        <li>A daily request limit (4/day) is enforced using an anonymous key derived from your username + current UTC date. It expires automatically after 24 hours.</li>
+        <li>Anthropic's own privacy policy applies to their processing: <a href="https://www.anthropic.com/legal/privacy" target="_blank">anthropic.com/legal/privacy</a></li>
+      </ul>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">4</span> Optional Feedback &amp; Ratings</h2>
+      <p>
+        If you choose to leave a rating or feedback comment, we may store:
+      </p>
+      <ul>
+        <li><strong>Star rating</strong> (1–5)</li>
+        <li><strong>Written comment</strong> — optional, max 500 characters</li>
+        <li><strong>Name and email</strong> — only if you choose to provide them</li>
+      </ul>
+      <p>
+        This is used only to improve the tool. Never sold, never shared.
+        To have your feedback removed, email <a href="mailto:hello@sfxsupport.com">hello@sfxsupport.com</a>.
+      </p>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">5</span> Why Each Permission Is Needed</h2>
+      <ul>
+        <li><strong>cookies</strong> — To read the Salesforce <code>sid</code> session cookie for Tooling API authentication. This is the only way to make authenticated API calls from a browser extension.</li>
+        <li><strong>storage</strong> — To temporarily store captured logs on your local device.</li>
+        <li><strong>tabs</strong> — To detect when you're on a Salesforce page and activate the extension.</li>
+        <li><strong>alarms</strong> — To poll for new debug logs every minute while monitoring is active.</li>
+        <li><strong>scripting / activeTab</strong> — To inject the sidebar panel into Salesforce pages.</li>
+        <li><strong>host_permissions (*.salesforce.com, *.force.com)</strong> — Required to call the Salesforce Tooling API from your browser session.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">6</span> Data Retention</h2>
+      <ul>
+        <li><strong>Debug logs</strong> — Stored locally on your device via <code>chrome.storage.local</code>. Cleared on demand or on uninstall.</li>
+        <li><strong>Rate-limit counters</strong> — Stored in Cloudflare KV with a 24-hour TTL. Auto-expire at midnight UTC.</li>
+        <li><strong>Feedback</strong> — Kept until you request deletion.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">7</span> Third-Party Services</h2>
+      <div class="third-party-list">
+        <div class="tp-item">
+          <i class="bi bi-cpu"></i>
+          <span><a href="https://www.anthropic.com/legal/privacy" target="_blank">Anthropic Claude</a> — AI log analysis (opt-in only)</span>
+        </div>
+        <div class="tp-item">
+          <i class="bi bi-cloud"></i>
+          <span><a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Workers &amp; KV</a> — API proxy and rate-limiting</span>
+        </div>
+        <div class="tp-item">
+          <i class="bi bi-building"></i>
+          <span><a href="https://www.salesforce.com/company/privacy/" target="_blank">Salesforce</a> — Your own org, governed by your Salesforce agreement</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">8</span> Children's Privacy</h2>
+      <p>
+        This extension is for professional Salesforce developers and administrators.
+        We do not knowingly collect data from anyone under 13.
+      </p>
+    </div>
+
+    <div class="policy-section r d1">
+      <h2><span class="num">9</span> Changes to This Policy</h2>
+      <p>
+        If we make meaningful changes, we'll note them in the extension's update changelog.
+        Continued use after an update means you accept the revised policy.
+      </p>
+    </div>
+
+    <div class="contact-card r d1">
+      <h3>Questions? Just ask.</h3>
+      <p>
+        This is a community tool. If anything here is unclear or you'd like your data removed,
+        reach out directly — we read every message.
+      </p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="mailto:hello@sfxsupport.com" class="btn-w">hello@sfxsupport.com &rarr;</a>
+        <a href="/" class="btn-o">Back to Home</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="/assets/js/star-canvas.js"></script>
+<script>
+  const obs = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });
+  }, { threshold: .07 });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
