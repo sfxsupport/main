@@ -1,0 +1,635 @@
+---
+layout: default
+title: Interview Prep Resources — SFX Support
+description: Curated Salesforce interview prep resources — articles, documentation, and guides for Apex, LWC, Integration, SOQL, Flows, and more.
+permalink: /interview-prep/
+---
+
+<style>
+  /* ── Layout ── */
+  .ip-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+  }
+
+  /* ── Hero ── */
+  .ip-hero {
+    text-align: center;
+    padding: 3.5rem 0 2.5rem;
+  }
+  .ip-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .7rem; font-weight: 500; letter-spacing: .09em;
+    text-transform: uppercase; color: rgba(var(--sun),.75);
+    background: rgba(var(--sun),.07); border: 1px solid rgba(var(--sun),.15);
+    border-radius: 20px; padding: .28rem .85rem;
+    margin-bottom: 1.25rem;
+  }
+  .ip-hero h1 {
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    font-weight: 700; letter-spacing: -.035em; line-height: 1.1;
+    color: var(--t); margin-bottom: .9rem;
+  }
+  .ip-hero h1 span {
+    background: linear-gradient(135deg, rgba(var(--sun),1), rgba(var(--sun),.5));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .ip-hero p {
+    font-size: .95rem; color: var(--t2); line-height: 1.6;
+    max-width: 480px; margin: 0 auto 2rem;
+  }
+
+  /* ── Search ── */
+  .ip-search-wrap { position: relative; }
+  .ip-search-icon {
+    position: absolute; left: 1rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--t3); font-size: .95rem; pointer-events: none;
+  }
+  #ip-search {
+    width: 100%; padding: .82rem 3rem .82rem 2.65rem;
+    background: var(--bg2); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 10px; color: var(--t);
+    font-family: inherit; font-size: .9rem; font-weight: 300;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  #ip-search::placeholder { color: var(--t3); }
+  #ip-search:focus {
+    border-color: rgba(var(--sun),.3);
+    box-shadow: 0 0 0 3px rgba(var(--sun),.06);
+  }
+  .ip-clear-btn {
+    position: absolute; right: .85rem; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; color: var(--t3);
+    font-size: .85rem; cursor: pointer; padding: 4px;
+    display: none; transition: color .15s; line-height: 1;
+  }
+  .ip-clear-btn:hover { color: var(--t); }
+
+  /* ── Topic Pills ── */
+  .ip-topics {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    margin: 1.75rem 0 0;
+    justify-content: center;
+  }
+  .ip-topic-pill {
+    padding: .3rem .85rem;
+    background: var(--bg2); border: 1px solid rgba(255,255,255,.06);
+    border-radius: 20px; color: var(--t3);
+    font-size: .75rem; font-weight: 400;
+    font-family: inherit; cursor: pointer;
+    transition: all .15s; white-space: nowrap;
+  }
+  .ip-topic-pill:hover { color: var(--t2); border-color: rgba(255,255,255,.1); }
+  .ip-topic-pill.active {
+    background: rgba(var(--sun),.1);
+    border-color: rgba(var(--sun),.3);
+    color: rgba(var(--sun),1);
+  }
+
+  /* ── Divider ── */
+  .ip-divider {
+    height: 1px;
+    background: rgba(255,255,255,.05);
+    margin: 2rem 0;
+  }
+
+  /* ── Stats bar ── */
+  .ip-statsbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.75rem; flex-wrap: wrap; gap: .5rem;
+  }
+  .ip-result-count {
+    font-size: .78rem; color: var(--t3);
+  }
+  .ip-result-count b { color: rgba(var(--sun),.8); font-weight: 600; }
+  .ip-view-toggle {
+    display: flex; gap: .3rem;
+  }
+  .ip-view-btn {
+    padding: .28rem .6rem;
+    background: none; border: 1px solid rgba(255,255,255,.06);
+    border-radius: 6px; color: var(--t3);
+    font-size: .78rem; cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .ip-view-btn.active { color: rgba(var(--sun),.85); border-color: rgba(var(--sun),.25); background: rgba(var(--sun),.06); }
+  .ip-view-btn:hover:not(.active) { color: var(--t2); }
+
+  /* ── Section Header ── */
+  .ip-section {
+    margin-bottom: 2.25rem;
+  }
+  .ip-section-head {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: .85rem;
+    padding-bottom: .65rem;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .ip-section-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .ip-section-title {
+    font-size: .68rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--t2);
+    flex: 1;
+  }
+  .ip-section-count {
+    font-size: .68rem; font-weight: 500;
+    color: var(--t3);
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 20px; padding: .15rem .55rem;
+  }
+
+  /* ── Resource Row ── */
+  .ip-row {
+    display: flex; align-items: flex-start;
+    gap: .85rem; padding: .7rem .6rem;
+    border-radius: 8px; text-decoration: none;
+    transition: background .15s;
+    position: relative;
+  }
+  .ip-row:hover { background: rgba(255,255,255,.03); }
+  .ip-row:hover .ip-row-arrow { color: rgba(var(--sun),.6); transform: translateX(3px); }
+  .ip-row:hover .ip-row-title { color: var(--t); }
+
+  .ip-row-num {
+    font-size: .68rem; color: var(--t3);
+    min-width: 18px; text-align: right;
+    margin-top: 2px; flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .ip-row-body { flex: 1; min-width: 0; }
+  .ip-row-title {
+    font-size: .88rem; font-weight: 500;
+    color: rgba(255,255,255,.8); line-height: 1.35;
+    display: block; margin-bottom: .2rem;
+    transition: color .15s;
+  }
+  .ip-row-meta {
+    display: flex; align-items: center; gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .ip-row-domain {
+    font-size: .71rem; color: var(--t3);
+  }
+  .ip-row-desc {
+    font-size: .75rem; color: var(--t3);
+    line-height: 1.45; margin-top: .25rem;
+    display: none;
+  }
+  .ip-row-desc.visible { display: block; }
+
+  /* Source pill */
+  .ip-src {
+    font-size: .62rem; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; padding: .13rem .48rem;
+    border-radius: 20px; white-space: nowrap;
+  }
+  .ip-src-trailhead  { background: rgba(0,168,195,.1);  color: rgba(0,168,195,.85);  border: 1px solid rgba(0,168,195,.18);  }
+  .ip-src-sfdocs     { background: rgba(60,140,255,.1); color: rgba(80,160,255,.85); border: 1px solid rgba(60,140,255,.18); }
+  .ip-src-medium     { background: rgba(255,255,255,.05); color: rgba(255,255,255,.45); border: 1px solid rgba(255,255,255,.08); }
+  .ip-src-blog       { background: rgba(var(--sun),.07); color: rgba(var(--sun),.65); border: 1px solid rgba(var(--sun),.13); }
+  .ip-src-sfben      { background: rgba(80,200,120,.1); color: rgba(80,200,120,.8);  border: 1px solid rgba(80,200,120,.16); }
+  .ip-src-apexhours  { background: rgba(var(--sun),.07); color: rgba(var(--sun),.65); border: 1px solid rgba(var(--sun),.13); }
+
+  /* Topic tag (shown in search mode) */
+  .ip-topic-tag {
+    font-size: .62rem; font-weight: 500; letter-spacing: .04em;
+    text-transform: uppercase; padding: .12rem .45rem;
+    border-radius: 20px; white-space: nowrap;
+  }
+  .tt-apex        { background: rgba(255,100,50,.1);  color: rgba(255,130,80,.8);  }
+  .tt-lwc         { background: rgba(80,160,255,.1);  color: rgba(100,175,255,.8); }
+  .tt-integration { background: rgba(120,80,255,.1);  color: rgba(150,110,255,.8); }
+  .tt-soql        { background: rgba(50,200,150,.1);  color: rgba(70,210,160,.8);  }
+  .tt-flows       { background: rgba(255,200,50,.1);  color: rgba(255,210,70,.8);  }
+  .tt-async       { background: rgba(255,100,180,.1); color: rgba(255,130,195,.8); }
+  .tt-security    { background: rgba(255,70,70,.1);   color: rgba(255,100,100,.8); }
+  .tt-devops      { background: rgba(50,220,220,.1);  color: rgba(70,230,230,.8);  }
+  .tt-packages    { background: rgba(180,255,80,.1);  color: rgba(190,255,100,.8); }
+  .tt-general     { background: rgba(255,255,255,.05); color: rgba(255,255,255,.4); }
+
+  .ip-row-arrow {
+    font-size: .78rem; color: var(--t3);
+    transition: color .15s, transform .2s;
+    margin-top: 3px; flex-shrink: 0;
+  }
+
+  /* ── Empty State ── */
+  .ip-empty {
+    text-align: center; padding: 4rem 2rem;
+  }
+  .ip-empty i { font-size: 2rem; color: var(--t3); display: block; margin-bottom: .85rem; }
+  .ip-empty p { font-size: .88rem; color: var(--t3); }
+
+  /* ── Dot colors per topic ── */
+  .dot-apex        { background: rgba(255,130,80,.8); }
+  .dot-lwc         { background: rgba(100,175,255,.8); }
+  .dot-integration { background: rgba(150,110,255,.8); }
+  .dot-soql        { background: rgba(70,210,160,.8); }
+  .dot-flows       { background: rgba(255,210,70,.8); }
+  .dot-async       { background: rgba(255,130,195,.8); }
+  .dot-security    { background: rgba(255,100,100,.8); }
+  .dot-devops      { background: rgba(70,230,230,.8); }
+  .dot-packages    { background: rgba(190,255,100,.8); }
+  .dot-general     { background: rgba(255,255,255,.3); }
+  .dot-scenario    { background: rgba(100,220,130,.8); }
+  .tt-scenario     { background: rgba(100,220,130,.1); color: rgba(120,230,150,.85); }
+  .dot-admin       { background: rgba(80,160,255,.8); }
+  .tt-admin        { background: rgba(80,160,255,.1); color: rgba(110,180,255,.85); }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    /* Layout */
+    .ip-wrap { padding: 0 1rem 5rem; }
+    .ip-hero { padding: 2.5rem 0 1.75rem; }
+    .ip-hero p { font-size: .88rem; margin-bottom: 1.5rem; }
+
+    /* Search */
+    #ip-search { font-size: 1rem; padding: .82rem 2.8rem .82rem 2.65rem; }
+
+    /* Topic pills — horizontal scroll, no wrap */
+    .ip-topics {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-bottom: .4rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .ip-topics::-webkit-scrollbar { display: none; }
+    .ip-topic-pill {
+      flex-shrink: 0;
+      font-size: .78rem;
+      padding: .35rem .9rem;
+      /* Bigger touch target */
+      min-height: 36px;
+      display: flex; align-items: center;
+    }
+
+    /* Stats bar — stack on mobile */
+    .ip-statsbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .65rem;
+      margin-bottom: 1.25rem;
+    }
+    .ip-view-toggle { width: 100%; }
+    .ip-view-btn {
+      flex: 1; text-align: center;
+      padding: .42rem .5rem;
+      font-size: .8rem;
+    }
+
+    /* Section */
+    .ip-section { margin-bottom: 1.75rem; }
+    .ip-section-head { margin-bottom: .65rem; }
+
+    /* Rows — bigger touch targets */
+    .ip-row {
+      padding: .85rem .5rem;
+      gap: .65rem;
+    }
+    .ip-row-num { display: none; }
+    .ip-row-title { font-size: .9rem; line-height: 1.4; }
+    .ip-row-meta { gap: .4rem; margin-top: .2rem; }
+    .ip-row-arrow {
+      font-size: .9rem;
+      margin-top: 4px;
+    }
+    .ip-row-desc { font-size: .78rem; margin-top: .3rem; }
+
+    /* Source pill bigger on mobile */
+    .ip-src {
+      font-size: .65rem;
+      padding: .15rem .5rem;
+    }
+
+    /* Empty state */
+    .ip-empty { padding: 3rem 1rem; }
+
+    /* Divider spacing */
+    .ip-divider { margin: 1.5rem 0; }
+  }
+
+  /* Extra small */
+  @media (max-width: 380px) {
+    .ip-wrap { padding: 0 .85rem 5rem; }
+    .ip-hero h1 { font-size: 1.7rem; }
+    .ip-row-title { font-size: .85rem; }
+  }
+</style>
+
+<div class="ip-wrap">
+
+  <!-- Hero -->
+  <div class="ip-hero reveal-up">
+    <div class="ip-badge"><i class="bi bi-journal-bookmark-fill"></i> Interview Prep</div>
+    <h1>Salesforce <span>Interview Resources</span></h1>
+    <p>Curated articles and guides — grouped by topic so you find what you need fast.</p>
+    <div class="ip-search-wrap">
+      <i class="bi bi-search ip-search-icon"></i>
+      <input type="search" id="ip-search" placeholder="Search — apex, LWC, integration..." autocomplete="off" inputmode="search" enterkeyhint="search" />
+      <button class="ip-clear-btn" id="ip-clear"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="ip-topics" id="ip-topics">
+      <button class="ip-topic-pill active" data-topic="all">All</button>
+      <button class="ip-topic-pill" data-topic="apex">Apex Triggers</button>
+      <button class="ip-topic-pill" data-topic="async">Async Apex</button>
+      <button class="ip-topic-pill" data-topic="soql">SOQL / SOSL</button>
+      <button class="ip-topic-pill" data-topic="lwc">LWC</button>
+      <button class="ip-topic-pill" data-topic="flows">Flows</button>
+      <button class="ip-topic-pill" data-topic="integration">Integration</button>
+      <button class="ip-topic-pill" data-topic="security">Security</button>
+      <button class="ip-topic-pill" data-topic="devops">DevOps</button>
+      <button class="ip-topic-pill" data-topic="packages">Packages</button>
+      <button class="ip-topic-pill" data-topic="scenario">Scenario Based</button>
+      <button class="ip-topic-pill" data-topic="admin">Admin</button>
+    </div>
+  </div>
+
+  <div class="ip-divider"></div>
+
+  <!-- Stats -->
+  <div class="ip-statsbar">
+    <div class="ip-result-count"><b id="result-count">0</b> resources</div>
+    <div class="ip-view-toggle">
+      <button class="ip-view-btn active" id="btn-desc-off" onclick="toggleDesc(false)">Compact</button>
+      <button class="ip-view-btn" id="btn-desc-on" onclick="toggleDesc(true)">With Descriptions</button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div id="ip-content"></div>
+
+</div>
+
+<script>
+const TOPICS = [
+  { key: 'apex',        label: 'Apex Triggers',  dot: 'dot-apex' },
+  { key: 'async',       label: 'Async Apex',      dot: 'dot-async' },
+  { key: 'soql',        label: 'SOQL / SOSL',     dot: 'dot-soql' },
+  { key: 'lwc',         label: 'LWC',             dot: 'dot-lwc' },
+  { key: 'flows',       label: 'Flows',           dot: 'dot-flows' },
+  { key: 'integration', label: 'Integration',     dot: 'dot-integration' },
+  { key: 'security',    label: 'Security',        dot: 'dot-security' },
+  { key: 'devops',      label: 'DevOps / CI-CD',  dot: 'dot-devops' },
+  { key: 'packages',    label: 'Packages',        dot: 'dot-packages' },
+  { key: 'scenario',    label: 'Scenario Based',   dot: 'dot-scenario' },
+  { key: 'admin',       label: 'Admin',            dot: 'dot-admin' },
+  { key: 'general',     label: 'General',          dot: 'dot-general' },
+];
+
+const RESOURCES = [
+  // ── APEX TRIGGERS ──
+  { title: "Top 30 Apex Trigger Scenario Interview Questions (2026)", url: "https://salesforcemegha.com/posts/career/apex-trigger-scenario-interview-questions/", desc: "Real-world scenario-based questions covering bulkification, handler pattern, and best practices.", tags: ["apex"], source: "Blog", domain: "salesforcemegha.com" },
+  { title: "Salesforce Interview Questions on Triggers — Apex Hours", url: "https://www.apexhours.com/salesforce-interview-questions-on-triggers/", desc: "Comprehensive trigger interview questions with answers from Apex Hours.", tags: ["apex"], source: "Apex Hours", domain: "apexhours.com" },
+  { title: "110 Salesforce Apex Interview Questions (2026)", url: "https://www.sfapps.info/100-salesforce-apex-interview-questions-and-answers/", desc: "110+ questions covering Apex fundamentals, triggers, SOQL, and async operations.", tags: ["apex"], source: "Blog", domain: "sfapps.info" },
+  { title: "Triggers in Salesforce — Interview Questions & Answers", url: "https://crsinfosolutions.com/triggers-in-salesforce-and-top-interview-questions/", desc: "Covers trigger events, before/after triggers, and best practices for interviews.", tags: ["apex"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "Top 30 Scenario-Based Developer Interview Questions", url: "https://stories.salesforcecodex.com/2024/02/salesforce/top-30-scenario-based-salesforce-developer-interview-questions/", desc: "Scenario-based questions for junior to senior Salesforce developers.", tags: ["apex", "general"], source: "Blog", domain: "salesforcecodex.com" },
+  { title: "Salesforce Apex Interview Questions and Answers — Part I", url: "https://salesforceshastras.com/salesforce-apex-interview-questions-and-answers-in-2024-part-i/", desc: "Detailed Apex interview questions with thorough answers and explanations.", tags: ["apex"], source: "Blog", domain: "salesforceshastras.com" },
+  { title: "20+ Apex Interview Questions And Answers (2025)", url: "https://s2-labs.com/blog/apex-interview-questions/", desc: "Concise Apex interview Q&A covering triggers, classes, and governor limits.", tags: ["apex"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Salesforce Apex Interview Questions and Answers — Medium", url: "https://medium.com/@saurabh.samirs/salesforce-apex-interview-questions-and-answers-2c593646dd0b", desc: "Commonly asked Apex interview questions with detailed explanations.", tags: ["apex"], source: "Medium", domain: "medium.com" },
+
+  // ── ASYNC APEX ──
+  { title: "Asynchronous Apex Interview Questions — Medium", url: "https://medium.com/@aleksej.gudkov/asynchronous-apex-in-salesforce-interview-questions-3719acf1ecc5", desc: "Covers Future methods, Batch Apex, Queueable, and Scheduled Apex in depth.", tags: ["async"], source: "Medium", domain: "medium.com" },
+  { title: "Salesforce Interview Questions for Asynchronous Apex", url: "https://salesforcecodex.com/salesforce/salesforce-interview-question-for-asynchronous-apex/", desc: "Dedicated async Apex interview question guide with practical examples.", tags: ["async"], source: "Blog", domain: "salesforcecodex.com" },
+  { title: "150 Async Apex Interview Questions — SFDCAmplified", url: "https://www.sfdcamplified.com/asynchronous-apex-interview/", desc: "Massive Q&A bank covering all async patterns — batch, queueable, scheduled, future.", tags: ["async"], source: "Blog", domain: "sfdcamplified.com" },
+  { title: "15 Asynchronous Apex Interview Questions — CLIMB", url: "https://climbtheladder.com/asynchronous-apex-interview-questions/", desc: "Concise async Apex Q&A with key differences and use case scenarios.", tags: ["async"], source: "Blog", domain: "climbtheladder.com" },
+  { title: "Interview Questions on Batch Apex in Salesforce", url: "https://learnfrenzy.com/blog/interview-questions-on-batch-apex-in-salesforce", desc: "Focused on Batch Apex — start, execute, finish methods, stateful, and limits.", tags: ["async"], source: "Blog", domain: "learnfrenzy.com" },
+  { title: "Governor Limits — Synchronous vs Asynchronous", url: "https://vortexifysync.com/governor-limits-in-salesforce-synchronous-vs-asynchronous/", desc: "Clear comparison of sync vs async limits — essential interview knowledge.", tags: ["async", "apex"], source: "Blog", domain: "vortexifysync.com" },
+  { title: "Governor Limits in Salesforce and Best Practices — Apex Hours", url: "https://www.apexhours.com/governor-limits-in-salesforce/", desc: "Governor limits explained with best practices and common interview patterns.", tags: ["async", "apex"], source: "Apex Hours", domain: "apexhours.com" },
+
+  // ── SOQL / SOSL ──
+  { title: "Salesforce SOQL and SOSL Interview Questions", url: "https://crsinfosolutions.com/salesforce-soql-and-sosl-interview-questions/", desc: "Covers SOQL vs SOSL, aggregate queries, relationship queries, and governor limits.", tags: ["soql"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "Top 20 SOQL Interview Questions — S2 Labs", url: "https://s2-labs.com/blog/soql-interview-questions/", desc: "Key SOQL questions on subqueries, relationship queries, and optimization.", tags: ["soql"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Top 25 SOQL Interview Questions — InterviewPrep", url: "https://interviewprep.org/salesforce-object-query-language-soql-interview-questions/", desc: "Syntax, relationships, subqueries, and dynamic SOQL with detailed answers.", tags: ["soql"], source: "Blog", domain: "interviewprep.org" },
+  { title: "DML, SOQL and SOSL Interview Q&A — Salesforce Troop", url: "https://www.salesforcetroop.com/interview/salesforce_dml_soql_sosl_interview/", desc: "Combined coverage of DML, SOQL, and SOSL with comparison and use cases.", tags: ["soql"], source: "Blog", domain: "salesforcetroop.com" },
+  { title: "SOQL Interview Questions — InterviewGemini", url: "https://techskills.interviewgemini.com/interviews/interview-questions-for-salesforce-object-query-language-soql/", desc: "AI-assisted SOQL interview questions with comprehensive explanations.", tags: ["soql"], source: "Blog", domain: "interviewgemini.com" },
+
+  // ── LWC ──
+  { title: "61 LWC Interview Questions and Answers", url: "https://crsinfosolutions.com/61-lwc-lightning-web-component-interview-questions/", desc: "61 interview questions covering LWC lifecycle, wire service, events, and decorators.", tags: ["lwc"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "LWC Interview Questions and Answers — Salesforce Geek", url: "https://salesforcegeek.in/lwc-interview-questions-and-answers/", desc: "Covers Shadow DOM, lifecycle hooks, data binding, and component communication.", tags: ["lwc"], source: "Blog", domain: "salesforcegeek.in" },
+  { title: "110 Salesforce LWC Interview Questions (2026)", url: "https://www.sfapps.info/110-salesforce-lwc-interview-questions-and-answers/", desc: "Comprehensive 110-question guide covering all LWC interview topics.", tags: ["lwc"], source: "Blog", domain: "sfapps.info" },
+  { title: "Top 30 LWC Interview Questions In 2025", url: "https://s2-labs.com/blog/lwc-interview-questions/", desc: "Top LWC questions with real-world focus on wire adapters and parent-child communication.", tags: ["lwc"], source: "Blog", domain: "s2-labs.com" },
+  { title: "LWC Advanced Interview Questions — Medium", url: "https://medium.com/@aleksej.gudkov/lwc-advanced-interview-questions-927ec447125d", desc: "Advanced LWC concepts — Shadow DOM, slots, dynamic components, and performance.", tags: ["lwc"], source: "Medium", domain: "medium.com" },
+  { title: "LWC Interview Questions — Saurabh Samir (Series 1)", url: "https://medium.com/@saurabh.samirs/lwc-interview-questions-1080292722fa", desc: "Beginner to intermediate LWC interview questions with clear explanations.", tags: ["lwc"], source: "Medium", domain: "medium.com" },
+  { title: "LWC Interview Questions — Saurabh Samir (Series 3)", url: "https://medium.com/@saurabh.samirs/lwc-interview-questions-series-3-6de3d79b0212", desc: "Third series covering more advanced LWC patterns and real-world scenarios.", tags: ["lwc"], source: "Medium", domain: "medium.com" },
+  { title: "Top LWC Scenario-Based Interview Questions (2025)", url: "https://medium.com/@saurabh.samirs/top-salesforce-lwc-scenario-based-interview-questions-and-answers-2025-c67aa8fcb232", desc: "Scenario-based LWC questions focused on real project challenges.", tags: ["lwc"], source: "Medium", domain: "medium.com" },
+  { title: "Salesforce LWC Interview Questions and Answers 2026", url: "https://thesalesforcemonk.com/lwc-interview-questions-and-answers/", desc: "Updated LWC guide covering latest features and interview patterns for 2026.", tags: ["lwc"], source: "Blog", domain: "thesalesforcemonk.com" },
+  { title: "Top LWC Interview Questions — InterviewBit", url: "https://www.interviewbit.com/lwc-interview-questions/", desc: "Structured LWC interview questions with difficulty levels from basic to advanced.", tags: ["lwc"], source: "Blog", domain: "interviewbit.com" },
+
+  // ── FLOWS ──
+  { title: "105 Salesforce Flows Interview Questions (2026)", url: "https://www.sfapps.info/100-salesforce-flows-interview-questions-and-answers/", desc: "Complete flows interview guide — screen flows, auto-launched, and subflows.", tags: ["flows"], source: "Blog", domain: "sfapps.info" },
+  { title: "25 Popular Salesforce Flow Interview Questions — S2 Labs", url: "https://s2-labs.com/blog/salesforce-flow-interview-questions/", desc: "Top flow interview questions with practical scenarios and answers.", tags: ["flows"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Salesforce Flow Interview Questions — Salesforce Geek", url: "https://salesforcegeek.in/salesforce-flow-interview-questions-and-answers/", desc: "Covers flow types, fault handling, bulkification, and best practices.", tags: ["flows"], source: "Blog", domain: "salesforcegeek.in" },
+  { title: "Salesforce Flow Interview Q&A — The Salesforce Monk", url: "https://thesalesforcemonk.com/top-salesforce-flow-interview-questions-answers/", desc: "Strong foundation for tackling flow-related interview topics.", tags: ["flows"], source: "Blog", domain: "thesalesforcemonk.com" },
+  { title: "A Guide to Master Salesforce Flow Interview Questions", url: "https://www.mytutorialrack.com/salesforce-flows-interview-questions/", desc: "Structured guide to master flow concepts before your interview.", tags: ["flows"], source: "Blog", domain: "mytutorialrack.com" },
+  { title: "Salesforce Flow Interview Q&A with Examples (2024)", url: "https://salesforceshastras.com/salesforce-flow-interview-questions-and-answers-with-example-2024/", desc: "Flow interview questions with real-world examples and code snippets.", tags: ["flows"], source: "Blog", domain: "salesforceshastras.com" },
+  { title: "Process Builder in Salesforce Interview Questions", url: "https://medium.com/@aleksej.gudkov/process-builder-in-salesforce-interview-questions-8ad394f76631", desc: "Process Builder concepts and comparison with Flow — useful historical context.", tags: ["flows"], source: "Medium", domain: "medium.com" },
+  { title: "50 Most Popular Salesforce Interview Questions — Salesforce Ben", url: "https://www.salesforceben.com/salesforce-interview-questions/", desc: "Broad Salesforce Q&A including Flows, admin, and developer concepts.", tags: ["flows", "general"], source: "Salesforce Ben", domain: "salesforceben.com" },
+
+  // ── INTEGRATION ──
+  { title: "Salesforce Integration Interview Questions — Apex Hours", url: "https://www.apexhours.com/salesforce-integration-interview-questions/", desc: "REST vs SOAP, integration patterns, callouts, and named credentials explained.", tags: ["integration"], source: "Apex Hours", domain: "apexhours.com" },
+  { title: "105 Salesforce Integration Interview Questions (2026)", url: "https://www.sfapps.info/100-salesforce-integration-interview-questions-and-answers/", desc: "105 questions covering all Salesforce integration scenarios and patterns.", tags: ["integration"], source: "Blog", domain: "sfapps.info" },
+  { title: "80+ Salesforce Integration Interview Questions — SFDCAmplified", url: "https://www.sfdcamplified.com/salesforce-integration-interview/", desc: "Deep coverage of REST, SOAP, Bulk API, Streaming API, and outbound messaging.", tags: ["integration"], source: "Blog", domain: "sfdcamplified.com" },
+  { title: "Top 40 Salesforce Integration Interview Questions — MindMajix", url: "https://mindmajix.com/salesforce-integration-interview-questions", desc: "Covers inbound and outbound integration, APIs, and middleware concepts.", tags: ["integration"], source: "Blog", domain: "mindmajix.com" },
+  { title: "Salesforce Integration Interview Q&A — SFDCPoint", url: "https://www.sfdcpoint.com/salesforce/salesforce-integration-interview-questions-and-answers/", desc: "Detailed Q&A on integration patterns, authentication, and common pitfalls.", tags: ["integration"], source: "Blog", domain: "sfdcpoint.com" },
+  { title: "Salesforce Integration Interview Q&A — SaasGuru", url: "https://www.saasguru.co/salesforce-integration-interview-questions-answers/", desc: "Updated integration interview prep covering REST, SOAP, Platform Events.", tags: ["integration"], source: "Blog", domain: "saasguru.co" },
+  { title: "Top 20+ Salesforce Integration Interview Questions (2026)", url: "https://www.hirist.tech/blog/top-20-salesforce-integration-interview-questions/", desc: "Concise integration Q&A for quick interview preparation.", tags: ["integration"], source: "Blog", domain: "hirist.tech" },
+
+  // ── SECURITY ──
+  { title: "Salesforce Security Interview Questions — Salesforce Tutorial", url: "https://www.salesforcetutorial.com/salesforce-administrator-interview-questions-security/", desc: "Covers OWD, profiles, permission sets, field-level security, and role hierarchy.", tags: ["security"], source: "Blog", domain: "salesforcetutorial.com" },
+  { title: "160+ Salesforce Security Interview Questions — SFDCAmplified", url: "https://www.sfdcamplified.com/salesforce-security-questions/", desc: "Massive Q&A bank covering every security concept in Salesforce.", tags: ["security"], source: "Blog", domain: "sfdcamplified.com" },
+  { title: "Scenario-Based Sharing and Security Questions — SFDCAmplified", url: "https://www.sfdcamplified.com/scenario-based-salesforce-sharing-and-security-questions/", desc: "Real-world security scenarios tested in senior-level Salesforce interviews.", tags: ["security"], source: "Blog", domain: "sfdcamplified.com" },
+  { title: "Sharing Rules in Salesforce Interview Questions", url: "https://medium.com/@aleksej.gudkov/sharing-rules-in-salesforce-interview-questions-08643eba59de", desc: "Deep dive into sharing rules, manual sharing, and Apex managed sharing.", tags: ["security"], source: "Medium", domain: "medium.com" },
+  { title: "Interview Questions on Sharing and Security in Salesforce", url: "https://medium.com/@aleksej.gudkov/interview-questions-on-sharing-and-security-in-salesforce-b3caf85e2abc", desc: "OWD, profiles, permission sets, sharing rules — all in one guide.", tags: ["security"], source: "Medium", domain: "medium.com" },
+  { title: "Roles and Profiles in Salesforce Interview Questions", url: "https://crsinfosolutions.com/roles-and-profiles-in-salesforce-interview-questions/", desc: "Differences between roles, profiles, and permission sets with examples.", tags: ["security"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "Top 20 Salesforce Security Interview Questions — S2 Labs", url: "https://s2-labs.com/blog/salesforce-security-interview-questions/", desc: "20 must-know security interview questions with concise answers.", tags: ["security"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Salesforce Interview Questions: Profiles & Permission Sets", url: "https://www.saasguru.co/salesforce-interview-questions-profiles-permission-sets/", desc: "Detailed Q&A focused on profiles vs permission sets — a very common interview topic.", tags: ["security"], source: "Blog", domain: "saasguru.co" },
+
+  // ── DEVOPS ──
+  { title: "105 Salesforce DevOps Interview Questions (2025)", url: "https://www.sfapps.info/100-salesforce-devops-interview-questions-and-answers/", desc: "Covers Salesforce DX, sandboxes, CI/CD pipelines, and deployment tools.", tags: ["devops"], source: "Blog", domain: "sfapps.info" },
+  { title: "Salesforce DevOps Interview Questions — CRS Info", url: "https://www.crsinfosolutions.com/salesforce-devops-interview-questions/", desc: "DevOps Q&A covering Gearset, Copado, Jenkins, and Git workflows.", tags: ["devops"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "Salesforce DevOps Interview Questions and Answers — Medium", url: "https://medium.com/@pratikdtiwari/salesforce-devops-interview-questions-and-answers-385c41e46c23", desc: "Practical DevOps interview prep including CI/CD pipeline design questions.", tags: ["devops"], source: "Medium", domain: "medium.com" },
+  { title: "Cracking the Salesforce DevOps Interview — Salto", url: "https://www.salto.io/blog-posts/cracking-the-salesforce-devops-interview-part-3", desc: "Advanced DevOps interview questions with expert-level answers.", tags: ["devops"], source: "Blog", domain: "salto.io" },
+  { title: "Top Salesforce DevOps Interview Questions — Salesforce Trail", url: "https://salesforcetrail.com/salesforce-devops-interview-questions-for-2024/", desc: "What to expect in a Salesforce DevOps technical interview.", tags: ["devops"], source: "Blog", domain: "salesforcetrail.com" },
+  { title: "50 CI/CD DevOps Interview Questions — CRS Info", url: "https://crsinfosolutions.com/50-ci-cd-devops-interview-questions/", desc: "50 CI/CD questions covering Salesforce DX, scratch orgs, and pipelines.", tags: ["devops"], source: "Blog", domain: "crsinfosolutions.com" },
+  { title: "20 Salesforce DevOps Interview Q&A — SaasGuru", url: "https://www.saasguru.co/salesforce-devops-interview-questions-answers/", desc: "Concise DevOps interview guide covering key tools and methodologies.", tags: ["devops"], source: "Blog", domain: "saasguru.co" },
+  { title: "Salesforce DevOps Engineer Interview Questions", url: "https://devopslaunchpad.com/blog/salesforce-devops-engineer-interview-questions/", desc: "Real interview questions asked in Salesforce DevOps engineer interviews.", tags: ["devops"], source: "Blog", domain: "devopslaunchpad.com" },
+
+  // ── PACKAGES ──
+  { title: "Managed Packages — ISVforce Guide (Official Salesforce Docs)", url: "https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/managed_packaging_intro.htm", desc: "Official Salesforce documentation on building and distributing managed packages.", tags: ["packages"], source: "SF Docs", domain: "developer.salesforce.com" },
+  { title: "Build and Distribute AppExchange Solutions — ISVforce Guide", url: "https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/about_managed_packages.htm", desc: "ISVforce guide for packaging, distributing, and managing AppExchange solutions.", tags: ["packages"], source: "SF Docs", domain: "developer.salesforce.com" },
+  { title: "Getting An App Listed On The AppExchange — Salesforce Ben", url: "https://www.salesforceben.com/get-listed-on-appexchange/", desc: "Step-by-step guide on publishing to the AppExchange from Salesforce Ben.", tags: ["packages"], source: "Salesforce Ben", domain: "salesforceben.com" },
+  { title: "Install AppExchange Packages — Trailhead", url: "https://trailhead.salesforce.com/content/learn/modules/appexchange_basics/appexchange_basics_install", desc: "Official Trailhead module on installing and managing AppExchange packages.", tags: ["packages"], source: "Trailhead", domain: "trailhead.salesforce.com" },
+
+  // ── SCENARIO BASED ──
+  { title: "100 Real Salesforce Scenario-Based Interview Questions (2025) — 1-4 Yrs Exp", url: "https://trailheadtitanshub.com/100-real-salesforce-scenario-based-interview-questions-2025-edition-for-1-4-years-experience/", desc: "100 real-world scenarios covering triggers, LWC, integration, flows, and security — tailored for 1-4 years experience.", tags: ["scenario"], source: "Blog", domain: "trailheadtitanshub.com" },
+  { title: "105 Scenario-Based Salesforce Interview Questions (2026) — SFApps", url: "https://www.sfapps.info/100-scenario-based-salesforce-interview-questions/", desc: "105 scenario questions covering all domains — developer, admin, and architect roles.", tags: ["scenario"], source: "Blog", domain: "sfapps.info" },
+  { title: "25 Popular Salesforce Scenario Based Interview Questions — S2 Labs", url: "https://s2-labs.com/blog/salesforce-scenario-based-interview-questions/", desc: "Top scenario questions by role — Admin, Developer, LWC Specialist, and Business Analyst.", tags: ["scenario"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Scenario Based Salesforce Developer Interview Questions — Salesforce Geek", url: "https://salesforcegeek.in/scenario-based-salesforce-developer-interview-questions-and-answers/", desc: "20+ developer-focused scenarios covering triggers, governor limits, integrations, and deployments.", tags: ["scenario"], source: "Blog", domain: "salesforcegeek.in" },
+  { title: "Top 30 Scenario-Based Salesforce Developer Interview Questions — SalesforceCodex", url: "https://stories.salesforcecodex.com/2024/02/salesforce/top-30-scenario-based-salesforce-developer-interview-questions/", desc: "Real-world problem scenarios asked at junior to senior developer interviews.", tags: ["scenario"], source: "Blog", domain: "salesforcecodex.com" },
+  { title: "Salesforce Scenario Based Interview Q&A — SaasGuru", url: "https://www.saasguru.co/salesforce-scenario-based-interview-questions-answers/", desc: "Practical scenario questions with detailed answers covering admin and developer topics.", tags: ["scenario"], source: "Blog", domain: "saasguru.co" },
+  { title: "20 Scenario-Based Salesforce Interview Questions — SalesforceBoss", url: "https://salesforceboss.com/20-scenario-based-salesforce-interview-questions/", desc: "20 well-structured scenario questions with step-by-step answers for dev and admin roles.", tags: ["scenario"], source: "Blog", domain: "salesforceboss.com" },
+  { title: "Scenario-Based Salesforce Developer Interview Questions — Medium (UATeam)", url: "https://medium.com/@aleksej.gudkov/scenario-based-salesforce-developer-interview-questions-68c11d28972e", desc: "Advanced scenario questions covering recursion, bulk triggers, and complex SOQL.", tags: ["scenario"], source: "Medium", domain: "medium.com" },
+  { title: "Top Salesforce LWC Scenario-Based Interview Questions (2025) — Medium", url: "https://medium.com/@saurabh.samirs/top-salesforce-lwc-scenario-based-interview-questions-and-answers-2025-c67aa8fcb232", desc: "LWC-specific scenario questions — wire service, parent-child communication, error handling.", tags: ["scenario", "lwc"], source: "Medium", domain: "medium.com" },
+  { title: "Scenario-Based LWC Interview Questions (2026) — LearnFrenzy", url: "https://learnfrenzy.com/blog/scenario-based-lwc-interview-questions", desc: "Real-world LWC scenarios with practical code examples for 2026 interviews.", tags: ["scenario", "lwc"], source: "Blog", domain: "learnfrenzy.com" },
+  { title: "Scenario-Based Sharing and Security Questions — SFDCAmplified", url: "https://www.sfdcamplified.com/scenario-based-salesforce-sharing-and-security-questions/", desc: "Senior-level security scenarios — OWD, sharing rules, permission sets in real situations.", tags: ["scenario", "security"], source: "Blog", domain: "sfdcamplified.com" },
+  { title: "Top 20 Salesforce Scenario-Based Interview Questions 2026 — Srijan Institute", url: "https://srijaninstitute.com/blog/salesforce-interview-questions", desc: "Scenario questions focusing on automation, governor limits, and cross-object workflows.", tags: ["scenario"], source: "Blog", domain: "srijaninstitute.com" },
+
+  // ── ADMIN ──
+  { title: "30 Salesforce Admin Interview Questions & Answers — Salesforce Ben", url: "https://www.salesforceben.com/30-salesforce-admin-interview-questions/", desc: "Covers profiles, permission sets, sharing rules, validation rules, and workflow automation.", tags: ["admin"], source: "Salesforce Ben", domain: "salesforceben.com" },
+  { title: "105 Salesforce Admin Interview Questions (2025) — SFApps", url: "https://www.sfapps.info/salesforce-administrator-interview-questions/", desc: "Comprehensive 105-question guide covering all admin topics — user management, automation, security.", tags: ["admin"], source: "Blog", domain: "sfapps.info" },
+  { title: "Top 50+ Salesforce Admin Interview Questions (2026) — S2 Labs", url: "https://s2-labs.com/blog/salesforce-admin-interview-questions/", desc: "50+ admin questions covering automation tools, reports, dashboards, and data management.", tags: ["admin"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Salesforce Admin Interview Questions — InterviewBit", url: "https://www.interviewbit.com/salesforce-admin-interview-questions/", desc: "Structured admin Q&A covering custom metadata, portals, validation rules, and report types.", tags: ["admin"], source: "Blog", domain: "interviewbit.com" },
+  { title: "Salesforce Admin Interview Questions — Apex Hours", url: "https://www.apexhours.com/salesforce-admin-interview-questions/", desc: "Common admin interview questions on objects, fields, automation, and security model.", tags: ["admin"], source: "Apex Hours", domain: "apexhours.com" },
+  { title: "Salesforce Admin Interview Q&A — The Salesforce Monk", url: "https://thesalesforcemonk.com/salesforce-administrator-interview-questions-answers/", desc: "50+ commonly asked admin interview questions — practical and real-world focused.", tags: ["admin"], source: "Blog", domain: "thesalesforcemonk.com" },
+  { title: "Top 25 Salesforce Admin Interview Questions (2026) — Hirist", url: "https://www.hirist.tech/blog/top-25-salesforce-admin-interview-questions-and-answers/", desc: "25 key admin questions with concise answers — great for quick revision.", tags: ["admin"], source: "Blog", domain: "hirist.tech" },
+  { title: "50+ Salesforce Admin Interview Questions (2025) — SaasGuru", url: "https://www.saasguru.co/salesforce-admin-interview-questions/", desc: "In-depth admin prep covering data model, automation, security, and analytics.", tags: ["admin"], source: "Blog", domain: "saasguru.co" },
+  { title: "87 Salesforce Admin Interview Questions — Adaface", url: "https://www.adaface.com/blog/salesforce-admin-interview-questions/", desc: "87 questions including technical and scenario-based admin topics with explanations.", tags: ["admin"], source: "Blog", domain: "adaface.com" },
+  { title: "Salesforce Admin Technical Interview Questions — DataGroomr", url: "https://datagroomr.com/salesforce-admin-technical-interview-questions-with-answers-and-tips/", desc: "Technical admin questions on data management, deduplication, and admin best practices.", tags: ["admin"], source: "Blog", domain: "datagroomr.com" },
+  { title: "Top 30 Salesforce Admin Interview Questions — Srijan Institute", url: "https://srijaninstitute.com/blog/salesforce-admin-interview-questions", desc: "Covers automation, governor limits from admin perspective, reports, and dashboards.", tags: ["admin"], source: "Blog", domain: "srijaninstitute.com" },
+  { title: "Top 50 Salesforce Admin Interview Questions — IGMGuru", url: "https://www.igmguru.com/blog/salesforce-admin-interview-questions", desc: "Broad admin interview prep covering all major admin domains and concepts.", tags: ["admin"], source: "Blog", domain: "igmguru.com" },
+
+  // ── GENERAL ──
+  { title: "Salesforce Interview Questions — Apex Hours", url: "https://www.apexhours.com/salesforce-interview-questions/", desc: "Curated list of Salesforce interview questions across all domains.", tags: ["general"], source: "Apex Hours", domain: "apexhours.com" },
+  { title: "30 Salesforce Admin Interview Questions — Salesforce Ben", url: "https://www.salesforceben.com/30-salesforce-admin-interview-questions/", desc: "Admin-focused interview questions covering core Salesforce concepts.", tags: ["general"], source: "Salesforce Ben", domain: "salesforceben.com" },
+  { title: "80+ Salesforce Interview Questions — Cloudely", url: "https://cloudely.com/salesforce-interview-questions-with-answers/", desc: "Broad interview Q&A suitable for both admin and developer roles.", tags: ["general"], source: "Blog", domain: "cloudely.com" },
+  { title: "50+ Ultimate Salesforce Interview Questions (2025) — S2 Labs", url: "https://s2-labs.com/blog/salesforce-interview-questions/", desc: "Covers all Salesforce roles and experience levels in one guide.", tags: ["general"], source: "Blog", domain: "s2-labs.com" },
+  { title: "Top 92 Salesforce Interview Questions (2026) — IGMGuru", url: "https://www.igmguru.com/blog/salesforce-interview-questions", desc: "Wide-ranging Salesforce interview prep for developers and admins.", tags: ["general"], source: "Blog", domain: "igmguru.com" },
+];
+
+// ── State ──
+let activeTopic = 'all';
+let searchQuery = '';
+let showDesc = false;
+
+// ── Source badge class ──
+function srcClass(src) {
+  const m = { 'Trailhead':'ip-src-trailhead','SF Docs':'ip-src-sfdocs','Medium':'ip-src-medium','Blog':'ip-src-blog','Salesforce Ben':'ip-src-sfben','Apex Hours':'ip-src-apexhours' };
+  return m[src] || 'ip-src-blog';
+}
+
+// ── Topic tag class ──
+function topicTagClass(tag) {
+  const m = { apex:'tt-apex',lwc:'tt-lwc',integration:'tt-integration',soql:'tt-soql',flows:'tt-flows',async:'tt-async',security:'tt-security',devops:'tt-devops',packages:'tt-packages',scenario:'tt-scenario',admin:'tt-admin',general:'tt-general' };
+  return m[tag] || 'tt-general';
+}
+function topicTagLabel(tag) {
+  const m = { apex:'Apex',lwc:'LWC',integration:'Integration',soql:'SOQL',flows:'Flows',async:'Async',security:'Security',devops:'DevOps',packages:'Packages',scenario:'Scenario',admin:'Admin',general:'General' };
+  return m[tag] || tag;
+}
+
+// ── Row HTML ──
+function rowHTML(r, idx, showTopicTag) {
+  const topicTags = showTopicTag
+    ? r.tags.map(t => `<span class="ip-topic-tag ${topicTagClass(t)}">${topicTagLabel(t)}</span>`).join('')
+    : '';
+  return `
+    <a class="ip-row" href="${r.url}" target="_blank" rel="noopener noreferrer">
+      <span class="ip-row-num">${String(idx).padStart(2,'0')}</span>
+      <div class="ip-row-body">
+        <span class="ip-row-title">${r.title}</span>
+        <div class="ip-row-meta">
+          ${topicTags}
+          <span class="ip-src ${srcClass(r.source)}">${r.source}</span>
+          <span class="ip-row-domain">${r.domain}</span>
+        </div>
+        <div class="ip-row-desc${showDesc ? ' visible' : ''}">${r.desc}</div>
+      </div>
+      <i class="bi bi-arrow-right ip-row-arrow"></i>
+    </a>`;
+}
+
+// ── Render ──
+function render() {
+  const q = searchQuery.toLowerCase().trim();
+  const content = document.getElementById('ip-content');
+  const isSearching = q.length > 0;
+
+  // Filter resources
+  const filtered = RESOURCES.filter(r => {
+    const topicMatch = activeTopic === 'all' || r.tags.includes(activeTopic);
+    const searchMatch = !q || r.title.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q) || r.tags.some(t => t.includes(q)) || r.source.toLowerCase().includes(q) || r.domain.toLowerCase().includes(q);
+    return topicMatch && searchMatch;
+  });
+
+  document.getElementById('result-count').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="ip-empty"><i class="bi bi-search"></i><p>No resources found — try a different keyword.</p></div>`;
+    return;
+  }
+
+  // If searching: flat list with topic tags shown
+  if (isSearching || activeTopic !== 'all') {
+    let html = '';
+    filtered.forEach((r, i) => { html += rowHTML(r, i + 1, isSearching); });
+    content.innerHTML = html;
+    return;
+  }
+
+  // Default: grouped by topic
+  let html = '';
+  TOPICS.forEach(topic => {
+    const group = RESOURCES.filter(r => r.tags[0] === topic.key);
+    if (group.length === 0) return;
+    html += `<div class="ip-section">
+      <div class="ip-section-head">
+        <span class="ip-section-dot ${topic.dot}"></span>
+        <span class="ip-section-title">${topic.label}</span>
+        <span class="ip-section-count">${group.length}</span>
+      </div>`;
+    group.forEach((r, i) => { html += rowHTML(r, i + 1, false); });
+    html += `</div>`;
+  });
+  content.innerHTML = html;
+}
+
+// ── Toggle descriptions ──
+function toggleDesc(on) {
+  showDesc = on;
+  document.getElementById('btn-desc-off').classList.toggle('active', !on);
+  document.getElementById('btn-desc-on').classList.toggle('active', on);
+  render();
+}
+
+// ── Topic pills ──
+document.getElementById('ip-topics').addEventListener('click', function(e) {
+  const btn = e.target.closest('.ip-topic-pill');
+  if (!btn) return;
+  activeTopic = btn.dataset.topic;
+  document.querySelectorAll('.ip-topic-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+});
+
+// ── Search ──
+const searchEl = document.getElementById('ip-search');
+const clearEl  = document.getElementById('ip-clear');
+searchEl.addEventListener('input', function() {
+  searchQuery = this.value;
+  clearEl.style.display = this.value ? 'block' : 'none';
+  render();
+});
+clearEl.addEventListener('click', function() {
+  searchEl.value = '';
+  searchQuery = '';
+  clearEl.style.display = 'none';
+  searchEl.focus();
+  render();
+});
+
+render();
+</script>
