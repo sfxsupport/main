@@ -3,9 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title | default: "SFX Support — Salesforce Expertise, On Demand" }}</title>
-  <meta name="description" content="{{ page.description | default: 'Expert Salesforce guidance — AI-powered tools and certified architects for development, architecture, deployment, and more.' }}">
+  <title>{{ page.title | default: "SFX Support — Salesforce Learning, Interview Prep & AI Tools" }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta name="keywords" content="{{ page.keywords | default: site.keywords }}">
+  <meta name="author" content="SFX Support">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
   <link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:type" content="{{ page.og_type | default: 'website' }}">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning, Interview Prep & AI Tools' }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
+  <meta property="og:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+  <meta property="og:locale" content="en_US">
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning, Interview Prep & AI Tools' }}">
+  <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+  <meta name="twitter:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+
+  <!-- ── JSON-LD Schema ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://sfxsupport.com/#website",
+        "url": "https://sfxsupport.com",
+        "name": "SFX Support",
+        "description": "{{ site.description }}",
+        "publisher": { "@id": "https://sfxsupport.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": { "@type": "EntryPoint", "urlTemplate": "https://sfxsupport.com/interview-prep/?q={search_term_string}" },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://sfxsupport.com/#organization",
+        "name": "SFX Support",
+        "url": "https://sfxsupport.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://sfxsupport.com/assets/images/FinalLogo.png",
+          "width": 200,
+          "height": 200
+        },
+        "description": "Free Salesforce learning, interview prep, AI tools and expert guidance for developers, admins and architects.",
+        "knowsAbout": ["Salesforce Development", "Apex Programming", "Lightning Web Components", "Salesforce Integration", "Salesforce Administration", "Salesforce Interview Preparation"]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}#webpage",
+        "url": "https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}",
+        "name": "{{ page.title | default: 'SFX Support' }}",
+        "description": "{{ page.description | default: site.description }}",
+        "isPartOf": { "@id": "https://sfxsupport.com/#website" },
+        "publisher": { "@id": "https://sfxsupport.com/#organization" }
+      }
+    ]
+  }
+  </script>
 
   <!-- GA -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>

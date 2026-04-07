@@ -3,9 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title | default: "SFX Support — Salesforce Expertise, On Demand" }}</title>
-  <meta name="description" content="{{ page.description | default: 'Expert Salesforce guidance — AI-powered tools and certified architects for development, architecture, deployment, and more.' }}">
+  <title>{{ page.title | default: "SFX Support — Salesforce Learning, Interview Prep & AI Tools" }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <meta name="keywords" content="{{ page.keywords | default: site.keywords }}">
+  <meta name="author" content="SFX Support">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
   <link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning' }}">
+  <meta property="og:description" content="{{ page.description | default: site.description }}">
+  <meta property="og:url" content="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
+  <meta property="og:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning' }}">
+  <meta name="twitter:description" content="{{ page.description | default: site.description }}">
+  <meta name="twitter:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "@id": "https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}#learningresource",
+        "url": "https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}",
+        "name": "{{ page.title }}",
+        "description": "{{ page.description | default: page.intro_text }}",
+        "provider": {
+          "@type": "Organization",
+          "name": "SFX Support",
+          "url": "https://sfxsupport.com"
+        },
+        "educationalLevel": "Intermediate",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "about": { "@type": "Thing", "name": "Salesforce Development" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sfxsupport.com" },
+          { "@type": "ListItem", "position": 2, "name": "Learning", "item": "https://sfxsupport.com/learning/" },
+          { "@type": "ListItem", "position": 3, "name": "{{ page.sidebar_title }}", "item": "https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}" }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BXZVYY2G7X');</script>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://sfxsupport.com/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 1
