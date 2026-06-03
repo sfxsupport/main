@@ -630,16 +630,23 @@ private class AccountTriggerTest {
     }
 
     public void execute(QueueableContext context) {
+        Set&lt;Id&gt; accountIds = new Map&lt;Id, Account&gt;(accounts).keySet();
+
+        // Single SOQL outside the loop — bulkified
+        Map&lt;Id, Decimal&gt; revenueMap = new Map&lt;Id, Decimal&gt;();
+        for (Opportunity opp : [
+            SELECT AccountId, Amount FROM Opportunity
+            WHERE AccountId IN :accountIds AND StageName = 'Closed Won'
+        ]) {
+            if (opp.Amount != null) {
+                Decimal prev = revenueMap.containsKey(opp.AccountId) ? revenueMap.get(opp.AccountId) : 0;
+                revenueMap.put(opp.AccountId, prev + opp.Amount);
+            }
+        }
+
         List&lt;Account&gt; toUpdate = new List&lt;Account&gt;();
         for (Account acc : accounts) {
-            Decimal total = 0;
-            for (Opportunity opp : [
-                SELECT Amount FROM Opportunity
-                WHERE AccountId = :acc.Id AND StageName = 'Closed Won'
-            ]) {
-                if (opp.Amount != null) total += opp.Amount;
-            }
-            acc.AnnualRevenue = total;
+            acc.AnnualRevenue = revenueMap.containsKey(acc.Id) ? revenueMap.get(acc.Id) : 0;
             toUpdate.add(acc);
         }
         if (!toUpdate.isEmpty()) update toUpdate;
