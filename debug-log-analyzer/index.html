@@ -346,6 +346,14 @@ permalink: /debug-log-analyzer/
     send();
   }
 
+  // Fallback: if Firebase takes too long, show sign-in after 3s
+  setTimeout(() => {
+    if (loadingEl.style.display !== 'none') {
+      loadingEl.style.display = 'none';
+      landingEl.style.display = 'flex';
+    }
+  }, 3000);
+
   // ── Auth state ──
   onAuthStateChanged(auth, (user) => {
     loadingEl.style.display = 'none';
