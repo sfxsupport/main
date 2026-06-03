@@ -1,6 +1,6 @@
 ---
 layout: HomePageFinalTest
-title: Your Salesforce Lifeline Homepage
+title: Get in Touch · SFX Support
 permalink: /contact/
 ---
 
@@ -189,18 +189,18 @@ permalink: /contact/
 
 <section class="contact-hero">
   <h1>Contact <span>SFX Support</span></h1>
-  <p>Select a reason and send us a message — we'll review it and get back to you as soon as possible.</p>
+  <p>Feedback, suggestions, a learning question, or just want to say hi — drop a message and I'll get back to you.</p>
 </section>
 
 <!-- Quick Reason Cards -->
 <div class="reason-grid">
-  <div class="reason-card" onclick="setReason('Need a Solution')">
+  <div class="reason-card" onclick="setReason('Share Feedback')">
     <i class="bi bi-lightbulb-fill"></i>
-    <span>Need a Solution</span>
+    <span>Share Feedback</span>
   </div>
-  <div class="reason-card" onclick="setReason('Need Training')">
+  <div class="reason-card" onclick="setReason('Learning Question')">
     <i class="bi bi-journal-code"></i>
-    <span>Need Training</span>
+    <span>Learning Question</span>
   </div>
   <div class="reason-card" onclick="setReason('Report an Issue')">
     <i class="bi bi-bug-fill"></i>
@@ -231,8 +231,8 @@ permalink: /contact/
       <label for="subject">What brings you here?</label>
       <select id="subject" name="subject" required>
         <option value="" disabled selected>Select a reason...</option>
-        <option value="Need a Solution">Need a Solution</option>
-        <option value="Need Training">Need Training</option>
+        <option value="Share Feedback">Share Feedback</option>
+        <option value="Learning Question">Learning Question</option>
         <option value="Report an Issue">Report an Issue</option>
         <option value="Want to Join Us">Want to Join Us</option>
         <option value="Want to Know More">Want to Know More About SFX</option>
@@ -255,8 +255,8 @@ permalink: /contact/
     </div>
 
     <div class="form-group">
-      <label for="description">How can we help?</label>
-      <textarea id="description" name="description" required rows="4" placeholder="Describe your issue or question..."></textarea>
+      <label for="description">Your message</label>
+      <textarea id="description" name="description" required rows="4" placeholder="What's on your mind?"></textarea>
     </div>
 
     <button type="submit" class="form-submit">
