@@ -31,32 +31,72 @@ permalink: /apply/
     line-height: 1.7;
   }
 
-  /* ── Google Form embed ── */
-  .apply-form-wrap {
-    max-width: 720px;
+  /* ── Apply CTA card ── */
+  .apply-cta-wrap {
+    max-width: 560px;
     margin: 0 auto 48px;
     padding: 0 24px;
   }
 
-  .apply-form-card {
+  .apply-cta-card {
     background: var(--bg2);
     border: 1px solid var(--b2);
     border-radius: 18px;
-    padding: 10px;
-    overflow: hidden;
+    padding: 40px 36px;
+    text-align: center;
   }
 
-  .apply-form-card iframe {
-    display: block;
-    width: 100%;
-    height: 1200px;
-    border: none;
-    border-radius: 12px;
-    background: var(--bg2);
+  .apply-cta-card i.bi-stars {
+    font-size: 1.6rem;
+    color: rgba(var(--sun), .75);
+    margin-bottom: 14px;
+    display: inline-block;
   }
 
-  @media (max-width: 600px) {
-    .apply-form-card iframe { height: 1450px; }
+  .apply-cta-card h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--t);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .apply-cta-card p {
+    font-size: .95rem;
+    color: var(--t2);
+    line-height: 1.65;
+    max-width: 420px;
+    margin: 0 auto 26px;
+  }
+
+  .apply-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 34px;
+    background: var(--t);
+    color: #000;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+  }
+
+  .apply-cta-btn:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+  }
+
+  .apply-cta-note {
+    font-size: .78rem !important;
+    color: var(--t3) !important;
+    margin: 18px auto 0 !important;
+  }
+
+  @media (max-width: 540px) {
+    .apply-cta-card { padding: 30px 24px; }
   }
 
   /* ── Next step callout ── */
@@ -127,10 +167,16 @@ permalink: /apply/
   <p>We received an overwhelming response — thank you. Apply below to lock your spot. We'll share the complete plan with everyone before this Sunday.</p>
 </section>
 
-<!-- Google Form Embed -->
-<div class="apply-form-wrap">
-  <div class="apply-form-card">
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQfQxkLXTP2kCfGWlwUghWSphmk5l12vTZ_CIxJxGkeDkUfQ/viewform?embedded=true" title="SFX Founding Builder Cohort Application">Loading…</iframe>
+<!-- Apply CTA -->
+<div class="apply-cta-wrap">
+  <div class="apply-cta-card">
+    <i class="bi bi-stars"></i>
+    <h2>Ready to apply?</h2>
+    <p>Takes about 5 minutes. Keep your resume handy — you'll need to upload it as part of the application.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQfQxkLXTP2kCfGWlwUghWSphmk5l12vTZ_CIxJxGkeDkUfQ/viewform" class="apply-cta-btn" target="_blank" rel="noopener">
+      <i class="bi bi-arrow-up-right"></i> Apply Now
+    </a>
+    <p class="apply-cta-note">Opens the application form in a new tab.</p>
   </div>
 </div>
 
