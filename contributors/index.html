@@ -1,0 +1,266 @@
+---
+layout: HomePageFinalTest
+title: Contributors — Real Builders, Real Proof
+description: Meet the learners building real Salesforce skills in public at SFX Grove — reviewed projects, verified badges, real portfolios.
+permalink: /contributors/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contributors — SFX Support</title>
+  <meta name="description" content="Meet the learners building real Salesforce skills in public at SFX Grove — reviewed projects, verified badges, real portfolios.">
+  <meta name="keywords" content="SFX Grove contributors, Salesforce learners, Salesforce builder portfolio">
+  <meta name="author" content="SFX Support">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sfxsupport.com/contributors/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="Contributors — SFX Support">
+  <meta property="og:description" content="Meet the learners building real Salesforce skills in public at SFX Grove.">
+  <meta property="og:url" content="https://sfxsupport.com/contributors/">
+  <meta property="og:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contributors — SFX Support">
+  <meta name="twitter:description" content="Meet the learners building real Salesforce skills in public at SFX Grove.">
+  <meta name="twitter:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515; --bg4: #1c1c1c;
+      --b:   rgba(255,255,255,.06); --b2: rgba(255,255,255,.035); --b3: rgba(255,255,255,.015);
+      --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
+      --sun: 255,160,60;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg); color: var(--t);
+      -webkit-font-smoothing: antialiased;
+      font-weight: 300; font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    #star-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .amb-tr { position: fixed; top: -180px; right: -180px; width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%); pointer-events: none; z-index: 0; filter: blur(40px); }
+    .amb-bl { position: fixed; bottom: -200px; left: -150px; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.03) 0%, transparent 70%); pointer-events: none; z-index: 0; filter: blur(50px); }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
+    section { padding: 6rem 0; position: relative; z-index: 1; }
+
+    .label { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .13em; color: var(--t3); margin-bottom: .875rem; display: block; }
+    h1 { font-size: clamp(2.6rem, 5.5vw, 4rem); font-weight: 300; line-height: 1.08; letter-spacing: -.03em; color: var(--t); margin-bottom: 1.25rem; }
+    h1 strong { font-weight: 600; }
+    .sub { font-size: 1rem; font-weight: 300; line-height: 1.82; color: var(--t2); max-width: 560px; }
+
+    #hero { min-height: 60vh; display: flex; align-items: center; padding-top: 80px; padding-bottom: 2rem; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: .67rem; color: var(--t3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.75rem; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .live { width:5px; height:5px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; display:inline-block; }
+
+    .contrib-stats { display: flex; gap: 2.5rem; margin-top: 2.25rem; flex-wrap: wrap; }
+    .contrib-stat-num { font-size: 2rem; font-weight: 200; color: var(--t); line-height: 1; letter-spacing: -.03em; }
+    .contrib-stat-num em { font-style: normal; color: rgba(var(--sun),.75); }
+    .contrib-stat-label { font-size: .68rem; color: var(--t3); margin-top: .35rem; letter-spacing: .02em; }
+
+    .contrib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+    .contrib-tile {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      background: var(--bg2); border: 1px solid var(--b); border-radius: 16px;
+      padding: 2rem 1.25rem; text-decoration: none; position: relative; overflow: hidden;
+      transition: border-color .2s, transform .15s;
+    }
+    .contrib-tile:hover { border-color: rgba(var(--sun),.25); transform: translateY(-2px); }
+    .contrib-tile::after {
+      content:''; position:absolute; top:-60px; left:-60px; width:180px; height:180px; border-radius:50%;
+      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%); filter: blur(16px);
+      pointer-events:none; opacity:0; transition: opacity .35s;
+    }
+    .contrib-tile:hover::after { opacity: 1; }
+    .contrib-avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; background: var(--bg3); }
+    .contrib-avatar-fallback {
+      width: 64px; height: 64px; border-radius: 50%; margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(140deg, rgba(var(--sun),.8) 0%, rgba(160,25,15,.75) 100%);
+      color: #fff; font-size: 1.1rem; font-weight: 600;
+    }
+    .contrib-tile h3 { font-size: .95rem; font-weight: 500; color: var(--t); margin-bottom: .35rem; }
+    .contrib-tile p { font-size: .74rem; color: var(--t3); line-height: 1.5; }
+    .contrib-tags { display: flex; gap: 6px; margin-top: .85rem; }
+    .contrib-tag { font-size: .62rem; color: var(--t3); background: var(--bg3); border: 1px solid var(--b3); border-radius: 999px; padding: .2rem .55rem; }
+
+    .contrib-empty { text-align: center; padding: 4rem 1rem; color: var(--t3); }
+    .contrib-empty span { font-size: 2rem; display: block; margin-bottom: .75rem; }
+
+    .btn-w { display: inline-flex; align-items: center; gap: 7px; padding: .65rem 1.4rem; background: var(--t); color: #000;
+      font-size: .85rem; font-weight: 600; border-radius: 7px; text-decoration: none; transition: background .15s, transform .15s; }
+    .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); }
+
+    hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .52s ease, transform .52s ease; }
+    .r.v { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .07s; } .d2 { transition-delay: .14s; } .d3 { transition-delay: .21s; }
+
+    @media(max-width: 700px) {
+      section { padding: 3.5rem 0; }
+      #hero { min-height: auto; padding-top: 6rem; padding-bottom: 2rem; }
+      .wrap { padding: 0 1.1rem; }
+      h1 { font-size: clamp(2rem, 8vw, 2.4rem); }
+      .contrib-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .75rem; }
+      .contrib-tile { padding: 1.4rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="star-canvas"></canvas>
+<div class="amb-tr"></div>
+<div class="amb-bl"></div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow r"><span class="live"></span>&nbsp;Contributors</div>
+    <h1 class="r d1">Real people.<br><strong>Real proof.</strong></h1>
+    <p class="sub r d2">
+      Every builder here is growing their Salesforce skills in public at SFX Grove — reviewed projects, verified badges, no gatekeeping.
+    </p>
+    <div class="contrib-stats r d3">
+      <div>
+        <div class="contrib-stat-num" id="contrib-total">50<em>+</em></div>
+        <div class="contrib-stat-label">Registered learners</div>
+      </div>
+      <div>
+        <div class="contrib-stat-num" id="contrib-published">&mdash;</div>
+        <div class="contrib-stat-label">Published portfolios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ GRID ═══ -->
+<section>
+  <div class="wrap">
+    <div class="contrib-grid r" id="contrib-grid"></div>
+    <div class="contrib-empty" id="contrib-empty" style="display:none;">
+      <span>&#127793;</span>
+      No contributors have published their portfolio yet — check back soon.
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ CTA ═══ -->
+<section>
+  <div class="wrap" style="text-align:center;">
+    <h2 style="font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:300;letter-spacing:-.025em;margin-bottom:1.25rem;">Want to see your name here?</h2>
+    <a href="https://grove.sfxsupport.com" class="btn-w" target="_blank" rel="noopener">Join SFX Grove &rarr;</a>
+  </div>
+</section>
+
+<!-- ═══ STAR CANVAS ═══ -->
+<script src="/assets/js/star-canvas.js"></script>
+<script>
+  const obs = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });
+  }, { threshold: .07 });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+  (function(){
+    const grid = document.getElementById('contrib-grid');
+    const empty = document.getElementById('contrib-empty');
+    const totalEl = document.getElementById('contrib-total');
+    const publishedEl = document.getElementById('contrib-published');
+
+    fetch('https://grove.sfxsupport.com/api/public/stats')
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data.totalLearners === 'number' && data.totalLearners > 0) {
+          totalEl.innerHTML = data.totalLearners + '<em>+</em>';
+        }
+      })
+      .catch(() => {});
+
+    function initials(name) {
+      return name.split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('');
+    }
+
+    function makeTile(c) {
+      const a = document.createElement('a');
+      a.className = 'contrib-tile';
+      a.href = 'https://grove.sfxsupport.com/u/' + encodeURIComponent(c.userId);
+      a.target = '_blank';
+      a.rel = 'noopener';
+
+      const img = document.createElement('img');
+      img.className = 'contrib-avatar';
+      img.alt = '';
+      img.loading = 'lazy';
+      img.src = c.avatarUrl || '';
+      img.onerror = function () {
+        const fallback = document.createElement('span');
+        fallback.className = 'contrib-avatar-fallback';
+        fallback.textContent = initials(c.name) || 'SG';
+        img.replaceWith(fallback);
+      };
+      if (!c.avatarUrl) img.onerror();
+
+      const name = document.createElement('h3');
+      name.textContent = c.name;
+
+      const headline = document.createElement('p');
+      headline.textContent = c.headline || c.experienceLevel || 'Salesforce builder';
+
+      const tags = document.createElement('div');
+      tags.className = 'contrib-tags';
+      const badgeTag = document.createElement('span');
+      badgeTag.className = 'contrib-tag';
+      badgeTag.textContent = c.badgeCount + ' badge' + (c.badgeCount === 1 ? '' : 's');
+      const projectTag = document.createElement('span');
+      projectTag.className = 'contrib-tag';
+      projectTag.textContent = c.projectCount + ' project' + (c.projectCount === 1 ? '' : 's');
+      tags.appendChild(badgeTag);
+      tags.appendChild(projectTag);
+
+      a.appendChild(img);
+      a.appendChild(name);
+      a.appendChild(headline);
+      a.appendChild(tags);
+      return a;
+    }
+
+    fetch('https://grove.sfxsupport.com/api/public/contributors')
+      .then(r => r.json())
+      .then(data => {
+        const contributors = (data && data.contributors) || [];
+        publishedEl.textContent = contributors.length;
+        if (!contributors.length) {
+          grid.style.display = 'none';
+          empty.style.display = 'block';
+          return;
+        }
+        contributors.forEach(c => grid.appendChild(makeTile(c)));
+      })
+      .catch(() => {
+        publishedEl.textContent = '0';
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+      });
+  })();
+</script>
+
+</body>
+</html>
