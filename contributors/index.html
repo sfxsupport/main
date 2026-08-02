@@ -207,7 +207,7 @@ permalink: /contributors/
       img.className = 'contrib-avatar';
       img.alt = '';
       img.loading = 'lazy';
-      img.src = c.avatarUrl || '';
+      img.src = c.avatarUrl ? (c.avatarUrl.startsWith('/') ? 'https://grove.sfxsupport.com' + c.avatarUrl : c.avatarUrl) : '';
       img.onerror = function () {
         const fallback = document.createElement('span');
         fallback.className = 'contrib-avatar-fallback';
