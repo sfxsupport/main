@@ -89,6 +89,8 @@
     transform: translateX(-50%) translateY(0);
   }
   .sfx-dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .sfx-dd-grid-3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.75rem; }
+  .sfx-dd-col-desc { font-size: .74rem; color: var(--t3); line-height: 1.6; margin-bottom: .8rem; }
   .sfx-dd-label {
     font-size: .63rem; font-weight: 500;
     text-transform: uppercase; letter-spacing: .1em;
@@ -267,35 +269,49 @@
         Learning
         <i class="bi bi-chevron-down sfx-dd-chevron"></i>
       </button>
-      <div class="sfx-dd-menu">
-        <div class="sfx-dd-grid">
+      <div class="sfx-dd-menu" style="width:660px;">
+        <div class="sfx-dd-grid-3">
           <div>
-            <div class="sfx-dd-label">Developer &amp; Admin</div>
+            <div class="sfx-dd-label">Topics</div>
             <a href="/apex-triggers/">Apex Triggers Mastery</a>
             <a href="/asynchronous-apex/">Asynchronous Apex</a>
             <a href="/soql-sosl/">SOQL &amp; SOSL</a>
             <a href="/governor-limits/">Governor Limits</a>
             <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
-          </div>
-          <div>
-            <div class="sfx-dd-label">Advanced Topics</div>
             <a href="/lwc-essentials/">LWC Essentials</a>
             <a href="/security-sharing/">Security &amp; Sharing</a>
             <a href="/salesforce-packaging/">Managed Packages</a>
             <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
             <a href="/integration-patterns/">Integration Patterns</a>
+            <div class="sfx-dd-viewall">
+              <a href="/learning/">
+                <i class="bi bi-grid-3x3-gap-fill" style="font-size:.72rem;"></i>
+                View All Modules →
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="sfx-dd-viewall">
-          <a href="/learning/">
-            <i class="bi bi-grid-3x3-gap-fill" style="font-size:.72rem;"></i>
-            View All Learning Modules →
-          </a>
+          <div>
+            <div class="sfx-dd-label">Interview Prep</div>
+            <p class="sfx-dd-col-desc">80+ curated questions and answers across every Salesforce role.</p>
+            <a href="/interview-prep/">
+              <i class="bi bi-journal-text" style="font-size:.72rem;"></i>
+              Explore Interview Prep →
+            </a>
+          </div>
+          <div>
+            <div class="sfx-dd-label">Resources</div>
+            <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
+            <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+            <div class="sfx-dd-viewall">
+              <a href="/resources/">
+                <i class="bi bi-collection" style="font-size:.72rem;"></i>
+                View All Resources →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <a href="/interview-prep/">Interview Prep</a>
 
     <div class="sfx-dd" tabindex="0">
       <button class="sfx-dd-btn">
@@ -317,9 +333,8 @@
       </div>
     </div>
 
-    <a href="/resources/">Resources</a>
+    <a href="/contributors/">Contributors</a>
     <a href="/about/">About</a>
-    <a href="/apply/" style="color:rgba(var(--sun),.85);">Apply</a>
   </nav>
 
   <div class="sfx-actions">
@@ -365,9 +380,18 @@
         View All Modules →
       </a>
     </div>
+    <div class="sfx-mob-sub-label" style="margin-top:.875rem;">Interview Prep</div>
+    <a href="/interview-prep/">Explore Interview Prep</a>
+    <div class="sfx-mob-sub-label" style="margin-top:.875rem;">Resources</div>
+    <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
+    <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+    <div class="sfx-mob-sub-viewall">
+      <a href="/resources/">
+        <i class="bi bi-collection" style="font-size:.72rem;"></i>
+        View All Resources →
+      </a>
+    </div>
   </div>
-
-  <a href="/interview-prep/" class="sfx-mob-link">Interview Prep</a>
 
   <button class="sfx-mob-dd-btn" id="sfx-tools-btn" onclick="sfxToggleTools()">
     Tools <i class="bi bi-chevron-down"></i>
@@ -386,9 +410,8 @@
     </span>
   </div>
 
-  <a href="/resources/" class="sfx-mob-link">Resources</a>
+  <a href="/contributors/" class="sfx-mob-link">Contributors</a>
   <a href="/about/"     class="sfx-mob-link">About</a>
-  <a href="/apply/"     class="sfx-mob-link" style="color:rgba(var(--sun),.85);">Apply</a>
   <a href="/chatbot/"   class="sfx-mob-link" style="display:flex;align-items:center;gap:6px;">
     <span class="sfx-live"></span> Ask Krrish
   </a>
