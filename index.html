@@ -540,20 +540,6 @@ h1.hero-h{
 .grove-video-frame{border-radius:14px;overflow:hidden;border:1px solid var(--b);background:var(--bg2);box-shadow:0 20px 60px rgba(0,0,0,.35);}
 .grove-video-frame video{width:100%;display:block;aspect-ratio:16/9;background:#000;}
 
-/* ─── LEARNING ─── */
-#learning .lw{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start;}
-.lstk{position:sticky;top:78px;}
-.ll{display:flex;flex-direction:column;gap:1px;
-  background:var(--b3);border:1px solid var(--b3);border-radius:12px;overflow:hidden;}
-.li{display:flex;align-items:center;gap:.875rem;padding:1rem 1.3rem;
-  background:var(--bg);text-decoration:none;border-bottom:1px solid var(--b3);transition:background .15s;}
-.li:last-child{border-bottom:none;}
-.li:hover{background:var(--bg2);}
-.li-em{font-size:.95rem;flex-shrink:0;}
-.li h4{font-size:.8rem;font-weight:500;color:var(--t);margin-bottom:1px;}
-.li p{font-size:.7rem;color:var(--t3);font-weight:300;}
-.arr{margin-left:auto;color:var(--t3);font-size:.68rem;transition:all .15s;}
-.li:hover .arr{color:var(--t2);transform:translateX(2px);}
 
 /* ─── HOW IT WORKS ─── */
 .stps{grid-template-columns:repeat(3,1fr);}
@@ -690,7 +676,6 @@ footer{
   #what .wg{grid-template-columns:1fr;}
   .tool-feat{grid-template-columns:auto 1fr;}.tool-feat .tool-cta{display:none;}
   .tool-grid{grid-template-columns:1fr 1fr;}
-  #learning .lw{grid-template-columns:1fr;}.lstk{position:static;}
   .stps{grid-template-columns:1fr;}
   .sg{grid-template-columns:repeat(2,1fr);}
   .cc-inner{grid-template-columns:1fr;}.cc-action{align-items:flex-start;}
@@ -1114,32 +1099,6 @@ footer{
     <a href="https://grove.sfxsupport.com" class="btn-w r d3" style="margin-top:2rem;">
       Explore SFX Grove <span aria-hidden="true">&rarr;</span>
     </a>
-  </div>
-</section>
-
-<hr class="dv">
-
-<!-- ═══ LEARNING ═══ -->
-<section id="learning">
-  <div class="wrap">
-    <div class="lw">
-      <div class="lstk r">
-        <div class="label">Knowledge Base</div>
-        <h2>Learn Salesforce<br><span class="it">properly.</span></h2>
-        <p class="desc" style="margin-bottom:2rem;">Deep guides written by practitioners — not documentation rewrites.</p>
-        <a href="/learning/" class="btn-w">Browse all guides &rarr;</a>
-      </div>
-      <div class="ll r d1">
-        <a href="/apex-triggers/" class="li"><span class="li-em">&#x26A1;</span><div><h4>Apex Triggers Mastery</h4><p>Handler patterns, bulk-safe design</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/asynchronous-apex/" class="li"><span class="li-em">&#x23F3;</span><div><h4>Asynchronous Apex</h4><p>Batch, Future, Queueable, Scheduled</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/soql-sosl/" class="li"><span class="li-em">&#x1F50D;</span><div><h4>SOQL &amp; SOSL Fundamentals</h4><p>Advanced queries, optimization techniques</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/governor-limits/" class="li"><span class="li-em">&#x1F4CA;</span><div><h4>Governor Limits &amp; Best Practices</h4><p>Write scalable, limit-safe code</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/flows-process-builder/" class="li"><span class="li-em">&#x1F500;</span><div><h4>Flows &amp; Process Builder</h4><p>Automation patterns, when to use what</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/lwc-essentials/" class="li"><span class="li-em">&#x2699;&#xFE0F;</span><div><h4>LWC Essentials</h4><p>Components, lifecycle, events, binding</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/deployment-cicd/" class="li"><span class="li-em">&#x1F680;</span><div><h4>Deployment &amp; CI/CD</h4><p>SFDX, pipelines, metadata strategies</p></div><i class="bi bi-arrow-right arr"></i></a>
-        <a href="/integration-patterns/" class="li"><span class="li-em">&#x1F517;</span><div><h4>Integration Patterns</h4><p>REST, SOAP, Platform Events, CDC</p></div><i class="bi bi-arrow-right arr"></i></a>
-      </div>
-    </div>
   </div>
 </section>
 
