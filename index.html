@@ -514,25 +514,9 @@ h1.hero-h{
 .cs{display:inline-block;margin-top:.65rem;font-size:.6rem;
   text-transform:uppercase;letter-spacing:.08em;color:var(--t3);}
 
-/* ─── GROVE CAROUSEL ─── */
-.grove-carousel{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--b);background:var(--bg2);}
-.grove-track{display:flex;transition:transform .4s cubic-bezier(.16,1,.3,1);}
-.grove-slide{flex:0 0 100%;}
-.grove-slide img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;}
-.grove-nav{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:38px;height:38px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(8,8,8,.55);border:1px solid var(--b2);color:var(--t);
-  cursor:pointer;backdrop-filter:blur(6px);font-size:.9rem;
-  transition:background .15s, border-color .15s;
-}
-.grove-nav:hover{background:rgba(8,8,8,.8);border-color:rgba(var(--sun),.3);}
-.grove-nav.prev{left:14px;}
-.grove-nav.next{right:14px;}
-.grove-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
-.grove-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
-.grove-dots span.on{background:rgba(var(--sun),.9);}
+/* ─── GROVE VIDEO ─── */
+.grove-video-frame{border-radius:14px;overflow:hidden;border:1px solid var(--b);background:var(--bg2);box-shadow:0 20px 60px rgba(0,0,0,.35);}
+.grove-video-frame video{width:100%;display:block;aspect-ratio:16/9;background:#000;}
 
 /* ─── LEARNING ─── */
 #learning .lw{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start;}
@@ -1072,15 +1056,15 @@ footer{
     <h2 class="r d1">Learn Salesforce,<br><span class="it">guided end to end.</span></h2>
     <p class="desc r d2" style="margin-bottom:2.5rem;">SFX Grove is our structured residency — stage-by-stage modules, reviewed evidence, and a public builder portfolio.</p>
 
-    <div class="grove-carousel r d3" id="grove-carousel">
-      <div class="grove-track" id="grove-track">
-        <div class="grove-slide"><img src="/assets/images/grove/hero.jpg" alt="SFX Grove landing page" loading="lazy"></div>
-        <div class="grove-slide"><img src="/assets/images/grove/journey.jpg" alt="SFX Grove five-month learning trail" loading="lazy"></div>
-        <div class="grove-slide"><img src="/assets/images/grove/lab.jpg" alt="The SFX AI Cave, where learners join real product squads" loading="lazy"></div>
-      </div>
-      <button class="grove-nav prev" id="grove-prev" aria-label="Previous screenshot"><i class="bi bi-chevron-left"></i></button>
-      <button class="grove-nav next" id="grove-next" aria-label="Next screenshot"><i class="bi bi-chevron-right"></i></button>
-      <div class="grove-dots" id="grove-dots"></div>
+    <div class="grove-video-frame r d3">
+      <video
+        controls
+        preload="metadata"
+        playsinline
+        poster="/assets/images/grove/demo-poster.jpg"
+        aria-label="A tour of the SFX Grove learning platform">
+        <source src="/assets/videos/grove-demo.mp4" type="video/mp4">
+      </video>
     </div>
 
     <a href="https://grove.sfxsupport.com" class="btn-w r d3" target="_blank" rel="noopener" style="margin-top:2rem;">
@@ -1245,32 +1229,6 @@ const obs=new IntersectionObserver(e=>{
   e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});
 },{threshold:.07});
 document.querySelectorAll('.r').forEach(el=>obs.observe(el));
-
-// SFX Grove screenshot carousel
-(function(){
-  const track=document.getElementById('grove-track');
-  if(!track)return;
-  const slides=track.children;
-  const dotsWrap=document.getElementById('grove-dots');
-  let idx=0;
-  for(let i=0;i<slides.length;i++){
-    const d=document.createElement('span');
-    if(i===0)d.classList.add('on');
-    d.addEventListener('click',()=>go(i));
-    dotsWrap.appendChild(d);
-  }
-  function go(i){
-    idx=(i+slides.length)%slides.length;
-    track.style.transform='translateX(-'+(idx*100)+'%)';
-    [...dotsWrap.children].forEach((d,n)=>d.classList.toggle('on',n===idx));
-  }
-  document.getElementById('grove-prev').addEventListener('click',()=>go(idx-1));
-  document.getElementById('grove-next').addEventListener('click',()=>go(idx+1));
-  let timer=setInterval(()=>go(idx+1),5000);
-  const carousel=document.getElementById('grove-carousel');
-  carousel.addEventListener('mouseenter',()=>clearInterval(timer));
-  carousel.addEventListener('mouseleave',()=>{timer=setInterval(()=>go(idx+1),5000);});
-})();
 </script>
 
 <!-- ═══ STAR CANVAS ═══ -->
