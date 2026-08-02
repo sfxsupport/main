@@ -216,6 +216,8 @@ nav.dnav a:hover{color:var(--t);}
   padding:1.4rem;opacity:0;visibility:hidden;transition:opacity .15s,visibility .15s;pointer-events:none;}
 .dd:hover .ddp,.dd:focus-within .ddp{opacity:1;visibility:visible;pointer-events:all;}
 .ddg{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;}
+.ddg3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1.5rem;}
+.ddcd{font-size:.72rem;color:var(--t3);line-height:1.6;margin-bottom:.7rem;}
 .ddt{font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
   color:rgba(var(--sun),.38);margin-bottom:.65rem;}
 .ddp a{display:block;padding:.26rem 0;color:var(--t2);font-size:.78rem;text-decoration:none;transition:color .15s;}
@@ -703,33 +705,46 @@ footer{
       <a href="/">Home</a>
       <div class="dd" tabindex="0">
         <button class="ddb">Learning <i class="bi bi-chevron-down" style="font-size:.58rem"></i></button>
-        <div class="ddp">
-          <div class="ddg">
+        <div class="ddp" style="width:660px;">
+          <div class="ddg3">
             <div>
-              <div class="ddt">Developer &amp; Admin</div>
+              <div class="ddt">Topics</div>
               <a href="/apex-triggers/">Apex Triggers Mastery</a>
               <a href="/asynchronous-apex/">Asynchronous Apex</a>
               <a href="/soql-sosl/">SOQL &amp; SOSL</a>
               <a href="/governor-limits/">Governor Limits</a>
               <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
-            </div>
-            <div>
-              <div class="ddt">Advanced Topics</div>
               <a href="/lwc-essentials/">LWC Essentials</a>
               <a href="/security-sharing/">Security &amp; Sharing</a>
               <a href="/salesforce-packaging/">Managed Packages</a>
               <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
               <a href="/integration-patterns/">Integration Patterns</a>
+              <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
+                <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
+                  <i class="bi bi-grid-3x3-gap-fill"></i> View All Modules →
+                </a>
+              </div>
             </div>
-          </div>
-          <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
-            <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
-              <i class="bi bi-grid-3x3-gap-fill"></i> View All Learning Modules →
-            </a>
+            <div>
+              <div class="ddt">Interview Prep</div>
+              <p class="ddcd">80+ curated questions and answers across every Salesforce role.</p>
+              <a href="/interview-prep/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
+                <i class="bi bi-journal-text"></i> Explore Interview Prep →
+              </a>
+            </div>
+            <div>
+              <div class="ddt">Resources</div>
+              <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
+              <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+              <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
+                <a href="/resources/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
+                  <i class="bi bi-collection"></i> View All Resources →
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <a href="/interview-prep/">Interview Prep</a>
       <div class="dd" tabindex="0">
         <button class="ddb">Tools <i class="bi bi-chevron-down" style="font-size:.58rem"></i></button>
         <div class="ddp" style="width:260px;">
@@ -746,7 +761,6 @@ footer{
           </span>
         </div>
       </div>
-      <a href="/resources/">Resources</a>
       <a href="/contributors/">Contributors</a>
       <a href="/about/">About</a>
     </nav>
@@ -777,8 +791,11 @@ footer{
     <a href="/salesforce-packaging/">Managed Packages</a>
     <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
     <a href="/integration-patterns/">Integration Patterns</a>
+    <a href="/interview-prep/" style="color:rgba(var(--sun),.8);font-weight:600;margin-top:.5rem;">Interview Prep</a>
+    <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
+    <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+    <a href="/resources/" style="color:rgba(var(--sun),.8);font-weight:600;">All Resources</a>
   </div>
-  <a href="/interview-prep/">Interview Prep</a>
   <button class="ml" onclick="document.getElementById('mt').classList.toggle('open')">Tools</button>
   <div id="mt" class="ms">
     <a href="/debug-log-analyzer/" style="display:flex;align-items:center;gap:7px;">
@@ -791,7 +808,6 @@ footer{
       <span style="font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:rgba(255,160,60,.1);color:rgba(255,160,60,.7);border:1px solid rgba(255,160,60,.2);border-radius:20px;padding:.1rem .4rem;">Soon</span>
     </span>
   </div>
-  <a href="/resources/">Resources</a>
   <a href="/contributors/">Contributors</a>
   <a href="/about/">About</a>
   <a href="/chatbot/">Ask Krrish</a>
