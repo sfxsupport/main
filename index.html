@@ -386,6 +386,28 @@ h1.hero-h{
 }
 .sn em{font-style:normal;color:rgba(var(--sun),.55);}
 .sl2{font-size:.68rem;color:var(--t3);font-weight:300;letter-spacing:.02em;}
+#contrib-stat{color:rgba(var(--sun),.85);font-weight:500;}
+
+/* ─── CONTRIBUTORS MARQUEE ─── */
+.contrib-marquee{position:relative;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+.contrib-track{display:flex;gap:1rem;width:max-content;animation:contrib-scroll 32s linear infinite;}
+.contrib-marquee:hover .contrib-track{animation-play-state:paused;}
+@keyframes contrib-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.contrib-card{
+  display:flex;align-items:center;gap:.7rem;flex:0 0 auto;
+  padding:.7rem 1.1rem .7rem .7rem;background:var(--bg2);border:1px solid var(--b);
+  border-radius:999px;text-decoration:none;transition:border-color .2s;
+}
+.contrib-card:hover{border-color:rgba(var(--sun),.25);}
+.contrib-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg3);}
+.contrib-avatar-fallback{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(140deg,rgba(var(--sun),.8) 0%,rgba(160,25,15,.75) 100%);
+  color:#fff;font-size:.72rem;font-weight:600;
+}
+.contrib-name{font-size:.82rem;color:var(--t);white-space:nowrap;}
+.contrib-empty{display:none;color:var(--t3);font-size:.8rem;}
 
 /* ─── GRID BOX pattern ─── */
 .gbox{
@@ -740,6 +762,7 @@ footer{
         </div>
       </div>
       <a href="/resources/">Resources</a>
+      <a href="/contributors/">Contributors</a>
       <a href="/about/">About</a>
     </nav>
     <div class="ha">
@@ -784,6 +807,7 @@ footer{
     </span>
   </div>
   <a href="/resources/">Resources</a>
+  <a href="/contributors/">Contributors</a>
   <a href="/about/">About</a>
   <a href="/chatbot/">Ask Krrish</a>
   <a href="/contact/">Contact</a>
@@ -873,6 +897,26 @@ footer{
     </div>
   </div>
 </div>
+
+<hr class="dv">
+
+<!-- ═══ CONTRIBUTORS ═══ -->
+<section id="contributors">
+  <div class="wrap">
+    <div class="label r">Real People, Real Proof</div>
+    <h2 class="r d1">Meet the builders<br><span class="it">growing in public.</span></h2>
+    <p class="desc r d2" style="margin-bottom:2.5rem;">
+      <strong id="contrib-stat">50+</strong> learners building real Salesforce skills at SFX Grove — no gatekeeping, just proof.
+    </p>
+
+    <div class="contrib-marquee r d3" id="contrib-marquee">
+      <div class="contrib-track" id="contrib-track"></div>
+    </div>
+    <p class="contrib-empty" id="contrib-empty">Meet our builders as their portfolios go live.</p>
+
+    <a href="/contributors/" class="btn-w r d3" style="margin-top:2rem;">See all contributors &rarr;</a>
+  </div>
+</section>
 
 <hr class="dv">
 
@@ -1177,6 +1221,7 @@ footer{
     <nav class="fnav">
       <a href="/">Home</a><a href="/about/">About</a>
       <a href="/learning/">Learning</a><a href="/resources/">Resources</a>
+      <a href="/contributors/">Contributors</a>
       <a href="/chatbot/">Ask Krrish</a><a href="/contact/">Contact</a>
     </nav>
     <span class="fcp">&copy; 2026 SFX Support</span>
@@ -1229,6 +1274,72 @@ const obs=new IntersectionObserver(e=>{
   e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});
 },{threshold:.07});
 document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+// Contributors showcase — fetched live from grove.sfxsupport.com
+(function(){
+  const statEl=document.getElementById('contrib-stat');
+  const marquee=document.getElementById('contrib-marquee');
+  const track=document.getElementById('contrib-track');
+  const empty=document.getElementById('contrib-empty');
+  if(!track)return;
+
+  fetch('https://grove.sfxsupport.com/api/public/stats')
+    .then(r=>r.json())
+    .then(data=>{
+      if(data && typeof data.totalLearners==='number' && data.totalLearners>0){
+        statEl.textContent=data.totalLearners+'+';
+      }
+    })
+    .catch(()=>{});
+
+  function initials(name){
+    return name.split(/\s+/).filter(Boolean).slice(0,2).map(p=>p[0].toUpperCase()).join('');
+  }
+
+  function makeCard(c){
+    const a=document.createElement('a');
+    a.className='contrib-card';
+    a.href='https://grove.sfxsupport.com/u/'+encodeURIComponent(c.userId);
+
+    const img=document.createElement('img');
+    img.className='contrib-avatar';
+    img.alt='';
+    img.loading='lazy';
+    img.src=c.avatarUrl||'';
+    img.onerror=function(){
+      const fallback=document.createElement('span');
+      fallback.className='contrib-avatar-fallback';
+      fallback.textContent=initials(c.name)||'SG';
+      img.replaceWith(fallback);
+    };
+    if(!c.avatarUrl)img.onerror();
+
+    const name=document.createElement('span');
+    name.className='contrib-name';
+    name.textContent=c.name;
+
+    a.appendChild(img);
+    a.appendChild(name);
+    return a;
+  }
+
+  fetch('https://grove.sfxsupport.com/api/public/contributors')
+    .then(r=>r.json())
+    .then(data=>{
+      const contributors=(data && data.contributors) || [];
+      if(!contributors.length){
+        marquee.style.display='none';
+        empty.style.display='block';
+        return;
+      }
+      const list=[...contributors,...contributors];
+      list.forEach(c=>track.appendChild(makeCard(c)));
+    })
+    .catch(()=>{
+      marquee.style.display='none';
+      empty.style.display='block';
+    });
+})();
 </script>
 
 <!-- ═══ STAR CANVAS ═══ -->
