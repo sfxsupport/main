@@ -24,54 +24,6 @@ body.blog-light-theme main { margin-top: 64px; }
 body.blog-light-theme * { scrollbar-color: #bdc1c6 transparent; }
 body.blog-light-theme ::-webkit-scrollbar-thumb { background: #bdc1c6; }
 
-/* Blog-specific light navigation */
-body.blog-light-theme .sfx-header {
-  top: 0 !important;
-  width: 100% !important;
-  max-width: none !important;
-  height: 64px !important;
-  padding: 0 max(24px, calc((100% - 1180px) / 2)) !important;
-  border: 0 !important;
-  border-bottom: 1px solid #dadce0 !important;
-  border-radius: 0 !important;
-  background: rgba(255,255,255,.96) !important;
-  box-shadow: 0 1px 2px rgba(60,64,67,.08) !important;
-}
-
-body.blog-light-theme .sfx-logo-text,
-body.blog-light-theme .sfx-nav a:hover,
-body.blog-light-theme .sfx-dd-btn:hover,
-body.blog-light-theme .sfx-mob-toggle:hover { color: #202124; }
-
-body.blog-light-theme .sfx-nav a,
-body.blog-light-theme .sfx-dd-btn,
-body.blog-light-theme .sfx-btn-contact,
-body.blog-light-theme .sfx-mob-toggle { color: #5f6368; }
-
-body.blog-light-theme .sfx-dd-menu {
-  border-color: #dadce0;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(60,64,67,.18);
-}
-
-body.blog-light-theme .sfx-dd-menu a { color: #3c4043; }
-body.blog-light-theme .sfx-dd-menu a:hover { color: #1a73e8; }
-body.blog-light-theme .sfx-dd-label { color: #5f6368; }
-
-body.blog-light-theme .sfx-krrish-link {
-  background: #1a73e8;
-  color: #ffffff;
-}
-
-body.blog-light-theme .sfx-krrish-link:hover { background: #1557b0; }
-body.blog-light-theme .sfx-btn-contact { border-color: #dadce0; }
-body.blog-light-theme .sfx-btn-contact:hover { border-color: #9aa0a6; color: #202124; }
-body.blog-light-theme #sfx-mob-menu { background: #ffffff; }
-body.blog-light-theme .sfx-mob-link,
-body.blog-light-theme .sfx-mob-dd-btn { color: #202124; border-color: #e8eaed; }
-body.blog-light-theme .sfx-mob-sub { border-color: #e8eaed; }
-body.blog-light-theme .sfx-mob-sub a { color: #3c4043; }
-body.blog-light-theme .sfx-mob-cta { background: #1a73e8; color: #fff; }
 body.blog-light-theme #back-to-top { border-color: #dadce0; background: #fff; color: #5f6368; box-shadow: 0 2px 8px rgba(60,64,67,.14); }
 
 body.blog-light-theme footer { border-color: #e8eaed; background: #f8f9fa; }

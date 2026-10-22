@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,66 +189,15 @@ h2 strong{font-weight:600;}
 }
 .btn-o:hover{color:var(--t);border-color:rgba(255,255,255,.14);}
 
-/* ─── HEADER ─── */
-header{
-  position:fixed;top:0;left:0;right:0;z-index:100;height:58px;
-  display:flex;align-items:center;
-  background:rgba(8,8,8,.85);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--b3);
-}
-.hdr{max-width:1060px;margin:0 auto;padding:0 1.75rem;width:100%;
-  display:flex;align-items:center;justify-content:space-between;}
-.logo{
-  font-weight:600;font-size:.9rem;color:var(--t);
-  text-decoration:none;display:flex;align-items:center;gap:8px;letter-spacing:-.01em;
-}
-.logo img{height:19px;}
-.logo-div{color:var(--t3);font-weight:300;margin:0 1px;}
-nav.dnav{display:flex;align-items:center;gap:1.75rem;}
-nav.dnav a{color:var(--t3);font-size:.82rem;text-decoration:none;transition:color .15s;}
-nav.dnav a:hover{color:var(--t);}
-/* dropdown */
-.dd{position:relative;}
-.ddb{color:var(--t3);font-size:.82rem;font-weight:400;background:none;border:none;
-  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px;
-  transition:color .15s;padding:0;}
-.ddb:hover{color:var(--t);}
-.ddp{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);
-  width:490px;background:var(--bg2);border:1px solid var(--b);border-radius:10px;
-  padding:1.4rem;opacity:0;visibility:hidden;transition:opacity .15s,visibility .15s;pointer-events:none;}
-.dd:hover .ddp,.dd:focus-within .ddp{opacity:1;visibility:visible;pointer-events:all;}
-.ddg{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem;}
-.ddg3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1.5rem;}
-.ddcd{font-size:.72rem;color:var(--t3);line-height:1.6;margin-bottom:.7rem;}
-.ddt{font-size:.62rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
-  color:rgba(var(--sun),.38);margin-bottom:.65rem;}
-.ddp a{display:block;padding:.26rem 0;color:var(--t2);font-size:.78rem;text-decoration:none;transition:color .15s;}
-.ddp a:hover{color:var(--t);}
-.ha{display:flex;align-items:center;gap:.6rem;}
+/* The home page uses the shared FinalHeader include. */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 .live{width:5px;height:5px;border-radius:50%;background:#4ade80;
   animation:pulse 2.2s ease-in-out infinite;display:inline-block;flex-shrink:0;}
-.hbg{display:none;background:none;border:none;color:var(--t2);font-size:1.2rem;cursor:pointer;}
-
-/* mobile menu */
-#mob{position:fixed;inset:0;background:var(--bg);z-index:99;padding:5rem 2rem 2rem;
-  display:flex;flex-direction:column;transform:translateX(100%);
-  transition:transform .28s cubic-bezier(.16,1,.3,1);}
-#mob.open{transform:translateX(0);}
-#mob a,#mob .ml{display:block;padding:.8rem 0;border-bottom:1px solid var(--b3);
-  color:var(--t);font-size:.95rem;text-decoration:none;background:none;
-  border-top:none;border-left:none;border-right:none;
-  text-align:left;font-family:inherit;cursor:pointer;width:100%;}
-#mob .ms{display:none;padding-left:1rem;}
-#mob .ms.open{display:block;}
-#mob .ms a{font-size:.82rem;color:var(--t2);border:none;padding:.3rem 0;}
-.mx{position:absolute;top:1.1rem;right:1.6rem;background:none;border:none;
-  color:var(--t2);font-size:1.2rem;cursor:pointer;}
 
 /* ─── HERO ─── */
 #hero{
   min-height:100vh;
-  padding-top:58px;          /* clear fixed header */
+  padding-top:80px;          /* clear shared fixed header */
   padding-bottom:5rem;
   position:relative;z-index:1;
   display:flex;
@@ -672,7 +623,7 @@ footer{
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:860px){
-  #hero{padding-top:calc(58px + 2rem);}
+  #hero{padding-top:calc(64px + 2rem);}
   .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
   .kc{display:none;}
   #what .wg{grid-template-columns:1fr;}
@@ -681,7 +632,6 @@ footer{
   .stps{grid-template-columns:1fr;}
   .sg{grid-template-columns:repeat(2,1fr);}
   .cc-inner{grid-template-columns:1fr;}.cc-action{align-items:flex-start;}
-  nav.dnav,.bg-btn{display:none;}.hbg{display:block;}
   .btn-contact{width:100%;justify-content:center;}
 }
 @media(max-width:520px){
@@ -691,138 +641,11 @@ footer{
 }
 </style>
 </head>
-<body>
+<body class="sfx-light-header">
 
 
-<!-- ═══ HEADER ═══ -->
+{% include FinalHeader.html %}
 
-<header>
-  <div class="hdr">
-    <a href="/" class="logo">
-      <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
-    </a>
-    <nav class="dnav">
-      <a href="/">Home</a>
-      <div class="dd" tabindex="0">
-        <button class="ddb">Learning <i class="bi bi-chevron-down" style="font-size:.58rem"></i></button>
-        <div class="ddp" style="width:660px;">
-          <div class="ddg3">
-            <div>
-              <div class="ddt">Topics</div>
-              <a href="/apex-triggers/">Apex Triggers Mastery</a>
-              <a href="/asynchronous-apex/">Asynchronous Apex</a>
-              <a href="/soql-sosl/">SOQL &amp; SOSL</a>
-              <a href="/governor-limits/">Governor Limits</a>
-              <a href="/flows-process-builder/">Flows &amp; Process Builder</a>
-              <a href="/lwc-essentials/">LWC Essentials</a>
-              <a href="/security-sharing/">Security &amp; Sharing</a>
-              <a href="/salesforce-packaging/">Managed Packages</a>
-              <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
-              <a href="/integration-patterns/">Integration Patterns</a>
-              <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
-                <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
-                  <i class="bi bi-grid-3x3-gap-fill"></i> View All Modules →
-                </a>
-              </div>
-            </div>
-            <div>
-              <div class="ddt">Interview Prep</div>
-              <p class="ddcd">80+ curated questions and answers across every Salesforce role.</p>
-              <a href="/interview-prep/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
-                <i class="bi bi-journal-text"></i> Explore Interview Prep →
-              </a>
-            </div>
-            <div>
-              <div class="ddt">Resources</div>
-              <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
-              <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
-              <div style="border-top:1px solid var(--b2);padding-top:12px;margin-top:8px;">
-                <a href="/resources/" style="color:rgba(var(--sun),.8);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:6px;text-decoration:none;">
-                  <i class="bi bi-collection"></i> View All Resources →
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="dd" tabindex="0">
-        <button class="ddb">Tools <i class="bi bi-chevron-down" style="font-size:.58rem"></i></button>
-        <div class="ddp" style="width:260px;">
-          <div class="ddt">Available Now</div>
-          <a href="/debug-log-analyzer/" style="display:flex;align-items:center;gap:8px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="rgba(66,133,244,0.85)"/></svg>
-            Debug Log Analyzer
-          </a>
-          <a href="https://forge.sfxsupport.com/" style="display:flex;align-items:center;gap:8px;">
-            <i class="bi bi-hammer" style="font-size:.8rem;color:rgba(249,115,22,.9);flex-shrink:0;"></i>
-            SFX Forge
-            <span style="font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:rgba(74,222,128,.1);color:rgba(74,222,128,.8);border:1px solid rgba(74,222,128,.25);border-radius:20px;padding:.1rem .45rem;margin-left:2px;">New</span>
-          </a>
-          <div class="ddt" style="margin-top:1rem;">Coming Soon</div>
-          <span style="display:flex;align-items:center;gap:8px;padding:.28rem 0;font-size:.8rem;color:var(--t3);cursor:default;">
-            <i class="bi bi-arrow-left-right" style="font-size:.8rem;color:var(--t3);"></i>
-            Org Comparator
-            <span style="font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:rgba(255,160,60,.1);color:rgba(255,160,60,.7);border:1px solid rgba(255,160,60,.2);border-radius:20px;padding:.1rem .45rem;margin-left:2px;">Soon</span>
-          </span>
-        </div>
-      </div>
-      <a href="/contributors/">Contributors</a>
-      <a href="/about/">About</a>
-    </nav>
-    <div class="ha">
-      <a href="/contact/" class="btn-o bg-btn" style="padding:.35rem .8rem;font-size:.78rem;">Contact</a>
-      <a href="/chatbot/" class="btn-w" style="padding:.35rem .8rem;font-size:.78rem;">
-        <span class="live"></span>Ask Krrish
-      </a>
-      <button class="hbg" onclick="toggleMob()"><i class="bi bi-list"></i></button>
-    </div>
-  </div>
-</header>
-
-<!-- Mobile -->
-<div id="mob">
-  <button class="mx" onclick="toggleMob()"><i class="bi bi-x"></i></button>
-  <a href="/">Home</a>
-  <button class="ml" onclick="document.getElementById('ms').classList.toggle('open')">Learning</button>
-  <div id="ms" class="ms">
-    <a href="/learning/" style="color:rgba(var(--sun),.8);font-weight:600;">All Modules</a>
-    <a href="/apex-triggers/">Apex Triggers</a>
-    <a href="/asynchronous-apex/">Async Apex</a>
-    <a href="/soql-sosl/">SOQL &amp; SOSL</a>
-    <a href="/governor-limits/">Governor Limits</a>
-    <a href="/flows-process-builder/">Flows</a>
-    <a href="/lwc-essentials/">LWC</a>
-    <a href="/security-sharing/">Security &amp; Sharing</a>
-    <a href="/salesforce-packaging/">Managed Packages</a>
-    <a href="/deployment-cicd/">Deployment &amp; CI/CD</a>
-    <a href="/integration-patterns/">Integration Patterns</a>
-    <a href="/interview-prep/" style="color:rgba(var(--sun),.8);font-weight:600;margin-top:.5rem;">Interview Prep</a>
-    <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
-    <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
-    <a href="/resources/" style="color:rgba(var(--sun),.8);font-weight:600;">All Resources</a>
-  </div>
-  <button class="ml" onclick="document.getElementById('mt').classList.toggle('open')">Tools</button>
-  <div id="mt" class="ms">
-    <a href="/debug-log-analyzer/" style="display:flex;align-items:center;gap:7px;">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="rgba(66,133,244,0.85)"/></svg>
-      Debug Log Analyzer
-    </a>
-    <a href="https://forge.sfxsupport.com/" style="display:flex;align-items:center;gap:7px;">
-      <i class="bi bi-hammer" style="font-size:.8rem;color:rgba(249,115,22,.9);flex-shrink:0;"></i>
-      SFX Forge
-      <span style="font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:rgba(74,222,128,.1);color:rgba(74,222,128,.8);border:1px solid rgba(74,222,128,.25);border-radius:20px;padding:.1rem .45rem;margin-left:2px;">New</span>
-    </a>
-    <span style="display:flex;align-items:center;gap:7px;padding:.3rem 0;font-size:.82rem;color:var(--t3);">
-      <i class="bi bi-arrow-left-right" style="font-size:.75rem;"></i>
-      Org Comparator
-      <span style="font-size:.58rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;background:rgba(255,160,60,.1);color:rgba(255,160,60,.7);border:1px solid rgba(255,160,60,.2);border-radius:20px;padding:.1rem .4rem;">Soon</span>
-    </span>
-  </div>
-  <a href="/contributors/">Contributors</a>
-  <a href="/about/">About</a>
-  <a href="/chatbot/">Ask Krrish</a>
-  <a href="/contact/">Contact</a>
-</div>
 <!-- ═══ HERO ═══ -->
 <section id="hero">
   <div class="hero-inner">
@@ -1234,8 +1057,6 @@ footer{
 <p class="fdis">Independent community initiative, built in personal capacity. Not affiliated with, endorsed by, or connected to Salesforce.com, Inc.</p>
 
 <script>
-function toggleMob(){document.getElementById('mob').classList.toggle('open');}
-
 function faq(btn){
   const i=btn.closest('.faqi'),o=i.classList.contains('open');
   document.querySelectorAll('.faqi').forEach(x=>x.classList.remove('open'));
