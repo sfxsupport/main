@@ -1,0 +1,138 @@
+---
+layout: default
+title: "Salesforce Blog — Interview Questions, AI & Problem Solving | SFX Support"
+description: "Practical Salesforce articles on interview questions, Admin, Security, Flow, Apex, Deployment, Integration, AI use cases, and real-world problem solving."
+keywords: "Salesforce blog, Salesforce interview questions, Salesforce AI use cases, Salesforce admin interview, Salesforce security interview, Salesforce Flow interview, Apex interview questions, Salesforce deployment, Salesforce integration"
+permalink: /blog/
+extra_css:
+  - /assets/css/blog.css
+---
+
+{% assign blog_posts = site.posts | where: "sfx_blog", true %}
+{% assign featured_post = blog_posts | where: "featured", true | first %}
+
+<div class="blog-shell">
+  <header class="blog-hero reveal-up">
+    <div class="blog-eyebrow">SFX Field Notes</div>
+    <h1>Salesforce answers for<br><strong>real work.</strong></h1>
+    <p>Interview preparation, AI use cases, production problem solving, and practical guidance across Admin, Security, Flow, Apex, Deployment, and Integration.</p>
+  </header>
+
+  <main class="blog-main">
+    <div class="blog-tools reveal-up">
+      <div class="blog-filters" role="group" aria-label="Filter blog posts by topic">
+        <button class="blog-filter is-active" type="button" data-category="all">All</button>
+        <button class="blog-filter" type="button" data-category="interview-prep">Interview Prep</button>
+        <button class="blog-filter" type="button" data-category="ai">Salesforce + AI</button>
+        <button class="blog-filter" type="button" data-category="admin">Admin</button>
+        <button class="blog-filter" type="button" data-category="security">Security</button>
+        <button class="blog-filter" type="button" data-category="flow">Flow</button>
+        <button class="blog-filter" type="button" data-category="apex">Apex</button>
+        <button class="blog-filter" type="button" data-category="deployment">Deployment</button>
+        <button class="blog-filter" type="button" data-category="integration">Integration</button>
+      </div>
+      <label class="blog-search">
+        <i class="bi bi-search"></i>
+        <span class="sr-only">Search articles</span>
+        <input id="blog-search" type="search" placeholder="Search articles…" autocomplete="off">
+      </label>
+    </div>
+
+    {% if featured_post %}
+    <article class="blog-featured blog-post-item reveal-up"
+      data-categories="{{ featured_post.categories | join: ' ' | downcase }}"
+      data-search="{{ featured_post.title | append: ' ' | append: featured_post.description | append: ' ' | append: featured_post.tags | downcase | escape }}">
+      <div class="blog-featured-copy">
+        <div class="blog-kicker">Featured · {{ featured_post.primary_category }}</div>
+        <h2><a href="{{ featured_post.url }}">{{ featured_post.title }}</a></h2>
+        <p>{{ featured_post.description }}</p>
+        <div class="blog-meta">
+          <span><i class="bi bi-calendar3"></i>{{ featured_post.date | date: "%d %b %Y" }}</span>
+          <span><i class="bi bi-clock"></i>{{ featured_post.reading_time }}</span>
+          <span><i class="bi bi-arrow-right"></i><a href="{{ featured_post.url }}" style="color:inherit;text-decoration:none;">Read article</a></span>
+        </div>
+      </div>
+      <a class="blog-featured-art" href="{{ featured_post.url }}" aria-label="Read {{ featured_post.title }}"></a>
+    </article>
+    {% endif %}
+
+    <section class="reveal-up" aria-labelledby="latest-posts-title">
+      <div class="blog-section-head">
+        <h2 id="latest-posts-title">Latest articles</h2>
+        <span id="blog-result-count">{{ blog_posts | size }} published</span>
+      </div>
+      <div class="blog-grid" id="blog-grid">
+        {% for post in blog_posts %}
+          {% unless featured_post and post.url == featured_post.url %}
+          <article class="blog-card blog-post-item"
+            data-categories="{{ post.categories | join: ' ' | downcase }}"
+            data-search="{{ post.title | append: ' ' | append: post.description | append: ' ' | append: post.tags | downcase | escape }}">
+            <div class="blog-kicker">{{ post.primary_category | default: "Salesforce" }}</div>
+            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <p>{{ post.description }}</p>
+            <div class="blog-meta">
+              <span><i class="bi bi-calendar3"></i>{{ post.date | date: "%d %b %Y" }}</span>
+              <span><i class="bi bi-clock"></i>{{ post.reading_time | default: "8 min" }}</span>
+            </div>
+          </article>
+          {% endunless %}
+        {% endfor %}
+      </div>
+      <p class="blog-empty" id="blog-empty">No articles match this topic yet. Try another filter.</p>
+    </section>
+
+    <section class="reveal-up" aria-labelledby="series-title">
+      <div class="blog-section-head">
+        <h2 id="series-title">Explore the publishing plan</h2>
+        <span>New practical post every day</span>
+      </div>
+      <div class="blog-series">
+        <a class="blog-series-card" href="/blog/?category=interview-prep"><i class="bi bi-mic"></i><h3>Interview Room</h3><p>Scenario-based questions, strong answer structures, and common traps.</p></a>
+        <a class="blog-series-card" href="/blog/?category=ai"><i class="bi bi-stars"></i><h3>Salesforce + AI</h3><p>Grounded use cases for service, sales, development, and operations.</p></a>
+        <a class="blog-series-card" href="/blog/?category=apex"><i class="bi bi-code-slash"></i><h3>Build &amp; Debug</h3><p>Apex, Flow, limits, testing, logs, and production-safe patterns.</p></a>
+        <a class="blog-series-card" href="/blog/?category=security"><i class="bi bi-shield-check"></i><h3>Secure &amp; Ship</h3><p>Security, deployment, integration, and maintainable architecture.</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = Array.from(document.querySelectorAll('.blog-filter'));
+  const posts = Array.from(document.querySelectorAll('.blog-post-item'));
+  const search = document.getElementById('blog-search');
+  const empty = document.getElementById('blog-empty');
+  const count = document.getElementById('blog-result-count');
+  let category = new URLSearchParams(window.location.search).get('category') || 'all';
+
+  function applyFilters() {
+    const term = (search.value || '').trim().toLowerCase();
+    let visible = 0;
+    posts.forEach(function (post) {
+      const categories = (post.dataset.categories || '').split(/\s+/);
+      const categoryMatch = category === 'all' || categories.includes(category);
+      const searchMatch = !term || (post.dataset.search || '').includes(term);
+      const show = categoryMatch && searchMatch;
+      post.style.display = show ? '' : 'none';
+      if (show) visible += 1;
+    });
+    empty.style.display = visible ? 'none' : 'block';
+    count.textContent = visible + (visible === 1 ? ' article' : ' articles');
+  }
+
+  buttons.forEach(function (button) {
+    button.classList.toggle('is-active', button.dataset.category === category);
+    button.addEventListener('click', function () {
+      category = button.dataset.category;
+      buttons.forEach(function (item) { item.classList.toggle('is-active', item === button); });
+      const url = new URL(window.location.href);
+      if (category === 'all') url.searchParams.delete('category');
+      else url.searchParams.set('category', category);
+      window.history.replaceState({}, '', url);
+      applyFilters();
+    });
+  });
+  search.addEventListener('input', applyFilters);
+  applyFilters();
+});
+</script>

@@ -1,0 +1,83 @@
+---
+layout: default
+---
+
+<div class="blog-shell">
+  <header class="article-hero">
+    <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <i class="bi bi-chevron-right"></i>
+      <a href="/blog/">Blog</a>
+      <i class="bi bi-chevron-right"></i>
+      <span>{{ page.primary_category | default: "Salesforce" }}</span>
+    </nav>
+
+    <div class="blog-kicker">{{ page.series | default: page.primary_category | default: "SFX Blog" }}</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="article-dek">{{ page.description }}</p>{% endif %}
+    <div class="blog-meta">
+      <span><i class="bi bi-calendar3"></i>{{ page.date | date: "%d %B %Y" }}</span>
+      <span><i class="bi bi-clock"></i>{{ page.reading_time | default: "8 min read" }}</span>
+      <span><i class="bi bi-person"></i>SFX Support</span>
+    </div>
+  </header>
+
+  <div class="article-grid">
+    <article class="article-content">
+      {{ content }}
+
+      <section class="article-cta">
+        <h2>Still working through a Salesforce problem?</h2>
+        <p>Bring the context, the error, or the interview scenario. SFX Support will help you reason through it step by step.</p>
+        <div class="article-cta-actions">
+          {% if site.whatsapp.enabled and site.whatsapp.number != "" %}
+          <a class="article-cta-btn whatsapp" href="https://wa.me/{{ site.whatsapp.number }}?text={{ site.whatsapp.default_message | uri_escape }}" target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+          </a>
+          {% endif %}
+          <a class="article-cta-btn primary" href="/chatbot/"><span class="sfx-live"></span> Ask Krrish AI</a>
+          <a class="article-cta-btn" href="/contact/"><i class="bi bi-envelope"></i> Contact SFX Support</a>
+        </div>
+      </section>
+    </article>
+
+    <aside class="article-sidebar" aria-label="Article navigation">
+      <div class="article-side-inner">
+        {% if page.toc %}
+        <nav class="article-side-block">
+          <div class="article-side-title">In this article</div>
+          {% for item in page.toc %}
+          <a href="#{{ item.id }}">{{ item.label }}</a>
+          {% endfor %}
+        </nav>
+        {% endif %}
+        <div class="article-side-block">
+          <div class="article-side-title">Keep learning</div>
+          <a href="/interview-prep/">Interview preparation</a>
+          <a href="/learning/">Learning modules</a>
+          <a href="/debug-log-analyzer/">Debug Log Analyzer</a>
+          <a href="/blog/">All blog posts</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": "{{ page.url | absolute_url }}",
+  "author": { "@type": "Organization", "name": "SFX Support", "url": "https://sfxsupport.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SFX Support",
+    "logo": { "@type": "ImageObject", "url": "https://sfxsupport.com/assets/images/FinalLogo.png" }
+  },
+  "keywords": {{ page.tags | join: ", " | jsonify }}
+}
+</script>

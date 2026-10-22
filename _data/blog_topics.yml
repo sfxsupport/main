@@ -1,0 +1,72 @@
+# Editorial backlog for the daily SFX Support blog.
+# status values: ready, drafted, published, needs_research
+- slug: salesforce-ai-case-summary-human-review
+  title: "A Production-Safe Salesforce AI Case Summary Pattern"
+  category: ai
+  angle: "Grounding, permissions, human review, metrics, and failure handling"
+  status: ready
+- slug: salesforce-admin-interview-permission-sets
+  title: "Salesforce Admin Interview Questions: Profiles, Permission Sets, and Access"
+  category: admin
+  angle: "Scenario questions that separate interface configuration from real security"
+  status: ready
+
+- slug: salesforce-security-interview-sharing-model
+  title: "Salesforce Security Interview Questions: Design a Sharing Model"
+  category: security
+  angle: "OWD, roles, sharing rules, teams, restriction rules, and verification"
+  status: ready
+
+- slug: salesforce-flow-interview-scenarios
+  title: "12 Salesforce Flow Interview Scenarios with Strong Answers"
+  category: flow
+  angle: "Before-save versus after-save, bulk safety, recursion, and fault paths"
+  status: ready
+
+- slug: apex-interview-bulkification-debugging
+  title: "Apex Interview Questions: Bulkification and Debugging Under Pressure"
+  category: apex
+  angle: "Reason from the whole transaction rather than memorizing governor limits"
+  status: ready
+
+- slug: salesforce-deployment-interview-runbook
+  title: "Salesforce Deployment Interview Questions: From Validation to Rollback"
+  category: deployment
+  angle: "Artifacts, dependencies, tests, production checks, and recovery"
+  status: ready
+
+- slug: salesforce-integration-interview-reliability
+  title: "Salesforce Integration Interview Questions: Reliability, Security, and Scale"
+  category: integration
+  angle: "Named credentials, idempotency, retries, async patterns, and reconciliation"
+  status: ready
+
+- slug: salesforce-ai-lead-qualification-guardrails
+  title: "Salesforce + AI for Lead Qualification: Useful Automation Without Blind Scoring"
+  category: ai
+  angle: "Data quality, explainability, human overrides, and outcome measurement"
+  status: ready
+
+- slug: flow-vs-apex-decision-guide
+  title: "Flow or Apex? A Decision Guide for Real Salesforce Requirements"
+  category: problem-solving
+  angle: "A repeatable decision framework with testability and ownership trade-offs"
+  status: ready
+
+- slug: salesforce-production-incident-too-many-soql
+  title: "Production Incident: How to Diagnose Too Many SOQL Queries 101"
+  category: problem-solving
+  angle: "Logs, transaction boundaries, automation interactions, and safe remediation"
+  status: ready
+
+- slug: salesforce-integration-timeout-duplicate-records
+  title: "Why Integration Retries Create Duplicates—and How Idempotency Fixes It"
+  category: integration
+  angle: "Unknown outcomes, request identifiers, upsert design, and recovery queues"
+  status: ready
+
+- slug: salesforce-security-user-can-see-record
+  title: "Why Can This Salesforce User See the Record? A Security Troubleshooting Map"
+  category: security
+  angle: "Effective access investigation across object, field, and record layers"
+  status: ready

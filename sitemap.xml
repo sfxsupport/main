@@ -28,6 +28,23 @@ layout: null
     <priority>0.9</priority>
   </url>
 
+  <!-- Blog -->
+  <url>
+    <loc>https://sfxsupport.com/blog/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  {% assign sfx_blog_posts = site.posts | where: "sfx_blog", true %}
+  {% for post in sfx_blog_posts %}
+  <url>
+    <loc>{{ post.url | absolute_url }}</loc>
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  {% endfor %}
+
   <!-- Learning Pages -->
   <url>
     <loc>https://sfxsupport.com/apex-triggers/</loc>

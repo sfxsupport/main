@@ -1,0 +1,21 @@
+cadence: daily
+publish_time: "08:00 Asia/Kolkata"
+default_status: draft_for_review
+minimum_requirements:
+  - "Solve one specific Salesforce problem or prepare readers for one interview scenario."
+  - "Prefer official Salesforce documentation and primary sources."
+  - "Verify code examples for bulk safety, security, and realistic transaction behavior."
+  - "Include a decision, trade-off, and verification or monitoring step."
+  - "Add internal links only when they genuinely help the reader."
+  - "Never invent Salesforce limits, release behavior, product availability, or citations."
+  - "Do not publish secrets, customer data, employer information, or unsupported claims."
+rotation:
+  - interview-prep
+  - ai
+  - admin
+  - security
+  - flow
+  - apex
+  - deployment
+  - integration
+  - problem-solving
