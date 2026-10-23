@@ -273,6 +273,8 @@ Retries should have limits, backoff, monitoring, and a dead-letter or manual rec
 
 Salesforce Architects describes duplicate tracking with unique message identifiers as a typical idempotent-receiver pattern. See [Integration Patterns](https://architect.salesforce.com/docs/architect/fundamentals/guide/integration-patterns).
 
+For a deeper interview round covering API selection, credentials, retries, events, testing, and monitoring, continue with [15 Salesforce Integration Interview Questions and Answers](/blog/salesforce-integration-interview-questions/).
+
 ### 18. When do you choose synchronous request–reply versus events or asynchronous processing?
 
 <div class="interview-answer" markdown="1">

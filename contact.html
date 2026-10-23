@@ -30,6 +30,43 @@ permalink: /contact/
     line-height: 1.7;
   }
 
+  /* ── Direct Contact ── */
+  .direct-contact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .direct-contact a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 16px 18px;
+    background: var(--bg2);
+    border: 1px solid var(--b2);
+    border-radius: 12px;
+    color: var(--t2);
+    font-size: .88rem;
+    text-decoration: none;
+    transition: border-color .2s, color .2s, transform .15s;
+  }
+
+  .direct-contact a:hover {
+    border-color: rgba(var(--sun), .35);
+    color: var(--t);
+    transform: translateY(-2px);
+  }
+
+  .direct-contact i {
+    color: rgba(var(--sun), .8);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
   /* ── Reason Cards ── */
   .reason-grid {
     display: grid;
@@ -181,6 +218,7 @@ permalink: /contact/
   }
 
   @media (max-width: 540px) {
+    .direct-contact { grid-template-columns: 1fr; }
     .reason-grid { grid-template-columns: 1fr; }
     .reason-card.wide { grid-column: auto; }
     .contact-form { padding: 24px 20px; }
@@ -191,6 +229,17 @@ permalink: /contact/
   <h1>Contact <span>SFX Support</span></h1>
   <p>Feedback, suggestions, a learning question, or just want to say hi — drop a message and I'll get back to you.</p>
 </section>
+
+<div class="direct-contact" aria-label="Direct contact details">
+  <a href="mailto:founders@sfxsupport.com">
+    <i class="bi bi-envelope-fill"></i>
+    <span>founders@sfxsupport.com</span>
+  </a>
+  <a href="tel:+919414849173">
+    <i class="bi bi-telephone-fill"></i>
+    <span>+91-9414849173</span>
+  </a>
+</div>
 
 <!-- Quick Reason Cards -->
 <div class="reason-grid">

@@ -39,7 +39,7 @@
   title: "Salesforce Integration Interview Questions: Reliability, Security, and Scale"
   category: integration
   angle: "Named credentials, idempotency, retries, async patterns, and reconciliation"
-  status: ready
+  status: published
 
 - slug: salesforce-ai-lead-qualification-guardrails
   title: "Salesforce + AI for Lead Qualification: Useful Automation Without Blind Scoring"
