@@ -1,7 +1,7 @@
 ---
 layout: blog-post
 sfx_blog: true
-featured: true
+featured: false
 title: "15 Salesforce Integration Interview Questions and Answers"
 description: "Prepare for Salesforce integration interviews with 15 scenario-based questions on APIs, security, retries, events, testing, and monitoring."
 date: 2026-10-23 08:00:00 +0530

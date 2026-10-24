@@ -195,6 +195,8 @@ I would finish with a test that inserts or updates a full batch and asserts the 
 
 Salesforce’s bulkification guidance emphasizes processing collections and avoiding SOQL or DML inside loops. See [Understanding the Bulk of the Salesforce Platform](https://developer.salesforce.com/blogs/2014/08/understanding-bulk-salesforce1-platform).
 
+For an experienced developer round focused on transaction behavior, recursion, locking, security, and production diagnosis, continue with [15 Senior Salesforce Apex Trigger Interview Questions for 6+ Years Experience](/blog/salesforce-apex-trigger-interview-questions-6-years-experience/).
+
 ### 11. Why use a trigger handler instead of putting logic directly in the trigger?
 
 <div class="interview-answer" markdown="1">

@@ -27,7 +27,7 @@
   title: "Apex Interview Questions: Bulkification and Debugging Under Pressure"
   category: apex
   angle: "Reason from the whole transaction rather than memorizing governor limits"
-  status: ready
+  status: published
 
 - slug: salesforce-deployment-interview-runbook
   title: "Salesforce Deployment Interview Questions: From Validation to Rollback"
