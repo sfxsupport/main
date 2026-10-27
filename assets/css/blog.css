@@ -318,6 +318,86 @@ body.blog-light-theme .fdis { margin: 0; background: #f8f9fa; }
 .interview-answer > p:last-child { margin-bottom: 0; }
 .answer-label { display: inline-flex; align-items: center; gap: 6px; margin-bottom: .7rem; color: #174ea6; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .answer-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4285f4; }
+
+/* Expandable interview question sets */
+.interview-accordion-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.25rem 0 1rem;
+  padding: .85rem 1rem;
+  border: 1px solid #e1e4e8;
+  border-radius: 10px;
+  background: #f8f9fa;
+}
+
+.interview-accordion-intro p { margin: 0; color: #5f6368; font-size: .82rem; line-height: 1.55; }
+.interview-accordion-controls { display: flex; flex: 0 0 auto; gap: .45rem; }
+
+.interview-accordion-controls button {
+  padding: .55rem .75rem;
+  border: 1px solid #bdc1c6;
+  border-radius: 6px;
+  background: #fff;
+  color: #3c4043;
+  font: 600 .71rem/1 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+}
+
+.interview-accordion-controls button:hover { border-color: #1a73e8; color: #174ea6; background: #f8faff; }
+.interview-accordion-controls button:focus-visible { outline: 3px solid rgba(26,115,232,.2); outline-offset: 2px; }
+.interview-accordion-list { display: grid; gap: .75rem; margin: 1.15rem 0 2.25rem; }
+
+.interview-accordion {
+  overflow: hidden;
+  border: 1px solid #dadce0;
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(60,64,67,.04);
+  scroll-margin-top: 90px;
+}
+
+.interview-accordion summary {
+  display: grid;
+  grid-template-columns: 2.35rem minmax(0, 1fr) 1.4rem;
+  align-items: center;
+  gap: .85rem;
+  min-height: 68px;
+  padding: .9rem 1rem;
+  color: #202124;
+  cursor: pointer;
+  list-style: none;
+  transition: background .16s, color .16s;
+}
+
+.interview-accordion summary::-webkit-details-marker { display: none; }
+.interview-accordion summary:hover { background: #f8faff; color: #174ea6; }
+.interview-accordion summary:focus-visible { outline: 3px solid rgba(26,115,232,.2); outline-offset: -3px; }
+
+.interview-question-number {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 9px;
+  background: #e8f0fe;
+  color: #174ea6;
+  font-size: .71rem;
+  font-weight: 750;
+  letter-spacing: .02em;
+}
+
+.interview-question-text { font-size: .97rem; font-weight: 650; line-height: 1.5; letter-spacing: -.01em; }
+.interview-accordion summary::after { content: '+'; color: #5f6368; font-size: 1.35rem; font-weight: 400; line-height: 1; text-align: center; }
+.interview-accordion[open] { border-color: #aecbfa; box-shadow: 0 2px 8px rgba(26,115,232,.08); }
+.interview-accordion[open] summary { border-bottom: 1px solid #d2e3fc; background: #f8faff; color: #174ea6; }
+.interview-accordion[open] summary::after { content: '\2212'; color: #1a73e8; }
+
+.interview-accordion-answer { padding: 1.2rem 1.3rem 1.35rem 4.2rem; background: #fff; }
+.interview-accordion-answer > p:last-child,
+.interview-accordion-answer > ul:last-child,
+.interview-accordion-answer > ol:last-child { margin-bottom: 0; }
 .article-sidebar { min-width: 0; }
 .article-side-inner { position: sticky; top: 98px; }
 .article-side-block { margin-bottom: 1.2rem; padding: 0 0 0 1rem; border-left: 1px solid #dadce0; }
@@ -378,6 +458,13 @@ body.blog-light-theme .fdis { margin: 0; background: #f8f9fa; }
   .article-content li { font-size: .96rem; line-height: 1.78; }
   .article-content table { display: block; overflow-x: auto; }
   .interview-answer { padding: 1.15rem; }
+  .interview-accordion-intro { align-items: stretch; flex-direction: column; }
+  .interview-accordion-controls { width: 100%; }
+  .interview-accordion-controls button { flex: 1; }
+  .interview-accordion summary { grid-template-columns: 2.1rem minmax(0, 1fr) 1.2rem; gap: .7rem; padding: .8rem; }
+  .interview-question-number { width: 2.1rem; height: 2.1rem; }
+  .interview-question-text { font-size: .91rem; }
+  .interview-accordion-answer { padding: 1.05rem 1rem 1.2rem; }
   .article-cta { padding: 1.35rem; }
 }
 
