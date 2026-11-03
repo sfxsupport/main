@@ -4,24 +4,24 @@
   title: "A Production-Safe Salesforce AI Case Summary Pattern"
   category: ai
   angle: "Grounding, permissions, human review, metrics, and failure handling"
-  status: ready
+  status: published
 - slug: salesforce-admin-interview-permission-sets
   title: "Salesforce Admin Interview Questions: Profiles, Permission Sets, and Access"
   category: admin
   angle: "Scenario questions that separate interface configuration from real security"
-  status: ready
+  status: published
 
 - slug: salesforce-security-interview-sharing-model
   title: "Salesforce Security Interview Questions: Design a Sharing Model"
   category: security
   angle: "OWD, roles, sharing rules, teams, restriction rules, and verification"
-  status: ready
+  status: published
 
 - slug: salesforce-flow-interview-scenarios
   title: "12 Salesforce Flow Interview Scenarios with Strong Answers"
   category: flow
   angle: "Before-save versus after-save, bulk safety, recursion, and fault paths"
-  status: ready
+  status: published
 
 - slug: apex-interview-bulkification-debugging
   title: "Apex Interview Questions: Bulkification and Debugging Under Pressure"
@@ -33,7 +33,7 @@
   title: "Salesforce Deployment Interview Questions: From Validation to Rollback"
   category: deployment
   angle: "Artifacts, dependencies, tests, production checks, and recovery"
-  status: ready
+  status: published
 
 - slug: salesforce-integration-interview-reliability
   title: "Salesforce Integration Interview Questions: Reliability, Security, and Scale"
@@ -45,28 +45,40 @@
   title: "Salesforce + AI for Lead Qualification: Useful Automation Without Blind Scoring"
   category: ai
   angle: "Data quality, explainability, human overrides, and outcome measurement"
-  status: ready
+  status: published
 
 - slug: flow-vs-apex-decision-guide
   title: "Flow or Apex? A Decision Guide for Real Salesforce Requirements"
   category: problem-solving
   angle: "A repeatable decision framework with testability and ownership trade-offs"
-  status: ready
+  status: published
 
 - slug: salesforce-production-incident-too-many-soql
   title: "Production Incident: How to Diagnose Too Many SOQL Queries 101"
   category: problem-solving
   angle: "Logs, transaction boundaries, automation interactions, and safe remediation"
-  status: ready
+  status: published
 
 - slug: salesforce-integration-timeout-duplicate-records
   title: "Why Integration Retries Create Duplicates—and How Idempotency Fixes It"
   category: integration
   angle: "Unknown outcomes, request identifiers, upsert design, and recovery queues"
-  status: ready
+  status: published
 
 - slug: salesforce-security-user-can-see-record
   title: "Why Can This Salesforce User See the Record? A Security Troubleshooting Map"
   category: security
   angle: "Effective access investigation across object, field, and record layers"
-  status: ready
+  status: published
+
+- slug: salesforce-integration-system-design-interview-questions
+  title: "20 Salesforce Integration and System Design Interview Questions"
+  category: interview-prep
+  angle: "Senior architecture scenarios covering scale, contracts, failure recovery, security, observability, and cutover"
+  status: published
+
+- slug: salesforce-data-cloud-interview-questions-answers
+  title: "Top 30 Salesforce Data Cloud Interview Questions and Answers"
+  category: interview-prep
+  angle: "Current Data 360 architecture, ingestion, zero copy, identity resolution, insights, segmentation, activation, governance, APIs, and operations"
+  status: published

@@ -3,6 +3,7 @@ layout: blog-post
 sfx_blog: true
 featured: false
 title: "Top 30 Salesforce Agentforce Interview Questions and Answers (2026)"
+seo_title: "30 Agentforce Interview Questions and Answers (2026)"
 description: "Prepare for Agentforce interviews with 30 questions on subagents, actions, Agent Script, grounding, security, testing, deployment, and observability."
 date: 2026-10-28 08:00:00 +0530
 last_modified_at: 2026-10-28 08:00:00 +0530

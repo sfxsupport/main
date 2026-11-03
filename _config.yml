@@ -16,11 +16,10 @@ author:
 logo: "/assets/images/FinalLogo.png"
 keywords: "Salesforce developer, Salesforce interview questions, Apex triggers interview, LWC interview questions, Salesforce learning, Salesforce AI, Salesforce debug log analyzer, SOQL interview, Salesforce flows, Salesforce integration, Salesforce admin interview, Salesforce certification prep, Salesforce interview preparation"
 
-# Public contact details used by blog call-to-action components. Keep WhatsApp
-# disabled until the exact public number is supplied (country code, digits only).
+# Public contact details used by blog call-to-action components.
 whatsapp:
-  enabled: false
-  number: ""
+  enabled: true
+  number: "919414849173"
   default_message: "Hi SFX Support, I have a Salesforce question."
 
 # ── Build Settings ─────────────────────────────────────────

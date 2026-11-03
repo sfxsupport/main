@@ -3,7 +3,7 @@ layout: blog-post
 sfx_blog: true
 featured: true
 title: "18 Scenario-Based Salesforce Interview Questions and Answers"
-description: "Practice realistic Salesforce interview questions across Admin, Security, Flow, Apex, Deployment, and Integration—and learn how to explain your reasoning, not just definitions."
+description: "Practice scenario-based Salesforce interview questions on Admin, Security, Flow, Apex, integrations, deployment, and real-world problem solving."
 date: 2026-10-23 00:01:00 +0530
 last_modified_at: 2026-10-23 00:01:00 +0530
 permalink: /blog/salesforce-interview-questions-scenario-based/
