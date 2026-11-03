@@ -5,8 +5,8 @@ featured: false
 title: "Top 30 Salesforce Data Cloud Interview Questions and Answers (2026)"
 seo_title: "30 Salesforce Data Cloud Interview Questions (2026)"
 description: "Prepare for Salesforce Data Cloud interviews with 30 questions on Data 360 architecture, identity resolution, segmentation, activation, APIs, and governance."
-date: 2026-11-04 08:00:00 +0530
-last_modified_at: 2026-11-04 08:00:00 +0530
+date: 2026-11-04 01:00:00 +0530
+last_modified_at: 2026-11-04 01:00:00 +0530
 permalink: /blog/salesforce-data-cloud-interview-questions-answers/
 primary_category: "Data Cloud"
 series: "Salesforce Interview Questions"
