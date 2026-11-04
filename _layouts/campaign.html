@@ -94,13 +94,14 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-BXZVYY2G7X');
+    gtag('config', 'G-BXZVYY2G7X');{% if site.google_ads_id and site.google_ads_id != "" %}
+    gtag('config', '{{ site.google_ads_id }}');{% endif %}
   </script>
 
   <link rel="stylesheet" href="/assets/css/campaign.css">
   <script src="/assets/js/salesforce-training.js" defer></script>
 </head>
-<body>
+<body data-ads-lead-conversion="{% if site.google_ads_id != "" and site.google_ads_lead_label != "" and site.google_ads_id and site.google_ads_lead_label %}{{ site.google_ads_id }}/{{ site.google_ads_lead_label }}{% endif %}">
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="campaign-header" data-campaign-header>
@@ -115,7 +116,7 @@
         <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="button button--small button--primary" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20know%20about%20the%20next%20Salesforce%20batch." target="_blank" rel="noopener" data-cta="header_whatsapp">Ask about the next batch</a>
+      <a class="button button--small button--primary" href="#enquire" data-cta="header_enquire">Ask about the next batch</a>
     </div>
   </header>
 

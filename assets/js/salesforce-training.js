@@ -19,7 +19,8 @@
       source: params.get('utm_source') || '',
       medium: params.get('utm_medium') || '',
       campaign: params.get('utm_campaign') || '',
-      term: params.get('utm_term') || ''
+      term: params.get('utm_term') || '',
+      gclid: params.get('gclid') || ''
     };
     var hasCurrent = Object.keys(current).some(function (key) { return current[key]; });
 
@@ -59,10 +60,13 @@
     document.querySelectorAll('[data-cta]').forEach(function (link) {
       link.addEventListener('click', function () {
         var ctaName = link.getAttribute('data-cta');
-        var isLeadAction = /whatsapp|email|call/.test(ctaName);
-        track(isLeadAction ? 'generate_lead' : 'select_content', {
+        // A tap on WhatsApp, email or call is interest, not a lead: many people
+        // open WhatsApp and never send anything. Only a submitted enquiry form
+        // fires generate_lead (see wireLeadForm), so ad reports count real leads.
+        var isContactAction = /whatsapp|email|call/.test(ctaName);
+        track(isContactAction ? 'contact_click' : 'select_content', {
           cta_name: ctaName,
-          content_type: isLeadAction ? 'contact_action' : 'campaign_link',
+          content_type: isContactAction ? 'contact_action' : 'campaign_link',
           campaign_source: context.source || 'direct',
           campaign_name: context.campaign || 'none',
           page_path: window.location.pathname
@@ -149,6 +153,97 @@
     });
   }
 
+  function wireLeadForm(context) {
+    var form = document.querySelector('[data-lead-form]');
+    if (!form) return;
+    var status = form.querySelector('[data-lead-status]');
+    var submit = form.querySelector('[data-lead-submit]');
+    var started = false;
+
+    function setStatus(message, kind) {
+      status.textContent = message;
+      status.className = 'lead-form__status' + (kind ? ' is-' + kind : '');
+    }
+
+    function markInvalid(field, message) {
+      field.setAttribute('aria-invalid', 'true');
+      field.focus();
+      setStatus(message, 'error');
+    }
+
+    form.addEventListener('input', function (event) {
+      event.target.removeAttribute('aria-invalid');
+      if (!started) {
+        started = true;
+        track('form_start', { form_name: 'batch_enquiry', page_path: window.location.pathname });
+      }
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var data = new FormData(form);
+      var name = String(data.get('name') || '').trim();
+      var phoneDigits = String(data.get('phone') || '').replace(/\D/g, '');
+      var email = String(data.get('email') || '').trim();
+
+      if (name.length < 2) return markInvalid(form.elements.name, 'Please enter your name.');
+      if (phoneDigits.length < 8 || phoneDigits.length > 15) return markInvalid(form.elements.phone, 'Please enter a valid WhatsApp number.');
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return markInvalid(form.elements.email, 'That email address doesn’t look right.');
+      if (!data.get('background')) return markInvalid(form.elements.background, 'Please choose where you are right now.');
+
+      submit.disabled = true;
+      setStatus('Sending…');
+
+      var payload = {
+        name: name,
+        phone: String(data.get('phone') || ''),
+        email: email,
+        background: String(data.get('background') || ''),
+        message: String(data.get('message') || ''),
+        website: String(data.get('website') || ''),
+        utmSource: context.source || '',
+        utmMedium: context.medium || '',
+        utmCampaign: context.campaign || '',
+        utmTerm: context.term || '',
+        gclid: context.gclid || '',
+        pagePath: window.location.pathname
+      };
+
+      // text/plain keeps this a "simple" cross-origin request (no preflight).
+      fetch(groveOrigin + '/api/public/leads', {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (json) {
+            if (!response.ok) throw new Error(json.error || 'Something went wrong. Please try WhatsApp instead.');
+            return json;
+          });
+        })
+        .then(function (json) {
+          form.classList.add('is-done');
+          setStatus('Thanks, ' + name.split(' ')[0] + '! We’ll message you on WhatsApp soon.', 'success');
+          if (!json.duplicate) {
+            track('generate_lead', {
+              form_name: 'batch_enquiry',
+              lead_background: payload.background,
+              campaign_source: context.source || 'direct',
+              campaign_name: context.campaign || 'none',
+              page_path: window.location.pathname
+            });
+            var adsConversion = document.body.getAttribute('data-ads-lead-conversion');
+            if (adsConversion) track('conversion', { send_to: adsConversion });
+          }
+        })
+        .catch(function (error) {
+          submit.disabled = false;
+          setStatus(error.message || 'Something went wrong. Please try WhatsApp instead.', 'error');
+        });
+    });
+  }
+
   function wireYouTube() {
     var container = document.querySelector('[data-youtube-playlist]');
     var button = document.querySelector('[data-youtube-load]');
@@ -193,6 +288,7 @@
   var campaignContext = getCampaignContext();
   addContextToWhatsApp(campaignContext);
   wireTracking(campaignContext);
+  wireLeadForm(campaignContext);
   loadLiveProof();
   wireYouTube();
   wireReveals();

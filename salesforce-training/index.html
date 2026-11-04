@@ -8,6 +8,10 @@ keywords: "Salesforce training, Salesforce course with projects, Salesforce live
 canonical: "https://sfxsupport.com/salesforce-training/"
 image: "/assets/images/campaign/krrish-youtube-banner.webp"
 permalink: /salesforce-training/
+# Set these when the next batch is fixed, e.g. next_batch: "Starts 1 Dec 2026" and batch_seats: 30.
+# Left empty, the page falls back to the generic "Applications open" wording.
+next_batch: ""
+batch_seats: ""
 ---
 
 <section class="hero section" id="top">
@@ -15,12 +19,12 @@ permalink: /salesforce-training/
   <div class="hero__glow hero__glow--two" aria-hidden="true"></div>
   <div class="campaign-shell hero__grid">
     <div class="hero__copy reveal">
-      <p class="eyebrow"><span></span> Applications open · Founding cohort</p>
+      <p class="eyebrow"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% if page.batch_seats and page.batch_seats != "" %} · {{ page.batch_seats }} seats{% endif %}{% else %}Applications open · Founding cohort{% endif %}</p>
       <h1>Don’t finish with notes.<br><em>Finish with proof.</em></h1>
       <p class="hero__lead">Learn Salesforce by building, debugging and explaining real systems—then turn that work into evidence people can review.</p>
 
       <div class="hero__actions">
-        <a class="button button--primary button--large" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20know%20about%20the%20next%20Salesforce%20batch." target="_blank" rel="noopener" data-cta="hero_whatsapp">Ask about the next batch <span aria-hidden="true">→</span></a>
+        <a class="button button--primary button--large" href="#enquire" data-cta="hero_enquire">Ask about the next batch <span aria-hidden="true">→</span></a>
         <a class="button button--secondary button--large" href="#youtube-classes" data-cta="hero_youtube">Watch free YouTube classes</a>
       </div>
 
@@ -389,17 +393,59 @@ permalink: /salesforce-training/
   </div>
 </section>
 
-<section class="final-cta section">
+<section class="final-cta section" id="enquire">
   <div class="final-cta__orb final-cta__orb--one" aria-hidden="true"></div>
   <div class="final-cta__orb final-cta__orb--two" aria-hidden="true"></div>
-  <div class="campaign-shell final-cta__inner reveal">
-    <p class="eyebrow eyebrow--light"><span></span> Your next step</p>
-    <h2>Stop collecting tabs.<br>Start building proof.</h2>
-    <p>Tell us where you are in your Salesforce journey. We’ll help you understand the next batch and whether the Grove path is a sensible fit.</p>
-    <div class="final-cta__actions">
-      <a class="button button--light button--large" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20know%20about%20the%20next%20Salesforce%20batch." target="_blank" rel="noopener" data-cta="final_whatsapp">Message us on WhatsApp <span aria-hidden="true">→</span></a>
-      <a class="button button--ghost-light button--large" href="mailto:founders@sfxsupport.com" data-cta="final_email">Email the founders</a>
+  <div class="campaign-shell final-cta__grid">
+    <div class="final-cta__copy reveal">
+      <p class="eyebrow eyebrow--light"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% else %}Your next step{% endif %}</p>
+      <h2>Stop collecting tabs.<br>Start building proof.</h2>
+      <p>Tell us where you are in your Salesforce journey. A founder will message you on WhatsApp about the next batch and whether the Grove path is a sensible fit.</p>
+      {% if page.batch_seats and page.batch_seats != "" %}<p class="final-cta__seats"><strong>{{ page.batch_seats }}</strong> seats in this batch</p>{% endif %}
+      <div class="final-cta__alt">
+        <p>Prefer to talk now?</p>
+        <a href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20know%20about%20the%20next%20Salesforce%20batch." target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp us</a>
+        <a href="mailto:founders@sfxsupport.com" data-cta="final_email">Email the founders</a>
+        <a href="tel:+919414849173" data-cta="final_call">Call +91-9414849173</a>
+      </div>
     </div>
-    <p class="final-cta__contact">Or call <a href="tel:+919414849173" data-cta="final_call">+91-9414849173</a></p>
+
+    <form class="lead-form reveal" data-lead-form novalidate>
+      <h3>Ask about the next batch</h3>
+      <p class="lead-form__hint">Free to join. We reply on WhatsApp, usually within a day.</p>
+
+      <label for="lead-name">Your name</label>
+      <input id="lead-name" name="name" type="text" autocomplete="name" maxlength="80" required>
+
+      <label for="lead-phone">WhatsApp number</label>
+      <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98765 43210" maxlength="20" required>
+
+      <label for="lead-email">Email <span>(optional)</span></label>
+      <input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120">
+
+      <label for="lead-background">Where are you right now?</label>
+      <select id="lead-background" name="background" required>
+        <option value="" disabled selected>Choose one</option>
+        <option value="student">Student</option>
+        <option value="fresher">Fresher looking for a first role</option>
+        <option value="admin">Salesforce admin</option>
+        <option value="developer">Salesforce developer</option>
+        <option value="support">Support / QA engineer</option>
+        <option value="career_switch">Switching from another field</option>
+        <option value="other">Something else</option>
+      </select>
+
+      <label for="lead-message">Anything you want us to know? <span>(optional)</span></label>
+      <textarea id="lead-message" name="message" rows="3" maxlength="600"></textarea>
+
+      <div class="lead-form__trap" aria-hidden="true">
+        <label for="lead-website">Leave this empty</label>
+        <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="button button--primary button--large" type="submit" data-lead-submit>Send my enquiry <span aria-hidden="true">→</span></button>
+      <p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>
+      <p class="lead-form__privacy">We only use these details to reply about SFX Grove. See our <a href="/privacy/">privacy policy</a>.</p>
+    </form>
   </div>
 </section>
