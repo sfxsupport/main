@@ -95,17 +95,30 @@
 
     grid.innerHTML = selected.map(function (person) {
       var initials = person.name.split(/\s+/).slice(0, 2).map(function (part) { return part.charAt(0); }).join('').toUpperCase();
+      var avatarHue = person.name.split('').reduce(function (total, character) { return total + character.charCodeAt(0); }, 0) % 360;
       var avatar = person.avatarUrl || '';
       var avatarUrl = avatar.indexOf('/') === 0 ? groveOrigin + avatar : avatar;
-      var media = avatarUrl
-        ? '<img src="' + safeText(avatarUrl) + '" alt="" width="62" height="62" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="contributor-card__initials" hidden>' + safeText(initials) + '</span>'
-        : '<span class="contributor-card__initials">' + safeText(initials) + '</span>';
+      var media = '<span class="contributor-card__avatar" style="--avatar-hue:' + avatarHue + '">' +
+        '<span class="contributor-card__initials" aria-hidden="true">' + safeText(initials) + '</span>' +
+        (avatarUrl ? '<img class="contributor-card__photo" src="' + safeText(avatarUrl) + '" alt="" width="62" height="62" loading="lazy" data-contributor-photo>' : '') +
+        '</span>';
       return '<a class="contributor-card" href="' + groveOrigin + '/u/' + encodeURIComponent(person.userId) + '" target="_blank" rel="noopener">' +
         media +
         '<strong>' + safeText(person.name) + '</strong>' +
         '<small>' + Number(person.projectCount || 0) + ' projects · ' + Number(person.badgeCount || 0) + ' badges</small>' +
         '</a>';
     }).join('');
+
+    grid.querySelectorAll('[data-contributor-photo]').forEach(function (photo) {
+      function showPhoto() { if (photo.naturalWidth > 0) photo.classList.add('is-ready'); }
+      function removeBrokenPhoto() { photo.remove(); }
+      photo.addEventListener('load', showPhoto, { once: true });
+      photo.addEventListener('error', removeBrokenPhoto, { once: true });
+      if (photo.complete) {
+        if (photo.naturalWidth > 0) showPhoto();
+        else removeBrokenPhoto();
+      }
+    });
   }
 
   function loadLiveProof() {
