@@ -14,6 +14,13 @@ layout: null
     <priority>1.0</priority>
   </url>
 
+  <!-- Campaign landing page -->
+  <url>
+    <loc>https://sfxsupport.com/salesforce-training/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- Interview Prep -->
   <url>
     <loc>https://sfxsupport.com/interview-prep/</loc>
