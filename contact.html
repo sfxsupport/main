@@ -267,14 +267,12 @@ permalink: /contact/
 
 <!-- Contact Form -->
 <div class="contact-form-wrap">
-  <form
-    class="contact-form"
-    action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DQy00000TSGcD"
-    method="POST"
-    id="contactForm"
-  >
-    <input type="hidden" name="orgid" value="00DQy00000TSGcD">
-    <input type="hidden" name="retURL" value="https://sfxsupport.com/contact-thank-you/">
+  <form class="contact-form" id="contactForm" novalidate>
+    <!-- Sent to the SFX lead inbox (leads.sfxsupport.com), see the script below. -->
+    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+      <label for="website">Leave this empty</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
 
     <div class="form-group">
       <label for="subject">What brings you here?</label>
@@ -312,9 +310,10 @@ permalink: /contact/
       SFX is a personal community project — not a consulting service.<br>
       Messages go to one person and get a best-effort reply.
     </p>
-    <button type="submit" class="form-submit">
+    <button type="submit" class="form-submit" id="contactSubmit">
       <i class="bi bi-send-fill"></i> Send Message
     </button>
+    <p id="contactStatus" role="status" aria-live="polite" style="min-height:1.2em;margin:10px 0 0;text-align:center;font-size:.85rem;font-weight:600;"></p>
   </form>
 </div>
 
@@ -329,4 +328,74 @@ permalink: /contact/
       document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
+
+  // Sends the message to the SFX lead inbox, then shows the thank-you page.
+  (function () {
+    var form = document.getElementById('contactForm');
+    var button = document.getElementById('contactSubmit');
+    var status = document.getElementById('contactStatus');
+    var params = new URLSearchParams(window.location.search);
+    var referrer = document.referrer && document.referrer.indexOf(window.location.origin) !== 0 ? document.referrer : '';
+
+    function fail(message, field) {
+      status.style.color = '#c2413a';
+      status.textContent = message;
+      if (field) field.focus();
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var data = new FormData(form);
+      var name = String(data.get('name') || '').trim();
+      var email = String(data.get('email') || '').trim();
+      var message = String(data.get('description') || '').trim();
+      if (!data.get('subject')) return fail('Please choose what brings you here.', form.elements.subject);
+      if (name.length < 2) return fail('Please enter your name.', form.elements.name);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('Please enter a valid email address.', form.elements.email);
+      if (!message) return fail('Please write a short message.', form.elements.description);
+
+      button.disabled = true;
+      status.style.color = '';
+      status.textContent = 'Sending…';
+
+      fetch('https://leads.sfxsupport.com/api/leads', {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({
+          product: 'contact',
+          form: 'contact_page',
+          topic: String(data.get('subject') || ''),
+          name: name,
+          email: email,
+          phone: String(data.get('phone') || ''),
+          message: message,
+          website: String(data.get('website') || ''),
+          utmSource: params.get('utm_source') || '',
+          utmMedium: params.get('utm_medium') || '',
+          utmCampaign: params.get('utm_campaign') || '',
+          utmTerm: params.get('utm_term') || '',
+          utmContent: params.get('utm_content') || '',
+          gclid: params.get('gclid') || '',
+          referrer: referrer,
+          pagePath: window.location.pathname
+        })
+      })
+        .then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (json) {
+            if (!response.ok) throw new Error(json.error || 'Something went wrong. Please email founders@sfxsupport.com instead.');
+          });
+        })
+        .then(function () {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'contact_form_submit', { topic: String(data.get('subject') || ''), page_path: window.location.pathname });
+          }
+          window.location.href = '/contact-thank-you/';
+        })
+        .catch(function (error) {
+          button.disabled = false;
+          fail(error.message || 'Something went wrong. Please email founders@sfxsupport.com instead.');
+        });
+    });
+  })();
 </script>

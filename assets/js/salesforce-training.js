@@ -2,6 +2,8 @@
   'use strict';
 
   var groveOrigin = 'https://grove.sfxsupport.com';
+  // Every SFX form sends to the one lead inbox (~/sfx-leads).
+  var leadsEndpoint = 'https://leads.sfxsupport.com/api/leads';
   var campaignKey = 'sfx_campaign_context';
 
   function safeText(value) {
@@ -20,7 +22,10 @@
       medium: params.get('utm_medium') || '',
       campaign: params.get('utm_campaign') || '',
       term: params.get('utm_term') || '',
-      gclid: params.get('gclid') || ''
+      content: params.get('utm_content') || '',
+      gclid: params.get('gclid') || '',
+      // The site the visitor came from, before any click inside our site.
+      referrer: document.referrer && document.referrer.indexOf(window.location.origin) !== 0 ? document.referrer : ''
     };
     var hasCurrent = Object.keys(current).some(function (key) { return current[key]; });
 
@@ -195,6 +200,8 @@
       setStatus('Sending…');
 
       var payload = {
+        product: 'grove',
+        form: 'batch_enquiry',
         name: name,
         phone: String(data.get('phone') || ''),
         email: email,
@@ -205,12 +212,14 @@
         utmMedium: context.medium || '',
         utmCampaign: context.campaign || '',
         utmTerm: context.term || '',
+        utmContent: context.content || '',
         gclid: context.gclid || '',
+        referrer: context.referrer || '',
         pagePath: window.location.pathname
       };
 
       // text/plain keeps this a "simple" cross-origin request (no preflight).
-      fetch(groveOrigin + '/api/public/leads', {
+      fetch(leadsEndpoint, {
         method: 'POST',
         mode: 'cors',
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
