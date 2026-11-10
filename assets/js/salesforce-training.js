@@ -202,6 +202,8 @@
       var payload = {
         product: 'grove',
         form: 'batch_enquiry',
+        batch: '2026-12-01',
+        batchFee: 'INR 6000',
         name: name,
         phone: String(data.get('phone') || ''),
         email: email,

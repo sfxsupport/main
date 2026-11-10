@@ -40,17 +40,31 @@
         "@type": "Course",
         "@id": "https://sfxsupport.com/salesforce-training/#course",
         "name": "SFX Grove Salesforce Learning Residency",
-        "description": "A guided five-month Salesforce learning path with daily missions, reviewed evidence, portfolio projects and hands-on practice.",
+        "description": "A guided Salesforce learning path covering administration, development, integrations, Agentforce, ClaudeForce and five portfolio projects through live sessions and revision recordings.",
         "url": "https://sfxsupport.com/salesforce-training/",
         "provider": { "@id": "https://sfxsupport.com/#organization" },
-        "isAccessibleForFree": true,
+        "isAccessibleForFree": false,
         "inLanguage": "en",
+        "offers": {
+          "@type": "Offer",
+          "price": "6000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://sfxsupport.com/salesforce-training/",
+          "validFrom": "2026-11-11"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "name": "December 2026 Salesforce Batch",
+          "courseMode": "Online",
+          "startDate": "2026-12-01"
+        },
         "teaches": [
           "Salesforce administration",
           "Apex and triggers",
           "Salesforce Flow",
           "Salesforce integrations",
-          "Agentforce and Salesforce AI",
+          "Agentforce and ClaudeForce",
           "Project delivery and technical communication"
         ]
       },
@@ -65,8 +79,18 @@
           },
           {
             "@type": "Question",
-            "name": "Is there an application or training fee?",
-            "acceptedAnswer": { "@type": "Answer", "text": "SFX Grove currently states that there is no application or training fee. Contact SFX Support to confirm availability for the next cohort." }
+            "name": "When does the next Salesforce batch start and what is the fee?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The upcoming online batch starts on 1 December 2026. The complete batch fee is ₹6,000. Class days and timings are confirmed before enrollment." }
+          },
+          {
+            "@type": "Question",
+            "name": "Are live Salesforce classes recorded for revision?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The program includes live online sessions and recordings of those classes for revision through the learning platform during the program." }
+          },
+          {
+            "@type": "Question",
+            "name": "What is covered in the Salesforce batch?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The curriculum starts with Salesforce Admin and continues through Apex development, Lightning Web Components, integrations, Agentforce, ClaudeForce and five guided projects." }
           },
           {
             "@type": "Question",
@@ -111,12 +135,12 @@
         <span><strong>SFX</strong> Support</span>
       </a>
       <nav class="campaign-nav" aria-label="Campaign navigation">
-        <a href="#ecosystem">Platforms</a>
-        <a href="#journey">Program</a>
+        <a href="#journey">Curriculum</a>
+        <a href="#projects">Projects</a>
         <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="button button--small button--primary" href="#enquire" data-cta="header_enquire">Ask about the next batch</a>
+      <a class="button button--small button--primary" href="#enquire" data-cta="header_enquire">Enquire for 1 December</a>
     </div>
   </header>
 
@@ -146,7 +170,7 @@
     </div>
   </footer>
 
-  <a class="mobile-whatsapp" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20know%20about%20the%20next%20Salesforce%20batch." target="_blank" rel="noopener" data-cta="mobile_whatsapp" aria-label="Ask about the next batch on WhatsApp">
+  <a class="mobile-whatsapp" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20to%20enquire%20about%20the%201%20December%20Salesforce%20batch%20for%20%E2%82%B96%2C000." target="_blank" rel="noopener" data-cta="mobile_whatsapp" aria-label="Enquire for the 1 December Salesforce batch on WhatsApp">
     <span aria-hidden="true">●</span> WhatsApp us
   </a>
 </body>
