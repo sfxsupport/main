@@ -322,7 +322,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .final-cta__contact { margin: 22px 0 0; color: #c0e1e5; font-size: .83rem; }
 .final-cta__contact a { color: #fff; font-weight: 750; }
 
-/* Enquiry form (posts to grove.sfxsupport.com/api/public/leads) */
+/* Enquiry form (posts to the private SFX Leads inbox) */
 .final-cta__grid { position: relative; display: grid; grid-template-columns: 1fr minmax(0, 470px); gap: 64px; align-items: center; text-align: left; }
 .final-cta__copy > p:not(.eyebrow) { max-width: 560px; margin: 24px 0 0; color: #d5ecf0; font-size: 1.05rem; line-height: 1.75; }
 .final-cta__seats { color: #fff !important; font-size: .95rem !important; }

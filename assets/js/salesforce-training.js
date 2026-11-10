@@ -193,7 +193,9 @@
 
       if (name.length < 2) return markInvalid(form.elements.name, 'Please enter your name.');
       if (phoneDigits.length < 8 || phoneDigits.length > 15) return markInvalid(form.elements.phone, 'Please enter a valid WhatsApp number.');
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return markInvalid(form.elements.email, 'That email address doesn’t look right.');
+      if (!email) return markInvalid(form.elements.email, 'Please enter your email address.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return markInvalid(form.elements.email, 'That email address doesn’t look right.');
+      if (!data.get('topic')) return markInvalid(form.elements.topic, 'Please choose what you are most interested in.');
       if (!data.get('background')) return markInvalid(form.elements.background, 'Please choose where you are right now.');
 
       submit.disabled = true;
@@ -207,6 +209,7 @@
         name: name,
         phone: String(data.get('phone') || ''),
         email: email,
+        topic: String(data.get('topic') || ''),
         background: String(data.get('background') || ''),
         message: String(data.get('message') || ''),
         website: String(data.get('website') || ''),
@@ -235,7 +238,7 @@
         })
         .then(function (json) {
           form.classList.add('is-done');
-          setStatus('Thanks, ' + name.split(' ')[0] + '! We’ll message you on WhatsApp soon.', 'success');
+          setStatus('Thanks, ' + name.split(' ')[0] + '! Your interest is registered. We’ll send the batch details and message you on WhatsApp soon.', 'success');
           if (!json.duplicate) {
             track('generate_lead', {
               form_name: 'batch_enquiry',

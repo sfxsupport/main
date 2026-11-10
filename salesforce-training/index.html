@@ -23,7 +23,7 @@ batch_seats: ""
       <p class="hero__lead">Start with Salesforce Admin, move into development and integrations, then build with Agentforce and ClaudeForce—through live classes, revision recordings and five guided projects.</p>
 
       <div class="hero__actions">
-        <a class="button button--primary button--large" href="#enquire" data-cta="hero_enquire">Enquire for 1 December <span aria-hidden="true">→</span></a>
+        <a class="button button--primary button--large" href="#enquire" data-cta="hero_enquire">I’m interested — get batch details <span aria-hidden="true">→</span></a>
         <a class="button button--secondary button--large" href="#youtube-classes" data-cta="hero_youtube">Watch free YouTube classes</a>
       </div>
 
@@ -421,8 +421,8 @@ batch_seats: ""
   <div class="campaign-shell final-cta__grid">
     <div class="final-cta__copy reveal">
       <p class="eyebrow eyebrow--light"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% else %}Your next step{% endif %}</p>
-      <h2>Start 1 December.<br>Build the complete path.</h2>
-      <p>Join the Salesforce Admin, Development, Integration and AI batch for ₹6,000. Tell us where you are today and a founder will message you on WhatsApp to discuss fit and the live-class schedule.</p>
+      <h2>Interested in joining<br>the 1 December batch?</h2>
+      <p>Share your details to receive the batch schedule and discuss whether the Salesforce Admin, Development, Integration and AI learning path fits your goal. A founder will reply personally.</p>
       <p class="final-cta__seats"><strong>₹6,000</strong> complete batch fee · live sessions · recordings · five projects</p>
       {% if page.batch_seats and page.batch_seats != "" %}<p class="final-cta__seats"><strong>{{ page.batch_seats }}</strong> seats in this batch</p>{% endif %}
       <div class="final-cta__alt">
@@ -434,8 +434,8 @@ batch_seats: ""
     </div>
 
     <form class="lead-form reveal" data-lead-form novalidate>
-      <h3>Enquire for the 1 December batch</h3>
-      <p class="lead-form__hint">₹6,000 complete batch fee. We reply on WhatsApp, usually within a day.</p>
+      <h3>Register your interest</h3>
+      <p class="lead-form__hint" id="lead-form-hint">Get the schedule and next steps. No payment is taken on this form; we reply personally, usually within a day.</p>
 
       <label for="lead-name">Your name</label>
       <input id="lead-name" name="name" type="text" autocomplete="name" maxlength="80" required>
@@ -443,8 +443,19 @@ batch_seats: ""
       <label for="lead-phone">WhatsApp number</label>
       <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98765 43210" maxlength="20" required>
 
-      <label for="lead-email">Email <span>(optional)</span></label>
-      <input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120">
+      <label for="lead-email">Email address</label>
+      <input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120" required>
+
+      <label for="lead-topic">What are you most interested in?</label>
+      <select id="lead-topic" name="topic" required>
+        <option value="" disabled selected>Choose one</option>
+        <option value="Complete Admin + Developer batch">Complete Admin + Developer batch</option>
+        <option value="Salesforce Admin foundation">Salesforce Admin foundation</option>
+        <option value="Salesforce Development">Salesforce Development</option>
+        <option value="Integrations and APIs">Integrations and APIs</option>
+        <option value="Agentforce + ClaudeForce">Agentforce + ClaudeForce</option>
+        <option value="Not sure — help me choose">Not sure — help me choose</option>
+      </select>
 
       <label for="lead-background">Where are you right now?</label>
       <select id="lead-background" name="background" required>
@@ -466,9 +477,9 @@ batch_seats: ""
         <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>
 
-      <button class="button button--primary button--large" type="submit" data-lead-submit>Send my enquiry <span aria-hidden="true">→</span></button>
+      <button class="button button--primary button--large" type="submit" data-lead-submit>I’m interested — send batch details <span aria-hidden="true">→</span></button>
       <p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>
-      <p class="lead-form__privacy">We only use these details to reply about SFX Grove. See our <a href="/privacy/">privacy policy</a>.</p>
+      <p class="lead-form__privacy">Your enquiry is saved securely in the private SFX Leads inbox and used only to reply about this program. See our <a href="/privacy/">privacy policy</a>.</p>
     </form>
   </div>
 </section>
