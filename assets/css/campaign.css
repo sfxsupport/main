@@ -232,7 +232,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .review-rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(235px, 1fr); gap: 14px; overflow-x: auto; padding: 4px 2px 22px; scroll-snap-type: x mandatory; scrollbar-color: #b8c7d3 transparent; }
 .review-card { overflow: hidden; min-width: 235px; background: #fff; border: 1px solid var(--campaign-line); border-radius: 18px; box-shadow: 0 12px 35px rgba(16, 35, 63, .07); scroll-snap-align: start; }
-.review-card video { width: 100%; height: 330px; object-fit: cover; background: #0c1a2b; }
+.review-card video { width: 100%; height: 330px; object-fit: contain; background: #0c1a2b; }
 .review-card--screen video { object-fit: contain; }
 .review-card__body { min-height: 145px; display: flex; flex-direction: column; padding: 20px; }
 .review-card__body p { margin: 0; color: #2d4358; font-size: .92rem; font-weight: 690; line-height: 1.55; }

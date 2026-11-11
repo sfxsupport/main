@@ -205,7 +205,7 @@
         product: 'grove',
         form: 'batch_enquiry',
         batch: '2026-12-01',
-        batchFee: 'INR 6000',
+        batchFee: 'INR 7999 (2 months)',
         name: name,
         phone: String(data.get('phone') || ''),
         email: email,
