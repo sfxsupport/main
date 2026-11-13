@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.seo_title | default: page.title }}</title>
+  <meta name="description" content="{{ page.description | escape }}">
+  <meta name="keywords" content="{{ page.keywords | escape }}">
+  <meta name="author" content="SFX Support">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="{{ page.canonical | default: page.url | absolute_url }}">
+  <link rel="icon" href="/assets/images/travel-manager-logo.png" type="image/png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="{{ page.og_title | default: page.title | escape }}">
+  <meta property="og:description" content="{{ page.description | escape }}">
+  <meta property="og:url" content="{{ page.canonical | default: page.url | absolute_url }}">
+  <meta property="og:image" content="{{ page.image | absolute_url }}">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.og_title | default: page.title | escape }}">
+  <meta name="twitter:description" content="{{ page.description | escape }}">
+  <meta name="twitter:image" content="{{ page.image | absolute_url }}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sfxsupport.com/#organization",
+        "name": "SFX Support",
+        "url": "https://sfxsupport.com/",
+        "email": "founders@sfxsupport.com",
+        "telephone": ["+91-9414849173", "+91-7611896026"],
+        "logo": "https://sfxsupport.com/assets/images/FinalLogo.png"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://sfxsupport.com/travel-manager/#software",
+        "name": "SFX Travel Manager",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web, Android, iOS",
+        "image": "https://sfxsupport.com/assets/images/travel-manager-logo.png",
+        "description": {{ page.description | jsonify }},
+        "url": "https://sfxsupport.com/travel-manager/",
+        "publisher": { "@id": "https://sfxsupport.com/#organization" },
+        "featureList": [
+          "Travel booking management",
+          "Customer booking form links",
+          "Google Maps pickup and drop selection",
+          "Driver and duty slip management",
+          "Multi-vehicle fleet management",
+          "GST invoicing",
+          "Agent and vendor khata",
+          "Vehicle document expiry reminders",
+          "ChatGPT and Claude connector"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://sfxsupport.com/travel-manager/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is SFX Travel Manager for?",
+            "acceptedAnswer": { "@type": "Answer", "text": "SFX Travel Manager is designed for travel agencies, taxi operators and fleet owners handling direct customers, attached vehicles, drivers, agents and vendors." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a customer fill their own trip details?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The office can send a secure customer booking form link for a Draft booking. The customer uses Google Maps to select pickup and drop locations, fills the date, time, passengers and other journey details, and the office reviews them before confirmation." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it support GST invoices and khata?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. SFX Travel Manager creates GST invoices from completed work and maintains Agent and Vendor khata from invoices, receipts, bills, payments and settlements." }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I request a demonstration?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Contact SFX Support on WhatsApp or phone at +91-9414849173 or +91-7611896026, or email founders@sfxsupport.com." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/travel-manager.css">
+</head>
+<body>
+  <a class="tm-skip" href="#main-content">Skip to content</a>
+
+  <header class="tm-header">
+    <div class="tm-shell tm-header__inner">
+      <a class="tm-brand" href="/travel-manager/" aria-label="SFX Travel Manager">
+        <img src="/assets/images/travel-manager-logo.png" width="40" height="40" alt="SFX Travel Manager logo">
+        <span><strong>SFX</strong> Travel Manager</span>
+      </a>
+      <nav class="tm-nav" aria-label="Travel Manager navigation">
+        <a href="#booking-link">Booking link</a>
+        <a href="#features">Features</a>
+        <a href="#workflow">How it works</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="tm-button tm-button--small tm-button--primary" href="#demo">Book a free demo</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    {{ content }}
+  </main>
+
+  <footer class="tm-footer">
+    <div class="tm-shell tm-footer__grid">
+      <div>
+        <a class="tm-brand tm-brand--footer" href="/">
+          <img src="/assets/images/travel-manager-logo.png" width="38" height="38" alt="SFX Travel Manager logo">
+          <span><strong>SFX</strong> Travel Manager</span>
+        </a>
+        <p>Practical platforms for learning, building and running better systems.</p>
+      </div>
+      <nav aria-label="Footer links">
+        <a href="/">SFX Support</a>
+        <a href="https://travel-manager.sfxsupport.com/" target="_blank" rel="noopener">Travel Manager login</a>
+        <a href="mailto:founders@sfxsupport.com">founders@sfxsupport.com</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <div class="tm-shell tm-footer__legal">© 2026 SFX Support · Independent product and community initiative.</div>
+  </footer>
+
+  <div class="tm-mobile-bar" aria-label="Quick contact">
+    <a href="tel:+919414849173">Call</a>
+    <a class="tm-mobile-bar__whatsapp" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20want%20a%20demo%20of%20SFX%20Travel%20Manager." target="_blank" rel="noopener">WhatsApp</a>
+    <a href="#demo">Free demo</a>
+  </div>
+  <script src="/assets/js/travel-manager.js" defer></script>
+</body>
+</html>

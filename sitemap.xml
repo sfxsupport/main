@@ -21,6 +21,13 @@ layout: null
     <priority>0.95</priority>
   </url>
 
+  <!-- SFX Travel Manager product page -->
+  <url>
+    <loc>https://sfxsupport.com/travel-manager/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- Interview Prep -->
   <url>
     <loc>https://sfxsupport.com/interview-prep/</loc>
