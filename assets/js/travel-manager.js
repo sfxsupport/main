@@ -1,6 +1,27 @@
 (function () {
   'use strict';
 
+  function track(name, details) {
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', name, details || {});
+  }
+
+  function trackConversion() {
+    var adsConversion = document.body.getAttribute('data-ads-lead-conversion');
+    if (adsConversion) track('conversion', { send_to: adsConversion });
+  }
+
+  // WhatsApp, call and email taps count as leads too.
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    var type = href.indexOf('wa.me/') !== -1 ? 'whatsapp' : href.indexOf('tel:') === 0 ? 'call' : href.indexOf('mailto:') === 0 ? 'email' : '';
+    if (!type) return;
+    track('contact_click', { method: type, link_text: link.textContent.trim().slice(0, 60), page_path: window.location.pathname });
+    if (type !== 'email') trackConversion();
+  });
+
   var form = document.getElementById('travel-manager-lead-form');
   if (!form) return;
 
@@ -86,8 +107,9 @@
       .then(function (json) {
         setStatus('Thanks, ' + name.split(' ')[0] + '! Your demo request is registered. Our team will contact you shortly.', 'success');
         form.reset();
-        if (!json.duplicate && typeof window.gtag === 'function') {
-          window.gtag('event', 'generate_lead', {
+        if (!json.duplicate) {
+          trackConversion();
+          track('generate_lead', {
             form_name: 'travel_manager_demo',
             lead_business_type: businessType,
             lead_fleet_size: fleetSize,

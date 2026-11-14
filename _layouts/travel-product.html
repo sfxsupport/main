@@ -65,22 +65,32 @@
           {
             "@type": "Question",
             "name": "Who is SFX Travel Manager for?",
-            "acceptedAnswer": { "@type": "Answer", "text": "SFX Travel Manager is designed for travel agencies, taxi operators and fleet owners handling direct customers, attached vehicles, drivers, agents and vendors." }
+            "acceptedAnswer": { "@type": "Answer", "text": "It is designed for travel agencies, taxi operators and fleet owners working with direct customers, corporate clients, Agents/Vendors, attached vehicles and drivers." }
           },
           {
             "@type": "Question",
-            "name": "Can a customer fill their own trip details?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The office can send a secure customer booking form link for a Draft booking. The customer uses Google Maps to select pickup and drop locations, fills the date, time, passengers and other journey details, and the office reviews them before confirmation." }
+            "name": "Does the customer need an account to fill the booking link?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The secure link opens directly on the customer's phone. They see your agency branding and only the fields needed for their trip." }
           },
           {
             "@type": "Question",
-            "name": "Does it support GST invoices and khata?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Yes. SFX Travel Manager creates GST invoices from completed work and maintains Agent and Vendor khata from invoices, receipts, bills, payments and settlements." }
+            "name": "Does a customer submission automatically confirm the booking?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The information returns to the Draft booking. Your office reviews the trip, checks availability and confirms it." }
           },
           {
             "@type": "Question",
-            "name": "How can I request a demonstration?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Contact SFX Support on WhatsApp or phone at +91-9414849173 or +91-7611896026, or email founders@sfxsupport.com." }
+            "name": "Can it manage GST invoices and monthly CA reporting?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. It supports GST invoices and downloadable GST summary and invoice reports that can be shared with your CA." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can drivers see our rates and khata?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The driver view is restricted to their duties, route and trip actions. Financial information stays with authorised office users." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can we manage both owned and attached vehicles?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The fleet area supports your own vehicles and vehicles supplied by other operators, along with assignment, driver and operating records." }
           }
         ]
       }
@@ -88,9 +98,18 @@
   }
   </script>
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BXZVYY2G7X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-BXZVYY2G7X');{% if site.google_ads_id and site.google_ads_id != "" %}
+    gtag('config', '{{ site.google_ads_id }}');{% endif %}
+  </script>
+
   <link rel="stylesheet" href="/assets/css/travel-manager.css">
 </head>
-<body>
+<body data-ads-lead-conversion="{% if site.google_ads_id and site.google_ads_id != "" and site.google_ads_lead_label and site.google_ads_lead_label != "" %}{{ site.google_ads_id }}/{{ site.google_ads_lead_label }}{% endif %}">
   <a class="tm-skip" href="#main-content">Skip to content</a>
 
   <header class="tm-header">
@@ -129,7 +148,7 @@
         <a href="/privacy/">Privacy</a>
       </nav>
     </div>
-    <div class="tm-shell tm-footer__legal">© 2026 SFX Support · Independent product and community initiative.</div>
+    <div class="tm-shell tm-footer__legal">© 2026 SFX Support · SFX Travel Manager · founders@sfxsupport.com</div>
   </footer>
 
   <div class="tm-mobile-bar" aria-label="Quick contact">
