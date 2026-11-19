@@ -24,9 +24,21 @@ layout: null
   <!-- SFX Travel Manager product page -->
   <url>
     <loc>https://sfxsupport.com/travel-manager/</loc>
+    <lastmod>2026-11-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
+
+  <!-- SFX Travel Manager product cluster -->
+  {% assign travel_manager_pages = "features.html,demo.html,ai.html,help/,help/add-employee.html,help/add-vehicle.html,help/assign-car-driver.html,help/booking-link-accept.html,help/booking-link-customer.html,help/booking-link-setup.html,help/complete-duty-office.html,help/create-booking.html,help/driver-trip.html,help/make-invoice.html,help/record-payment.html" | split: "," %}
+  {% for travel_page in travel_manager_pages %}
+  <url>
+    <loc>https://sfxsupport.com/travel-manager/{{ travel_page }}</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>{% if travel_page == "features.html" or travel_page == "demo.html" or travel_page == "ai.html" %}0.8{% else %}0.65{% endif %}</priority>
+  </url>
+  {% endfor %}
 
   <!-- Interview Prep -->
   <url>

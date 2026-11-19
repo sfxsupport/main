@@ -41,11 +41,20 @@
         "@id": "https://sfxsupport.com/travel-manager/#software",
         "name": "SFX Travel Manager",
         "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web, Android, iOS",
-        "image": "https://sfxsupport.com/assets/images/travel-manager-logo.png",
+        "applicationSubCategory": "Travel agency and taxi fleet management software",
+        "operatingSystem": "Web browser, Android, iOS",
+        "inLanguage": ["en-IN", "hi-IN"],
+        "image": "https://sfxsupport.com/travel-manager/img/app/dashboard.png",
         "description": {{ page.description | jsonify }},
         "url": "https://sfxsupport.com/travel-manager/",
         "publisher": { "@id": "https://sfxsupport.com/#organization" },
+        "offers": {
+          "@type": "Offer",
+          "price": "200",
+          "priceCurrency": "INR",
+          "url": "https://sfxsupport.com/travel-manager/#demo",
+          "description": "Plans start at ₹200 per month. Final price depends on the number of users."
+        },
         "featureList": [
           "Travel booking management",
           "Customer booking form links",
@@ -119,10 +128,11 @@
         <span><strong>SFX</strong> Travel Manager</span>
       </a>
       <nav class="tm-nav" aria-label="Travel Manager navigation">
-        <a href="#booking-link">Booking link</a>
-        <a href="#features">Features</a>
-        <a href="#workflow">How it works</a>
-        <a href="#faq">FAQ</a>
+        <a href="/travel-manager/">Overview</a>
+        <a href="/travel-manager/features.html">Features</a>
+        <a href="/travel-manager/demo.html">Demo</a>
+        <a href="/travel-manager/ai.html">AI assistant</a>
+        <a href="/travel-manager/help/">Help</a>
       </nav>
       <a class="tm-button tm-button--small tm-button--primary" href="#demo">Book a free demo</a>
     </div>
@@ -143,6 +153,8 @@
       </div>
       <nav aria-label="Footer links">
         <a href="/">SFX Support</a>
+        <a href="/travel-manager/features.html">Product features</a>
+        <a href="/travel-manager/help/">Help Centre</a>
         <a href="https://travel-manager.sfxsupport.com/" target="_blank" rel="noopener">Travel Manager login</a>
         <a href="mailto:founders@sfxsupport.com">founders@sfxsupport.com</a>
         <a href="/privacy/">Privacy</a>
