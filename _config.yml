@@ -1,7 +1,7 @@
 # ── Site Settings ──────────────────────────────────────────
-title: "SFX Support — Salesforce Development, Products & Learning"
+title: "SFX Support — Salesforce Learning, Interview Prep & AI Tools"
 tagline: "Salesforce Expertise, On Demand"
-description: "Salesforce development, Apex and Flow fixes, integrations, SFX-built software products, and practical learning resources."
+description: "Free Salesforce learning, interview prep, AI tools, and expert guidance for developers, admins, and architects. Apex, LWC, Integration, Flows, SOQL — all in one place."
 url: "https://sfxsupport.com"
 baseurl: ""
 lang: "en"
@@ -42,9 +42,6 @@ exclude:
   - package.json
   - tailwind.config.js
   - src/
-  - docs/
-  - scripts/
-  - README-client-launch.md
 
 # Google Ads conversion tracking for /salesforce-training/.
 # From Google Ads > Goals > Conversions > (your lead action) > Tag setup:

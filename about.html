@@ -1,63 +1,441 @@
 ---
-layout: studio
-title: "About SFX Support | Development, Products & Learning"
-description: "Meet Krrish Joshi and learn how SFX combines Salesforce development, internally built products and a practical learning community."
+layout: HomePageFinalTest
+title: About SFX Support
 permalink: /about/
 ---
 
-<section class="sfx-page-intro">
-<div class="sfx-shell">
-<p class="sfx-eyebrow">About SFX</p>
-<h1>Built by doing.<br>Shared through learning.</h1>
-<p class="sfx-lead">SFX began with practical Salesforce help. Today it brings together development services, working products, and learning experiences.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About SFX Support — Free Salesforce Learning & Expert Guidance</title>
+  <meta name="description" content="SFX Support is a free, non-commercial community initiative for Salesforce developers and admins — learning guides, AI tools, and resources built in personal capacity.">
+  <meta name="keywords" content="SFX Support, Salesforce community help, Salesforce learning platform, Salesforce interview prep, free Salesforce guidance, Salesforce architects developers">
+  <meta name="author" content="SFX Support">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sfxsupport.com/about/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="About SFX Support — Free Salesforce Learning & Expert Guidance">
+  <meta property="og:description" content="SFX Support is a free, non-commercial Salesforce initiative helping developers, admins, and architects with learning, debugging, and interview prep.">
+  <meta property="og:url" content="https://sfxsupport.com/about/">
+  <meta property="og:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About SFX Support — Free Salesforce Learning & Expert Guidance">
+  <meta name="twitter:description" content="SFX Support is a free, non-commercial Salesforce initiative helping developers, admins, and architects.">
+  <meta name="twitter:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "url": "https://sfxsupport.com/about/",
+    "name": "About SFX Support",
+    "description": "SFX Support is a free, non-commercial community initiative for Salesforce developers and admins — learning guides, AI tools, and resources built in personal capacity.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SFX Support",
+      "url": "https://sfxsupport.com",
+      "logo": { "@type": "ImageObject", "url": "https://sfxsupport.com/assets/images/FinalLogo.png" }
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515; --bg4: #1c1c1c;
+      --b:   rgba(255,255,255,.06); --b2: rgba(255,255,255,.035); --b3: rgba(255,255,255,.015);
+      --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
+      --sun: 255,160,60;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg); color: var(--t);
+      -webkit-font-smoothing: antialiased;
+      font-weight: 300; font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ── STAR CANVAS ── */
+    #star-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── AMBIENT GLOW ── */
+    .amb-tr {
+      position: fixed; top: -180px; right: -180px;
+      width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; filter: blur(40px);
+    }
+    .amb-bl {
+      position: fixed; bottom: -200px; left: -150px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; filter: blur(50px);
+    }
+
+    /* ── LAYOUT ── */
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
+    section { padding: 7rem 0; position: relative; z-index: 1; }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-size: .65rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .13em;
+      color: var(--t3); margin-bottom: .875rem;
+      display: block;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 300; line-height: 1.08;
+      letter-spacing: -.03em; color: var(--t);
+      margin-bottom: 1.5rem;
+    }
+    h1 strong { font-weight: 600; }
+    h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300; line-height: 1.14;
+      letter-spacing: -.025em; color: var(--t);
+      margin-bottom: .875rem;
+    }
+    h2 strong { font-weight: 600; }
+    .sub {
+      font-size: 1rem; font-weight: 300; line-height: 1.82;
+      color: var(--t2); max-width: 560px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding-top: 80px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .67rem; color: var(--t3);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .live { width:5px; height:5px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; display:inline-block; }
+
+    .hero-btns { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 2.5rem; }
+    .btn-w {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: .65rem 1.4rem;
+      background: var(--t); color: #000;
+      font-size: .85rem; font-weight: 600;
+      border-radius: 7px; text-decoration: none;
+      transition: background .15s, transform .15s;
+    }
+    .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); }
+    .btn-o {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: .65rem 1.4rem;
+      background: transparent; color: var(--t2);
+      font-size: .85rem; font-weight: 400;
+      border-radius: 7px; text-decoration: none;
+      border: 1px solid var(--b); transition: all .15s;
+    }
+    .btn-o:hover { color: var(--t); border-color: rgba(255,255,255,.12); }
+
+    /* ── GRID BOX ── */
+    .gbox {
+      background: var(--b3); border: 1px solid var(--b3);
+      border-radius: 14px; overflow: hidden; display: grid; gap: 1px;
+    }
+    .gc {
+      background: var(--bg); padding: 2.25rem;
+      transition: background .15s; position: relative; overflow: hidden;
+    }
+    .gc:hover { background: var(--bg2); }
+    .gc-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; margin-bottom: 1.1rem;
+      background: var(--bg3); color: var(--t3); border: 1px solid var(--b3);
+      transition: all .2s;
+    }
+    .gc:hover .gc-icon {
+      background: rgba(var(--sun),.07);
+      border-color: rgba(var(--sun),.15);
+      color: rgba(var(--sun),.7);
+    }
+    /* per-card glow on hover */
+    .gc::after {
+      content: '';
+      position: absolute; top: -60px; left: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
+      filter: blur(16px); pointer-events: none;
+      opacity: 0; transition: opacity .35s;
+    }
+    .gc:hover::after { opacity: 1; }
+    .gc h3 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .45rem; }
+    .gc p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 19px; top: 8px; bottom: 8px; width: 1px;
+      background: linear-gradient(to bottom, rgba(var(--sun),.25), rgba(var(--sun),.05));
+    }
+    .tl-item {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 2rem 0; border-bottom: 1px solid var(--b3);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-num {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem; font-weight: 600; color: rgba(var(--sun),.9);
+      background: rgba(var(--sun),.06);
+      border: 1px solid rgba(var(--sun),.15);
+      position: relative; z-index: 1;
+    }
+    .tl-content h4 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .4rem; }
+    .tl-content p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
+
+    /* ── BLOCKQUOTE ── */
+    blockquote {
+      border-left: 2px solid rgba(var(--sun),.3);
+      padding: 1.25rem 1.5rem;
+      background: var(--bg2); border-radius: 0 10px 10px 0;
+      margin: 2rem 0;
+    }
+    blockquote p {
+      font-size: 1rem; line-height: 1.8; color: var(--t2); font-weight: 300;
+      font-style: italic;
+    }
+
+    /* ── DIVIDER ── */
+    hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
+
+    /* ── CTA CARD ── */
+    .cta-card {
+      background: var(--bg2); border: 1px solid var(--b);
+      border-radius: 16px; padding: 4rem 3.5rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card::before {
+      content: '';
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
+      pointer-events: none; filter: blur(30px);
+    }
+    .cta-card h2 { margin-bottom: .875rem; }
+    .cta-card p  { font-size: .975rem; color: var(--t2); max-width: 480px; margin: 0 auto 2rem; line-height: 1.8; }
+
+    /* ── REVEAL ── */
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .52s ease, transform .52s ease; }
+    .r.v { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .07s; } .d2 { transition-delay: .14s; } .d3 { transition-delay: .21s; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 700px) {
+      /* Section spacing */
+      section { padding: 3.5rem 0; }
+      #hero { min-height: auto; padding-top: 6rem; padding-bottom: 3rem; }
+
+      /* Wrap */
+      .wrap { padding: 0 1.1rem; }
+
+      /* Typography */
+      h1 { font-size: clamp(2rem, 8vw, 2.6rem); margin-bottom: 1rem; }
+      h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .sub { font-size: .93rem; }
+
+      /* Hero */
+      .hero-btns { flex-direction: column; gap: .6rem; }
+      .btn-w, .btn-o { justify-content: center; text-align: center; }
+
+      /* Mission — single column */
+      .mission-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+
+      /* Timeline */
+      .tl-item { gap: 1rem; padding: 1.25rem 0; }
+      .tl-num { width: 32px; height: 32px; font-size: .75rem; flex-shrink: 0; }
+      .timeline::before { left: 15px; }
+
+      /* Blockquote */
+      blockquote { padding: 1rem 1.1rem; margin: 1.25rem 0; }
+
+      /* CTA card */
+      .cta-card { padding: 2rem 1.25rem; }
+      .cta-card p { font-size: .875rem; }
+
+      /* Grid cards */
+      .gc { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Star canvas -->
+<canvas id="star-canvas"></canvas>
+
+<!-- Ambient glows -->
+<div class="amb-tr"></div>
+<div class="amb-bl"></div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow r"><span class="live"></span>&nbsp;About SFX Support</div>
+    <h1 class="r d1">
+      A helping hand<br>
+      for <strong>Salesforce.</strong>
+    </h1>
+    <p class="sub r d2">
+      A free, non-commercial community space for Salesforce developers and admins — learning guides, AI tools, and resources built by a community member, for the community. No agenda, just helping each other grow.
+    </p>
+    <div class="hero-btns r d3">
+      <a href="/chatbot/" class="btn-w"><span class="live"></span>&nbsp;Ask Krrish AI</a>
+      <a href="/learning/" class="btn-o">Explore resources &darr;</a>
+    </div>
+  </div>
 </section>
-<section class="sfx-section">
-<div class="sfx-shell sfx-split">
-<div>
-<p class="sfx-eyebrow">The person behind the work</p>
-<h2>Meet Krrish.</h2>
-<p class="sfx-lead">I’m Krrish Joshi, the founder of SFX Support. My work spans Salesforce development and technical support, software products, and hands-on teaching.</p>
-<p class="sfx-lead">SFX gives that work a home: tools people can use, learning people can practise, and a way for businesses to discuss development help.</p>
-<div class="sfx-founder">
-<span class="sfx-avatar" aria-hidden="true">KJ</span>
-<div>
-<strong>Krrish Joshi</strong>
-<p>Founder, SFX Support · India</p>
-</div>
-</div>
-<div class="sfx-actions">
-<a class="sfx-button" href="/contact/">Talk about your project</a>
-</div>
-</div>
-<div class="sfx-steps">
-<article class="sfx-step">
-<h3>Development services</h3>
-<p>Paid, scoped Salesforce work with responsibilities, deliverables, and acceptance criteria agreed before implementation.</p>
-</article>
-<article class="sfx-step">
-<h3>SFX-built products</h3>
-<p>Forge, Travel Manager, and Grove are examples of our own work. Our project pages distinguish these internal products from client engagements.</p>
-</article>
-<article class="sfx-step">
-<h3>Learning &amp; community</h3>
-<p>Free guides and tools remain available. The live training course has its own published fee and schedule; Grove describes its separate residency programme.</p>
-</article>
-<article class="sfx-step">
-<h3>Clear commitments</h3>
-<p>For project work, discuss the requirement with Krrish and agree who will deliver it, how changes will be reviewed, and what the handover includes.</p>
-</article>
-</div>
-</div>
+
+<hr>
+
+<!-- ═══ MISSION ═══ -->
+<section>
+  <div class="wrap">
+    <div class="mission-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
+      <div>
+        <span class="label r">Our Mission</span>
+        <h2 class="r d1">Here when it<br><strong>matters most.</strong></h2>
+        <p class="sub r d2" style="margin-bottom:1.75rem;">
+          Whether you're a developer trying to understand governor limits, an admin learning automation, or someone prepping for a Salesforce interview — SFX is a place to learn, explore, and grow alongside the community.
+        </p>
+        <blockquote class="r d3">
+          <p>"Good resources and the right tools can make a huge difference — that's all SFX is trying to be."</p>
+        </blockquote>
+      </div>
+      <div>
+        <div class="gbox r d2" style="grid-template-columns:1fr;">
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-compass"></i></div>
+            <h3>Non-Commercial</h3>
+            <p>SFX is not a business, consultancy, or agency. No hidden agenda — just genuine help when you need it.</p>
+          </div>
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-life-preserver"></i></div>
+            <h3>Always Available</h3>
+            <p>Guides, tools, and AI available around the clock — learn at your own pace, whenever you need it.</p>
+          </div>
+          <div class="gc">
+            <div class="gc-icon"><i class="bi bi-people"></i></div>
+            <h3>Built on Trust</h3>
+            <p>We're not here to sell. You choose how to engage, how much to share, and if you ever want to give back.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-<section class="sfx-section">
-<div class="sfx-shell">
-<div class="sfx-closing">
-<div>
-<h2>Let’s make your next Salesforce change a good one.</h2>
-<p>Tell us what is stuck, what needs building, and when you need it. We’ll discuss a practical first step.</p>
-</div>
-<a class="sfx-button" href="/contact/?service=Salesforce+development" data-sfx-cta="closing_project">Discuss your project</a>
-</div>
-</div>
+
+<hr>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section>
+  <div class="wrap">
+    <div style="max-width:480px;margin-bottom:3.5rem;">
+      <span class="label r">Process</span>
+      <h2 class="r d1">What SFX<br><strong>offers.</strong></h2>
+      <p class="sub r d2">Three things, completely free.</p>
+    </div>
+
+    <div class="timeline r d2" style="max-width:640px;">
+      <div class="tl-item">
+        <div class="tl-num">01</div>
+        <div class="tl-content">
+          <h4>Learning Guides</h4>
+          <p>Deep, practical guides on Apex, LWC, SOQL, Flows, integrations, deployment, and more — written for practitioners, covering real concepts not just exam topics.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">02</div>
+        <div class="tl-content">
+          <h4>Krrish AI — Salesforce AI</h4>
+          <p>Ask anything Salesforce — code, debugging, best practices, interview prep. The AI responds instantly, free for the community with a daily message limit.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">03</div>
+        <div class="tl-content">
+          <h4>Debug Log Analyzer</h4>
+          <p>A free browser tool to capture, read, and analyze Salesforce Apex debug logs with AI — spot governor limit issues, N+1 SOQL, and field-level traces in seconds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<hr>
+
+<!-- ═══ ETHOS ═══ -->
+<section>
+  <div class="wrap">
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+      <span class="label r" style="display:block;text-align:center;">Our Ethos</span>
+      <h2 class="r d1" style="text-align:center;">A quiet<br><strong>movement.</strong></h2>
+      <p class="sub r d2" style="margin:0 auto 1.75rem;text-align:center;">
+        SFX is a personal side project — built quietly, shared openly. No team, no org, just one person who wanted to give something back to the Salesforce community.
+      </p>
+      <p class="r d2" style="margin:0 auto 1.75rem;text-align:center;font-size:.95rem;color:var(--t2);max-width:520px;">
+        Hi, I'm Krrish — a Salesforce Technical Support Engineer. I built SFX in my personal time because I kept running into the same gaps: guides that assumed too much, no quick AI to ask, and debug logs that were impossible to read. SFX is my attempt to fix that — one resource at a time.
+      </p>
+      <blockquote class="r d3" style="text-align:left;">
+        <p>No logos. No upsells. Just help. And if this support makes a difference in your journey — we hope you'll pay it forward.</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ═══ CTA ═══ -->
+<section style="padding-bottom:8rem;">
+  <div class="wrap">
+    <div class="cta-card r">
+      <span class="label" style="display:block;text-align:center;margin-bottom:1.25rem;">Get Involved</span>
+      <h2 style="text-align:center;">Support the<br><strong>mission.</strong></h2>
+      <p>Want to contribute, collaborate, or spread the word? Let's build a world where quality Salesforce help is never out of reach.</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/contact/" class="btn-w">Join the Effort &rarr;</a>
+        <a href="/" class="btn-o">Back to Home</a>
+      </div>
+      <p style="margin-top:2rem;font-size:.75rem;color:var(--t3);">
+        By using SFX Support, you agree to our
+        <a href="/privacy/" style="color:var(--t2);text-decoration:underline;text-underline-offset:3px;transition:color .15s;" onmouseover="this.style.color='rgba(255,160,60,.8)'" onmouseout="this.style.color='var(--t2)'">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STAR CANVAS ═══ -->
+<script src="/assets/js/star-canvas.js"></script>
+<script>
+  const obs = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });
+  }, { threshold: .07 });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
