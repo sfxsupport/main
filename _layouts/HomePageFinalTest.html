@@ -76,7 +76,7 @@
     /* ── Main content ── */
     main {
       flex: 1; width: 100%;
-      margin-top: 80px; /* clear floating header */
+      margin-top: 0; /* Shared header occupies document flow. */
       position: relative; z-index: 1;
     }
 
@@ -113,15 +113,13 @@
   {% include FinalHeader.html %}
 
   <!-- MAIN CONTENT -->
-  <main>
+  <main id="main-content">
     {{ content }}
   </main>
 
   <!-- FOOTER -->
   {% include footer.html %}
 
-  <!-- Theme toggle -->
-  <script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>
 
   <!-- ── STAR CANVAS JS ── -->
   <script src="{{ '/assets/js/star-canvas.js' | relative_url }}"></script>

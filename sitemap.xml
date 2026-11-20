@@ -159,4 +159,11 @@ layout: null
     <priority>0.3</priority>
   </url>
 
+
+<url><loc>https://sfxsupport.com/salesforce-development/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://sfxsupport.com/work/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://sfxsupport.com/work/sfx-forge/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://sfxsupport.com/work/travel-manager/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://sfxsupport.com/products/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://sfxsupport.com/community/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/assets/css/studio.css">
+<script src="/assets/js/studio.js" defer></script>
+<a class="sfx-skip" href="#main-content">Skip to content</a>
+<header class="sfx-site-header">
+  <div class="sfx-site-nav">
+    <a class="sfx-brand" href="/" aria-label="SFX Support home"><span class="sfx-mark" aria-hidden="true">sfx<span>.</span></span><span>SFX Support<small>Development · Products · Learning</small></span></a>
+    <nav class="sfx-desktop-nav" aria-label="Main navigation">
+      <a href="/salesforce-development/" {% if page.url == '/salesforce-development/' %}aria-current="page"{% endif %}>Services</a>
+      <a href="/work/" {% if page.url contains '/work/' %}aria-current="page"{% endif %}>Our work</a>
+      <a href="/products/" {% if page.url == '/products/' %}aria-current="page"{% endif %}>Products</a>
+      <a href="/salesforce-training/">Training</a>
+      <a href="/community/">Community</a>
+      <a href="/about/" {% if page.url == '/about/' %}aria-current="page"{% endif %}>About</a>
+    </nav>
+    <a class="sfx-button sfx-button-small" href="/contact/?service=Salesforce+development" data-sfx-cta="header_project">Let’s talk</a>
+    <details class="sfx-mobile-nav"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile navigation"><a href="/salesforce-development/">Services</a><a href="/work/">Our work</a><a href="/products/">Products</a><a href="/salesforce-training/">Training</a><a href="/community/">Community</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav></details>
+  </div>
+</header>
