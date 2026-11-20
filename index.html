@@ -527,6 +527,31 @@ h1.hero-h{
 }
 .tool-cta:hover{background:#e2e2e2;}
 
+/* Travel Manager shares the featured-card layout outside the Tools section. */
+#travel-manager .tool-feat{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:1.5rem;padding:1.75rem 2rem;
+  background:var(--bg2);border:1px solid var(--b);border-radius:12px;
+  color:var(--t);text-decoration:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+#travel-manager .tool-feat:visited{color:var(--t);}
+#travel-manager .tool-feat:hover{
+  border-color:rgba(34,197,94,.4);box-shadow:0 0 40px rgba(34,197,94,.05);
+}
+#travel-manager .tool-feat:focus-visible{outline:2px solid #4ade80;outline-offset:5px;}
+#travel-manager .tool-feat h3{
+  color:var(--t);font-size:1.2rem;font-weight:600;margin-bottom:.5rem;
+}
+#travel-manager .tool-feat p{color:var(--t2);font-size:1rem;line-height:1.65;font-weight:400;}
+#travel-manager .tbdg{font-size:.875rem;margin-bottom:.5rem;}
+#travel-manager .ttags{gap:6px;margin-top:1rem;}
+#travel-manager .ttag{font-size:.75rem;padding:.25rem .5rem;color:var(--t2);}
+#travel-manager .tool-cta{
+  font-size:.875rem;padding:.7rem 1rem;
+  background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25);
+}
+
 .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.875rem;}
 .tool-card{
   padding:1.4rem;background:var(--bg2);border:1px solid var(--b3);
@@ -684,6 +709,8 @@ footer{
   .kc{display:none;}
   #what .wg{grid-template-columns:1fr;}
   .tool-feat{grid-template-columns:auto 1fr;}.tool-feat .tool-cta{display:none;}
+  #travel-manager .tool-feat{grid-template-columns:auto minmax(0,1fr);gap:1rem;padding:1.5rem;align-items:start;}
+  #travel-manager .tool-feat .tool-cta{display:inline-flex;grid-column:2;justify-self:start;white-space:normal;}
   .tool-grid{grid-template-columns:1fr 1fr;}
   .stps{grid-template-columns:1fr;}
   .sg{grid-template-columns:repeat(2,1fr);}
@@ -693,6 +720,8 @@ footer{
   .btn-contact{width:100%;justify-content:center;}
 }
 @media(max-width:520px){
+  #travel-manager .tool-feat{grid-template-columns:minmax(0,1fr);}
+  #travel-manager .tool-feat .tool-cta{grid-column:1;}
   .sg .st{border-right:none;border-bottom:1px solid var(--b3);}
   .tool-grid{grid-template-columns:1fr;}
   .hero-btns{flex-direction:column;}.btn-w,.btn-o{justify-content:center;}
@@ -1073,7 +1102,7 @@ footer{
         <p>Manage the full journey from customer request and vehicle assignment to driver updates, GST invoice, payment and khata—without copying the same trip between calls, WhatsApp, registers and spreadsheets.</p>
         <div class="ttags"><span class="ttag">Bookings</span><span class="ttag">Driver app</span><span class="ttag">GST invoices</span><span class="ttag">Fleet</span><span class="ttag">Khata</span><span class="ttag">Reports</span></div>
       </div>
-      <span class="tool-cta" style="background:rgba(34,197,94,.12);color:rgba(34,197,94,.9);border:1px solid rgba(34,197,94,.25);">Explore Travel Manager &rarr;</span>
+      <span class="tool-cta">Explore Travel Manager</span>
     </a>
   </div>
 </section>
