@@ -527,7 +527,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .proof-stat:nth-child(2n) { border-right: 0; }
   .proof-stat:nth-child(n+3) { border-bottom: 0; }
   .section-heading { margin-bottom: 36px; }
-  .section-heading h2, .journey-intro h2, .youtube-copy h2, .fit-copy h2, .faq-intro h2, .final-cta h2 { font-size: clamp(2.1rem, 11vw, 3.2rem); }
+  .section-heading h2, .journey-intro h2, .youtube-copy h2, .fit-copy h2, .faq-intro h2, .final-cta h2 { font-size: clamp(1.7rem, 7.4vw, 2.2rem); }
   .section-heading--split { grid-template-columns: 1fr; gap: 20px; }
   .ecosystem-grid, .project-grid, .fit-cards, .format-grid { grid-template-columns: 1fr; }
   .format-card { min-height: auto; }
@@ -565,3 +565,52 @@ button, a { -webkit-tap-highlight-color: transparent; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* One theme from top to bottom: the same white page, sections divided by a
+   hairline, and nothing that moves when you scroll or hover. Placed last so
+   it wins over the older dark-section styles above. */
+body, .hero, .section, .section--soft, .section--ink, .youtube-section, .ai-first, .fit-section, .proof-strip, .final-cta { color: var(--campaign-ink); background: #fff; }
+main > section + section { border-top: 1px solid var(--campaign-line); }
+.hero { border-bottom: 0; }
+.section--ink::before { display: none; }
+.eyebrow--light, .youtube-copy .eyebrow { color: var(--campaign-blue); }
+.section-heading--light h2, .youtube-copy h2, .final-cta h2 { color: var(--campaign-ink); }
+.section-heading--light > p:last-child, .youtube-copy > p { color: var(--campaign-muted); }
+
+.proof-strip { padding: 30px 0; }
+.proof-stat { border-color: var(--campaign-line) !important; }
+.proof-stat strong { color: var(--campaign-ink); }
+.proof-stat span { color: var(--campaign-muted); }
+
+.project-card { background: #fff; border-color: var(--campaign-line); backdrop-filter: none; }
+.project-card__top span { color: var(--campaign-blue); }
+.project-card__top small { color: #4e6275; background: var(--campaign-soft); }
+.project-card p { color: var(--campaign-muted); }
+.tag-row span { color: var(--campaign-blue); border-color: #cfe0ec; }
+
+.class-card { color: var(--campaign-ink); }
+.class-card__thumb { border-color: var(--campaign-line); }
+.class-card__title small { color: var(--campaign-blue); }
+.class-grid__more { color: var(--campaign-blue); }
+
+.final-cta__copy > p:not(.eyebrow), .final-cta__alt p { color: var(--campaign-muted); }
+.final-cta__seats { color: var(--campaign-ink) !important; }
+.final-cta__seats strong { color: #b2481c; }
+.final-cta__alt { border-top-color: var(--campaign-line); }
+.final-cta__alt a { color: var(--campaign-blue); }
+.lead-form { border: 1px solid var(--campaign-line); box-shadow: 0 14px 40px rgba(16, 35, 63, .07); }
+
+.campaign-footer { color: var(--campaign-muted); background: #fff; border-top: 1px solid var(--campaign-line); }
+.campaign-brand--footer { color: var(--campaign-ink); }
+.campaign-footer__links a { color: #4e6275; }
+.campaign-footer__links a:hover { color: var(--campaign-blue); }
+.campaign-footer__legal { border-top-color: var(--campaign-line); }
+.campaign-footer__legal p { color: #7a8a99; }
+
+.reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+.button:hover, .contributor-card:hover, .ai-tool:hover, .built-card:hover,
+.class-card:hover .class-card__thumb img, .youtube-player button:hover > span { transform: none; }
+.class-card__thumb img { transition: none; }
+.hero__dot { animation: none; }
+.mobile-cta.is-hidden { transform: none; }
+
