@@ -298,6 +298,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .youtube-player button:hover > span { transform: scale(1.08); }
 .youtube-player button strong { margin-top: 6px; font-size: 1rem; }
 .youtube-player button small { color: #c1d0dc; }
+#classes .youtube-player > img { opacity: 1; }
+#classes .youtube-player::after { display: none; }
 .youtube-player iframe { width: 100%; height: 100%; border: 0; }
 .hero-youtube { border: 9px solid #fff; border-radius: 25px; box-shadow: var(--campaign-shadow); transform: rotate(1.25deg); }
 .hero-youtube > img { opacity: 1; }
@@ -384,6 +386,33 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .campaign-footer__links a:hover { color: #fff; }
 .campaign-footer__legal { display: flex; justify-content: space-between; gap: 30px; padding-top: 28px; margin-top: 34px; border-top: 1px solid rgba(255, 255, 255, .09); }
 .campaign-footer__legal p { max-width: 780px; margin: 0; color: #718697; font-size: .67rem; line-height: 1.55; }
+/* Header link back to the main site */
+.campaign-nav a[href="/"] { padding-left: 22px; border-left: 1px solid var(--campaign-line); }
+.campaign-home-link { display: none; color: var(--campaign-blue); font-size: .86rem; font-weight: 700; text-decoration: none; }
+
+/* Free classes list */
+.class-list { display: grid; gap: 4px; padding: 0; margin: 26px 0; list-style: none; }
+.class-list a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: #d6e2ec; border-radius: 10px; font-size: .95rem; font-weight: 600; text-decoration: none; }
+.class-list a:hover { color: #fff; background: rgba(255, 255, 255, .07); }
+.class-list a > span { display: grid; place-items: center; flex: 0 0 26px; height: 26px; color: #0b182a; background: #7bd6e7; border-radius: 50%; font-size: .74rem; font-weight: 800; }
+#classes .youtube-player > img { opacity: 1; }
+#classes .youtube-player::after { display: none; }
+.youtube-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Learner profiles under the reviews */
+.people-strip { margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--campaign-line); }
+.people-strip__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-bottom: 22px; }
+.people-strip__head h3 { margin: 0; color: var(--campaign-ink); font-size: 1.3rem; }
+
+/* What we have built */
+.built-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.built-card { display: flex; flex-direction: column; overflow: hidden; color: inherit; background: #fff; border: 1px solid var(--campaign-line); border-radius: 18px; text-decoration: none; box-shadow: 0 14px 40px rgba(16, 35, 63, .06); transition: transform .18s ease, box-shadow .18s ease; }
+.built-card:hover { transform: translateY(-3px); box-shadow: 0 22px 50px rgba(16, 35, 63, .12); }
+.built-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-bottom: 1px solid var(--campaign-line); }
+.built-card__body { display: grid; gap: 6px; padding: 20px 22px 22px; }
+.built-card__body strong { color: var(--campaign-ink); font-size: 1.2rem; }
+.built-card__body > span { color: var(--campaign-muted); font-size: .95rem; line-height: 1.55; }
+.built-card__body em { margin-top: 6px; color: var(--campaign-blue); font-size: .9rem; font-style: normal; font-weight: 700; }
 .mobile-cta { display: none; }
 
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .62s ease, transform .62s ease; }
@@ -391,7 +420,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 @media (max-width: 1050px) {
   .campaign-nav { display: none; }
-  .campaign-header__inner > .button { margin-left: auto; }
+  .campaign-home-link { display: inline; margin-left: auto; }
+  .campaign-header__inner > .button { margin-left: 0; }
   .hero__grid { grid-template-columns: 1fr; gap: 52px; }
   .hero__copy { max-width: 760px; }
   .hero__media { max-width: 780px; }
@@ -427,6 +457,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .hero-youtube button strong { max-width: 210px; }
   .hero__note { width: 92%; margin: -8px auto 0; }
   .founder-card { padding: 22px; }
+  .built-grid { grid-template-columns: 1fr; }
+  .contributor-grid > :nth-child(n+7) { display: none; }
   .founder-card__person figure { grid-template-columns: 104px 1fr; gap: 14px; }
   .batch-snapshot__grid { grid-template-columns: 1fr 1fr; }
   .batch-snapshot__item { min-height: 82px; padding: 14px 18px; border-bottom: 1px solid var(--campaign-line); }

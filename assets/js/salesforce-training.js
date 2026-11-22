@@ -259,19 +259,20 @@
   }
 
   function wireYouTube() {
-    var container = document.querySelector('[data-youtube-playlist]');
-    var button = document.querySelector('[data-youtube-load]');
+    var container = document.querySelector('[data-youtube-video]');
+    var button = container && container.querySelector('[data-youtube-load]');
     if (!container || !button) return;
+    var videoId = container.getAttribute('data-youtube-video');
 
     button.addEventListener('click', function () {
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=UUc1viN8c8g9PRCNX4RJU5HQ&autoplay=1';
-      iframe.title = 'SFX Support Salesforce technical sessions playlist';
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '?autoplay=1&rel=0';
+      iframe.title = 'SFX Support Salesforce class on YouTube';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
       container.innerHTML = '';
       container.appendChild(iframe);
-      track('video_start', { video_name: 'youtube_playlist', page_path: window.location.pathname });
+      track('video_start', { video_name: 'youtube_' + videoId, page_path: window.location.pathname });
     }, { once: true });
   }
 
