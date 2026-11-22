@@ -3,7 +3,7 @@ layout: campaign
 title: "Salesforce Admin & Developer Live Training | SFX Grove"
 seo_title: "Salesforce Admin & Developer Live Training | 1 Dec 2026 | ₹7,999"
 og_title: "Salesforce Admin, Development & AI Batch — Starts 1 December"
-description: "Join the 1 December two-month Salesforce course for ₹7,999: live Admin and Developer classes, recordings, integrations, AI and five projects."
+description: "Live Salesforce Admin & Developer batch from 1 Dec 2026, Mon–Fri 10 PM IST, taught in English. ₹7,999 for 2 months with recordings, five projects and a certificate."
 keywords: "Salesforce training, Salesforce Admin course, Salesforce Developer course, Salesforce live classes, Salesforce recorded classes, Salesforce integration training, Agentforce training, Salesforce projects, SFX Grove, SFX Forge"
 canonical: "https://sfxsupport.com/salesforce-training/"
 image: "/assets/images/campaign/krrish-youtube-banner.webp"
@@ -11,6 +11,11 @@ permalink: /salesforce-training/
 next_batch: "Starts 1 Dec 2026"
 batch_price: "₹7,999"
 batch_seats: ""
+# Update these as seats fill. seats_filled_pct drives the progress bar.
+seats_total: 100
+seats_filled: "70+"
+seats_filled_pct: 70
+class_time: "Mon–Fri · 10:00 PM IST"
 ---
 
 
@@ -19,9 +24,9 @@ batch_seats: ""
   <div class="hero__glow hero__glow--two" aria-hidden="true"></div>
   <div class="campaign-shell hero__grid">
     <div class="hero__copy reveal">
-      <p class="eyebrow"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% if page.batch_seats and page.batch_seats != "" %} · {{ page.batch_seats }} seats{% endif %}{% else %}Applications open{% endif %}</p>
+      <p class="eyebrow"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% if page.seats_filled %} · {{ page.seats_filled }} of {{ page.seats_total }} seats filled{% endif %}{% else %}Applications open{% endif %}</p>
       <h1>Learn Salesforce Admin &amp; Development <em>by building real projects.</em></h1>
-      <p class="hero__lead">Two months of live online classes. We start with Admin, then Apex, LWC and integrations, then Agentforce and ClaudeForce. Every class is recorded, and you finish with five projects you can show in an interview.</p>
+      <p class="hero__lead">Two months of live online classes, Monday to Friday at 10 PM IST. We start with Admin, then Apex, LWC and integrations, then Agentforce and ClaudeForce. Every class is recorded, and you finish with five projects you can show in an interview.</p>
 
       <div class="hero__actions">
         <a class="button button--whatsapp button--large" href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%201%20December%20batch." target="_blank" rel="noopener" data-cta="hero_whatsapp">WhatsApp us for timings</a>
@@ -30,9 +35,10 @@ batch_seats: ""
       <p class="hero__form-link">Prefer we contact you? <a href="#enquire" data-cta="hero_enquire">Leave your number</a> and we'll message you.</p>
 
       <ul class="hero__assurances" aria-label="Program highlights">
-        <li><span aria-hidden="true">✓</span> ₹7,999 · 2-month course</li>
-        <li><span aria-hidden="true">✓</span> Live classes + revision recordings</li>
-        <li><span aria-hidden="true">✓</span> Five guided projects</li>
+        <li><span aria-hidden="true">✓</span> ₹7,999 · 2 months</li>
+        <li><span aria-hidden="true">✓</span> {{ page.class_time }}</li>
+        <li><span aria-hidden="true">✓</span> Taught in English</li>
+        <li><span aria-hidden="true">✓</span> Certificate at the end</li>
       </ul>
     </div>
 
@@ -52,6 +58,29 @@ batch_seats: ""
       <p class="founder-card__hours">WhatsApp is the quickest way to reach us. Calls go to 76118 96026.</p>
       <a class="founder-card__youtube" href="#classes" data-cta="hero_youtube">Watch a full class first <span aria-hidden="true">↓</span></a>
     </aside>
+  </div>
+</section>
+
+<section class="batch-facts" id="batch" aria-labelledby="batch-title">
+  <div class="campaign-shell">
+    <div class="batch-facts__head">
+      <h2 id="batch-title">The batch at a glance</h2>
+      {% if page.seats_filled %}<div class="seat-meter" aria-label="{{ page.seats_filled }} of {{ page.seats_total }} seats filled">
+        <div class="seat-meter__bar"><span style="width: {{ page.seats_filled_pct }}%"></span></div>
+        <p><strong>{{ page.seats_filled }} of {{ page.seats_total }} seats filled.</strong> We keep each batch to {{ page.seats_total }} people.</p>
+      </div>{% endif %}
+    </div>
+    <dl class="batch-facts__grid">
+      <div><dt>Starts</dt><dd>1 December 2026</dd></div>
+      <div><dt>Class time</dt><dd>{{ page.class_time }}</dd><small>Usually 45 minutes to 1.5 hours</small></div>
+      <div><dt>Language</dt><dd>English</dd></div>
+      <div><dt>Fee</dt><dd>₹7,999 for 2 months</dd></div>
+      <div><dt>Instructor</dt><dd>6+ years of Salesforce experience</dd></div>
+      <div><dt>Missed a class?</dt><dd>Every class is recorded</dd></div>
+      <div><dt>At the end</dt><dd>Certificate + 5 projects</dd></div>
+      <div><dt>Refund</dt><dd>5-day refund policy</dd></div>
+    </dl>
+    <p class="batch-facts__demo">Want a demo first? <a href="#classes" data-cta="batch_demo">Watch our free classes on YouTube</a>. That is exactly how we teach.</p>
   </div>
 </section>
 
@@ -79,9 +108,9 @@ batch_seats: ""
 <section class="section youtube-section" id="classes">
   <div class="campaign-shell youtube-grid">
     <div class="youtube-copy reveal">
-      <p class="eyebrow"><span></span> Watch before you decide</p>
+      <p class="eyebrow"><span></span> Free classes · Demo</p>
       <h2>See a full class first.</h2>
-      <p>These are full-length Apex classes from our YouTube channel. Watch one and see how we teach before you spend anything.</p>
+      <p>There is no separate demo class. These full-length classes on our YouTube channel are the demo: watch one, and if you like how we teach, join the batch. You can keep learning here for free too.</p>
       <ol class="class-list">
         <li><a href="https://www.youtube.com/watch?v=NcfG7Y-kZWI" target="_blank" rel="noopener" data-cta="class_video_1"><span>1</span>Asynchronous processing &amp; future methods</a></li>
         <li><a href="https://www.youtube.com/watch?v=6jEWBGkwgYE" target="_blank" rel="noopener" data-cta="class_video_2"><span>2</span>Queueable Apex: chaining &amp; stack depth</a></li>
@@ -294,7 +323,12 @@ batch_seats: ""
     </div>
     <div class="faq-list">
       <details class="reveal"><summary>Is SFX Grove another recorded Salesforce course?<span aria-hidden="true">+</span></summary><div><p>No. Grove is structured around guided missions, project work and reviewable evidence. The aim is to help you explain and demonstrate what you build, not only watch lessons.</p></div></details>
-      <details class="reveal"><summary>When does the next batch start and what is the fee?<span aria-hidden="true">+</span></summary><div><p>The upcoming batch starts on 1 December 2026. The two-month course fee is ₹7,999. Class days and timings will be confirmed directly before enrollment.</p></div></details>
+      <details class="reveal"><summary>When does the next batch start and what is the fee?<span aria-hidden="true">+</span></summary><div><p>The batch starts on 1 December 2026. Classes are live, Monday to Friday at 10:00 PM IST, and usually last 45 minutes to 1.5 hours. The fee is ₹7,999 for two months.</p></div></details>
+      <details class="reveal"><summary>Which language are classes taught in?<span aria-hidden="true">+</span></summary><div><p>English.</p></div></details>
+      <details class="reveal"><summary>Is there a free demo class?<span aria-hidden="true">+</span></summary><div><p>Our YouTube classes are the demo. They are full-length sessions taught the same way as the batch, so watch one before you decide. <a href="https://www.youtube.com/playlist?list=UUc1viN8c8g9PRCNX4RJU5HQ" target="_blank" rel="noopener" data-cta="faq_youtube">Open the playlist</a>.</p></div></details>
+      <details class="reveal"><summary>What if I join and it isn't right for me?<span aria-hidden="true">+</span></summary><div><p>We have a 5-day refund policy. WhatsApp us on 94148 49173 within 5 days and we will refund your fee.</p></div></details>
+      <details class="reveal"><summary>Do I get a certificate?<span aria-hidden="true">+</span></summary><div><p>Yes. You get a certificate when you finish the batch, along with the five projects you built.</p></div></details>
+      <details class="reveal"><summary>How many people are in a batch?<span aria-hidden="true">+</span></summary><div><p>At most {{ page.seats_total }}. {% if page.seats_filled %}{{ page.seats_filled }} seats are already filled for the 1 December batch.{% endif %}</p></div></details>
       <details class="reveal"><summary>Are live classes recorded for revision?<span aria-hidden="true">+</span></summary><div><p>Yes. The program includes live online sessions and recordings of those classes for revision through the learning platform during the program.</p></div></details>
       <details class="reveal"><summary>What will I learn in the batch?<span aria-hidden="true">+</span></summary><div><p>The path begins with Salesforce Admin, then moves through Apex development, Lightning Web Components, integrations, Agentforce, ClaudeForce and five guided projects.</p></div></details>
       <details class="reveal"><summary>Do I need a Salesforce org?<span aria-hidden="true">+</span></summary><div><p>You can read SFX Forge questions without one. Signing in and connecting an org enables real execution and saved progress. Grove project requirements are explained as you enter each stage.</p></div></details>
@@ -313,8 +347,8 @@ batch_seats: ""
       <p class="eyebrow eyebrow--light"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% else %}Your next step{% endif %}</p>
       <h2>Want to join<br>the 1 December batch?</h2>
       <p>WhatsApp us, or leave your details and we'll message you with the class timings and next steps. A founder replies personally.</p>
-      <p class="final-cta__seats"><strong>₹7,999</strong> · 2-month course · live sessions · recordings · five projects</p>
-      {% if page.batch_seats and page.batch_seats != "" %}<p class="final-cta__seats"><strong>{{ page.batch_seats }}</strong> seats in this batch</p>{% endif %}
+      <p class="final-cta__seats"><strong>₹7,999</strong> · 2 months · live in English · recordings · certificate</p>
+      {% if page.seats_filled %}<p class="final-cta__seats"><strong>{{ page.seats_filled }} of {{ page.seats_total }}</strong> seats already filled · {{ page.class_time }}</p>{% endif %}
       <div class="final-cta__alt">
         <p>Prefer to talk now?</p>
         <a href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%201%20December%20batch." target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp 94148 49173</a>

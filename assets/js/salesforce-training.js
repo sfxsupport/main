@@ -300,14 +300,20 @@
     window.addEventListener('scroll', update, { passive: true });
   }
 
-  // The sticky phone bar would cover the form it points to, so hide it there.
+  // The sticky phone bar repeats the hero buttons and would cover the form,
+  // so hide it while either of those is on screen.
   function wireMobileCta() {
     var bar = document.querySelector('[data-mobile-cta]');
-    var form = document.getElementById('enquire');
-    if (!bar || !form || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function (entries) {
-      bar.classList.toggle('is-hidden', entries[0].isIntersecting);
-    }, { threshold: 0.15 }).observe(form);
+    var targets = [document.querySelector('.hero__actions'), document.getElementById('enquire')].filter(Boolean);
+    if (!bar || !targets.length || !('IntersectionObserver' in window)) return;
+    var visible = new Set();
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) visible.add(entry.target); else visible.delete(entry.target);
+      });
+      bar.classList.toggle('is-hidden', visible.size > 0);
+    }, { threshold: 0 });
+    targets.forEach(function (target) { observer.observe(target); });
   }
 
   var campaignContext = getCampaignContext();
