@@ -204,7 +204,7 @@
       var payload = {
         product: 'grove',
         form: 'batch_enquiry',
-        batch: '2026-12-01',
+        batch: '2026-12-07',
         batchFee: 'INR 7999 (2 months)',
         name: name,
         phone: String(data.get('phone') || ''),
@@ -321,7 +321,7 @@
     document.querySelectorAll('[data-days-left]').forEach(function (node) {
       var start = new Date(node.getAttribute('data-start'));
       if (!(new Date() < start)) return;
-      // Whole calendar days in India time, so 23 Nov -> 1 Dec reads 8.
+      // Whole calendar days in India time, so 23 Nov -> 7 Dec reads 14.
       var istDay = function (d) { return Date.parse(d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }) + 'T00:00:00Z'); };
       var days = Math.round((istDay(start) - istDay(new Date())) / 86400000);
       node.textContent = days <= 0 ? 'starts tonight' : days === 1 ? 'starts tomorrow' : days + ' days to go';
