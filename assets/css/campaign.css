@@ -569,7 +569,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 /* One theme from top to bottom: the same white page, sections divided by a
    hairline, and nothing that moves when you scroll or hover. Placed last so
    it wins over the older dark-section styles above. */
-body, .hero, .section, .section--soft, .section--ink, .youtube-section, .ai-first, .fit-section, .proof-strip, .final-cta { color: var(--campaign-ink); background: #fff; }
+/* Page is a soft cool grey; content sits on white cards so it stands out
+   without any motion. The hero carries a faint wash of the brand blue. */
+body, .section, .section--soft, .section--ink, .youtube-section, .ai-first, .fit-section, .proof-strip, .final-cta { color: var(--campaign-ink); background: #f5f7fa; }
+.hero { color: var(--campaign-ink); background: linear-gradient(180deg, #eaf2fa 0%, #f5f7fa 100%); }
 main > section + section { border-top: 1px solid var(--campaign-line); }
 .hero { border-bottom: 0; }
 .section--ink::before { display: none; }
@@ -600,7 +603,7 @@ main > section + section { border-top: 1px solid var(--campaign-line); }
 .final-cta__alt a { color: var(--campaign-blue); }
 .lead-form { border: 1px solid var(--campaign-line); box-shadow: 0 14px 40px rgba(16, 35, 63, .07); }
 
-.campaign-footer { color: var(--campaign-muted); background: #fff; border-top: 1px solid var(--campaign-line); }
+.campaign-footer { color: var(--campaign-muted); background: #eef2f6; border-top: 1px solid var(--campaign-line); }
 .campaign-brand--footer { color: var(--campaign-ink); }
 .campaign-footer__links a { color: #4e6275; }
 .campaign-footer__links a:hover { color: var(--campaign-blue); }
@@ -613,4 +616,15 @@ main > section + section { border-top: 1px solid var(--campaign-line); }
 .class-card__thumb img { transition: none; }
 .hero__dot { animation: none; }
 .mobile-cta.is-hidden { transform: none; }
+
+/* White surfaces on the grey page */
+.ai-tool, .ai-compare__col--against, .faq-list details, .proof-stat { background: #fff; }
+.ai-compare__col--with { background: linear-gradient(135deg, #f1f8ff, #effaf5); }
+.proof-strip__grid { overflow: hidden; background: #fff; border: 1px solid var(--campaign-line); border-radius: 16px; }
+.proof-stat { padding: 18px 24px !important; }
+.faq-list { border-top: 0; display: grid; gap: 8px; }
+.faq-list details { border: 1px solid var(--campaign-line) !important; border-radius: 12px; }
+.faq-list summary { padding: 18px 14px 18px 18px; }
+.faq-list details > div { padding-left: 18px; padding-right: 18px; }
+.campaign-header { background: rgba(255, 255, 255, .92); }
 
