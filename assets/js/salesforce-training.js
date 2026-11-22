@@ -48,7 +48,7 @@
     if (context.term) details.push('keyword: ' + context.term);
     if (!details.length) return;
 
-    document.querySelectorAll('a[href*="wa.me/919414849173"]').forEach(function (link) {
+    document.querySelectorAll('a[href*="wa.me/91"]').forEach(function (link) {
       var url = new URL(link.href);
       var message = url.searchParams.get('text') || 'Hi SFX Support, I want to know about the next Salesforce batch.';
       url.searchParams.set('text', message + '\n\nCampaign context — ' + details.join(', '));

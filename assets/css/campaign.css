@@ -101,7 +101,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 20px; color: var(--campaign-blue); font-size: .76rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .eyebrow > span { width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
 .eyebrow--light { color: #7bd3e6; }
-.hero h1 { max-width: 710px; margin: 0; color: var(--campaign-ink); font-size: clamp(3.15rem, 6vw, 5.75rem); line-height: .98; letter-spacing: -.067em; }
+.hero h1 { max-width: 710px; margin: 0; color: var(--campaign-ink); font-size: clamp(2.6rem, 4.7vw, 4.4rem); line-height: 1.02; letter-spacing: -.05em; }
 .hero h1 em { color: var(--campaign-blue); font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.04em; }
 .hero__lead { max-width: 640px; margin: 28px 0 0; color: #4e6275; font-size: clamp(1.05rem, 1.5vw, 1.22rem); line-height: 1.72; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
@@ -119,6 +119,31 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero__note p { margin: 0; font-size: .86rem; font-weight: 650; line-height: 1.55; }
 .hero__note p strong { color: #fff; font-size: .94rem; }
 .hero__note-badge { display: grid; place-items: center; flex: 0 0 40px; height: 40px; color: #fff; background: linear-gradient(135deg, var(--campaign-blue), #27a9bd); border: 1px solid rgba(255, 255, 255, .18); border-radius: 50%; font-size: .72rem; font-weight: 850; letter-spacing: .04em; }
+
+/* Founders + direct contact (hero) */
+.button--whatsapp { color: #fff; background: #168b61; box-shadow: 0 12px 26px rgba(8, 72, 48, .22); }
+.button--whatsapp:hover { background: #12774f; }
+.button--whatsapp-light { color: #0f6a48; background: #e9f7f0; border-color: #bfe5d2; }
+.button--whatsapp-light:hover { background: #dcf2e7; }
+.founder-card { padding: 30px; background: #fff; border: 1px solid var(--campaign-line); border-radius: 22px; box-shadow: 0 24px 60px rgba(16, 35, 63, .1); }
+.founder-card__kicker { margin: 0; color: var(--campaign-ink); font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; }
+.founder-card__person { margin-top: 18px; }
+.founder-card__person figure { display: grid; grid-template-columns: 132px 1fr; gap: 18px; align-items: center; }
+.founder-card__person figure { margin: 0; }
+.founder-card__person img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: 50% 15%; border-radius: 14px; background: var(--campaign-soft); }
+.founder-card__person figcaption { line-height: 1.35; }
+.founder-card__person strong { display: block; color: var(--campaign-ink); font-size: 1.15rem; }
+.founder-card__person figcaption > span { display: block; color: #5d7083; font-size: .84rem; }
+.founder-card__person .founder-card__linkedin { display: inline-block; margin-top: 4px; color: #0a66c2; font-size: .84rem; font-weight: 700; text-decoration: none; }
+.founder-card__linkedin:hover { text-decoration: underline; }
+.founder-card__text { margin: 18px 0 0; color: #4e6275; font-size: .98rem; line-height: 1.6; }
+.founder-card__actions { display: grid; gap: 10px; margin-top: 20px; }
+.founder-card__actions .button { width: 100%; }
+.founder-card__call { justify-self: center; margin-top: 4px; color: #4e6275; font-size: .92rem; text-decoration: none; }
+.founder-card__call strong { color: var(--campaign-ink); }
+.founder-card__call:hover strong { color: var(--campaign-blue); }
+.founder-card__youtube { display: block; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--campaign-line); color: var(--campaign-blue); font-size: .9rem; font-weight: 700; text-align: center; text-decoration: none; }
+.founder-card__youtube:hover { text-decoration: underline; }
 
 .batch-snapshot { position: relative; z-index: 4; padding: 22px 0; color: var(--campaign-ink); background: #fff; border-top: 1px solid var(--campaign-line); border-bottom: 1px solid var(--campaign-line); box-shadow: 0 14px 36px rgba(16, 35, 63, .06); }
 .batch-snapshot__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -390,7 +415,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .campaign-brand img { width: 36px; height: 36px; }
   .campaign-brand span { font-size: .98rem; }
   .hero { min-height: auto; padding: 72px 0 70px; }
-  .hero h1 { font-size: clamp(2.85rem, 15vw, 4.6rem); }
+  .hero h1 { font-size: clamp(2.25rem, 10.5vw, 3.2rem); }
   .hero__grid { gap: 46px; }
   .hero__actions { display: grid; }
   .hero__assurances { display: grid; gap: 10px; }
@@ -401,6 +426,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .hero-youtube button { padding: 22px; }
   .hero-youtube button strong { max-width: 210px; }
   .hero__note { width: 92%; margin: -8px auto 0; }
+  .founder-card { padding: 22px; }
+  .founder-card__person figure { grid-template-columns: 104px 1fr; gap: 14px; }
   .batch-snapshot__grid { grid-template-columns: 1fr 1fr; }
   .batch-snapshot__item { min-height: 82px; padding: 14px 18px; border-bottom: 1px solid var(--campaign-line); }
   .batch-snapshot__item:first-child { padding-left: 18px; }
