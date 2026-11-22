@@ -299,6 +299,16 @@
     window.addEventListener('scroll', update, { passive: true });
   }
 
+  // The sticky phone bar would cover the form it points to, so hide it there.
+  function wireMobileCta() {
+    var bar = document.querySelector('[data-mobile-cta]');
+    var form = document.getElementById('enquire');
+    if (!bar || !form || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (entries) {
+      bar.classList.toggle('is-hidden', entries[0].isIntersecting);
+    }, { threshold: 0.15 }).observe(form);
+  }
+
   var campaignContext = getCampaignContext();
   addContextToWhatsApp(campaignContext);
   wireTracking(campaignContext);
@@ -307,4 +317,5 @@
   wireYouTube();
   wireReveals();
   wireHeader();
+  wireMobileCta();
 })();

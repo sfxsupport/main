@@ -359,7 +359,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .campaign-footer__links a:hover { color: #fff; }
 .campaign-footer__legal { display: flex; justify-content: space-between; gap: 30px; padding-top: 28px; margin-top: 34px; border-top: 1px solid rgba(255, 255, 255, .09); }
 .campaign-footer__legal p { max-width: 780px; margin: 0; color: #718697; font-size: .67rem; line-height: 1.55; }
-.mobile-whatsapp { display: none; }
+.mobile-cta { display: none; }
 
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .62s ease, transform .62s ease; }
 .reveal.is-visible { opacity: 1; transform: none; }
@@ -438,8 +438,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .campaign-footer { padding-bottom: 92px; }
   .campaign-footer__grid, .campaign-footer__legal { grid-template-columns: 1fr; display: grid; }
   .campaign-footer__links { margin-top: 8px; }
-  .mobile-whatsapp { position: fixed; z-index: 1000; right: 14px; bottom: 14px; left: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; color: #fff; background: #168b61; border: 1px solid rgba(255, 255, 255, .22); border-radius: 13px; box-shadow: 0 14px 36px rgba(8, 42, 29, .3); font-weight: 800; text-decoration: none; }
-  .mobile-whatsapp span { color: #86f0c3; font-size: .75rem; }
+  .mobile-cta { position: fixed; z-index: 1000; right: 14px; bottom: 14px; left: 14px; display: grid; grid-template-columns: 1fr auto; gap: 8px; transition: opacity .2s ease, transform .2s ease; }
+  .mobile-cta.is-hidden { opacity: 0; transform: translateY(16px); pointer-events: none; }
+  .mobile-cta a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 18px; color: #fff; border: 1px solid rgba(255, 255, 255, .22); border-radius: 13px; font-weight: 800; text-decoration: none; }
+  .mobile-cta__enquire { background: linear-gradient(135deg, var(--campaign-blue), #0f7c9a); box-shadow: 0 14px 36px rgba(10, 52, 82, .32); }
+  .mobile-cta__whatsapp { background: #168b61; box-shadow: 0 14px 36px rgba(8, 42, 29, .3); }
 }
 
 @media (prefers-reduced-motion: reduce) {
