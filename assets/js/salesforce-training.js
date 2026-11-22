@@ -316,6 +316,18 @@
     targets.forEach(function (target) { observer.observe(target); });
   }
 
+  // "8 days to go", counted from the real start time; hidden once the batch has started.
+  function wireDaysLeft() {
+    document.querySelectorAll('[data-days-left]').forEach(function (node) {
+      var start = new Date(node.getAttribute('data-start'));
+      if (!(new Date() < start)) return;
+      // Whole calendar days in India time, so 23 Nov -> 1 Dec reads 8.
+      var istDay = function (d) { return Date.parse(d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }) + 'T00:00:00Z'); };
+      var days = Math.round((istDay(start) - istDay(new Date())) / 86400000);
+      node.textContent = days <= 0 ? 'starts tonight' : days === 1 ? 'starts tomorrow' : days + ' days to go';
+    });
+  }
+
   var campaignContext = getCampaignContext();
   addContextToWhatsApp(campaignContext);
   wireTracking(campaignContext);
@@ -325,4 +337,5 @@
   wireReveals();
   wireHeader();
   wireMobileCta();
+  wireDaysLeft();
 })();

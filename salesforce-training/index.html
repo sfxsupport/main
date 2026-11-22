@@ -20,68 +20,53 @@ class_time: "Mon–Fri · 10:00 PM IST"
 
 
 <section class="hero section" id="top">
-  <div class="hero__glow hero__glow--one" aria-hidden="true"></div>
-  <div class="hero__glow hero__glow--two" aria-hidden="true"></div>
   <div class="campaign-shell hero__grid">
     <div class="hero__copy reveal">
-      <p class="eyebrow"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% if page.seats_filled %} · {{ page.seats_filled }} of {{ page.seats_total }} seats filled{% endif %}{% else %}Applications open{% endif %}</p>
-      <h1>Learn Salesforce Admin &amp; Development <em>by building real projects.</em></h1>
-      <p class="hero__lead">Two months of live online classes, Monday to Friday at 10 PM IST. We start with Admin, then Apex, LWC and integrations, then Agentforce and ClaudeForce. Every class is recorded, and you finish with five projects you can show in an interview.</p>
+      <p class="hero__status"><span class="hero__dot" aria-hidden="true"></span> Next batch starts 1 Dec<span data-days-left data-start="2026-12-01T22:00:00+05:30"></span></p>
+      <h1>Salesforce Admin &amp; Developer batch. <em>Live, Mon–Fri at 10 PM.</em></h1>
+      <p class="hero__lead">Two months, taught live in English. Admin first, then Apex, LWC, integrations and Agentforce. You build five real projects and every class is recorded.</p>
 
       <div class="hero__actions">
         <a class="button button--whatsapp button--large" href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%201%20December%20batch." target="_blank" rel="noopener" data-cta="hero_whatsapp">WhatsApp us for timings</a>
         <a class="button button--secondary button--large" href="tel:+917611896026" data-cta="hero_call"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg> Call 76118 96026</a>
       </div>
-      <p class="hero__form-link">Prefer we contact you? <a href="#enquire" data-cta="hero_enquire">Leave your number</a> and we'll message you.</p>
 
-      <ul class="hero__assurances" aria-label="Program highlights">
-        <li><span aria-hidden="true">✓</span> ₹7,999 · 2 months</li>
-        <li><span aria-hidden="true">✓</span> {{ page.class_time }}</li>
-        <li><span aria-hidden="true">✓</span> Taught in English</li>
-        <li><span aria-hidden="true">✓</span> Certificate at the end</li>
-        <li><span aria-hidden="true">✓</span> 7-day full refund</li>
-      </ul>
+      <div class="contact-chip">
+        <img src="/assets/images/campaign/abhay.webp" width="320" height="400" alt="Abhay Nama, founder of SFX Support" decoding="async">
+        <div class="contact-chip__text">
+          <strong>Questions? Talk to Abhay.</strong>
+          <span>Founder · <a href="https://www.linkedin.com/in/abhay-nama-0739793a7" target="_blank" rel="noopener" data-cta="founder_linkedin_abhay">LinkedIn ↗</a></span>
+        </div>
+        <div class="contact-chip__actions">
+          <a class="contact-chip__wa" href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%201%20December%20batch." target="_blank" rel="noopener" data-cta="founder_whatsapp" aria-label="WhatsApp 94148 49173">WhatsApp</a>
+          <a class="contact-chip__call" href="tel:+917611896026" data-cta="founder_call" aria-label="Call 76118 96026"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+        </div>
+      </div>
     </div>
 
-    <aside class="hero__media founder-card reveal" aria-labelledby="founder-card-title">
-      <p class="founder-card__kicker" id="founder-card-title">Talk to us directly</p>
-      <div class="founder-card__person">
-        <figure>
-          <img src="/assets/images/campaign/abhay.webp" width="320" height="400" alt="Abhay Nama, founder of SFX Support" loading="eager" decoding="async">
-          <figcaption><strong>Abhay Nama</strong><span>Founder</span><a class="founder-card__linkedin" href="https://www.linkedin.com/in/abhay-nama-0739793a7" target="_blank" rel="noopener" data-cta="founder_linkedin_abhay">LinkedIn <span aria-hidden="true">↗</span></a></figcaption>
-        </figure>
+    <div class="hero__media reveal">
+      <div class="youtube-player hero-class" data-youtube-video="YCHPTM_HOI8">
+        <img src="https://i.ytimg.com/vi/YCHPTM_HOI8/maxresdefault.jpg" width="1280" height="720" loading="eager" fetchpriority="high" decoding="async" alt="Batch Apex part 2, a full class from our YouTube channel">
+        <button type="button" aria-label="Play a full Batch Apex class" data-youtube-load><span aria-hidden="true">▶</span></button>
       </div>
-      <p class="founder-card__text">No call centre, no sales team. You'll talk to us directly about the fee, class timings or whether the batch suits you.</p>
-      <div class="founder-card__actions">
-        <a class="button button--whatsapp" href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%201%20December%20batch." target="_blank" rel="noopener" data-cta="founder_whatsapp">WhatsApp 94148 49173</a>
-        <a class="button button--call" href="tel:+917611896026" data-cta="founder_call"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg> Call 76118 96026</a>
-      </div>
-      <p class="founder-card__hours">WhatsApp is the quickest way to reach us. Calls go to 76118 96026.</p>
-      <a class="founder-card__youtube" href="#classes" data-cta="hero_youtube">Watch a full class first <span aria-hidden="true">↓</span></a>
-    </aside>
-  </div>
-</section>
+      <p class="hero-class__caption">A full class from our YouTube channel. <a href="#classes" data-cta="hero_more_classes">This is the demo →</a></p>
 
-<section class="batch-facts" id="batch" aria-labelledby="batch-title">
-  <div class="campaign-shell">
-    <div class="batch-facts__head">
-      <h2 id="batch-title">The batch at a glance</h2>
-      {% if page.seats_filled %}<div class="seat-meter" aria-label="{{ page.seats_filled }} of {{ page.seats_total }} seats filled">
-        <div class="seat-meter__bar"><span style="width: {{ page.seats_filled_pct }}%"></span></div>
-        <p><strong>{{ page.seats_filled }} of {{ page.seats_total }} seats filled.</strong> We keep each batch to {{ page.seats_total }} people.</p>
-      </div>{% endif %}
+      <div class="ticket" aria-label="Batch details">
+        <div class="ticket__price"><strong>₹7,999</strong><span>for 2 months</span></div>
+        <ul class="ticket__facts">
+          <li>Mon–Fri · 10:00 PM IST</li>
+          <li>45 min to 1.5 h per class</li>
+          <li>English</li>
+          <li>Recordings of every class</li>
+          <li>Certificate at the end</li>
+          <li>7-day refund, no questions</li>
+        </ul>
+        {% if page.seats_filled %}<div class="ticket__seats">
+          <div class="seat-meter__bar"><span style="width: {{ page.seats_filled_pct }}%"></span></div>
+          <p><strong>{{ page.seats_filled }} of {{ page.seats_total }} seats filled</strong> · max {{ page.seats_total }} per batch</p>
+        </div>{% endif %}
+      </div>
     </div>
-    <dl class="batch-facts__grid">
-      <div><dt>Starts</dt><dd>1 December 2026</dd></div>
-      <div><dt>Class time</dt><dd>{{ page.class_time }}</dd><small>Usually 45 minutes to 1.5 hours</small></div>
-      <div><dt>Language</dt><dd>English</dd></div>
-      <div><dt>Fee</dt><dd>₹7,999 for 2 months</dd></div>
-      <div><dt>Instructor</dt><dd>6+ years of Salesforce experience</dd></div>
-      <div><dt>Missed a class?</dt><dd>Every class is recorded</dd></div>
-      <div><dt>At the end</dt><dd>Certificate + 5 projects</dd></div>
-      <div><dt>Refund</dt><dd>7 days, no questions asked</dd><small>Just message us and we refund you</small></div>
-    </dl>
-    <p class="batch-facts__demo">Want a demo first? <a href="#classes" data-cta="batch_demo">Watch our free classes on YouTube</a>. That is exactly how we teach.</p>
   </div>
 </section>
 
@@ -107,27 +92,41 @@ class_time: "Mon–Fri · 10:00 PM IST"
 </section>
 
 <section class="section youtube-section" id="classes">
-  <div class="campaign-shell youtube-grid">
-    <div class="youtube-copy reveal">
-      <p class="eyebrow"><span></span> Free classes · Demo</p>
-      <h2>See a full class first.</h2>
-      <p>There is no separate demo class. These full-length classes on our YouTube channel are the demo: watch one, and if you like how we teach, join the batch. You can keep learning here for free too.</p>
-      <ol class="class-list">
-        <li><a href="https://www.youtube.com/watch?v=NcfG7Y-kZWI" target="_blank" rel="noopener" data-cta="class_video_1"><span>1</span>Asynchronous processing &amp; future methods</a></li>
-        <li><a href="https://www.youtube.com/watch?v=6jEWBGkwgYE" target="_blank" rel="noopener" data-cta="class_video_2"><span>2</span>Queueable Apex: chaining &amp; stack depth</a></li>
-        <li><a href="https://www.youtube.com/watch?v=WPnwWnA6aqU" target="_blank" rel="noopener" data-cta="class_video_3"><span>3</span>Queueable Apex part 2: finalizers &amp; error handling</a></li>
-        <li><a href="https://www.youtube.com/watch?v=ziqWZmIpO2o" target="_blank" rel="noopener" data-cta="class_video_4"><span>4</span>Batch Apex: query locators &amp; bulk data</a></li>
-        <li><a href="https://www.youtube.com/watch?v=YCHPTM_HOI8" target="_blank" rel="noopener" data-cta="class_video_5"><span>5</span>Batch Apex part 2: chaining &amp; stateful tracking</a></li>
-        <li><a href="https://www.youtube.com/watch?v=HufTYMXD5Xo" target="_blank" rel="noopener" data-cta="class_video_6"><span>6</span>Scheduled Apex &amp; cron expressions</a></li>
-      </ol>
-      <a class="text-link" href="https://www.youtube.com/playlist?list=UUc1viN8c8g9PRCNX4RJU5HQ" target="_blank" rel="noopener" data-cta="class_playlist">Open the full playlist on YouTube <span aria-hidden="true">↗</span></a>
+  <div class="campaign-shell">
+    <div class="section-heading section-heading--split section-heading--light reveal">
+      <div>
+        <p class="eyebrow"><span></span> Free classes · Demo</p>
+        <h2>Watch a class before you pay.</h2>
+      </div>
+      <p>There is no separate demo. These full-length classes are the demo, taught the same way as the batch. You can keep learning from them for free too.</p>
     </div>
-    <div class="youtube-player reveal" data-youtube-video="YCHPTM_HOI8">
-      <img src="https://i.ytimg.com/vi/YCHPTM_HOI8/maxresdefault.jpg" width="1280" height="720" loading="lazy" decoding="async" alt="Batch Apex part 2 class on YouTube">
-      <button type="button" aria-label="Play the Batch Apex part 2 class" data-youtube-load>
-        <span aria-hidden="true">▶</span>
-      </button>
+    <div class="class-grid">
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=NcfG7Y-kZWI" target="_blank" rel="noopener" data-cta="class_video_1">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/NcfG7Y-kZWI/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 1</small>Asynchronous processing &amp; future methods</span>
+      </a>
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=6jEWBGkwgYE" target="_blank" rel="noopener" data-cta="class_video_2">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/6jEWBGkwgYE/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 2</small>Queueable Apex: chaining &amp; stack depth</span>
+      </a>
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=WPnwWnA6aqU" target="_blank" rel="noopener" data-cta="class_video_3">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/WPnwWnA6aqU/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 3</small>Queueable Apex 2: finalizers &amp; errors</span>
+      </a>
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=ziqWZmIpO2o" target="_blank" rel="noopener" data-cta="class_video_4">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/ziqWZmIpO2o/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 4</small>Batch Apex: query locators &amp; bulk data</span>
+      </a>
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=YCHPTM_HOI8" target="_blank" rel="noopener" data-cta="class_video_5">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/YCHPTM_HOI8/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 5</small>Batch Apex 2: chaining &amp; stateful</span>
+      </a>
+      <a class="class-card reveal" href="https://www.youtube.com/watch?v=HufTYMXD5Xo" target="_blank" rel="noopener" data-cta="class_video_6">
+        <span class="class-card__thumb"><img src="https://i.ytimg.com/vi/HufTYMXD5Xo/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span>
+        <span class="class-card__title"><small>Class 6</small>Scheduled Apex &amp; cron expressions</span>
+      </a>
     </div>
+    <a class="text-link class-grid__more" href="https://www.youtube.com/playlist?list=UUc1viN8c8g9PRCNX4RJU5HQ" target="_blank" rel="noopener" data-cta="class_playlist">Open the playlist on YouTube <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 
@@ -341,8 +340,6 @@ class_time: "Mon–Fri · 10:00 PM IST"
 </section>
 
 <section class="final-cta section" id="enquire">
-  <div class="final-cta__orb final-cta__orb--one" aria-hidden="true"></div>
-  <div class="final-cta__orb final-cta__orb--two" aria-hidden="true"></div>
   <div class="campaign-shell final-cta__grid">
     <div class="final-cta__copy reveal">
       <p class="eyebrow eyebrow--light"><span></span> {% if page.next_batch and page.next_batch != "" %}Next batch · {{ page.next_batch }}{% else %}Your next step{% endif %}</p>
