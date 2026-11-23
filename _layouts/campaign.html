@@ -123,8 +123,11 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-BXZVYY2G7X');{% if site.google_ads_id and site.google_ads_id != "" %}
-    gtag('config', '{{ site.google_ads_id }}');{% endif %}
+    gtag('config', '{{ site.google_ads_id }}');{% endif %}{% if site.google_tag_id and site.google_tag_id != "" %}
+    gtag('config', '{{ site.google_tag_id }}');{% endif %}
   </script>
+  {% if site.google_tag_id and site.google_tag_id != "" %}<!-- Google tag for Google Ads (loads AW-18591190181) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_tag_id }}"></script>{% endif %}
 
   <link rel="stylesheet" href="/assets/css/campaign.css">
   <script src="/assets/js/salesforce-training.js" defer></script>

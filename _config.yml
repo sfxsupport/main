@@ -47,5 +47,8 @@ exclude:
 # From Google Ads > Goals > Conversions > (your lead action) > Tag setup:
 #   send_to: 'AW-123456789/AbCdEfGh'  ->  google_ads_id: AW-123456789, google_ads_lead_label: AbCdEfGh
 # Leave empty until the conversion action exists. The page works without them.
+# Google tag from Google Ads (container that loads the Ads tag AW-18591190181).
+# Installed on the campaign layout (/salesforce-training/).
+google_tag_id: "GTM-NSWHW4DV"
 google_ads_id: ""
 google_ads_lead_label: ""
