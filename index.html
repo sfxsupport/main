@@ -372,22 +372,6 @@ h1.hero-h{
 }
 .chip:hover{color:var(--t2);border-color:var(--b);}
 
-/* ─── STATS ─── */
-#stats{
-  padding:2.5rem 0;
-  border-top:1px solid var(--b3);border-bottom:1px solid var(--b3);
-  position:relative;z-index:1;
-}
-.sg{display:grid;grid-template-columns:repeat(4,1fr);}
-.st{text-align:center;padding:1.5rem;border-right:1px solid var(--b3);}
-.st:last-child{border-right:none;}
-.sn{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:2.2rem;font-weight:200;color:var(--t);
-  line-height:1;margin-bottom:.3rem;letter-spacing:-.03em;
-}
-.sn em{font-style:normal;color:rgba(var(--sun),.55);}
-.sl2{font-size:.68rem;color:var(--t3);font-weight:300;letter-spacing:.02em;}
 #contrib-stat{color:rgba(var(--sun),.85);font-weight:500;}
 
 /* ─── CONTRIBUTORS MARQUEE ─── */
@@ -713,7 +697,6 @@ footer{
   #travel-manager .tool-feat .tool-cta{display:inline-flex;grid-column:2;justify-self:start;white-space:normal;}
   .tool-grid{grid-template-columns:1fr 1fr;}
   .stps{grid-template-columns:1fr;}
-  .sg{grid-template-columns:repeat(2,1fr);}
   .cc-inner{grid-template-columns:1fr;}.cc-action{align-items:flex-start;}
   .cc-contact-links{align-items:flex-start;}
   nav.dnav,.bg-btn{display:none;}.hbg{display:block;}
@@ -722,7 +705,6 @@ footer{
 @media(max-width:520px){
   #travel-manager .tool-feat{grid-template-columns:minmax(0,1fr);}
   #travel-manager .tool-feat .tool-cta{grid-column:1;}
-  .sg .st{border-right:none;border-bottom:1px solid var(--b3);}
   .tool-grid{grid-template-columns:1fr;}
   .hero-btns{flex-direction:column;}.btn-w,.btn-o{justify-content:center;}
 }
@@ -951,7 +933,7 @@ footer{
     <div class="label r">Real People, Real Proof</div>
     <h2 class="r d1">Meet the builders<br><span class="it">growing in public.</span></h2>
     <p class="desc r d2" style="margin-bottom:2.5rem;">
-      <strong id="contrib-stat">50+</strong> learners building real Salesforce skills at SFX Grove — no gatekeeping, just proof.
+      <strong id="contrib-stat"></strong> Learners building real Salesforce skills at SFX Grove — no gatekeeping, just proof.
     </p>
 
     <div class="contrib-marquee r d3" id="contrib-marquee">
@@ -1215,7 +1197,7 @@ footer{
     </div>
     <div class="faqw r d2">
       <div class="faqi"><button class="faqq" onclick="faq(this)">Who is behind SFX Support?<i class="bi bi-plus fiq"></i></button><div class="faqa">SFX Support is a Salesforce + AI solutions team led by founder Abhay Nama, with Salesforce developers trained by SFX. We publish tested guides and tools, and build Agentforce, Prompt Builder and AI integrations for clients. SFX Travel Manager is our separate software product.</div></div>
-      <div class="faqi"><button class="faqq" onclick="faq(this)">What does SFX work on?<i class="bi bi-plus fiq"></i></button><div class="faqa">Only Salesforce + AI: Agentforce agents and custom actions, Prompt Builder and the Models API, Claude/OpenAI/Gemini integrations from Apex, Data Cloud RAG, MCP, and fixing or tuning AI that is already live. Every guide on the blog is a working solution you can copy.</div></div>
+      <div class="faqi"><button class="faqq" onclick="faq(this)">What does SFX work on?<i class="bi bi-plus fiq"></i></button><div class="faqa">Only Salesforce + AI: Agentforce agents and custom actions, Prompt Builder and the Models API, Claude/OpenAI/Gemini integrations from Apex, Data Cloud RAG, MCP, and fixing or tuning AI that is already live. Our solution guides include working code you can copy and deploy.</div></div>
       <div class="faqi"><button class="faqq" onclick="faq(this)">How does Ask Krrish work?<i class="bi bi-plus fiq"></i></button><div class="faqa">Ask Krrish is an AI built for Salesforce — tuned for technical questions, code help, best practices, and debugging guidance. Sign in with Google and start asking. Usage has a daily message limit that resets every 24 hours.</div></div>
       <div class="faqi"><button class="faqq" onclick="faq(this)">Can SFX build this in my org?<i class="bi bi-plus fiq"></i></button><div class="faqa">Yes. SFX builds and fixes Agentforce actions, Prompt Builder templates, LLM integrations from Apex, Flows and LWC as paid, fixed-scope work. You get a written scope and a fixed quote before anything starts. <a href="/services/">See services</a>.</div></div>
       <div class="faqi"><button class="faqq" onclick="faq(this)">Is SFX affiliated with Salesforce?<i class="bi bi-plus fiq"></i></button><div class="faqa">No. SFX Support is independent. We are not a Salesforce partner and are not affiliated with, endorsed by, or connected to Salesforce, Inc.</div></div>

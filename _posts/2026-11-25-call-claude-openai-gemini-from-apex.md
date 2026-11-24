@@ -382,7 +382,7 @@ public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCa
             if (nowIds.size() < PER_JOB) { nowIds.add(caseId); } else { laterIds.add(caseId); }
         }
 
-        Integer maxLen = Schema.SObjectType.Case.fields.AI_Summary__c.getLength();
+        Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
         // 1. All callouts first.
