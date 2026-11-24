@@ -485,3 +485,12 @@ body.blog-light-theme .fdis { margin: 0; background: #f8f9fa; }
 .article-faq details { margin-bottom: .6rem; padding: .85rem 1rem; border: 1px solid var(--blog-line); border-radius: 10px; background: #fff; }
 .article-faq summary { cursor: pointer; font-weight: 600; color: #202124; }
 .article-faq details p { margin: .6rem 0 0; color: #3c4043; line-height: 1.7; }
+
+/* Inline code: override prism's dark background so code reads lightly inside text */
+.article-content :not(pre) > code,
+.article-content :not(pre) > code[class*=language-] {
+  padding: .1em .35em; border: 1px solid #e1e4e8; border-radius: 4px;
+  background: #f1f3f6; color: #1f2937; text-shadow: none;
+  white-space: normal; overflow-wrap: anywhere; font-size: .86em;
+}
+.article-content h3 code { font-size: .9em; }

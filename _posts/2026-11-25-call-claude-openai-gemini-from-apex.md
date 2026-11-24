@@ -517,32 +517,91 @@ Write a separate test for `CaseSummaryJob` that inserts a Case, sets the same mo
 ## Common errors and fixes
 {: #common-errors}
 
-**`System.CalloutException: Unauthorized endpoint, please check Setup->Security->Remote site settings. endpoint = https://api.openai.com/v1/responses`**
-The code uses a raw URL instead of `callout:OpenAI_API/...`. Switch to the Named Credential. Don't add a Remote Site Setting just to make the key-in-code approach work.
+Each heading below is the error people paste into Google. Find yours, then apply the fix.
 
-**`We couldn't access the credential(s). You might not have the required permissions, or the external credential "Anthropic" might not exist.`**
-The running user is missing **External Credential Principal Access** or **Read on User External Credentials**. Check the user the code actually runs as. Scheduled jobs, platform event triggers and integration users often differ from the person who tested in Execute Anonymous.
+### Unauthorized endpoint
 
-**`System.CalloutException: You have uncommitted work pending. Please commit or rollback before calling out`**
-DML happened before the callout in the same transaction. Do the callout first, or move it into a Queueable as shown above.
+```text
+System.CalloutException: Unauthorized endpoint, please check Setup->Security->Remote site settings. endpoint = https://api.openai.com/v1/responses
+```
 
-**`Callout from triggers are currently not supported.`**
-Triggers can't call out synchronously. Enqueue a Queueable that implements `Database.AllowsCallouts`.
+**Cause:** the code calls a raw URL instead of the Named Credential.
 
-**`Methods defined as TestMethod do not support Web service callouts`**
-A test reached `Http.send()` without a mock. Call `Test.setMock(HttpCalloutMock.class, ...)` before the code under test runs.
+**Fix:** use `callout:OpenAI_API/v1/responses`. Don't add a Remote Site Setting just to make a key-in-code approach work.
 
-**`System.CalloutException: Read timed out`**
-The model took longer than your timeout. Set `setTimeout(120000)`, lower the max tokens, choose a faster model, or split the task. 120 seconds is the hard ceiling.
+### We couldn't access the credential(s)
 
-**HTTP 401 from the vendor** (Anthropic `authentication_error`; OpenAI "Incorrect API key provided"; Gemini "API key not valid. Please pass a valid API key.")
-The header formula or key is wrong. Check that the header name exactly matches the table above, that "Allow Formulas in HTTP Header" is checked on the Named Credential, and that the formula's External Credential and parameter names match what you created. Names are case-sensitive.
+```text
+We couldn't access the credential(s). You might not have the required permissions, or the external credential "Anthropic" might not exist.
+```
 
-**HTTP 429 / Anthropic `overloaded_error` (529)**
-You hit a rate limit, or the vendor is overloaded. Retry from a Queueable with a delay (`System.enqueueJob(job, delayInMinutes)`). Don't loop in the same transaction.
+**Cause:** the running user is missing **External Credential Principal Access** or **Read** on **User External Credentials**.
 
-**HTTP 404 with a model error**
-The model ID is retired or your account can't use it. Update the ID from the vendor's models or deprecations page.
+**Fix:** assign the permission set to the user the code actually runs as. Scheduled jobs, platform event triggers and integration users often differ from the person who tested in Execute Anonymous.
+
+### You have uncommitted work pending
+
+```text
+System.CalloutException: You have uncommitted work pending. Please commit or rollback before calling out
+```
+
+**Cause:** DML ran before the callout in the same transaction.
+
+**Fix:** make the callout first, or move it into a Queueable as shown above.
+
+### Callout from triggers are currently not supported
+
+```text
+Callout from triggers are currently not supported.
+```
+
+**Cause:** triggers can't make synchronous callouts.
+
+**Fix:** enqueue a Queueable that implements `Database.AllowsCallouts`.
+
+### Methods defined as TestMethod do not support Web service callouts
+
+```text
+Methods defined as TestMethod do not support Web service callouts
+```
+
+**Cause:** a test reached `Http.send()` without a mock.
+
+**Fix:** call `Test.setMock(HttpCalloutMock.class, ...)` before the code under test runs.
+
+### Read timed out
+
+```text
+System.CalloutException: Read timed out
+```
+
+**Cause:** the model took longer than the callout timeout.
+
+**Fix:** set `setTimeout(120000)`, lower max tokens, choose a faster model, or split the task. 120 seconds is the hard ceiling.
+
+### HTTP 401 from the vendor
+
+```text
+Anthropic: authentication_error
+OpenAI: Incorrect API key provided
+Gemini: API key not valid. Please pass a valid API key.
+```
+
+**Cause:** the header formula or key is wrong.
+
+**Fix:** check that the header name matches the table above, that **Allow Formulas in HTTP Header** is checked, and that the External Credential and parameter names in the formula match exactly. Names are case-sensitive.
+
+### HTTP 429 or 529 overloaded_error
+
+**Cause:** a rate limit, or the vendor is overloaded.
+
+**Fix:** retry from a Queueable with a delay (`System.enqueueJob(job, delayInMinutes)`). Don't loop in the same transaction.
+
+### HTTP 404 with a model error
+
+**Cause:** the model ID is retired or your account can't use it.
+
+**Fix:** update the ID from the vendor's models or deprecations page.
 
 ## What does it cost, and which limits apply?
 {: #cost-limits}
