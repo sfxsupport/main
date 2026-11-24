@@ -366,9 +366,9 @@ LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after
 ```apex
 public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCallouts {
 
-    // A transaction allows 120 seconds of callout time in total, so keep each job small
-    // and chain the rest. Keep max tokens low so each call finishes well inside that budget.
-    private static final Integer PER_JOB = 3;
+    // A transaction allows 120 seconds of callout time in total and one LLM call can use
+    // all of it, so each job makes exactly one callout and chains the rest.
+    private static final Integer PER_JOB = 1;
     private final List<Id> caseIds;
 
     public CaseSummaryJob(List<Id> caseIds) {
@@ -404,7 +404,9 @@ public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCa
                 if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
                     updates.add(new Case(Id = c.Id, AI_Summary__c = r.text.left(maxLen)));
                 }
-            } catch (LlmClient.LlmException e) {
+            } catch (Exception e) {
+                // LlmException (HTTP error) or CalloutException (timeout): log it and move on,
+                // so the chain continues with the remaining records.
                 System.debug(LoggingLevel.WARN, 'Summary failed for ' + c.Id + ': ' + e.getMessage());
             }
         }
