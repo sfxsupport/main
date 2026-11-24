@@ -3,10 +3,10 @@ layout: blog-post
 sfx_blog: true
 featured: false
 title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
-seo_title: "Call LLM from Apex: Claude, OpenAI and Gemini Guide"
-description: "Call an LLM from Apex: keep the key in an External Credential, POST to Claude, OpenAI or Gemini via a Named Credential, test with HttpCalloutMock."
+seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
+description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Queueable Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 00:30:00 +0530
+last_modified_at: 2026-11-25 01:08:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -63,7 +63,7 @@ toc:
     label: "Official sources"
 ---
 
-Someone in your org wants a case summarised, an email drafted or a messy free-text field sorted into categories, and they've already picked a model: Claude, GPT or Gemini. Agentforce and Prompt Builder may not be licensed, may not support that model, or may just be more than the job needs. What you need is a clean, secure and testable way to call the model from Apex. This guide sets that up once for all three vendors, so switching providers is a one-word change rather than a rewrite.
+Someone in your org wants a case summarised, an email drafted or a messy free-text field sorted into categories, and they've already picked a model: Claude, GPT or Gemini. Agentforce and Prompt Builder may not be licensed, may not support that model, or may just be more than the job needs. What you need is a clean, secure and testable way to call the model from Apex. This guide sets that up once for all three vendors, so every caller uses one common interface and switching providers means changing the provider, model ID and credential, not rewriting code.
 
 ## What do you need before calling an LLM from Apex?
 {: #prerequisites}
@@ -106,6 +106,7 @@ Repeat these steps for each vendor. The table after the steps lists the values t
    - Save.
 2. **Add a principal that holds the key.** On the External Credential, go to the **Principals** section → **New**.
    - Parameter Name: `ClaudeKey` (any name works)
+   - Sequence Number: `1`
    - Identity Type: **Named Principal**. Everyone shares one org-level key.
    - **Add Authentication Parameter** → Name: `apiKey`, Value: paste your key. Salesforce treats custom principal parameters as secrets and hides them on input.
    - Save.
@@ -121,7 +122,7 @@ Repeat these steps for each vendor. The table after the steps lists the values t
    - Generate Authorization Header: unchecked. The custom header handles auth.
 5. **Give users access to the principal.** Go to Setup → **Permission Sets** → **New** (for example `LLM_Callout_Access`).
    - **External Credential Principal Access** → Edit → add `Anthropic - ClaudeKey`.
-   - **Object Settings** → **User External Credentials** → **Read**. Without this, callouts fail even when principal access is granted.
+   - **Object Settings** → **User External Credentials**: give at least **Read**. Without object access, callouts fail even when principal access is granted. If you still get the credential error, compare your permission set with Salesforce Help's "User External Credentials permissions" page for your release; some setups need wider access than Read.
    - Assign the permission set to every user whose transactions make the callout. That includes the user who enqueues async jobs and any integration user.
 
 | Vendor | External Credential header name | Header value formula | Named Credential URL |
@@ -132,7 +133,7 @@ Repeat these steps for each vendor. The table after the steps lists the values t
 
 Name the Named Credentials `Anthropic_API`, `OpenAI_API` and `Gemini_API` so the code below works without edits. The `$Credential.<ExternalCredentialName>.<parameterName>` merge syntax follows Salesforce's Named Credentials docs. If your org's formula editor rejects the `&` concatenation, check the Named Credential Formula Functions reference for your release.
 
-**Deployment note:** you can retrieve External Credentials and Named Credentials as metadata and keep them in source control, but the secret values never travel in metadata. Re-enter the key in each org (sandbox, UAT, production). That's by design. It's also why each environment can use a separate key with its own spending cap.
+**Deployment note:** you can retrieve External Credentials and Named Credentials as metadata and keep them in source control, but the secret values never travel in metadata. Re-enter the key in each org (sandbox, UAT, production). That's by design. It also lets each environment use a separate key. Set spend and rate limits in each vendor's console; depending on the vendor these apply per organisation, project or workspace rather than per key.
 
 ## How are the Claude, OpenAI and Gemini APIs different?
 {: #api-differences}
@@ -184,6 +185,12 @@ public with sharing class LlmClient {
      */
     public static LlmResult complete(Provider p, String model, String systemPrompt,
                                      String userPrompt, Integer maxTokens) {
+        if (p == null) {
+            throw new LlmException('provider is required.');
+        }
+        if (maxTokens != null && maxTokens <= 0) {
+            throw new LlmException('maxTokens must be positive.');
+        }
         if (String.isBlank(model) || String.isBlank(userPrompt)) {
             throw new LlmException('model and userPrompt are required.');
         }
@@ -346,9 +353,9 @@ LlmClient.LlmResult r = LlmClient.complete(
 System.debug(r.text + ' | stop=' + r.stopReason + ' | tokens=' + r.inputTokens + '/' + r.outputTokens);
 ```
 
-To switch vendors, change the enum and the model ID (for example `LlmClient.Provider.GEMINI` with a current stable Gemini model). In production, keep model IDs in Custom Metadata, not hard-coded, so an admin can move to a new model without a deployment.
+To switch vendors, change the provider enum and the model ID, and set up that vendor's credential (for example `LlmClient.Provider.GEMINI` with a current stable Gemini model). In production, keep model IDs in Custom Metadata, not hard-coded, so an admin can move to a new model without a deployment.
 
-**Check the stop reason every time.** If Claude returns `max_tokens`, OpenAI returns `incomplete` or Gemini returns `MAX_TOKENS`, the text was cut off. Don't write cut-off output to a record as if it were complete.
+**Check the stop reason every time.** Only treat the output as complete when Claude returns `end_turn`, OpenAI returns `completed`, or Gemini returns `STOP`, and the text is not blank. Anything else (`max_tokens`, `refusal`, `incomplete`, `MAX_TOKENS`, `SAFETY`) means the text was cut off, refused or blocked. Don't write it to a record as if it were complete.
 
 ## How do I run the LLM call asynchronously from a record?
 {: #async-queueable}
@@ -358,33 +365,69 @@ LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after
 ```apex
 public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCallouts {
 
-    private final Id caseId;
+    // A transaction allows 120 seconds of callout time in total, so keep each job small
+    // and chain the rest. Keep max tokens low so each call finishes well inside that budget.
+    private static final Integer PER_JOB = 3;
+    private final List<Id> caseIds;
 
-    public CaseSummaryJob(Id caseId) {
-        this.caseId = caseId;
+    public CaseSummaryJob(List<Id> caseIds) {
+        this.caseIds = caseIds;
     }
 
     public void execute(QueueableContext ctx) {
-        Case c = [SELECT Id, Subject, Description FROM Case WHERE Id = :caseId WITH USER_MODE];
-
-        LlmClient.LlmResult result = LlmClient.complete(
-            LlmClient.Provider.CLAUDE,
-            'claude-sonnet-5-5',
-            'Summarise this support case in at most 3 bullet points. Use only facts in the text. '
-                + 'If information is missing, say so.',
-            'Subject: ' + c.Subject + '\nDescription: ' + c.Description,
-            400
-        );
-
-        if (result.stopReason == 'max_tokens') {
-            return; // truncated: do not save a partial summary
+        List<Id> nowIds = new List<Id>();
+        List<Id> laterIds = new List<Id>();
+        for (Id caseId : caseIds) {
+            if (nowIds.size() < PER_JOB) { nowIds.add(caseId); } else { laterIds.add(caseId); }
         }
-        update as user new Case(Id = c.Id, AI_Summary__c = result.text.left(32000));
+
+        Integer maxLen = Schema.SObjectType.Case.fields.AI_Summary__c.getLength();
+        List<Case> updates = new List<Case>();
+
+        // 1. All callouts first.
+        for (Case c : [SELECT Id, Subject, Description, AI_Summary__c
+                       FROM Case WHERE Id IN :nowIds WITH USER_MODE]) {
+            if (String.isNotBlank(c.AI_Summary__c)) {
+                continue; // already summarised: don't pay twice on a retry
+            }
+            try {
+                LlmClient.LlmResult r = LlmClient.complete(
+                    LlmClient.Provider.CLAUDE,
+                    'claude-sonnet-5-5', // example ID: confirm on Anthropic's models page
+                    'Summarise this support case in at most 3 bullet points. Use only facts in the text. '
+                        + 'If information is missing, say so.',
+                    'Subject: ' + c.Subject + '\nDescription: ' + c.Description,
+                    400
+                );
+                // Save only complete answers; leave truncated or refused output for review.
+                if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
+                    updates.add(new Case(Id = c.Id, AI_Summary__c = r.text.left(maxLen)));
+                }
+            } catch (LlmClient.LlmException e) {
+                System.debug(LoggingLevel.WARN, 'Summary failed for ' + c.Id + ': ' + e.getMessage());
+            }
+        }
+
+        // 2. DML once, after every callout.
+        if (!updates.isEmpty()) {
+            update as user updates;
+        }
+
+        // 3. Chain the remaining records (Developer Edition orgs limit chain depth to 5).
+        if (!laterIds.isEmpty() && !Test.isRunningTest()) {
+            System.enqueueJob(new CaseSummaryJob(laterIds));
+        }
     }
 }
 ```
 
-Enqueue it from a trigger handler or an invocable method with `System.enqueueJob(new CaseSummaryJob(caseId));`. For bulk loads, send one job for a batch of IDs rather than one job per record, and check the field before calling so a retry doesn't pay for the same summary twice. The same idea is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/). If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
+Enqueue **one** job per transaction, never one per record. From an after-insert trigger handler:
+
+```apex
+System.enqueueJob(new CaseSummaryJob(new List<Id>(Trigger.newMap.keySet())));
+```
+
+A synchronous transaction can enqueue at most 50 jobs and an asynchronous one only a single job, so one job per record breaks on the first data load. The running user needs read access to Case and edit access to `AI_Summary__c`, because both the query and the update run in user mode. The "already summarised" check means a retry doesn't pay for the same summary twice; the same idea is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/). If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
 
 ## How do I test LLM callouts in Apex?
 {: #test-class}
@@ -512,7 +555,7 @@ private class LlmClientTest {
 }
 ```
 
-Write a separate test for `CaseSummaryJob` that inserts a Case, sets the same mock, runs `System.enqueueJob` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled.
+Write a separate test for `CaseSummaryJob` that inserts a Case, sets the same mock, runs `System.enqueueJob(new CaseSummaryJob(new List<Id>{ c.Id }))` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled.
 
 ## Common errors and fixes
 {: #common-errors}
@@ -595,7 +638,7 @@ Gemini: API key not valid. Please pass a valid API key.
 
 **Cause:** a rate limit, or the vendor is overloaded.
 
-**Fix:** retry from a Queueable with a delay (`System.enqueueJob(job, delayInMinutes)`). Don't loop in the same transaction.
+**Fix:** for a transient rate limit or overload, retry a limited number of times (for example 3) from a Queueable with a growing delay (`System.enqueueJob(job, delayInMinutes)`), and follow any `retry-after` header the vendor sends. If the error says you hit a spending or quota limit, don't retry: alert an admin. Never loop in the same transaction.
 
 ### HTTP 404 with a model error
 
@@ -606,7 +649,7 @@ Gemini: API key not valid. Please pass a valid API key.
 ## What does it cost, and which limits apply?
 {: #cost-limits}
 
-**Vendor cost.** All three vendors charge per token, with separate rates for input and output, and the rates differ by model. Prices change often, so check the official pricing pages linked below rather than any figure quoted in a blog. Every response includes token usage, which `LlmResult` captures. Log `inputTokens` and `outputTokens` to a custom object so you can estimate spend per feature. Put a spend limit on each API key in the vendor console as well.
+**Vendor cost.** All three vendors price by tokens, with separate input and output rates that differ by model; Gemini also has a free tier for some models, and thinking tokens and prompt caching can change the bill. Prices change often, so check the official pricing pages linked below rather than any figure quoted in a blog. Every response includes token usage, which `LlmResult` captures. Log `inputTokens` and `outputTokens` to a custom object so you can estimate spend per feature. Set spend limits in each vendor's console as well (per organisation, project or workspace, depending on the vendor).
 
 **Salesforce limits that matter for LLM calls:**
 
