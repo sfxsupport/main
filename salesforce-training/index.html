@@ -11,10 +11,10 @@ permalink: /salesforce-training/
 next_batch: "Starts 7 Dec 2026"
 batch_price: "₹7,999"
 batch_seats: ""
-# Update these as seats fill. seats_filled_pct drives the progress bar.
+# Only set seats_filled to a REAL count of paid seats. Leave it commented out otherwise.
 seats_total: 100
-seats_filled: "70+"
-seats_filled_pct: 70
+# seats_filled: "12"
+# seats_filled_pct: 12
 class_time: "Mon–Fri · 10:00 PM IST"
 ---
 
@@ -64,7 +64,7 @@ class_time: "Mon–Fri · 10:00 PM IST"
         {% if page.seats_filled %}<div class="ticket__seats">
           <div class="seat-meter__bar"><span style="width: {{ page.seats_filled_pct }}%"></span></div>
           <p><strong>{{ page.seats_filled }} of {{ page.seats_total }} seats filled</strong> · max {{ page.seats_total }} per batch</p>
-        </div>{% endif %}
+        </div>{% else %}<div class="ticket__seats"><p><strong>Max {{ page.seats_total }} seats per batch</strong></p></div>{% endif %}
       </div>
     </div>
   </div>
@@ -388,7 +388,7 @@ class_time: "Mon–Fri · 10:00 PM IST"
       <h2>Want to join<br>the 7 December batch?</h2>
       <p>WhatsApp us, or leave your details and we'll message you with the class timings and next steps. A founder replies personally.</p>
       <p class="final-cta__seats"><strong>₹7,999</strong> · 2 months · live in English · recordings · certificate</p>
-      {% if page.seats_filled %}<p class="final-cta__seats"><strong>{{ page.seats_filled }} of {{ page.seats_total }}</strong> seats already filled · {{ page.class_time }}</p>{% endif %}
+      {% if page.seats_filled %}<p class="final-cta__seats"><strong>{{ page.seats_filled }} of {{ page.seats_total }}</strong> seats already filled · {{ page.class_time }}</p>{% else %}<p class="final-cta__seats"><strong>Max {{ page.seats_total }} seats</strong> · {{ page.class_time }}</p>{% endif %}
       <div class="final-cta__alt">
         <p>Prefer to talk now?</p>
         <a href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20Salesforce%20batch%20page.%20Please%20send%20me%20the%20class%20timings%20and%20details%20for%20the%207%20December%20batch." target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp 94148 49173</a>
