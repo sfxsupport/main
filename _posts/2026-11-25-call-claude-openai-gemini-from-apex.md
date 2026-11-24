@@ -34,7 +34,7 @@ faq:
   - q: "Where should I store the LLM API key in Salesforce?"
     a: "Put it in a principal parameter on an External Credential that uses the Custom authentication protocol, and send it with a custom header formula such as {!$Credential.Anthropic.apiKey}. Never put it in Apex, Custom Settings, Custom Metadata or Custom Labels."
   - q: "Why can't I call an LLM from an Apex trigger?"
-    a: "Salesforce blocks synchronous callouts from triggers and fails with 'Callout from triggers are currently not supported.' Enqueue a Queueable that implements Database.AllowsCallouts, or use an asynchronous path in a record-triggered flow."
+    a: "Salesforce blocks synchronous callouts from triggers and fails with 'Callout from triggers are currently not supported.' Have the trigger only flag the record, then make the callout from Batch Apex or a Queueable that implements Database.AllowsCallouts."
   - q: "What is the maximum timeout for an LLM callout in Apex?"
     a: "Salesforce documents a default callout timeout of 10 seconds and a maximum of 120,000 milliseconds per callout. It also caps the total callout time in one transaction at 120 seconds, so set HttpRequest.setTimeout(120000) and keep max tokens modest for long generations."
   - q: "How do I write a test class for an Apex LLM callout?"
@@ -361,32 +361,40 @@ To switch vendors, change the provider enum and the model ID, and set up that ve
 ## How do I run the LLM call asynchronously from a record?
 {: #async-queueable}
 
-LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. For one record, a Queueable that implements `Database.AllowsCallouts` is enough. For many records, use **Batch Apex with a scope of 1**: every record gets its own transaction, so one slow or failed call can't use up the 120-second callout budget of the others, and there's no Queueable chain-depth limit to hit. This example summarises Cases into a Long Text Area field `AI_Summary__c` that you create on Case first.
+LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. For bulk work, the safest design is a **durable queue**: the trigger (or a record-triggered flow) only ticks a checkbox, and a scheduled job runs **one Batch Apex job with a scope of 1** over the ticked records. Every record then gets its own transaction and its own 120-second callout budget, trigger chunking and Queueable limits can't break the insert, and only one job runs at a time.
+
+Create two fields on Case first: a Long Text Area `AI_Summary__c` and a Checkbox `AI_Summary_Requested__c`.
+
+**1. Mark the records (no callout, no async job in the trigger):**
+
+```apex
+// In a before-insert / before-update Case trigger handler
+for (Case c : (List<Case>) Trigger.new) {
+    if (String.isBlank(c.AI_Summary__c) && String.isNotBlank(c.Description)) {
+        c.AI_Summary_Requested__c = true;
+    }
+}
+```
+
+**2. The batch: one Case, one callout, one transaction:**
 
 ```apex
 public with sharing class CaseSummaryBatch implements Database.Batchable<SObject>, Database.AllowsCallouts {
 
-    private final Set<Id> caseIds;
-
-    public CaseSummaryBatch(Set<Id> caseIds) {
-        this.caseIds = caseIds;
-    }
-
     public Database.QueryLocator start(Database.BatchableContext ctx) {
         return Database.getQueryLocator(
-            [SELECT Id, Subject, Description, AI_Summary__c FROM Case WHERE Id IN :caseIds]
+            [SELECT Id, Subject, Description FROM Case
+             WHERE AI_Summary_Requested__c = true
+             WITH USER_MODE
+             LIMIT 2000]
         );
     }
 
-    // Run with a scope of 1: one Case, one callout, one transaction.
     public void execute(Database.BatchableContext ctx, List<Case> scope) {
         Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
         for (Case c : scope) {
-            if (String.isNotBlank(c.AI_Summary__c)) {
-                continue; // already summarised: don't pay twice on a rerun
-            }
             try {
                 LlmClient.LlmResult r = LlmClient.complete(
                     LlmClient.Provider.CLAUDE,
@@ -396,10 +404,13 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
                     'Subject: ' + c.Subject + '\nDescription: ' + c.Description,
                     400
                 );
-                // Save only complete answers; leave truncated or refused output for review.
                 if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
-                    updates.add(new Case(Id = c.Id, AI_Summary__c = r.text.left(maxLen)));
+                    // Save the summary and clear the request in the same update.
+                    updates.add(new Case(Id = c.Id,
+                        AI_Summary__c = r.text.left(maxLen),
+                        AI_Summary_Requested__c = false));
                 }
+                // Truncated or refused output: leave the request ticked for review.
             } catch (LlmClient.LlmException e) {
                 System.debug(LoggingLevel.WARN, 'LLM error for ' + c.Id + ': ' + e.getMessage());
             } catch (System.CalloutException e) {
@@ -407,7 +418,6 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
             }
         }
 
-        // DML after the callout, in user mode.
         if (!updates.isEmpty()) {
             update as user updates;
         }
@@ -417,22 +427,32 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
 }
 ```
 
-Start it once per transaction, never once per record. From an after-insert trigger handler, hand the IDs to a small Queueable that starts the batch, so the trigger itself stays fast:
+**3. The dispatcher: start at most one batch at a time:**
 
 ```apex
-public with sharing class CaseSummaryStarter implements Queueable {
-    private final Set<Id> caseIds;
-    public CaseSummaryStarter(Set<Id> caseIds) { this.caseIds = caseIds; }
-    public void execute(QueueableContext ctx) {
-        Database.executeBatch(new CaseSummaryBatch(caseIds), 1); // scope 1 = one callout per transaction
+public with sharing class CaseSummaryDispatcher implements Schedulable {
+    public void execute(SchedulableContext ctx) {
+        Integer running = [SELECT COUNT() FROM AsyncApexJob
+                           WHERE ApexClass.Name = 'CaseSummaryBatch'
+                           AND Status IN ('Holding', 'Queued', 'Preparing', 'Processing')];
+        if (running == 0) {
+            Database.executeBatch(new CaseSummaryBatch(), 1); // scope 1 = one callout per transaction
+        }
     }
 }
 
-// In the after-insert trigger handler:
-System.enqueueJob(new CaseSummaryStarter(Trigger.newMap.keySet()));
+// Run once in Execute Anonymous to schedule it every hour:
+// System.schedule('Case AI summaries', '0 0 * * * ?', new CaseSummaryDispatcher());
 ```
 
-The running user needs read access to Case and edit access to `AI_Summary__c`, because the update runs in user mode. Only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. Cases that fail keep an empty `AI_Summary__c`, so you can rerun the batch for them later without paying twice; the same idea is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/). If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
+How this behaves:
+
+- **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user with read access to Case and edit access to both fields.
+- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. Failed records stay ticked and are picked up by the next run.
+- **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
+- **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
+
+If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
 
 ## How do I test LLM callouts in Apex?
 {: #test-class}
@@ -560,7 +580,7 @@ private class LlmClientTest {
 }
 ```
 
-Write a separate test for `CaseSummaryBatch` that inserts a Case, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(new Set<Id>{ c.Id }), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled.
+Write a separate test for `CaseSummaryBatch` that inserts a Case with `AI_Summary_Requested__c = true`, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled and the checkbox was cleared.
 
 ## Common errors and fixes
 {: #common-errors}
@@ -605,7 +625,7 @@ Callout from triggers are currently not supported.
 
 **Cause:** triggers can't make synchronous callouts.
 
-**Fix:** enqueue a Queueable that implements `Database.AllowsCallouts`.
+**Fix:** have the trigger flag the record, then make the callout from Batch Apex or a Queueable that implements `Database.AllowsCallouts` (see the batch example above).
 
 ### Methods defined as TestMethod do not support Web service callouts
 
