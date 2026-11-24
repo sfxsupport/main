@@ -6,7 +6,7 @@ title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
 description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 01:55:00 +0530
+last_modified_at: 2026-11-25 02:10:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -370,14 +370,15 @@ Create three fields on Case first: a Long Text Area `AI_Summary__c`, a Checkbox 
 **1. Mark the records (no callout, no async job in the trigger):**
 
 ```apex
-// In a before-insert / before-update Case trigger handler.
-// Flag only new Cases and Cases whose Description changed, and reset the attempt counter.
-for (Case c : (List<Case>) Trigger.new) {
-    Case old = Trigger.isUpdate ? (Case) Trigger.oldMap.get(c.Id) : null;
-    Boolean descriptionChanged = old == null || c.Description != old.Description;
-    if (descriptionChanged && String.isNotBlank(c.Description)) {
-        c.AI_Summary_Requested__c = true;
-        c.AI_Summary_Attempts__c = 0;
+// CaseTrigger.trigger
+// Flag new Cases, and Cases whose Subject or Description changed; reset the attempt counter.
+trigger CaseTrigger on Case (before insert, before update) {
+    for (Case c : Trigger.new) {
+        Case old = Trigger.isUpdate ? Trigger.oldMap.get(c.Id) : null;
+        if (String.isNotBlank(c.Description) && (old == null || CaseSummaryBatch.textChanged(old, c))) {
+            c.AI_Summary_Requested__c = true;
+            c.AI_Summary_Attempts__c = 0;
+        }
     }
 }
 ```
@@ -398,14 +399,20 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
 
     private static final Integer MAX_ATTEMPTS = 3;
 
+    // Apex == and != ignore letter case for strings, so compare with equals() (case-sensitive, null-safe).
+    public static Boolean textChanged(Case a, Case b) {
+        return !String.valueOf(a.Subject).equals(String.valueOf(b.Subject))
+            || !String.valueOf(a.Description).equals(String.valueOf(b.Description));
+    }
+
     public void execute(Database.BatchableContext ctx, List<Case> scope) {
         Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
         for (Case c : scope) {
-            Boolean saved = false;
+            LlmClient.LlmResult r = null;
             try {
-                LlmClient.LlmResult r = LlmClient.complete(
+                r = LlmClient.complete(
                     LlmClient.Provider.CLAUDE,
                     'claude-sonnet-5-5', // example ID: confirm on Anthropic's models page
                     'Summarise this support case in at most 3 bullet points. Use only facts in the text. '
@@ -413,25 +420,26 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
                     'Subject: ' + c.Subject + '\nDescription: ' + c.Description,
                     400
                 );
-                // The Description may have changed while the model was answering.
-                // Re-read and lock the row; save only if the text we sent is still current.
-                Case fresh = [SELECT Description FROM Case WHERE Id = :c.Id WITH USER_MODE FOR UPDATE];
-                if (fresh.Description != c.Description) {
-                    continue; // the trigger re-queued it with the new text; the next run summarises that
-                }
-                if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
-                    // Save the summary and clear the request in the same update.
-                    updates.add(new Case(Id = c.Id,
-                        AI_Summary__c = r.text.left(maxLen),
-                        AI_Summary_Requested__c = false));
-                    saved = true;
-                }
             } catch (LlmClient.LlmException e) {
                 System.debug(LoggingLevel.WARN, 'LLM error for ' + c.Id + ': ' + e.getMessage());
             } catch (System.CalloutException e) {
                 System.debug(LoggingLevel.WARN, 'Callout failed for ' + c.Id + ': ' + e.getMessage());
             }
-            if (!saved) {
+
+            // Success or failure: re-read and lock the row. If someone edited the text or
+            // unticked the request while the model was answering, leave the record alone.
+            Case fresh = [SELECT Subject, Description, AI_Summary_Requested__c FROM Case
+                          WHERE Id = :c.Id WITH USER_MODE FOR UPDATE];
+            if (!fresh.AI_Summary_Requested__c || textChanged(c, fresh)) {
+                continue;
+            }
+
+            if (r != null && r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
+                // Save the summary and clear the request in the same update.
+                updates.add(new Case(Id = c.Id,
+                    AI_Summary__c = r.text.left(maxLen),
+                    AI_Summary_Requested__c = false));
+            } else {
                 // Error, timeout, truncated or refused output: count the attempt and
                 // stop retrying after MAX_ATTEMPTS so failures can't crowd out new work.
                 Integer attempts = (c.AI_Summary_Attempts__c == null ? 0 : c.AI_Summary_Attempts__c.intValue()) + 1;
@@ -471,7 +479,7 @@ public with sharing class CaseSummaryDispatcher implements Schedulable {
 How this behaves:
 
 - **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user who can read the Cases, read `Subject` and `Description`, and edit `AI_Summary__c`, `AI_Summary_Requested__c` and `AI_Summary_Attempts__c`. Give that user the External Credential principal access and User External Credentials access from the setup section too.
-- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A caught failure is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. The limit counts only failures the job could record: if the whole transaction fails (an uncaught exception, or the final update itself failing), nothing is saved and the record is tried again, so check **Apex Jobs** in Setup for failed batches. Editing the Description, or ticking the checkbox again and resetting the counter, queues it again. Unticking the checkbox stops retries.
+- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A caught failure is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. The limit counts only failures the job could record: if the whole transaction fails (an uncaught exception, or the final update itself failing), nothing is saved and the record is tried again, so check **Apex Jobs** in Setup for failed batches. Editing the Subject or Description (case-sensitive) queues it again with a fresh counter. Unticking the checkbox stops retries, and a run that finishes after you untick it or edit the text leaves the record alone.
 - **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
 - **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
 
@@ -782,32 +790,33 @@ Need this built in your org? [SFX can build it](/services/) with a written scope
 ## Solution kit: files and deploy commands
 {: #solution-kit}
 
-Everything in this guide, laid out as an SFDX project. Create the External Credentials, Named Credentials (`Anthropic_API`, `OpenAI_API`, `Gemini_API`) and the permission set in Setup as described above, because the API keys must be entered there, not deployed.
+These commands build the whole project from scratch with the Salesforce CLI. Create the External Credentials, Named Credentials (`Anthropic_API`, `OpenAI_API`, `Gemini_API`) and the permission set in Setup first, as described above, because the API keys must be entered there, not deployed.
 
-```text
-force-app/main/default/
-  classes/
-    LlmClient.cls                (+ LlmClient.cls-meta.xml)
-    LlmClientTest.cls            (+ meta)
-    CaseSummaryBatch.cls         (+ meta)
-    CaseSummaryBatchTest.cls     (+ meta)
-    CaseSummaryDispatcher.cls    (+ meta)
-  triggers/
-    CaseTrigger.trigger          (+ meta)  before insert, before update: the flagging loop from step 1
-  objects/Case/fields/
-    AI_Summary__c.field-meta.xml              Long Text Area
-    AI_Summary_Requested__c.field-meta.xml    Checkbox, default false
-    AI_Summary_Attempts__c.field-meta.xml     Number(3,0), default 0
-```
+**1. Create the three Case fields** in **Setup → Object Manager → Case → Fields & Relationships**: `AI_Summary__c` (Long Text Area), `AI_Summary_Requested__c` (Checkbox, default unchecked) and `AI_Summary_Attempts__c` (Number, 3 digits, 0 decimals, default 0). Give the permission set read and edit access to all three.
 
-Deploy to a sandbox or scratch org and run the tests:
+**2. Generate the project and empty classes** (the CLI writes `sfdx-project.json` and every `-meta.xml` file for you):
 
 ```bash
-sf project deploy start --source-dir force-app --target-org my-sandbox
-sf apex run test --class-names LlmClientTest --class-names CaseSummaryBatchTest --target-org my-sandbox --result-format human --wait 10
+sf project generate --name llm-apex && cd llm-apex
+for c in LlmClient LlmClientTest CaseSummaryBatch CaseSummaryBatchTest CaseSummaryDispatcher; do
+  sf apex generate class --name "$c" --output-dir force-app/main/default/classes
+done
+sf apex generate trigger --name CaseTrigger --sobject Case --event "before insert,before update" \
+  --output-dir force-app/main/default/triggers
 ```
 
-Then schedule the dispatcher once from Execute Anonymous (step 3) and watch the first runs in **Setup → Apex Jobs**.
+**3. Paste the code** from this guide into the matching `.cls` and `.trigger` files, replacing the generated stubs.
+
+**4. Deploy to a sandbox and run the tests:**
+
+```bash
+sf org login web --alias my-sandbox --instance-url https://test.salesforce.com
+sf project deploy start --source-dir force-app --target-org my-sandbox
+sf apex run test --class-names LlmClientTest --class-names CaseSummaryBatchTest \
+  --target-org my-sandbox --result-format human --wait 10
+```
+
+**5. Schedule the dispatcher** once from Execute Anonymous (step 3 of the bulk section) and watch the first runs in **Setup → Apex Jobs**.
 
 ## Official sources
 {: #official-sources}
