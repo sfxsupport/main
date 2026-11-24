@@ -5,8 +5,8 @@ featured: false
 title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call LLM from Apex: Claude, OpenAI and Gemini Guide"
 description: "Call an LLM from Apex: keep the key in an External Credential, POST to Claude, OpenAI or Gemini via a Named Credential, test with HttpCalloutMock."
-date: 2026-11-25 07:00:00 +0530
-last_modified_at: 2026-11-25 07:00:00 +0530
+date: 2026-11-25 00:30:00 +0530
+last_modified_at: 2026-11-25 00:30:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
