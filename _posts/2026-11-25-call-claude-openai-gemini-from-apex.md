@@ -123,7 +123,7 @@ Repeat these steps for each vendor. The table after the steps lists the values t
    - Generate Authorization Header: unchecked. The custom header handles auth.
 5. **Give users access to the principal.** Go to Setup → **Permission Sets** → **New** (for example `LLM_Callout_Access`).
    - **External Credential Principal Access** → Edit → add `Anthropic - ClaudeKey`.
-   - **Object Settings** → **User External Credentials**: give at least **Read**. Without object access, callouts fail even when principal access is granted. If you still get the credential error, compare your permission set with Salesforce Help's "User External Credentials permissions" page for your release; some setups need wider access than Read.
+   - **Object Settings** → **User External Credentials**: give **View All** (View All Records). With Custom authentication and a named principal, the admin enters the key once and callout users use it through this access; principal access alone is not enough. See Salesforce Help: [Permission Concepts for User External Credentials](https://help.salesforce.com/s/articleView?id=sf.nc_user_external_credentials_permissions.htm&type=5).
    - Assign the permission set to every user whose transactions make the callout. That includes the user who enqueues async jobs and any integration user.
 
 | Vendor | External Credential header name | Header value formula | Named Credential URL |
@@ -603,7 +603,7 @@ System.CalloutException: Unauthorized endpoint, please check Setup->Security->Re
 We couldn't access the credential(s). You might not have the required permissions, or the external credential "Anthropic" might not exist.
 ```
 
-**Cause:** the running user is missing **External Credential Principal Access** or **Read** on **User External Credentials**.
+**Cause:** the running user is missing **External Credential Principal Access** or **View All** on **User External Credentials**.
 
 **Fix:** assign the permission set to the user the code actually runs as. Scheduled jobs, platform event triggers and integration users often differ from the person who tested in Execute Anonymous.
 
