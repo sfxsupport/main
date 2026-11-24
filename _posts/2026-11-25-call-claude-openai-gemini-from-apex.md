@@ -4,7 +4,7 @@ sfx_blog: true
 featured: false
 title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
-description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Queueable Apex and HttpCalloutMock tests."
+description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
 last_modified_at: 2026-11-25 01:08:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
@@ -361,35 +361,31 @@ To switch vendors, change the provider enum and the model ID, and set up that ve
 ## How do I run the LLM call asynchronously from a record?
 {: #async-queueable}
 
-LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. Do the callout in a Queueable that implements `Database.AllowsCallouts`. This example summarises a Case into a Long Text Area field `AI_Summary__c` that you create on Case first.
+LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. For one record, a Queueable that implements `Database.AllowsCallouts` is enough. For many records, use **Batch Apex with a scope of 1**: every record gets its own transaction, so one slow or failed call can't use up the 120-second callout budget of the others, and there's no Queueable chain-depth limit to hit. This example summarises Cases into a Long Text Area field `AI_Summary__c` that you create on Case first.
 
 ```apex
-public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCallouts {
+public with sharing class CaseSummaryBatch implements Database.Batchable<SObject>, Database.AllowsCallouts {
 
-    // A transaction allows 120 seconds of callout time in total and one LLM call can use
-    // all of it, so each job makes exactly one callout and chains the rest.
-    private static final Integer PER_JOB = 1;
-    private final List<Id> caseIds;
+    private final Set<Id> caseIds;
 
-    public CaseSummaryJob(List<Id> caseIds) {
+    public CaseSummaryBatch(Set<Id> caseIds) {
         this.caseIds = caseIds;
     }
 
-    public void execute(QueueableContext ctx) {
-        List<Id> nowIds = new List<Id>();
-        List<Id> laterIds = new List<Id>();
-        for (Id caseId : caseIds) {
-            if (nowIds.size() < PER_JOB) { nowIds.add(caseId); } else { laterIds.add(caseId); }
-        }
+    public Database.QueryLocator start(Database.BatchableContext ctx) {
+        return Database.getQueryLocator(
+            [SELECT Id, Subject, Description, AI_Summary__c FROM Case WHERE Id IN :caseIds]
+        );
+    }
 
+    // Run with a scope of 1: one Case, one callout, one transaction.
+    public void execute(Database.BatchableContext ctx, List<Case> scope) {
         Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
-        // 1. All callouts first.
-        for (Case c : [SELECT Id, Subject, Description, AI_Summary__c
-                       FROM Case WHERE Id IN :nowIds WITH USER_MODE]) {
+        for (Case c : scope) {
             if (String.isNotBlank(c.AI_Summary__c)) {
-                continue; // already summarised: don't pay twice on a retry
+                continue; // already summarised: don't pay twice on a rerun
             }
             try {
                 LlmClient.LlmResult r = LlmClient.complete(
@@ -404,33 +400,39 @@ public with sharing class CaseSummaryJob implements Queueable, Database.AllowsCa
                 if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
                     updates.add(new Case(Id = c.Id, AI_Summary__c = r.text.left(maxLen)));
                 }
-            } catch (Exception e) {
-                // LlmException (HTTP error) or CalloutException (timeout): log it and move on,
-                // so the chain continues with the remaining records.
-                System.debug(LoggingLevel.WARN, 'Summary failed for ' + c.Id + ': ' + e.getMessage());
+            } catch (LlmClient.LlmException e) {
+                System.debug(LoggingLevel.WARN, 'LLM error for ' + c.Id + ': ' + e.getMessage());
+            } catch (System.CalloutException e) {
+                System.debug(LoggingLevel.WARN, 'Callout failed for ' + c.Id + ': ' + e.getMessage());
             }
         }
 
-        // 2. DML once, after every callout.
+        // DML after the callout, in user mode.
         if (!updates.isEmpty()) {
             update as user updates;
         }
-
-        // 3. Chain the remaining records (Developer Edition orgs limit chain depth to 5).
-        if (!laterIds.isEmpty() && !Test.isRunningTest()) {
-            System.enqueueJob(new CaseSummaryJob(laterIds));
-        }
     }
+
+    public void finish(Database.BatchableContext ctx) {}
 }
 ```
 
-Enqueue **one** job per transaction, never one per record. From an after-insert trigger handler:
+Start it once per transaction, never once per record. From an after-insert trigger handler, hand the IDs to a small Queueable that starts the batch, so the trigger itself stays fast:
 
 ```apex
-System.enqueueJob(new CaseSummaryJob(new List<Id>(Trigger.newMap.keySet())));
+public with sharing class CaseSummaryStarter implements Queueable {
+    private final Set<Id> caseIds;
+    public CaseSummaryStarter(Set<Id> caseIds) { this.caseIds = caseIds; }
+    public void execute(QueueableContext ctx) {
+        Database.executeBatch(new CaseSummaryBatch(caseIds), 1); // scope 1 = one callout per transaction
+    }
+}
+
+// In the after-insert trigger handler:
+System.enqueueJob(new CaseSummaryStarter(Trigger.newMap.keySet()));
 ```
 
-A synchronous transaction can enqueue at most 50 jobs and an asynchronous one only a single job, so one job per record breaks on the first data load. The running user needs read access to Case and edit access to `AI_Summary__c`, because both the query and the update run in user mode. The "already summarised" check means a retry doesn't pay for the same summary twice; the same idea is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/). If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
+The running user needs read access to Case and edit access to `AI_Summary__c`, because the update runs in user mode. Only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. Cases that fail keep an empty `AI_Summary__c`, so you can rerun the batch for them later without paying twice; the same idea is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/). If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
 
 ## How do I test LLM callouts in Apex?
 {: #test-class}
@@ -558,7 +560,7 @@ private class LlmClientTest {
 }
 ```
 
-Write a separate test for `CaseSummaryJob` that inserts a Case, sets the same mock, runs `System.enqueueJob(new CaseSummaryJob(new List<Id>{ c.Id }))` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled.
+Write a separate test for `CaseSummaryBatch` that inserts a Case, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(new Set<Id>{ c.Id }), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled.
 
 ## Common errors and fixes
 {: #common-errors}
@@ -593,7 +595,7 @@ System.CalloutException: You have uncommitted work pending. Please commit or rol
 
 **Cause:** DML ran before the callout in the same transaction.
 
-**Fix:** make the callout first, or move it into a Queueable as shown above.
+**Fix:** make the callout first, or move it into the batch job shown above.
 
 ### Callout from triggers are currently not supported
 
