@@ -6,7 +6,7 @@ title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
 description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 01:45:00 +0530
+last_modified_at: 2026-11-25 01:55:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -53,13 +53,15 @@ toc:
   - id: apex-client
     label: "One Apex client for all three"
   - id: async-queueable
-    label: "Run it asynchronously"
+    label: "Run it in bulk (Batch Apex)"
   - id: test-class
     label: "Test class"
   - id: common-errors
     label: "Common errors and fixes"
   - id: cost-limits
     label: "Cost and limits"
+  - id: solution-kit
+    label: "Solution kit"
   - id: official-sources
     label: "Official sources"
 ---
@@ -411,6 +413,12 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
                     'Subject: ' + c.Subject + '\nDescription: ' + c.Description,
                     400
                 );
+                // The Description may have changed while the model was answering.
+                // Re-read and lock the row; save only if the text we sent is still current.
+                Case fresh = [SELECT Description FROM Case WHERE Id = :c.Id WITH USER_MODE FOR UPDATE];
+                if (fresh.Description != c.Description) {
+                    continue; // the trigger re-queued it with the new text; the next run summarises that
+                }
                 if (r.stopReason == 'end_turn' && String.isNotBlank(r.text)) {
                     // Save the summary and clear the request in the same update.
                     updates.add(new Case(Id = c.Id,
@@ -462,8 +470,8 @@ public with sharing class CaseSummaryDispatcher implements Schedulable {
 
 How this behaves:
 
-- **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user with read access to Case and edit access to both fields.
-- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A failed record is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. Editing the Description, or ticking the checkbox again and resetting the counter, queues it again. Unticking the checkbox stops retries.
+- **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user who can read the Cases, read `Subject` and `Description`, and edit `AI_Summary__c`, `AI_Summary_Requested__c` and `AI_Summary_Attempts__c`. Give that user the External Credential principal access and User External Credentials access from the setup section too.
+- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A caught failure is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. The limit counts only failures the job could record: if the whole transaction fails (an uncaught exception, or the final update itself failing), nothing is saved and the record is tried again, so check **Apex Jobs** in Setup for failed batches. Editing the Description, or ticking the checkbox again and resetting the counter, queues it again. Unticking the checkbox stops retries.
 - **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
 - **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
 
@@ -595,7 +603,74 @@ private class LlmClientTest {
 }
 ```
 
-Write a separate test for `CaseSummaryBatch` that inserts a Case with `AI_Summary_Requested__c = true`, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled and the checkbox was cleared. Add a second test with a mock that returns HTTP 500 and assert that `AI_Summary_Attempts__c` went up by 1, and a third that starts at 2 attempts and asserts the checkbox is cleared after the failure.
+Test the batch the same way. Put this in `CaseSummaryBatchTest.cls` (it reuses the mock pattern above, with a status code you choose):
+
+```apex
+@IsTest
+private class CaseSummaryBatchTest {
+
+    private class Mock implements HttpCalloutMock {
+        private final Integer status;
+        Mock(Integer status) { this.status = status; }
+        public HttpResponse respond(HttpRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setStatusCode(status);
+            res.setHeader('Content-Type', 'application/json');
+            res.setBody(status == 200
+                ? '{"content":[{"type":"text","text":"- Customer cannot log in"}],"stop_reason":"end_turn"}'
+                : '{"type":"error","error":{"type":"api_error","message":"boom"}}');
+            return res;
+        }
+    }
+
+    private static Case newCase(Integer attempts) {
+        Case c = new Case(Subject = 'Login', Description = 'Customer cannot log in');
+        insert c; // the trigger ticks AI_Summary_Requested__c
+        if (attempts > 0) {
+            update new Case(Id = c.Id, AI_Summary_Attempts__c = attempts);
+        }
+        return c;
+    }
+
+    @IsTest
+    static void savesSummaryAndClearsRequest() {
+        Case c = newCase(0);
+        Test.setMock(HttpCalloutMock.class, new Mock(200));
+        Test.startTest();
+        Database.executeBatch(new CaseSummaryBatch(), 1);
+        Test.stopTest();
+        c = [SELECT AI_Summary__c, AI_Summary_Requested__c FROM Case WHERE Id = :c.Id];
+        Assert.isTrue(c.AI_Summary__c.contains('cannot log in'));
+        Assert.isFalse(c.AI_Summary_Requested__c);
+    }
+
+    @IsTest
+    static void countsFailedAttempt() {
+        Case c = newCase(0);
+        Test.setMock(HttpCalloutMock.class, new Mock(500));
+        Test.startTest();
+        Database.executeBatch(new CaseSummaryBatch(), 1);
+        Test.stopTest();
+        c = [SELECT AI_Summary_Attempts__c, AI_Summary_Requested__c FROM Case WHERE Id = :c.Id];
+        Assert.areEqual(1, c.AI_Summary_Attempts__c);
+        Assert.isTrue(c.AI_Summary_Requested__c);
+    }
+
+    @IsTest
+    static void stopsAfterThirdFailure() {
+        Case c = newCase(2);
+        Test.setMock(HttpCalloutMock.class, new Mock(500));
+        Test.startTest();
+        Database.executeBatch(new CaseSummaryBatch(), 1);
+        Test.stopTest();
+        c = [SELECT AI_Summary_Attempts__c, AI_Summary_Requested__c FROM Case WHERE Id = :c.Id];
+        Assert.areEqual(3, c.AI_Summary_Attempts__c);
+        Assert.isFalse(c.AI_Summary_Requested__c);
+    }
+}
+```
+
+The success mock returns the Claude response shape because the batch uses `Provider.CLAUDE`. If your `LlmClient` throws for HTTP 500 differently, adjust the status, not the assertions.
 
 ## Common errors and fixes
 {: #common-errors}
@@ -703,6 +778,36 @@ Check the current numbers on Salesforce's "Execution Governors and Limits" page 
 **Data.** A direct callout sends record text to a third party. Send only the fields the task needs, leave out personal identifiers unless they're approved, and use `WITH USER_MODE` queries so a user can't pull in data they can't already see. Treat the output as a draft for a human to review, not as a final decision. The same principle applies in our [lead qualification guardrails post](/blog/salesforce-ai-lead-qualification-guardrails/).
 
 Need this built in your org? [SFX can build it](/services/) with a written scope and fixed quote.
+
+## Solution kit: files and deploy commands
+{: #solution-kit}
+
+Everything in this guide, laid out as an SFDX project. Create the External Credentials, Named Credentials (`Anthropic_API`, `OpenAI_API`, `Gemini_API`) and the permission set in Setup as described above, because the API keys must be entered there, not deployed.
+
+```text
+force-app/main/default/
+  classes/
+    LlmClient.cls                (+ LlmClient.cls-meta.xml)
+    LlmClientTest.cls            (+ meta)
+    CaseSummaryBatch.cls         (+ meta)
+    CaseSummaryBatchTest.cls     (+ meta)
+    CaseSummaryDispatcher.cls    (+ meta)
+  triggers/
+    CaseTrigger.trigger          (+ meta)  before insert, before update: the flagging loop from step 1
+  objects/Case/fields/
+    AI_Summary__c.field-meta.xml              Long Text Area
+    AI_Summary_Requested__c.field-meta.xml    Checkbox, default false
+    AI_Summary_Attempts__c.field-meta.xml     Number(3,0), default 0
+```
+
+Deploy to a sandbox or scratch org and run the tests:
+
+```bash
+sf project deploy start --source-dir force-app --target-org my-sandbox
+sf apex run test --class-names LlmClientTest --class-names CaseSummaryBatchTest --target-org my-sandbox --result-format human --wait 10
+```
+
+Then schedule the dispatcher once from Execute Anonymous (step 3) and watch the first runs in **Setup → Apex Jobs**.
 
 ## Official sources
 {: #official-sources}
