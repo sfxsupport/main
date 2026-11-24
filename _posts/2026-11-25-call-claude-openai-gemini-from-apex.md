@@ -22,7 +22,8 @@ tags:
   - Salesforce AI
 reading_time: "14 min read"
 og_type: article
-author_name: "Krrish Joshi"
+author_name: "Abhay Nama"
+author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/call-claude-openai-gemini-from-apex.jpg
 image_alt: "Diagram of a Salesforce Apex class sending HTTP callouts through Named Credentials to the Claude, OpenAI and Gemini APIs"
 proficiency: "Intermediate"
