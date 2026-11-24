@@ -6,7 +6,7 @@ title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
 description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 01:08:00 +0530
+last_modified_at: 2026-11-25 01:45:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -27,7 +27,7 @@ author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/call-claude-openai-gemini-from-apex.jpg
 image_alt: "Diagram of a Salesforce Apex class sending HTTP callouts through Named Credentials to the Claude, OpenAI and Gemini APIs"
 proficiency: "Intermediate"
-answer: "To call an LLM from Apex, store the vendor API key in a Custom-protocol External Credential that adds the auth header. Point a Named Credential at the vendor's base URL, then send a JSON POST with HttpRequest to callout:Your_Named_Credential (Anthropic /v1/messages, OpenAI /v1/responses or Gemini /v1beta/models/{model}:generateContent). Parse the reply with JSON.deserializeUntyped, run the call from a Queueable that implements Database.AllowsCallouts, and cover it with an HttpCalloutMock test."
+answer: "To call an LLM from Apex, store the vendor API key in an External Credential and point a Named Credential at the vendor URL. Send a JSON POST with HttpRequest to callout:Your_Named_Credential, parse the reply with JSON.deserializeUntyped, run bulk calls from Batch Apex that implements Database.AllowsCallouts, and test with HttpCalloutMock."
 faq:
   - q: "Can I call OpenAI or Claude directly from Apex without the Einstein Trust Layer?"
     a: "Yes. A normal Apex HTTP callout through a Named Credential can reach api.anthropic.com, api.openai.com or generativelanguage.googleapis.com. Those calls do not go through the Einstein Trust Layer, so masking, logging and data-handling rules are your job."
@@ -363,15 +363,19 @@ To switch vendors, change the provider enum and the model ID, and set up that ve
 
 LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. For bulk work, the safest design is a **durable queue**: the trigger (or a record-triggered flow) only ticks a checkbox, and a scheduled job runs **one Batch Apex job with a scope of 1** over the ticked records. Every record then gets its own transaction and its own 120-second callout budget, trigger chunking and Queueable limits can't break the insert, and only one job runs at a time.
 
-Create two fields on Case first: a Long Text Area `AI_Summary__c` and a Checkbox `AI_Summary_Requested__c`.
+Create three fields on Case first: a Long Text Area `AI_Summary__c`, a Checkbox `AI_Summary_Requested__c` and a Number `AI_Summary_Attempts__c` (default 0).
 
 **1. Mark the records (no callout, no async job in the trigger):**
 
 ```apex
-// In a before-insert / before-update Case trigger handler
+// In a before-insert / before-update Case trigger handler.
+// Flag only new Cases and Cases whose Description changed, and reset the attempt counter.
 for (Case c : (List<Case>) Trigger.new) {
-    if (String.isBlank(c.AI_Summary__c) && String.isNotBlank(c.Description)) {
+    Case old = Trigger.isUpdate ? (Case) Trigger.oldMap.get(c.Id) : null;
+    Boolean descriptionChanged = old == null || c.Description != old.Description;
+    if (descriptionChanged && String.isNotBlank(c.Description)) {
         c.AI_Summary_Requested__c = true;
+        c.AI_Summary_Attempts__c = 0;
     }
 }
 ```
@@ -383,18 +387,21 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
 
     public Database.QueryLocator start(Database.BatchableContext ctx) {
         return Database.getQueryLocator(
-            [SELECT Id, Subject, Description FROM Case
+            [SELECT Id, Subject, Description, AI_Summary_Attempts__c FROM Case
              WHERE AI_Summary_Requested__c = true
              WITH USER_MODE
              LIMIT 2000]
         );
     }
 
+    private static final Integer MAX_ATTEMPTS = 3;
+
     public void execute(Database.BatchableContext ctx, List<Case> scope) {
         Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
         for (Case c : scope) {
+            Boolean saved = false;
             try {
                 LlmClient.LlmResult r = LlmClient.complete(
                     LlmClient.Provider.CLAUDE,
@@ -409,12 +416,20 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
                     updates.add(new Case(Id = c.Id,
                         AI_Summary__c = r.text.left(maxLen),
                         AI_Summary_Requested__c = false));
+                    saved = true;
                 }
-                // Truncated or refused output: leave the request ticked for review.
             } catch (LlmClient.LlmException e) {
                 System.debug(LoggingLevel.WARN, 'LLM error for ' + c.Id + ': ' + e.getMessage());
             } catch (System.CalloutException e) {
                 System.debug(LoggingLevel.WARN, 'Callout failed for ' + c.Id + ': ' + e.getMessage());
+            }
+            if (!saved) {
+                // Error, timeout, truncated or refused output: count the attempt and
+                // stop retrying after MAX_ATTEMPTS so failures can't crowd out new work.
+                Integer attempts = (c.AI_Summary_Attempts__c == null ? 0 : c.AI_Summary_Attempts__c.intValue()) + 1;
+                updates.add(new Case(Id = c.Id,
+                    AI_Summary_Attempts__c = attempts,
+                    AI_Summary_Requested__c = attempts < MAX_ATTEMPTS));
             }
         }
 
@@ -448,7 +463,7 @@ public with sharing class CaseSummaryDispatcher implements Schedulable {
 How this behaves:
 
 - **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user with read access to Case and edit access to both fields.
-- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. Failed records stay ticked and are picked up by the next run.
+- **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A failed record is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. Editing the Description, or ticking the checkbox again and resetting the counter, queues it again. Unticking the checkbox stops retries.
 - **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
 - **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
 
@@ -580,7 +595,7 @@ private class LlmClientTest {
 }
 ```
 
-Write a separate test for `CaseSummaryBatch` that inserts a Case with `AI_Summary_Requested__c = true`, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled and the checkbox was cleared.
+Write a separate test for `CaseSummaryBatch` that inserts a Case with `AI_Summary_Requested__c = true`, sets the same mock, runs `Database.executeBatch(new CaseSummaryBatch(), 1)` between `Test.startTest()` and `Test.stopTest()`, and asserts that `AI_Summary__c` was filled and the checkbox was cleared. Add a second test with a mock that returns HTTP 500 and assert that `AI_Summary_Attempts__c` went up by 1, and a third that starts at 2 attempts and asserts the checkbox is cleared after the failure.
 
 ## Common errors and fixes
 {: #common-errors}
