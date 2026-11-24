@@ -1,0 +1,58 @@
+/* /services/ page. Builds on campaign.css (same theme, no motion). */
+
+.svc-hero { max-width: 860px; }
+.svc-hero h1 em { display: block; }
+.svc-assurances {
+  display: flex; flex-wrap: wrap; gap: 10px 22px;
+  margin: 26px 0 0; padding: 0; list-style: none;
+  color: var(--campaign-muted); font-size: .95rem;
+}
+.svc-assurances li::before { content: "✓"; margin-right: 8px; color: var(--campaign-green); font-weight: 700; }
+
+.svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.svc-card {
+  display: grid; align-content: start; gap: 10px; padding: 24px;
+  background: #fff; border: 1px solid var(--campaign-line); border-radius: 16px;
+}
+.svc-card h3 { margin: 0; font-size: 1.12rem; }
+.svc-card p { margin: 0; color: var(--campaign-muted); line-height: 1.6; font-size: .95rem; }
+.svc-card .svc-card__meta { color: var(--campaign-blue); font-size: .88rem; font-weight: 700; }
+.svc-card--lead { border: 2px solid var(--campaign-blue); }
+.svc-card__tag {
+  justify-self: start; padding: 3px 10px; border-radius: 999px;
+  color: #fff !important; background: var(--campaign-blue); font-size: .78rem !important; font-weight: 700;
+}
+
+.svc-steps {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+  margin: 0; padding: 0; list-style: none; counter-reset: step;
+}
+.svc-steps li {
+  position: relative; display: grid; align-content: start; gap: 8px;
+  padding: 52px 20px 22px; background: #fff;
+  border: 1px solid var(--campaign-line); border-radius: 16px; counter-increment: step;
+}
+.svc-steps li::before {
+  content: counter(step); position: absolute; top: 18px; left: 20px;
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  color: #fff; background: var(--campaign-ink); font-size: .85rem; font-weight: 700;
+}
+.svc-steps strong { color: var(--campaign-ink); }
+.svc-steps span { color: var(--campaign-muted); font-size: .93rem; line-height: 1.55; }
+
+#work .ai-proof__grid { grid-template-columns: repeat(2, 1fr); }
+
+.svc-team { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: start; }
+.svc-team p { color: var(--campaign-muted); line-height: 1.7; }
+.svc-dev { padding: 26px; background: #fff; border: 1px solid var(--campaign-line); border-radius: 16px; }
+.svc-dev h3 { margin: 0 0 6px; }
+
+@media (max-width: 980px) {
+  .svc-grid { grid-template-columns: repeat(2, 1fr); }
+  .svc-steps { grid-template-columns: repeat(2, 1fr); }
+  .svc-team { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .svc-grid, .svc-steps, #work .ai-proof__grid { grid-template-columns: 1fr; }
+}
+.svc-team .section-heading { margin-bottom: 0; }

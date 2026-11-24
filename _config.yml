@@ -1,7 +1,7 @@
 # ── Site Settings ──────────────────────────────────────────
-title: "SFX Support — Salesforce Learning, Interview Prep & AI Tools"
-tagline: "Salesforce Expertise, On Demand"
-description: "Free Salesforce learning, interview prep, AI tools, and expert guidance for developers, admins, and architects. Apex, LWC, Integration, Flows, SOQL — all in one place."
+title: "SFX Support — Salesforce + AI Solutions: Agentforce, Prompt Builder & LLM Integrations"
+tagline: "Salesforce + AI, built right"
+description: "Salesforce + AI solutions: tested guides, tools and expert delivery for Agentforce, Prompt Builder, Models API, Data Cloud RAG, MCP and Claude/OpenAI integrations from Apex."
 url: "https://sfxsupport.com"
 baseurl: ""
 lang: "en"
@@ -14,7 +14,7 @@ author:
 
 # ── SEO ────────────────────────────────────────────────────
 logo: "/assets/images/FinalLogo.png"
-keywords: "Salesforce developer, Salesforce interview questions, Apex triggers interview, LWC interview questions, Salesforce learning, Salesforce AI, Salesforce debug log analyzer, SOQL interview, Salesforce flows, Salesforce integration, Salesforce admin interview, Salesforce certification prep, Salesforce interview preparation"
+keywords: "Salesforce AI, Agentforce, Agentforce custom actions, Agentforce Apex action, Prompt Builder, Salesforce Models API, Data Cloud RAG, Salesforce MCP, call Claude API from Apex, OpenAI Salesforce integration, Salesforce AI developer, Agentforce troubleshooting, Agentforce pricing"
 
 # Public contact details used by blog call-to-action components.
 whatsapp:

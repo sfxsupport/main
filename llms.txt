@@ -1,0 +1,17 @@
+# SFX Support
+
+> SFX Support (sfxsupport.com) publishes tested, copy-paste solutions for Salesforce + AI: Agentforce custom actions, Agentforce troubleshooting, Prompt Builder, the Models API, Data Cloud RAG, MCP, and calling Claude, OpenAI and Gemini from Apex. SFX also builds these solutions for clients as paid, fixed-scope work. SFX is independent and is not a Salesforce partner.
+
+## Services
+- [Salesforce + AI services](https://sfxsupport.com/services/): Agentforce actions, Prompt Builder, LLM integrations from Apex, Flow and LWC; written scope and fixed quote.
+
+## Guides
+- [Blog](https://sfxsupport.com/blog/): Salesforce + AI solution guides with tested code, exact error messages and fixes.
+
+## Tools
+- [Debug Log Analyzer](https://sfxsupport.com/debug-log-analyzer/): capture Apex debug logs and analyse them with AI.
+- [Ask Krrish AI](https://sfxsupport.com/chatbot/): a Salesforce-focused AI assistant.
+
+## About
+- [About SFX Support](https://sfxsupport.com/about/)
+- [Contact](https://sfxsupport.com/contact/)

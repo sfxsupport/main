@@ -473,3 +473,15 @@ body.blog-light-theme .fdis { margin: 0; background: #f8f9fa; }
   .blog-series-card,
   .article-progress span { transition: none; }
 }
+
+/* AEO blocks: short answer, tested line, FAQ, hero image */
+.article-hero-image { width: 100%; max-width: 980px; height: auto; margin-top: 1.4rem; border-radius: 14px; border: 1px solid var(--blog-line); }
+.article-answer { margin: 0 0 1.2rem; padding: 1rem 1.2rem; background: var(--blog-blue-soft); border-left: 4px solid var(--blog-blue); border-radius: 10px; }
+.article-answer-label { margin-bottom: .35rem; color: var(--blog-blue-dark); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.article-answer p { margin: 0; color: #202124; line-height: 1.7; }
+.article-tested { margin: 0 0 1.6rem; color: #5f6368; font-size: .9rem; }
+.article-tested i { color: #188038; margin-right: .3rem; }
+.article-faq { margin-top: 2.4rem; }
+.article-faq details { margin-bottom: .6rem; padding: .85rem 1rem; border: 1px solid var(--blog-line); border-radius: 10px; background: #fff; }
+.article-faq summary { cursor: pointer; font-weight: 600; color: #202124; }
+.article-faq details p { margin: .6rem 0 0; color: #3c4043; line-height: 1.7; }

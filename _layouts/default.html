@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.seo_title | default: page.title | default: "SFX Support — Salesforce Learning, Interview Prep & AI Tools" }}</title>
+  <title>{{ page.seo_title | default: page.title | default: "SFX Support — Salesforce + AI Solutions" }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   {% if page.keywords %}
   <meta name="keywords" content="{{ page.keywords | escape }}">
@@ -20,7 +20,7 @@
   <!-- ── Open Graph ── -->
   <meta property="og:type" content="{{ page.og_type | default: 'website' }}">
   <meta property="og:site_name" content="SFX Support">
-  <meta property="og:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning, Interview Prep & AI Tools' }}">
+  <meta property="og:title" content="{{ page.title | default: 'SFX Support — Salesforce + AI Solutions' }}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
   <meta property="og:url" content="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
   <meta property="og:image" content="{{ page.image | default: '/assets/images/FinalLogo.png' | absolute_url }}">
@@ -28,7 +28,7 @@
 
   <!-- ── Twitter Card ── -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title | default: 'SFX Support — Salesforce Learning, Interview Prep & AI Tools' }}">
+  <meta name="twitter:title" content="{{ page.title | default: 'SFX Support — Salesforce + AI Solutions' }}">
   <meta name="twitter:description" content="{{ page.description | default: site.description }}">
   <meta name="twitter:image" content="{{ page.image | default: '/assets/images/FinalLogo.png' | absolute_url }}">
 
@@ -61,8 +61,10 @@
           "width": 200,
           "height": 200
         },
-        "description": "Free Salesforce learning, interview prep, AI tools and expert guidance for developers, admins and architects.",
-        "knowsAbout": ["Salesforce Development", "Apex Programming", "Lightning Web Components", "Salesforce Integration", "Salesforce Administration", "Salesforce Interview Preparation"]
+        "description": "Salesforce + AI solutions: tested guides, tools and expert delivery for Agentforce, Prompt Builder, Models API, Data Cloud RAG, MCP and LLM integrations from Apex.",
+        "email": "founders@sfxsupport.com",
+        "sameAs": ["https://www.youtube.com/channel/UCc1viN8c8g9PRCNX4RJU5HQ"],
+        "knowsAbout": ["Agentforce", "Agentforce custom actions", "Salesforce Prompt Builder", "Salesforce Models API", "Data Cloud retrieval-augmented generation", "Model Context Protocol", "Large language model integration with Apex", "Apex Programming", "Salesforce Flow", "Lightning Web Components", "Salesforce Integration"]
       },
       {
         "@type": "WebPage",
