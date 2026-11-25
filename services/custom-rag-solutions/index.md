@@ -90,7 +90,7 @@ service:
   form_placeholder: "e.g. 400 product PDFs and our Salesforce Knowledge base. Support agents should get answers with links to the source."
 faq:
   - q: "What is RAG?"
-    a: "Retrieval-augmented generation: the system first searches your content for relevant passages, then the AI model writes an answer using only those passages, with links back to them."
+    a: "Retrieval-augmented generation: the system first searches your content for relevant passages, then the AI model is instructed to answer from those passages and link back to them. It can still occasionally produce an unsupported answer, which is why we test and review."
   - q: "Do we need a vector database?"
     a: "Not always. Small collections can use simpler storage, and Salesforce teams may use Data Cloud. We choose based on size, access rules and what you already run."
   - q: "How do you stop wrong answers?"

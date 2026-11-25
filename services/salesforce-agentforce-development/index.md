@@ -32,7 +32,7 @@ service:
   build_heading: "Agentforce work we do"
   build:
     - title: "New agent, end to end"
-      text: "Use-case design, topics, instructions, actions, agent user permissions and a test set, built in a sandbox first."
+      text: "Use-case design, topics, instructions, actions, least-privilege permissions and a test set, built in a sandbox first."
       meta: "Start with one topic"
     - title: "Custom Apex actions"
       text: "Invocable Apex with clear inputs and outputs, bulk-safe queries, user-mode security and test classes."
@@ -57,7 +57,7 @@ service:
     - "Data Cloud grounding and Knowledge where it's licensed"
     - "Debug logs and test conversations to verify behaviour"
   safeguards:
-    - "A dedicated agent user with only the permissions the actions need"
+    - "Least-privilege permissions for each agent and channel, whether it runs as an agent user or as the logged-in user"
     - "Actions that validate their inputs and return clear errors"
     - "Test conversations for every topic, rerun after each change"
     - "Human handoff for anything outside the agent's scope"

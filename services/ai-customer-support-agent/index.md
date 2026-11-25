@@ -14,7 +14,7 @@ service:
   type: "Customer support AI agent development"
   card: "Agents that answer from your Knowledge, check the customer's case and hand over when unsure."
   eyebrow: "Customer support AI agents"
-  h1: "A support AI agent that answers correctly, or hands over to your team."
+  h1: "A support AI agent designed to answer from your content and hand over when unsure."
   lead: "Good support automation is not a chatbot that guesses. It answers from your approved content, checks the customer's real case or order, drafts replies for agents to send, and passes anything unclear to a person with the context already filled in."
   cta: "Discuss your support agent"
   noun: "support agent"

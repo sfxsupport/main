@@ -137,6 +137,8 @@
         <a href="/services/">Services</a>
         {% assign svc_pages = site.pages | where_exp: "s", "s.service" | sort: "service_order" %}{% for s in svc_pages %}<a href="{{ s.url }}">{{ s.service.short }}</a>
         {% endfor %}<a href="/blog/">Solution guides</a>
+        <a href="/salesforce-training/">Salesforce training</a>
+        <a href="/contributors/">Contributors</a>
         <a href="/">SFX Support home</a>
         <a href="/privacy/">Privacy</a>
       </div>
