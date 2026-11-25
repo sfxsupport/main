@@ -47,3 +47,20 @@ input, select, textarea { color: var(--text); background: #0f0f12; border-color:
 input::placeholder, textarea::placeholder { color: #5f5f68; }
 select option { background: #131316; color: var(--text); }
 a { color: inherit; }
+
+/* light boxes left over from the light theme */
+.contact-chip, .ticket, .proof-strip__grid, .proof-stat, .batch-snapshot, .review-card, .contributor-card,
+.format-card, .ecosystem-card, .fit-section, .challenge-counts span, .hero-video, .overview-video {
+  color: var(--text); background: var(--surface) !important; border-color: var(--border) !important; box-shadow: none;
+}
+.proof-strip__grid { border: 1px solid var(--border); }
+.contact-chip__call, .button--secondary, .button--call, .button--light {
+  color: var(--text); background: transparent; border-color: var(--border-strong);
+}
+.contact-chip__call:hover, .button--secondary:hover, .button--call:hover { background: rgba(255,255,255,.06); }
+.fit-card > div[aria-hidden] { background: rgba(255,255,255,.06) !important; }
+.fit-card--yes > div[aria-hidden] { color: var(--ok); }
+.fit-card--no > div[aria-hidden] { color: var(--warn); }
+.faq-list summary span, .faq summary span { color: var(--text); background: rgba(255,255,255,.06) !important; border-color: var(--border) !important; }
+.journey-list li::after { background: #0a0a0b !important; }
+.proof-stat strong, .ticket strong, .batch-snapshot strong { color: var(--text); }

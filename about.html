@@ -1,441 +1,265 @@
 ---
 layout: HomePageFinalTest
-title: About SFX Support
+title: "About SFX Support: Independent Salesforce + AI Team"
+og_title: "About SFX Support"
+description: "SFX Support is an independent Salesforce + AI team led by founder Abhay Nama. We build Agentforce and LLM solutions, run a live Salesforce batch and publish tested guides."
+image: /assets/images/campaign/abhay.webp
 permalink: /about/
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About SFX Support — Salesforce + AI Solutions Team</title>
-  <meta name="description" content="SFX Support is a Salesforce + AI solutions team: tested guides, tools and delivery for Agentforce, Prompt Builder, Models API, Data Cloud RAG, MCP and LLM integrations from Apex.">
-  <meta name="keywords" content="SFX Support, Salesforce AI, Agentforce developer, Agentforce consultant, Prompt Builder, Salesforce LLM integration, Salesforce AI solutions">
-  <meta name="author" content="SFX Support">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://sfxsupport.com/about/">
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="SFX Support">
-  <meta property="og:title" content="About SFX Support — Salesforce + AI Solutions Team">
-  <meta property="og:description" content="SFX Support is a Salesforce + AI solutions team helping developers, admins and businesses with Agentforce, AI integrations, debugging, and interview prep.">
-  <meta property="og:url" content="https://sfxsupport.com/about/">
-  <meta property="og:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About SFX Support — Salesforce + AI Solutions Team">
-  <meta name="twitter:description" content="SFX Support is a Salesforce + AI solutions team: tested guides, tools and delivery.">
-  <meta name="twitter:image" content="https://sfxsupport.com/assets/images/FinalLogo.png">
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "url": "https://sfxsupport.com/about/",
-    "name": "About SFX Support",
-    "description": "SFX Support is a Salesforce + AI solutions team: tested guides, tools and delivery for Agentforce, Prompt Builder, Models API, Data Cloud RAG, MCP and LLM integrations from Apex.",
-    "publisher": {
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://sfxsupport.com/about/#page",
+      "url": "https://sfxsupport.com/about/",
+      "name": "About SFX Support",
+      "description": "SFX Support is an independent Salesforce + AI team led by founder Abhay Nama.",
+      "mainEntity": { "@id": "https://sfxsupport.com/#organization" }
+    },
+    {
       "@type": "Organization",
+      "@id": "https://sfxsupport.com/#organization",
       "name": "SFX Support",
-      "url": "https://sfxsupport.com",
-      "logo": { "@type": "ImageObject", "url": "https://sfxsupport.com/assets/images/FinalLogo.png" }
+      "url": "https://sfxsupport.com/",
+      "logo": "https://sfxsupport.com/assets/images/FinalLogo.png",
+      "description": "Independent Salesforce + AI team: Agentforce agents, RAG and LLM integrations, Apex, Flow and LWC work, live Salesforce training and tested learning guides.",
+      "email": "founders@sfxsupport.com",
+      "founder": { "@id": "https://sfxsupport.com/about/#abhay" },
+      "knowsAbout": ["Salesforce", "Agentforce", "Apex", "Lightning Web Components", "Salesforce Flow", "Large language models", "Retrieval-augmented generation"],
+      "contactPoint": [
+        { "@type": "ContactPoint", "contactType": "sales", "email": "founders@sfxsupport.com", "telephone": "+91-7611896026", "availableLanguage": ["English", "Hindi"] }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://sfxsupport.com/about/#abhay",
+      "name": "Abhay Nama",
+      "jobTitle": "Founder",
+      "worksFor": { "@id": "https://sfxsupport.com/#organization" },
+      "image": "https://sfxsupport.com/assets/images/campaign/abhay.webp",
+      "sameAs": ["https://www.linkedin.com/in/abhay-nama-0739793a7/"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sfxsupport.com/" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://sfxsupport.com/about/" }
+      ]
     }
-  }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    :root {
-      --bg:  #080808; --bg2: #0e0e0e; --bg3: #151515; --bg4: #1c1c1c;
-      --b:   rgba(255,255,255,.06); --b2: rgba(255,255,255,.035); --b3: rgba(255,255,255,.015);
-      --t:   #f0f0f0; --t2: #8a8a8a; --t3: #404040;
-      --sun: 255,160,60;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background: var(--bg); color: var(--t);
-      -webkit-font-smoothing: antialiased;
-      font-weight: 300; font-size: 16px;
-      overflow-x: hidden;
-    }
-
-    /* ── STAR CANVAS ── */
-    #star-canvas {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ── AMBIENT GLOW ── */
-    .amb-tr {
-      position: fixed; top: -180px; right: -180px;
-      width: 560px; height: 560px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--sun),.05) 0%, transparent 70%);
-      pointer-events: none; z-index: 0; filter: blur(40px);
-    }
-    .amb-bl {
-      position: fixed; bottom: -200px; left: -150px;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--sun),.03) 0%, transparent 70%);
-      pointer-events: none; z-index: 0; filter: blur(50px);
-    }
-
-    /* ── LAYOUT ── */
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
-    section { padding: 7rem 0; position: relative; z-index: 1; }
-
-    /* ── TYPOGRAPHY ── */
-    .label {
-      font-size: .65rem; font-weight: 500;
-      text-transform: uppercase; letter-spacing: .13em;
-      color: var(--t3); margin-bottom: .875rem;
-      display: block;
-    }
-    h1 {
-      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
-      font-weight: 300; line-height: 1.08;
-      letter-spacing: -.03em; color: var(--t);
-      margin-bottom: 1.5rem;
-    }
-    h1 strong { font-weight: 600; }
-    h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 300; line-height: 1.14;
-      letter-spacing: -.025em; color: var(--t);
-      margin-bottom: .875rem;
-    }
-    h2 strong { font-weight: 600; }
-    .sub {
-      font-size: 1rem; font-weight: 300; line-height: 1.82;
-      color: var(--t2); max-width: 560px;
-    }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 92vh;
-      display: flex; align-items: center;
-      padding-top: 80px;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: .67rem; color: var(--t3);
-      letter-spacing: .08em; text-transform: uppercase;
-      margin-bottom: 1.75rem;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
-    .live { width:5px; height:5px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; display:inline-block; }
-
-    .hero-btns { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 2.5rem; }
-    .btn-w {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: .65rem 1.4rem;
-      background: var(--t); color: #000;
-      font-size: .85rem; font-weight: 600;
-      border-radius: 7px; text-decoration: none;
-      transition: background .15s, transform .15s;
-    }
-    .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); }
-    .btn-o {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: .65rem 1.4rem;
-      background: transparent; color: var(--t2);
-      font-size: .85rem; font-weight: 400;
-      border-radius: 7px; text-decoration: none;
-      border: 1px solid var(--b); transition: all .15s;
-    }
-    .btn-o:hover { color: var(--t); border-color: rgba(255,255,255,.12); }
-
-    /* ── GRID BOX ── */
-    .gbox {
-      background: var(--b3); border: 1px solid var(--b3);
-      border-radius: 14px; overflow: hidden; display: grid; gap: 1px;
-    }
-    .gc {
-      background: var(--bg); padding: 2.25rem;
-      transition: background .15s; position: relative; overflow: hidden;
-    }
-    .gc:hover { background: var(--bg2); }
-    .gc-icon {
-      width: 38px; height: 38px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .95rem; margin-bottom: 1.1rem;
-      background: var(--bg3); color: var(--t3); border: 1px solid var(--b3);
-      transition: all .2s;
-    }
-    .gc:hover .gc-icon {
-      background: rgba(var(--sun),.07);
-      border-color: rgba(var(--sun),.15);
-      color: rgba(var(--sun),.7);
-    }
-    /* per-card glow on hover */
-    .gc::after {
-      content: '';
-      position: absolute; top: -60px; left: -60px;
-      width: 200px; height: 200px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
-      filter: blur(16px); pointer-events: none;
-      opacity: 0; transition: opacity .35s;
-    }
-    .gc:hover::after { opacity: 1; }
-    .gc h3 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .45rem; }
-    .gc p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
-
-    /* ── TIMELINE ── */
-    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
-    .timeline::before {
-      content: '';
-      position: absolute; left: 19px; top: 8px; bottom: 8px; width: 1px;
-      background: linear-gradient(to bottom, rgba(var(--sun),.25), rgba(var(--sun),.05));
-    }
-    .tl-item {
-      display: flex; gap: 1.5rem; align-items: flex-start;
-      padding: 2rem 0; border-bottom: 1px solid var(--b3);
-    }
-    .tl-item:last-child { border-bottom: none; }
-    .tl-num {
-      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .8rem; font-weight: 600; color: rgba(var(--sun),.9);
-      background: rgba(var(--sun),.06);
-      border: 1px solid rgba(var(--sun),.15);
-      position: relative; z-index: 1;
-    }
-    .tl-content h4 { font-size: 1rem; font-weight: 500; color: var(--t); margin-bottom: .4rem; }
-    .tl-content p  { font-size: .875rem; color: var(--t2); line-height: 1.75; font-weight: 300; }
-
-    /* ── BLOCKQUOTE ── */
-    blockquote {
-      border-left: 2px solid rgba(var(--sun),.3);
-      padding: 1.25rem 1.5rem;
-      background: var(--bg2); border-radius: 0 10px 10px 0;
-      margin: 2rem 0;
-    }
-    blockquote p {
-      font-size: 1rem; line-height: 1.8; color: var(--t2); font-weight: 300;
-      font-style: italic;
-    }
-
-    /* ── DIVIDER ── */
-    hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
-
-    /* ── CTA CARD ── */
-    .cta-card {
-      background: var(--bg2); border: 1px solid var(--b);
-      border-radius: 16px; padding: 4rem 3.5rem;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .cta-card::before {
-      content: '';
-      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-      width: 500px; height: 300px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--sun),.06) 0%, transparent 70%);
-      pointer-events: none; filter: blur(30px);
-    }
-    .cta-card h2 { margin-bottom: .875rem; }
-    .cta-card p  { font-size: .975rem; color: var(--t2); max-width: 480px; margin: 0 auto 2rem; line-height: 1.8; }
-
-    /* ── REVEAL ── */
-    .r { opacity: 0; transform: translateY(16px); transition: opacity .52s ease, transform .52s ease; }
-    .r.v { opacity: 1; transform: translateY(0); }
-    .d1 { transition-delay: .07s; } .d2 { transition-delay: .14s; } .d3 { transition-delay: .21s; }
-
-    /* ── RESPONSIVE ── */
-    @media(max-width: 700px) {
-      /* Section spacing */
-      section { padding: 3.5rem 0; }
-      #hero { min-height: auto; padding-top: 6rem; padding-bottom: 3rem; }
-
-      /* Wrap */
-      .wrap { padding: 0 1.1rem; }
-
-      /* Typography */
-      h1 { font-size: clamp(2rem, 8vw, 2.6rem); margin-bottom: 1rem; }
-      h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
-      .sub { font-size: .93rem; }
-
-      /* Hero */
-      .hero-btns { flex-direction: column; gap: .6rem; }
-      .btn-w, .btn-o { justify-content: center; text-align: center; }
-
-      /* Mission — single column */
-      .mission-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
-
-      /* Timeline */
-      .tl-item { gap: 1rem; padding: 1.25rem 0; }
-      .tl-num { width: 32px; height: 32px; font-size: .75rem; flex-shrink: 0; }
-      .timeline::before { left: 15px; }
-
-      /* Blockquote */
-      blockquote { padding: 1rem 1.1rem; margin: 1.25rem 0; }
-
-      /* CTA card */
-      .cta-card { padding: 2rem 1.25rem; }
-      .cta-card p { font-size: .875rem; }
-
-      /* Grid cards */
-      .gc { padding: 1.5rem; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- Star canvas -->
-<canvas id="star-canvas"></canvas>
-
-<!-- Ambient glows -->
-<div class="amb-tr"></div>
-<div class="amb-bl"></div>
-
-<!-- ═══ HERO ═══ -->
-<section id="hero">
-  <div class="wrap">
-    <div class="hero-eyebrow r"><span class="live"></span>&nbsp;About SFX Support</div>
-    <h1 class="r d1">
-      A helping hand<br>
-      for <strong>Salesforce.</strong>
-    </h1>
-    <p class="sub r d2">
-      A Salesforce + AI solutions team. We publish tested, copy-paste guides and tools for Agentforce, Prompt Builder and LLM integrations, and we build them for clients with a written scope and a fixed quote.
-    </p>
-    <div class="hero-btns r d3">
-      <a href="/chatbot/" class="btn-w"><span class="live"></span>&nbsp;Ask Krrish AI</a>
-      <a href="/learning/" class="btn-o">Explore resources &darr;</a>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<!-- ═══ MISSION ═══ -->
-<section>
-  <div class="wrap">
-    <div class="mission-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
-      <div>
-        <span class="label r">Our Mission</span>
-        <h2 class="r d1">Here when it<br><strong>matters most.</strong></h2>
-        <p class="sub r d2" style="margin-bottom:1.75rem;">
-          Whether you're a developer trying to understand governor limits, an admin learning automation, or someone prepping for a Salesforce interview — SFX is where you find a working answer for Salesforce + AI.
-        </p>
-        <blockquote class="r d3">
-          <p>"Good resources and the right tools can make a huge difference — that's all SFX is trying to be."</p>
-        </blockquote>
-      </div>
-      <div>
-        <div class="gbox r d2" style="grid-template-columns:1fr;">
-          <div class="gc">
-            <div class="gc-icon"><i class="bi bi-compass"></i></div>
-            <h3>Tested, not guessed</h3>
-            <p>Every solution is built and run in a real Salesforce org before it is published or delivered.</p>
-          </div>
-          <div class="gc">
-            <div class="gc-icon"><i class="bi bi-life-preserver"></i></div>
-            <h3>Always Available</h3>
-            <p>Guides, tools, and AI available around the clock — learn at your own pace, whenever you need it.</p>
-          </div>
-          <div class="gc">
-            <div class="gc-icon"><i class="bi bi-file-earmark-text"></i></div>
-            <h3>Clear scope, fixed quote</h3>
-            <p>For project work you get a written scope and a fixed quote before anything starts. No surprises on cost or delivery.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<!-- ═══ HOW IT WORKS ═══ -->
-<section>
-  <div class="wrap">
-    <div style="max-width:480px;margin-bottom:3.5rem;">
-      <span class="label r">Process</span>
-      <h2 class="r d1">What SFX<br><strong>offers.</strong></h2>
-      <p class="sub r d2">Guides, tools, and delivery.</p>
-    </div>
-
-    <div class="timeline r d2" style="max-width:640px;">
-      <div class="tl-item">
-        <div class="tl-num">01</div>
-        <div class="tl-content">
-          <h4>Learning Guides</h4>
-          <p>Deep, practical guides on Apex, LWC, SOQL, Flows, integrations, deployment, and more — written for practitioners, covering real concepts not just exam topics.</p>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-num">02</div>
-        <div class="tl-content">
-          <h4>Krrish AI — Salesforce AI</h4>
-          <p>Ask anything Salesforce — code, debugging, best practices, interview prep. The AI responds instantly, with a daily message limit.</p>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-num">03</div>
-        <div class="tl-content">
-          <h4>Debug Log Analyzer</h4>
-          <p>A browser tool to capture, read, and analyze Salesforce Apex debug logs with AI — spot governor limit issues, N+1 SOQL, and field-level traces in seconds.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<!-- ═══ ETHOS ═══ -->
-<section>
-  <div class="wrap">
-    <div style="max-width:600px;margin:0 auto;text-align:center;">
-      <span class="label r" style="display:block;text-align:center;">How we work</span>
-      <h2 class="r d1" style="text-align:center;">Salesforce + AI,<br><strong>done properly.</strong></h2>
-      <p class="sub r d2" style="margin:0 auto 1.75rem;text-align:center;">
-        SFX focuses on one thing: making AI work inside Salesforce. Founder-led, with every piece of work reviewed by the founder.
-      </p>
-      <p class="r d2" style="margin:0 auto 1.75rem;text-align:center;font-size:.95rem;color:var(--t2);max-width:520px;">
-        SFX Support is led by founder <a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener">Abhay Nama</a>. The aim is simple: clear Salesforce + AI solutions, working code you can deploy, and help building it in your org when you need it.
-      </p>
-      <blockquote class="r d3" style="text-align:left;">
-        <p>Honest scopes, no invented numbers. Before a guide is published, two AI reviewers (Claude and ChatGPT) check it against official Salesforce and vendor docs, and a person approves it. New guides state whether their code has been run in an org. Client work is always built and tested in your sandbox.</p>
-      </blockquote>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<!-- ═══ CTA ═══ -->
-<section style="padding-bottom:8rem;">
-  <div class="wrap">
-    <div class="cta-card r">
-      <span class="label" style="display:block;text-align:center;margin-bottom:1.25rem;">Get Involved</span>
-      <h2 style="text-align:center;">Support the<br><strong>mission.</strong></h2>
-      <p>Want to contribute, collaborate, or spread the word? Let's build a world where quality Salesforce help is never out of reach.</p>
-      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
-        <a href="/contact/" class="btn-w">Join the Effort &rarr;</a>
-        <a href="/" class="btn-o">Back to Home</a>
-      </div>
-      <p style="margin-top:2rem;font-size:.75rem;color:var(--t3);">
-        By using SFX Support, you agree to our
-        <a href="/privacy/" style="color:var(--t2);text-decoration:underline;text-underline-offset:3px;transition:color .15s;" onmouseover="this.style.color='rgba(255,160,60,.8)'" onmouseout="this.style.color='var(--t2)'">Privacy Policy</a>.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ STAR CANVAS ═══ -->
-<script src="/assets/js/star-canvas.js"></script>
-<script>
-  const obs = new IntersectionObserver(e => {
-    e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });
-  }, { threshold: .07 });
-  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  ]
+}
 </script>
 
-</body>
-</html>
+<style>
+  .ab { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .ab-label { display: inline-flex; align-items: center; gap: .5rem; font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(var(--sun), .75); margin-bottom: 1.1rem; }
+  .ab-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: rgba(var(--sun), .9); }
+  .ab h1 { font-size: clamp(2.4rem, 5.4vw, 4.2rem); font-weight: 300; line-height: 1.04; letter-spacing: -.04em; color: var(--t); max-width: 900px; }
+  .ab h1 strong, .ab h2 strong { font-weight: 700; }
+  .ab h2 { font-size: clamp(1.8rem, 3.6vw, 2.7rem); font-weight: 300; line-height: 1.1; letter-spacing: -.035em; color: var(--t); }
+  .ab-lead { margin-top: 1.4rem; max-width: 640px; color: var(--t2); font-size: 1.08rem; line-height: 1.75; }
+  .ab-sec { padding: 96px 0; border-top: 1px solid var(--b); }
+  .ab-hero { padding: 96px 24px 80px; }
+  .ab-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2rem; }
+  .ab-btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.25rem; border-radius: 10px; font-size: .9rem; font-weight: 600; text-decoration: none; transition: transform .15s, background .15s, border-color .15s; }
+  .ab-btn--w { background: #f4f4f5; color: #0a0a0b; }
+  .ab-btn--w:hover { background: #fff; transform: translateY(-1px); }
+  .ab-btn--o { border: 1px solid rgba(255,255,255,.14); color: var(--t); }
+  .ab-btn--o:hover { border-color: rgba(var(--sun), .5); }
+  .ab-btn--wa { background: #16a34a; color: #fff; }
+  .ab-btn--wa:hover { background: #15803d; }
+
+  .ab-facts { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 64px; border: 1px solid var(--b); border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.015); }
+  .ab-facts div { padding: 22px 24px; border-right: 1px solid var(--b); }
+  .ab-facts div:last-child { border-right: 0; }
+  .ab-facts b { display: block; font-size: 1.45rem; font-weight: 600; letter-spacing: -.03em; color: var(--t); }
+  .ab-facts span { display: block; margin-top: 4px; font-size: .82rem; color: var(--t2); line-height: 1.5; }
+
+  .ab-founder { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: center; }
+  .ab-photo { position: relative; margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--b); background: var(--bg2); aspect-ratio: 4/5; box-shadow: 0 40px 90px -50px rgba(var(--sun), .45); }
+  .ab-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ab-photo figcaption { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-radius: 12px; background: rgba(8,8,8,.8); backdrop-filter: blur(8px); font-size: .8rem; color: var(--t2); }
+  .ab-photo figcaption b { display: block; color: var(--t); font-weight: 600; font-size: .95rem; }
+  .ab-photo figcaption a { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: #0a66c2; color: #fff; text-decoration: none; }
+  .ab-quote { margin-top: 1.6rem; padding-left: 1.2rem; border-left: 2px solid rgba(var(--sun), .6); color: var(--t); font-size: 1.12rem; line-height: 1.6; font-weight: 400; }
+  .ab-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.8rem; }
+  .ab-links a { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1rem; border: 1px solid var(--b); border-radius: 10px; color: var(--t); font-size: .86rem; text-decoration: none; transition: border-color .15s; }
+  .ab-links a:hover { border-color: rgba(var(--sun), .5); }
+  .ab-links a.li { background: #0a66c2; border-color: #0a66c2; color: #fff; }
+
+  .ab-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .ab-pillar { display: flex; flex-direction: column; padding: 28px; border: 1px solid var(--b); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.008)); transition: border-color .2s, transform .2s; }
+  .ab-pillar:hover { border-color: rgba(var(--pc), .45); transform: translateY(-2px); }
+  .ab-pillar i.ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(var(--pc), .12); color: rgb(var(--pc)); font-size: 1.2rem; margin-bottom: 1.2rem; }
+  .ab-pillar h3 { font-size: 1.2rem; font-weight: 600; color: var(--t); letter-spacing: -.01em; }
+  .ab-pillar p { margin-top: .6rem; color: var(--t2); font-size: .93rem; line-height: 1.7; }
+  .ab-pillar ul { list-style: none; margin: 1rem 0 1.4rem; display: grid; gap: .45rem; }
+  .ab-pillar li { display: flex; gap: .55rem; font-size: .88rem; color: var(--t2); line-height: 1.5; }
+  .ab-pillar li::before { content: ''; flex: 0 0 5px; height: 5px; margin-top: .55rem; border-radius: 50%; background: rgb(var(--pc)); }
+  .ab-pillar a.go { margin-top: auto; color: rgb(var(--pc)); font-size: .9rem; font-weight: 600; text-decoration: none; }
+  .ab-pillar a.go:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .ab-prods { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 40px; }
+  .ab-prod { display: block; padding: 20px; border: 1px solid var(--b); border-radius: 14px; text-decoration: none; background: rgba(255,255,255,.015); transition: border-color .2s, background .2s; }
+  .ab-prod:hover { border-color: rgba(var(--sun), .4); background: rgba(255,255,255,.03); }
+  .ab-prod b { display: block; color: var(--t); font-size: .95rem; font-weight: 600; }
+  .ab-prod span { display: block; margin-top: .45rem; color: var(--t2); font-size: .82rem; line-height: 1.55; }
+
+  .ab-rules { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 44px; border-top: 1px solid var(--b); }
+  .ab-rule { display: grid; grid-template-columns: 48px 1fr; gap: 16px; padding: 26px 8px 26px 0; border-bottom: 1px solid var(--b); }
+  .ab-rule:nth-child(odd) { padding-right: 40px; }
+  .ab-rule em { font-style: normal; font-family: ui-monospace, Menlo, monospace; font-size: .8rem; color: rgba(var(--sun), .8); padding-top: .25rem; }
+  .ab-rule h3 { font-size: 1.05rem; font-weight: 600; color: var(--t); }
+  .ab-rule p { margin-top: .4rem; color: var(--t2); font-size: .92rem; line-height: 1.7; }
+
+  .ab-cta { position: relative; overflow: hidden; padding: 64px 48px; border: 1px solid var(--b); border-radius: 24px; background: radial-gradient(ellipse 70% 90% at 100% 0%, rgba(var(--sun), .12), transparent 60%), var(--bg2); display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+  .ab-cta p { margin-top: 1rem; color: var(--t2); line-height: 1.7; }
+  .ab-cta .ab-actions { margin-top: 0; justify-content: flex-end; }
+  .ab-legal { margin-top: 28px; font-size: .75rem; color: var(--t3); text-align: center; }
+
+  @media (max-width: 900px) {
+    .ab-facts { grid-template-columns: repeat(2, 1fr); }
+    .ab-facts div:nth-child(2) { border-right: 0; }
+    .ab-facts div:nth-child(-n+2) { border-bottom: 1px solid var(--b); }
+    .ab-founder { grid-template-columns: 1fr; gap: 32px; }
+    .ab-photo { max-width: 320px; }
+    .ab-pillars { grid-template-columns: 1fr; }
+    .ab-prods { grid-template-columns: repeat(2, 1fr); }
+    .ab-rules { grid-template-columns: 1fr; }
+    .ab-rule:nth-child(odd) { padding-right: 0; }
+    .ab-cta { grid-template-columns: 1fr; padding: 40px 24px; }
+    .ab-cta .ab-actions { justify-content: flex-start; }
+    .ab-sec { padding: 72px 0; }
+  }
+</style>
+
+<section class="ab ab-hero">
+  <p class="ab-label">About SFX Support</p>
+  <h1>An independent <strong>Salesforce + AI</strong> team that builds, teaches and writes it down.</h1>
+  <p class="ab-lead">We build Agentforce agents, LLM integrations and Apex, Flow and LWC fixes for clients. We teach a live Salesforce batch. We publish what we learn as tested guides. The same small team does all three, so what we teach and write comes from real work.</p>
+  <div class="ab-actions">
+    <a class="ab-btn ab-btn--w" href="/services/#enquire" data-cta="services">Discuss a project &rarr;</a>
+    <a class="ab-btn ab-btn--o" href="#founder">Meet the founder</a>
+  </div>
+
+  <div class="ab-facts" role="list">
+    <div role="listitem"><b>Salesforce + AI</b><span>The only thing we work on.</span></div>
+    <div role="listitem"><b>5 products</b><span>Built and run by us, in daily use.</span></div>
+    <div role="listitem"><b>10 guides</b><span>In-depth, checked against official Salesforce docs.</span></div>
+    <div role="listitem"><b>Fixed quote</b><span>Written scope and price before client work starts.</span></div>
+  </div>
+</section>
+
+<section class="ab-sec" id="founder">
+  <div class="ab ab-founder">
+    <figure class="ab-photo">
+      <img src="/assets/images/campaign/abhay.webp" alt="Abhay Nama, founder of SFX Support" loading="lazy" decoding="async">
+      <figcaption><span><b>Abhay Nama</b>Founder, SFX Support</span><a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener" aria-label="Abhay Nama on LinkedIn"><i class="bi bi-linkedin"></i></a></figcaption>
+    </figure>
+    <div>
+      <p class="ab-label">The founder</p>
+      <h2>Meet <strong>Abhay Nama.</strong></h2>
+      <p class="ab-lead">Abhay started SFX Support and leads it today. Every project enquiry and training question goes to the founders' inbox, and a founder replies personally, usually within one working day. Client work is scoped, quoted and reviewed by the founders before it starts.</p>
+      <p class="ab-quote">"Tell us the problem in plain words. If we're the right team, you get a written scope and a fixed quote. If we're not, we'll say so."</p>
+      <div class="ab-links">
+        <a class="li" href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i> Connect on LinkedIn</a>
+        <a href="mailto:founders@sfxsupport.com"><i class="bi bi-envelope"></i> founders@sfxsupport.com</a>
+        <a href="/contact/"><i class="bi bi-chat-dots"></i> All contact options</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-sec">
+  <div class="ab">
+    <p class="ab-label">What we do</p>
+    <h2>Three things, <strong>one team.</strong></h2>
+    <div class="ab-pillars">
+      <article class="ab-pillar" style="--pc:251,146,60">
+        <i class="ic bi bi-cpu"></i>
+        <h3>We build</h3>
+        <p>Salesforce + AI work for companies and Salesforce partners.</p>
+        <ul>
+          <li>Agentforce agents and custom Apex actions</li>
+          <li>Claude, OpenAI or Gemini connected to your org</li>
+          <li>RAG over your Knowledge and documents</li>
+          <li>Apex, Flow, LWC and integration fixes</li>
+        </ul>
+        <a class="go" href="/services/" data-cta="services">See services &rarr;</a>
+      </article>
+      <article class="ab-pillar" style="--pc:34,197,94">
+        <i class="ic bi bi-mortarboard"></i>
+        <h3>We teach</h3>
+        <p>A live Salesforce Admin and Developer batch, taught with AI from day one.</p>
+        <ul>
+          <li>Live classes, Mon&ndash;Fri, 10 PM IST, with recordings</li>
+          <li>Five projects, two of them AI projects</li>
+          <li>Daily missions and reviews on SFX Grove</li>
+          <li>Public profiles that show the work</li>
+        </ul>
+        <a class="go" href="/salesforce-training/" data-cta="training">See the batch &rarr;</a>
+      </article>
+      <article class="ab-pillar" style="--pc:96,165,250">
+        <i class="ic bi bi-journal-code"></i>
+        <h3>We publish</h3>
+        <p>Guides and tools for Salesforce developers, written from real work.</p>
+        <ul>
+          <li>In-depth guides on Apex, SOQL, LWC, Flow and more</li>
+          <li>Solution posts with full working code</li>
+          <li>Interview questions with answers</li>
+          <li>Hands-on Apex challenges on SFX Forge</li>
+        </ul>
+        <a class="go" href="/learning/">Open the guides &rarr;</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ab-sec">
+  <div class="ab">
+    <p class="ab-label">Our products</p>
+    <h2>Software we build <strong>and run every day.</strong></h2>
+    <div class="ab-prods">
+      <a class="ab-prod" href="/travel-manager/" data-cta="travel_manager"><b>SFX Travel Manager</b><span>Bookings, duty slips, invoices and khata for travel agencies, with an AI assistant.</span></a>
+      <a class="ab-prod" href="https://grove.sfxsupport.com/" target="_blank" rel="noopener" data-cta="grove"><b>SFX Grove</b><span>Where batch learners get daily missions, reviews, badges and a public portfolio.</span></a>
+      <a class="ab-prod" href="https://forge.sfxsupport.com/" target="_blank" rel="noopener" data-cta="forge"><b>SFX Forge</b><span>129 Apex, trigger, SOQL and SOSL challenges that run against a real org.</span></a>
+      <a class="ab-prod" href="/chatbot/" data-cta="ask_krrish"><b>Ask Krrish</b><span>A Salesforce + AI assistant. Paste an error or a question and get an answer with code.</span></a>
+      <a class="ab-prod" href="/debug-log-analyzer/" data-cta="debug_analyzer"><b>Debug Log Analyzer</b><span>Captures Apex debug logs and uses AI to explain what went wrong.</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="ab-sec">
+  <div class="ab">
+    <p class="ab-label">How we work</p>
+    <h2>Rules we <strong>don't bend.</strong></h2>
+    <div class="ab-rules">
+      <div class="ab-rule"><em>01</em><div><h3>Written scope, fixed quote</h3><p>What we'll do, what we won't, the timeline and the price, in writing. Nothing starts until you agree.</p></div></div>
+      <div class="ab-rule"><em>02</em><div><h3>Built and tested in your sandbox</h3><p>We work in a sandbox, test against the scenarios in the scope and show you the result before anything goes to production.</p></div></div>
+      <div class="ab-rule"><em>03</em><div><h3>AI makes us faster. A developer stays responsible.</h3><p>We use AI to read errors and draft code. A developer reviews and tests every change before you see it.</p></div></div>
+      <div class="ab-rule"><em>04</em><div><h3>The code is yours</h3><p>You get the code, the tests and short handover notes on what changed and why.</p></div></div>
+      <div class="ab-rule"><em>05</em><div><h3>Checked against official docs</h3><p>Before a guide is published, two AI reviewers (Claude and ChatGPT) check it against official Salesforce and vendor docs, and a person approves it.</p></div></div>
+      <div class="ab-rule"><em>06</em><div><h3>No invented numbers</h3><p>We don't publish made-up savings, rankings or client counts. If we can't show it, we don't claim it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="ab-sec" style="padding-bottom:120px;">
+  <div class="ab">
+    <div class="ab-cta">
+      <div>
+        <p class="ab-label">Work with us</p>
+        <h2>Have a Salesforce problem <strong>or an AI idea?</strong></h2>
+        <p>Tell us what you need in a few lines. A founder replies, usually within one working day.</p>
+      </div>
+      <div class="ab-actions">
+        <a class="ab-btn ab-btn--w" href="/contact/" data-cta="contact">Contact us &rarr;</a>
+        <a class="ab-btn ab-btn--wa" href="https://wa.me/919414849173?text=Hi%2C%20I%20read%20the%20SFX%20Support%20about%20page.%20I%20need%20help%20with%3A%20" target="_blank" rel="noopener" data-cta="whatsapp"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+    <p class="ab-legal">SFX Support is independent and is not a partner of, affiliated with, or endorsed by Salesforce. Salesforce and Agentforce are trademarks of Salesforce, Inc. &middot; <a href="/privacy/" style="color:var(--t2);">Privacy</a></p>
+  </div>
+</section>

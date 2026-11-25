@@ -4,7 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title | default: "SFX Support — Salesforce Expertise, On Demand" }}</title>
-  <meta name="description" content="{{ page.description | default: 'Expert Salesforce guidance — AI-powered tools and certified architects for development, architecture, deployment, and more.' }}">
+  {% assign pdesc = page.description | default: 'SFX Support is an independent Salesforce + AI team: Agentforce agents, LLM integrations, Apex, Flow and LWC work with a written scope and fixed quote.' %}
+  <meta name="description" content="{{ pdesc }}">
+  <link rel="canonical" href="https://sfxsupport.com{{ page.url | replace: 'index.html','' }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SFX Support">
+  <meta property="og:title" content="{{ page.og_title | default: page.title }}">
+  <meta property="og:description" content="{{ pdesc }}">
+  <meta property="og:url" content="https://sfxsupport.com{{ page.url | replace: 'index.html','' }}">
+  <meta property="og:image" content="https://sfxsupport.com{{ page.image | default: '/assets/images/FinalLogo.png' }}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
 
   <!-- GA -->

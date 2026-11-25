@@ -396,7 +396,40 @@
       </div>
     </div>
 
-    <a href="/services/">Services</a>
+    <div class="sfx-dd" tabindex="0">
+      <button class="sfx-dd-btn">
+        Services
+        <i class="bi bi-chevron-down sfx-dd-chevron"></i>
+      </button>
+      <div class="sfx-dd-menu" style="width:560px;">
+        <div class="sfx-dd-grid">
+          <div>
+            <div class="sfx-dd-label">Salesforce + AI</div>
+            {% assign sfx_svcs = site.pages | where_exp: "s", "s.service" | sort: "service_order" %}{% for s in sfx_svcs %}<a href="{{ s.url }}">{{ s.service.name }}</a>
+            {% endfor %}
+          </div>
+          <div>
+            <div class="sfx-dd-label">Salesforce work</div>
+            <a href="/services/#services">Issue Fix Sprint</a>
+            <a href="/services/#services">Automation Sprint</a>
+            <a href="/services/#services">LWC &amp; integrations</a>
+            <a href="/services/#services">Overflow support for partners</a>
+            <div class="sfx-dd-viewall">
+              <a href="/services/">
+                <i class="bi bi-briefcase-fill" style="font-size:.72rem;"></i>
+                All services →
+              </a>
+            </div>
+            <div class="sfx-dd-viewall" style="margin-top:.4rem;border-top:0;padding-top:0;">
+              <a href="/services/#enquire">
+                <i class="bi bi-send-fill" style="font-size:.72rem;"></i>
+                Discuss a project →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <a href="/salesforce-training/">Training</a>
     <a href="/about/">About</a>
   </nav>
@@ -483,7 +516,16 @@
         </a>
   </div>
 
-  <a href="/services/" class="sfx-mob-link">Services</a>
+  <button class="sfx-mob-dd-btn" id="sfx-svc-btn" onclick="document.getElementById('sfx-svc-btn').classList.toggle('open');document.getElementById('sfx-svc-sub').classList.toggle('open');">
+    Services <i class="bi bi-chevron-down"></i>
+  </button>
+  <div class="sfx-mob-sub" id="sfx-svc-sub">
+    <div class="sfx-mob-sub-label">Salesforce + AI</div>
+    {% for s in sfx_svcs %}<a href="{{ s.url }}">{{ s.service.name }}</a>
+    {% endfor %}<div class="sfx-mob-sub-label" style="margin-top:.875rem;">Salesforce work</div>
+    <a href="/services/#services">Fixes, automations &amp; integrations</a>
+    <a href="/services/">All services →</a>
+  </div>
   <a href="/salesforce-training/" class="sfx-mob-link">Training</a>
   <a href="/about/"     class="sfx-mob-link">About</a>
   <a href="/chatbot/"   class="sfx-mob-link" style="display:flex;align-items:center;gap:6px;">

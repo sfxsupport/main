@@ -1,333 +1,365 @@
 ---
 layout: HomePageFinalTest
-title: Get in Touch · SFX Support
+title: "Contact SFX Support: Talk to the Founders"
+og_title: "Contact SFX Support"
+description: "Talk to the SFX Support founders about a Salesforce + AI project, the live Salesforce batch or a question. WhatsApp, call, email or the form; replies usually within one working day."
+image: /assets/images/campaign/abhay.webp
 permalink: /contact/
 ---
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "url": "https://sfxsupport.com/contact/",
+      "name": "Contact SFX Support",
+      "about": { "@id": "https://sfxsupport.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://sfxsupport.com/#organization",
+      "name": "SFX Support",
+      "url": "https://sfxsupport.com/",
+      "email": "founders@sfxsupport.com",
+      "contactPoint": [
+        { "@type": "ContactPoint", "contactType": "sales", "telephone": "+91-7611896026", "email": "founders@sfxsupport.com", "availableLanguage": ["English", "Hindi"] },
+        { "@type": "ContactPoint", "contactType": "customer support", "telephone": "+91-9414849173", "availableLanguage": ["English", "Hindi"] }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How fast does SFX Support reply?", "acceptedAnswer": { "@type": "Answer", "text": "A founder reads every message and usually replies within one working day. WhatsApp is the fastest way to reach us." } },
+        { "@type": "Question", "name": "Do I pay anything to discuss a project?", "acceptedAnswer": { "@type": "Answer", "text": "No payment is taken when you contact us. We reply with questions or a written scope and a fixed quote, and nothing starts until you agree." } },
+        { "@type": "Question", "name": "What should I include in my message?", "acceptedAnswer": { "@type": "Answer", "text": "What you are trying to do, the exact error text or a screenshot, whether it happens in a sandbox or production, and what you have already tried. Never send passwords or customer data." } },
+        { "@type": "Question", "name": "Is SFX Support a Salesforce partner?", "acceptedAnswer": { "@type": "Answer", "text": "No. SFX Support is an independent Salesforce + AI team and is not a partner of, affiliated with, or endorsed by Salesforce." } }
+      ]
+    }
+  ]
+}
+</script>
+
 <style>
-  .contact-hero {
-    text-align: center;
-    padding: 80px 24px 40px;
-  }
+  .ct { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .ct-label { display: inline-flex; align-items: center; gap: .5rem; font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: rgba(var(--sun), .75); margin-bottom: 1rem; }
+  .ct-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: rgba(var(--sun), .9); box-shadow: 0 0 0 4px rgba(var(--sun), .15); }
+  .ct h1 { font-size: clamp(2.4rem, 5.2vw, 4rem); font-weight: 300; line-height: 1.04; letter-spacing: -.04em; color: var(--t); }
+  .ct h1 strong, .ct h2 strong { font-weight: 700; }
+  .ct h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; line-height: 1.12; letter-spacing: -.03em; color: var(--t); }
+  .ct-lead { margin-top: 1.3rem; max-width: 560px; color: var(--t2); font-size: 1.06rem; line-height: 1.75; }
 
-  .contact-hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 800;
-    color: var(--t);
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
-  }
+  /* hero */
+  .ct-hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 48px; align-items: center; padding: 88px 24px 56px; }
+  .ct-founder { position: relative; display: grid; grid-template-columns: 96px 1fr; gap: 18px; align-items: center; padding: 22px; border: 1px solid var(--b); border-radius: 20px; background: radial-gradient(ellipse 80% 100% at 100% 0%, rgba(var(--sun), .10), transparent 60%), rgba(255,255,255,.02); }
+  .ct-founder img { width: 96px; height: 96px; border-radius: 16px; object-fit: cover; border: 1px solid var(--b); }
+  .ct-founder b { display: block; color: var(--t); font-size: 1.05rem; font-weight: 600; }
+  .ct-founder small { display: block; color: var(--t2); font-size: .82rem; margin-top: 2px; }
+  .ct-founder p { grid-column: 1 / -1; color: var(--t2); font-size: .9rem; line-height: 1.65; padding-top: 14px; border-top: 1px solid var(--b); }
+  .ct-founder .li { display: inline-flex; align-items: center; gap: .35rem; margin-top: 8px; padding: .35rem .7rem; border-radius: 8px; background: #0a66c2; color: #fff; font-size: .78rem; font-weight: 600; text-decoration: none; }
+  .ct-status { display: inline-flex; align-items: center; gap: .45rem; margin-top: 1.6rem; padding: .45rem .8rem; border: 1px solid rgba(74,222,128,.25); border-radius: 999px; background: rgba(74,222,128,.06); color: #86efac; font-size: .8rem; }
+  .ct-status i { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74,222,128,.6); animation: ctPulse 2s infinite; }
+  @keyframes ctPulse { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.55); } 70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
 
-  .contact-hero h1 span {
-    color: rgba(var(--sun), 0.85);
-  }
+  /* channels */
+  .ct-channels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .ct-ch { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 26px; border: 1px solid var(--b); border-radius: 18px; text-decoration: none; background: linear-gradient(180deg, rgba(var(--cc), .09), rgba(var(--cc), .02) 60%); transition: transform .2s, border-color .2s; }
+  .ct-ch:hover { transform: translateY(-3px); border-color: rgba(var(--cc), .55); }
+  .ct-ch .ic { display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 10px; border-radius: 13px; background: rgba(var(--cc), .16); color: rgb(var(--cc)); font-size: 1.3rem; }
+  .ct-ch small { color: rgb(var(--cc)); font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .ct-ch b { color: var(--t); font-size: 1.22rem; font-weight: 600; letter-spacing: -.01em; }
+  .ct-ch span { color: var(--t2); font-size: .86rem; line-height: 1.55; }
+  .ct-ch em { margin-top: 10px; font-style: normal; color: var(--t); font-size: .86rem; font-weight: 600; }
+  .ct-ch--best::after { content: 'Fastest'; position: absolute; top: 18px; right: 18px; padding: .2rem .55rem; border-radius: 999px; background: rgba(var(--cc), .18); color: rgb(var(--cc)); font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 
-  .contact-hero p {
-    font-size: 1.1rem;
-    color: var(--t2);
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.7;
-  }
+  /* paths + form */
+  .ct-sec { padding: 88px 0; }
+  .ct-main { display: grid; grid-template-columns: 1fr 1.08fr; gap: 48px; align-items: start; }
+  .ct-paths { display: grid; gap: 10px; margin-top: 28px; }
+  .ct-path { display: grid; grid-template-columns: 42px 1fr 18px; gap: 14px; align-items: center; width: 100%; padding: 16px 18px; border: 1px solid var(--b); border-radius: 14px; background: rgba(255,255,255,.015); color: var(--t); font: inherit; text-align: left; cursor: pointer; transition: border-color .18s, background .18s; }
+  .ct-path:hover { border-color: rgba(var(--pc), .45); background: rgba(var(--pc), .05); }
+  .ct-path[aria-pressed="true"] { border-color: rgba(var(--pc), .8); background: rgba(var(--pc), .09); box-shadow: 0 0 0 3px rgba(var(--pc), .12); }
+  .ct-path .pi { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 11px; background: rgba(var(--pc), .14); color: rgb(var(--pc)); font-size: 1.1rem; }
+  .ct-path b { display: block; font-size: .98rem; font-weight: 600; }
+  .ct-path span { display: block; margin-top: 2px; color: var(--t2); font-size: .82rem; line-height: 1.5; }
+  .ct-path .ck { color: rgb(var(--pc)); opacity: 0; transition: opacity .15s; }
+  .ct-path[aria-pressed="true"] .ck { opacity: 1; }
+  .ct-side-note { margin-top: 18px; padding: 16px 18px; border: 1px dashed rgba(255,255,255,.12); border-radius: 14px; color: var(--t2); font-size: .86rem; line-height: 1.65; }
+  .ct-side-note a { color: rgba(var(--sun), .95); }
 
-  /* ── Direct Contact ── */
-  .direct-contact {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+  .ct-card { position: sticky; top: 96px; padding: 30px; border: 1px solid rgba(255,255,255,.09); border-radius: 22px; background: #0e0e10; box-shadow: 0 40px 100px -50px rgba(var(--sun), .35); }
+  .ct-card h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -.02em; }
+  .ct-card > p { margin-top: .4rem; color: var(--t2); font-size: .86rem; }
+  .ct-form { display: grid; gap: 14px; margin-top: 22px; }
+  .ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ct-field label { display: block; margin-bottom: 6px; color: var(--t2); font-size: .78rem; font-weight: 600; }
+  .ct-field label small { color: var(--t3); font-weight: 400; }
+  .ct-field input, .ct-field select, .ct-field textarea { width: 100%; padding: .78rem .9rem; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: #08080a; color: var(--t); font: inherit; font-size: .93rem; font-weight: 400; outline: none; transition: border-color .15s, box-shadow .15s; }
+  .ct-field textarea { min-height: 128px; resize: vertical; line-height: 1.6; }
+  .ct-field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .9rem center; padding-right: 2.2rem; }
+  .ct-field select option { background: #131316; }
+  .ct-field input::placeholder, .ct-field textarea::placeholder { color: #55555c; }
+  .ct-field input:focus, .ct-field select:focus, .ct-field textarea:focus { border-color: rgba(var(--sun), .65); box-shadow: 0 0 0 3px rgba(var(--sun), .14); }
+  .ct-only { display: none; }
+  .ct-only.on { display: block; }
+  .ct-row.ct-only.on { display: grid; }
+  .ct-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .ct-submit { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; width: 100%; padding: .95rem 1rem; border: 0; border-radius: 12px; background: #f4f4f5; color: #0a0a0b; font: inherit; font-size: .98rem; font-weight: 700; cursor: pointer; transition: background .15s, transform .15s; }
+  .ct-submit:hover { background: #fff; transform: translateY(-1px); }
+  .ct-submit:disabled { opacity: .6; cursor: wait; transform: none; }
+  .ct-fine { margin-top: 12px; color: var(--t3); font-size: .74rem; line-height: 1.6; text-align: center; }
+  .ct-fine a { color: var(--t2); }
 
-  .direct-contact a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-    padding: 16px 18px;
-    background: var(--bg2);
-    border: 1px solid var(--b2);
-    border-radius: 12px;
-    color: var(--t2);
-    font-size: .88rem;
-    text-decoration: none;
-    transition: border-color .2s, color .2s, transform .15s;
-  }
+  /* next steps */
+  .ct-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; counter-reset: s; }
+  .ct-step { position: relative; padding: 24px 22px; border: 1px solid var(--b); border-radius: 16px; background: rgba(255,255,255,.015); }
+  .ct-step::before { counter-increment: s; content: '0' counter(s); display: block; margin-bottom: 14px; font-family: ui-monospace, Menlo, monospace; font-size: .78rem; color: rgba(var(--sun), .85); }
+  .ct-step h3 { color: var(--t); font-size: 1rem; font-weight: 600; }
+  .ct-step p { margin-top: .45rem; color: var(--t2); font-size: .86rem; line-height: 1.6; }
 
-  .direct-contact a:hover {
-    border-color: rgba(var(--sun), .35);
-    color: var(--t);
-    transform: translateY(-2px);
-  }
+  /* faq */
+  .ct-faq { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; }
+  .ct-faq details { border-bottom: 1px solid var(--b); }
+  .ct-faq details:first-child { border-top: 1px solid var(--b); }
+  .ct-faq summary { display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; color: var(--t); font-size: 1rem; font-weight: 500; cursor: pointer; list-style: none; }
+  .ct-faq summary::-webkit-details-marker { display: none; }
+  .ct-faq summary i { color: var(--t2); transition: transform .2s; }
+  .ct-faq details[open] summary i { transform: rotate(45deg); color: rgba(var(--sun), .9); }
+  .ct-faq details p { padding: 0 0 20px; color: var(--t2); font-size: .93rem; line-height: 1.7; }
+  .ct-border { border-top: 1px solid var(--b); }
 
-  .direct-contact i {
-    color: rgba(var(--sun), .8);
-    font-size: 1.1rem;
-    flex-shrink: 0;
+  @media (max-width: 920px) {
+    .ct-hero, .ct-main, .ct-faq { grid-template-columns: 1fr; }
+    .ct-hero { padding-top: 64px; gap: 32px; }
+    .ct-channels { grid-template-columns: 1fr; }
+    .ct-steps { grid-template-columns: 1fr 1fr; }
+    .ct-card { position: static; padding: 22px; }
+    .ct-sec { padding: 64px 0; }
   }
-
-  /* ── Reason Cards ── */
-  .reason-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    max-width: 640px;
-    margin: 40px auto 48px;
-    padding: 0 24px;
-  }
-
-  .reason-card {
-    background: var(--bg2);
-    border: 1px solid var(--b2);
-    border-radius: 14px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    cursor: pointer;
-    transition: border-color .2s, background .2s, transform .15s;
-  }
-
-  .reason-card:hover {
-    border-color: rgba(var(--sun), .35);
-    background: rgba(var(--sun), .05);
-    transform: translateY(-2px);
-  }
-
-  .reason-card.selected {
-    border-color: rgba(var(--sun), .55);
-    background: rgba(var(--sun), .08);
-  }
-
-  .reason-card i {
-    font-size: 1.6rem;
-    color: rgba(var(--sun), .75);
-    flex-shrink: 0;
-  }
-
-  .reason-card span {
-    font-size: .95rem;
-    font-weight: 600;
-    color: var(--t);
-    line-height: 1.3;
-  }
-
-  .reason-card.wide {
-    grid-column: 1 / -1;
-  }
-
-  /* ── Contact Form ── */
-  .contact-form-wrap {
-    max-width: 560px;
-    margin: 0 auto 80px;
-    padding: 0 24px;
-  }
-
-  .contact-form {
-    background: var(--bg2);
-    border: 1px solid var(--b2);
-    border-radius: 18px;
-    padding: 36px 32px;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .form-group label {
-    display: block;
-    font-size: .82rem;
-    font-weight: 600;
-    color: var(--t2);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    margin-bottom: 7px;
-  }
-
-  .form-group label .opt {
-    font-weight: 400;
-    color: var(--t3);
-    text-transform: none;
-    letter-spacing: 0;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--b2);
-    border-radius: 9px;
-    padding: 11px 14px;
-    color: var(--t);
-    font-family: inherit;
-    font-size: .95rem;
-    outline: none;
-    transition: border-color .2s;
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  .form-group select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-  }
-
-  .form-group select option {
-    background: var(--bg3);
-    color: var(--t);
-  }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    border-color: rgba(var(--sun), .45);
-  }
-
-  .form-group textarea {
-    resize: vertical;
-    min-height: 110px;
-  }
-
-  .form-submit {
-    width: 100%;
-    padding: 13px;
-    background: var(--t);
-    color: #000;
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 8px;
-    transition: background .2s, transform .15s;
-  }
-
-  .form-submit:hover {
-    background: #e0e0e0;
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 540px) {
-    .direct-contact { grid-template-columns: 1fr; }
-    .reason-grid { grid-template-columns: 1fr; }
-    .reason-card.wide { grid-column: auto; }
-    .contact-form { padding: 24px 20px; }
+  @media (max-width: 520px) {
+    .ct-row, .ct-steps { grid-template-columns: 1fr; }
   }
 </style>
 
-<section class="contact-hero">
-  <h1>Contact <span>SFX Support</span></h1>
-  <p>Feedback, suggestions, a learning question, or just want to say hi — drop a message and I'll get back to you.</p>
+<section class="ct ct-hero">
+  <div>
+    <p class="ct-label">Contact</p>
+    <h1>Talk to the people <strong>who do the work.</strong></h1>
+    <p class="ct-lead">No sales team and no ticket queue. Your message goes straight to the founders' inbox, and a founder replies personally.</p>
+    <span class="ct-status"><i></i> Usually replies within one working day</span>
+  </div>
+  <aside class="ct-founder" aria-label="Founder">
+    <img src="/assets/images/campaign/abhay.webp" alt="Abhay Nama, founder of SFX Support" width="96" height="96" loading="eager">
+    <div>
+      <b>Abhay Nama</b>
+      <small>Founder, SFX Support</small>
+      <a class="li" href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i> LinkedIn</a>
+    </div>
+    <p>"Tell us the problem in plain words. If we're the right team, you get a written scope and a fixed quote. If we're not, we'll say so."</p>
+  </aside>
 </section>
 
-<div class="direct-contact" aria-label="Direct contact details">
-  <a href="mailto:founders@sfxsupport.com">
-    <i class="bi bi-envelope-fill"></i>
-    <span>founders@sfxsupport.com</span>
-  </a>
-  <a href="tel:+919414849173">
-    <i class="bi bi-telephone-fill"></i>
-    <span>+91-9414849173</span>
-  </a>
-</div>
-
-<!-- Quick Reason Cards -->
-<div class="reason-grid">
-  <div class="reason-card" onclick="setReason('Share Feedback')">
-    <i class="bi bi-lightbulb-fill"></i>
-    <span>Share Feedback</span>
+<section class="ct" aria-label="Ways to reach us">
+  <div class="ct-channels">
+    <a class="ct-ch ct-ch--best" style="--cc:34,197,94" href="https://wa.me/919414849173?text=Hi%20SFX%20Support%2C%20I%20need%20help%20with%3A%20" target="_blank" rel="noopener" data-cta="contact_whatsapp">
+      <span class="ic"><i class="bi bi-whatsapp"></i></span>
+      <small>WhatsApp</small>
+      <b>+91 94148 49173</b>
+      <span>Send a message or a screenshot of the error.</span>
+      <em>Open WhatsApp &rarr;</em>
+    </a>
+    <a class="ct-ch" style="--cc:251,146,60" href="tel:+917611896026" data-cta="contact_call">
+      <span class="ic"><i class="bi bi-telephone-fill"></i></span>
+      <small>Call</small>
+      <b>+91 76118 96026</b>
+      <span>Prefer to talk it through? Call a founder directly.</span>
+      <em>Call now &rarr;</em>
+    </a>
+    <a class="ct-ch" style="--cc:96,165,250" href="mailto:founders@sfxsupport.com?subject=Enquiry%20from%20sfxsupport.com" data-cta="contact_email">
+      <span class="ic"><i class="bi bi-envelope-fill"></i></span>
+      <small>Email</small>
+      <b>founders@sfxsupport.com</b>
+      <span>Best for longer briefs, documents and requirements.</span>
+      <em>Write an email &rarr;</em>
+    </a>
   </div>
-  <div class="reason-card" onclick="setReason('Learning Question')">
-    <i class="bi bi-journal-code"></i>
-    <span>Learning Question</span>
+</section>
+
+<section class="ct-sec" id="message">
+  <div class="ct ct-main">
+    <div>
+      <p class="ct-label">Send a message</p>
+      <h2>What do you <strong>need help with?</strong></h2>
+      <p class="ct-lead" style="font-size:.98rem;">Pick one. It helps us send your message to the right place and reply faster.</p>
+      <div class="ct-paths" role="group" aria-label="Reason for contacting">
+        <button type="button" class="ct-path" style="--pc:251,146,60" data-reason="Project enquiry" aria-pressed="false">
+          <span class="pi"><i class="bi bi-cpu"></i></span>
+          <span><b>A Salesforce + AI project</b><span>Agentforce, an LLM integration, or an Apex, Flow or LWC fix.</span></span>
+          <i class="ck bi bi-check-circle-fill"></i>
+        </button>
+        <button type="button" class="ct-path" style="--pc:34,197,94" data-reason="Training batch" aria-pressed="false">
+          <span class="pi"><i class="bi bi-mortarboard"></i></span>
+          <span><b>Join the live Salesforce batch</b><span>Timings, fees, syllabus and how the classes work.</span></span>
+          <i class="ck bi bi-check-circle-fill"></i>
+        </button>
+        <button type="button" class="ct-path" style="--pc:96,165,250" data-reason="Salesforce question" aria-pressed="false">
+          <span class="pi"><i class="bi bi-question-circle"></i></span>
+          <span><b>A Salesforce question</b><span>Stuck on an error or a design choice? Tell us what you've tried.</span></span>
+          <i class="ck bi bi-check-circle-fill"></i>
+        </button>
+        <button type="button" class="ct-path" style="--pc:192,132,252" data-reason="Feedback" aria-pressed="false">
+          <span class="pi"><i class="bi bi-chat-heart"></i></span>
+          <span><b>Feedback or something else</b><span>A mistake in a guide, a broken link, or an idea.</span></span>
+          <i class="ck bi bi-check-circle-fill"></i>
+        </button>
+      </div>
+      <p class="ct-side-note" id="ct-hint">For a faster reply, include the exact error text, whether it's a sandbox or production, and what you've already tried. Never send passwords or customer data.</p>
+    </div>
+
+    <div class="ct-card">
+      <h2>Describe it in a few lines</h2>
+      <p>No payment is taken here. We reply with questions, or a written scope and quote.</p>
+      <form class="ct-form" id="contactForm" novalidate>
+        <div class="ct-hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="ct-field">
+          <label for="subject">Reason</label>
+          <select id="subject" name="subject" required>
+            <option value="" disabled selected>Choose one…</option>
+            <option value="Project enquiry">A Salesforce + AI project</option>
+            <option value="Training batch">The live Salesforce batch</option>
+            <option value="Salesforce question">A Salesforce question</option>
+            <option value="Feedback">Feedback or something else</option>
+          </select>
+        </div>
+        <div class="ct-row">
+          <div class="ct-field">
+            <label for="name">Your name</label>
+            <input id="name" maxlength="80" name="name" required type="text" autocomplete="name" placeholder="Your name">
+          </div>
+          <div class="ct-field">
+            <label for="email">Email</label>
+            <input id="email" maxlength="80" name="email" required type="email" autocomplete="email" placeholder="you@company.com">
+          </div>
+        </div>
+        <div class="ct-field ct-only" data-for="Project enquiry">
+          <label for="company">Company</label>
+          <input id="company" maxlength="100" name="company" type="text" autocomplete="organization" placeholder="Company or Salesforce partner name">
+        </div>
+        <div class="ct-row ct-only" data-for="Project enquiry">
+          <div class="ct-field">
+            <label for="timeline">When do you need it?</label>
+            <select id="timeline" name="timeline">
+              <option value="" disabled selected>Choose one…</option>
+              <option value="Urgent, this week">Urgent, this week</option>
+              <option value="Within 2-4 weeks">Within 2&ndash;4 weeks</option>
+              <option value="In 1-3 months">In 1&ndash;3 months</option>
+              <option value="Just exploring">Just exploring</option>
+            </select>
+          </div>
+          <div class="ct-field">
+            <label for="budget">Budget <small>(optional)</small></label>
+            <select id="budget" name="budget">
+              <option value="">Not sure yet</option>
+              <option value="Under ₹50,000 / $600">Under ₹50,000 / $600</option>
+              <option value="₹50,000–2,00,000 / $600–2,400">₹50k&ndash;2L / $600&ndash;2,400</option>
+              <option value="₹2,00,000+ / $2,400+">₹2L+ / $2,400+</option>
+            </select>
+          </div>
+        </div>
+        <div class="ct-field ct-only" data-for="Training batch">
+          <label for="background">Where are you right now?</label>
+          <select id="background" name="background">
+            <option value="" disabled selected>Choose one…</option>
+            <option value="student">Student</option>
+            <option value="fresher">Fresher looking for a first role</option>
+            <option value="admin">Salesforce admin</option>
+            <option value="developer">Salesforce developer</option>
+            <option value="support">Support / QA engineer</option>
+            <option value="other">Working in another field</option>
+          </select>
+        </div>
+        <div class="ct-field">
+          <label for="phone">Phone or WhatsApp <small id="phone-opt">(optional)</small></label>
+          <input id="phone" maxlength="40" name="phone" type="tel" autocomplete="tel" placeholder="+91 …">
+        </div>
+        <div class="ct-field">
+          <label for="description">Your message</label>
+          <textarea id="description" name="description" required rows="5" placeholder="e.g. Our record-triggered Flow fails with 'Too many SOQL queries: 101' when cases are updated in bulk."></textarea>
+        </div>
+        <button type="submit" class="ct-submit" id="contactSubmit"><i class="bi bi-send-fill"></i> Send message</button>
+        <p id="contactStatus" role="status" aria-live="polite" style="min-height:1.2em;margin:0;text-align:center;font-size:.85rem;font-weight:600;"></p>
+      </form>
+      <p class="ct-fine">Your message is saved in the private SFX leads inbox and used only to reply to you. See our <a href="/privacy/">privacy policy</a>.</p>
+    </div>
   </div>
-  <div class="reason-card" onclick="setReason('Report an Issue')">
-    <i class="bi bi-bug-fill"></i>
-    <span>Report an Issue</span>
+</section>
+
+<section class="ct-sec ct-border">
+  <div class="ct">
+    <p class="ct-label">What happens next</p>
+    <h2>From your message <strong>to a clear answer.</strong></h2>
+    <div class="ct-steps">
+      <div class="ct-step"><h3>You send it</h3><p>WhatsApp, a call, email or the form above. Whatever is easiest.</p></div>
+      <div class="ct-step"><h3>A founder reads it</h3><p>Usually within one working day. We may ask a few questions or suggest a short call.</p></div>
+      <div class="ct-step"><h3>Scope and quote</h3><p>For project work: what we'll do, what we won't, the timeline and a fixed price, in writing.</p></div>
+      <div class="ct-step"><h3>You decide</h3><p>Nothing starts until you agree. If we're not the right fit, we'll tell you.</p></div>
+    </div>
   </div>
-  <div class="reason-card" onclick="setReason('Suggest a Resource')">
-    <i class="bi bi-plus-circle-fill"></i>
-    <span>Suggest a Resource</span>
+</section>
+
+<section class="ct-sec ct-border" style="padding-bottom:120px;">
+  <div class="ct ct-faq">
+    <div>
+      <p class="ct-label">Questions</p>
+      <h2>Before you <strong>write to us.</strong></h2>
+      <p class="ct-lead" style="font-size:.95rem;">Looking for our services? <a href="/services/" style="color:rgba(var(--sun),.95);">See what we build</a>. Want to learn Salesforce? <a href="/salesforce-training/" style="color:rgba(var(--sun),.95);">See the batch</a>.</p>
+    </div>
+    <div>
+      <details open><summary>How fast do you reply? <i class="bi bi-plus-lg"></i></summary><p>A founder reads every message and usually replies within one working day. WhatsApp is the fastest way to reach us.</p></details>
+      <details><summary>Do I pay anything to discuss a project? <i class="bi bi-plus-lg"></i></summary><p>No payment is taken when you contact us. We reply with questions or a written scope and a fixed quote, and nothing starts until you agree.</p></details>
+      <details><summary>What should I include in my message? <i class="bi bi-plus-lg"></i></summary><p>What you're trying to do, the exact error text or a screenshot, whether it happens in a sandbox or production, and what you've already tried. Never send passwords or customer data.</p></details>
+      <details><summary>Are you a Salesforce partner? <i class="bi bi-plus-lg"></i></summary><p>No. SFX Support is an independent Salesforce + AI team and is not a partner of, affiliated with, or endorsed by Salesforce. Salesforce and Agentforce are trademarks of Salesforce, Inc.</p></details>
+    </div>
   </div>
-  <div class="reason-card wide" onclick="setReason('Want to Know More')">
-    <i class="bi bi-info-circle-fill"></i>
-    <span>Want to Know More About SFX</span>
-  </div>
-</div>
-
-<!-- Contact Form -->
-<div class="contact-form-wrap">
-  <form class="contact-form" id="contactForm" novalidate>
-    <!-- Sent to the SFX lead inbox (leads.sfxsupport.com), see the script below. -->
-    <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
-      <label for="website">Leave this empty</label>
-      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label for="subject">What brings you here?</label>
-      <select id="subject" name="subject" required>
-        <option value="" disabled selected>Select a reason...</option>
-        <option value="Share Feedback">Share Feedback</option>
-        <option value="Learning Question">Learning Question</option>
-        <option value="Report an Issue">Report an Issue</option>
-        <option value="Suggest a Resource">Suggest a Resource</option>
-        <option value="Want to Know More">Want to Know More About SFX</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="name">Your Name</label>
-      <input id="name" maxlength="80" name="name" required type="text" placeholder="John Doe" />
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" maxlength="80" name="email" required type="email" placeholder="you@example.com" />
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone <span class="opt">(optional)</span></label>
-      <input id="phone" maxlength="40" name="phone" type="text" placeholder="+91 98765 43210" />
-    </div>
-
-    <div class="form-group">
-      <label for="description">Your message</label>
-      <textarea id="description" name="description" required rows="4" placeholder="What's on your mind?"></textarea>
-    </div>
-
-    <p style="font-size:.72rem;color:var(--t3);text-align:center;margin-top:4px;margin-bottom:12px;line-height:1.5;">
-      Need Salesforce + AI work built? See <a href="/services/">SFX services</a>.<br>
-      A founder reads every message, usually within one working day.
-    </p>
-    <button type="submit" class="form-submit" id="contactSubmit">
-      <i class="bi bi-send-fill"></i> Send Message
-    </button>
-    <p id="contactStatus" role="status" aria-live="polite" style="min-height:1.2em;margin:10px 0 0;text-align:center;font-size:.85rem;font-weight:600;"></p>
-  </form>
-</div>
+</section>
 
 <script>
-  function setReason(reason) {
-    document.getElementById('subject').value = reason;
-    document.querySelectorAll('.reason-card').forEach(d => d.classList.remove('selected'));
-    Array.from(document.querySelectorAll('.reason-card'))
-      .find(d => d.textContent.trim().includes(reason))
-      ?.classList.add('selected');
-    if (window.innerWidth < 768) {
-      document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  (function () {
+    var form = document.getElementById('contactForm');
+    var select = document.getElementById('subject');
+    var hint = document.getElementById('ct-hint');
+    var paths = Array.prototype.slice.call(document.querySelectorAll('.ct-path'));
+    var hints = {
+      'Project enquiry': 'Tell us what the agent, integration or fix should do, which Salesforce cloud you use, and any deadline. We reply with questions or a written scope and fixed quote.',
+      'Training batch': 'Tell us your background (fresher, admin, developer) and when you can attend. We send timings, fees and the syllabus. You can also <a href="/salesforce-training/">read the batch page</a>.',
+      'Salesforce question': 'Paste the exact error text and what you have tried. For an instant answer, you can also try <a href="/chatbot/">Ask Krrish</a> or the <a href="/learning/">learning guides</a>.',
+      'Feedback': 'Tell us the page link and what is wrong or what you would like to see. Every message is read.'
+    };
+    var placeholders = {
+      'Project enquiry': "e.g. We want an Agentforce agent that answers order questions from our Knowledge and hands off to a person.",
+      'Training batch': "e.g. I'm a fresher / working admin and want to join the next batch. Please share timings.",
+      'Salesforce question': "e.g. My trigger throws 'Too many SOQL queries: 101' on bulk insert. I tried…",
+      'Feedback': "e.g. The code on /soql-sosl/ has a typo in…"
+    };
+    function choose(reason, scroll) {
+      select.value = reason;
+      paths.forEach(function (p) { p.setAttribute('aria-pressed', p.getAttribute('data-reason') === reason ? 'true' : 'false'); });
+      if (hints[reason]) hint.innerHTML = hints[reason];
+      if (placeholders[reason]) document.getElementById('description').placeholder = placeholders[reason];
+      Array.prototype.forEach.call(document.querySelectorAll('.ct-only'), function (el) { el.classList.toggle('on', el.getAttribute('data-for') === reason); });
+      document.getElementById('phone-opt').textContent = reason === 'Training batch' ? '(we send timings here)' : '(optional)';
+      if (scroll && window.innerWidth < 920) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }
+    paths.forEach(function (p) { p.addEventListener('click', function () { choose(p.getAttribute('data-reason'), true); }); });
+    select.addEventListener('change', function () { choose(select.value, false); });
+    var pre = new URLSearchParams(window.location.search).get('topic');
+    var map = { project: 'Project enquiry', training: 'Training batch', question: 'Salesforce question', feedback: 'Feedback' };
+    if (pre && map[pre]) choose(map[pre], false);
+  })();
 
   // Sends the message to the SFX lead inbox, then shows the thank-you page.
   (function () {
@@ -338,7 +370,7 @@ permalink: /contact/
     var referrer = document.referrer && document.referrer.indexOf(window.location.origin) !== 0 ? document.referrer : '';
 
     function fail(message, field) {
-      status.style.color = '#c2413a';
+      status.style.color = '#f87171';
       status.textContent = message;
       if (field) field.focus();
     }
@@ -349,10 +381,32 @@ permalink: /contact/
       var name = String(data.get('name') || '').trim();
       var email = String(data.get('email') || '').trim();
       var message = String(data.get('description') || '').trim();
-      if (!data.get('subject')) return fail('Please choose what brings you here.', form.elements.subject);
+      if (!data.get('subject')) return fail('Please choose what you need help with.', form.elements.subject);
       if (name.length < 2) return fail('Please enter your name.', form.elements.name);
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('Please enter a valid email address.', form.elements.email);
-      if (!message) return fail('Please write a short message.', form.elements.description);
+      var reason = String(data.get('subject') || '');
+      var phone = String(data.get('phone') || '').trim();
+      var digits = phone.replace(/\D/g, '');
+      var company = String(data.get('company') || '').trim();
+      if (reason === 'Project enquiry') {
+        if (company.length < 2) return fail('Please enter your company name.', form.elements.company);
+        if (!data.get('timeline')) return fail('Please choose when you need it.', form.elements.timeline);
+      }
+      if (reason === 'Training batch') {
+        if (!data.get('background')) return fail('Please choose where you are right now.', form.elements.background);
+        if (digits.length < 8) return fail('Please add your WhatsApp number so we can send the timings.', form.elements.phone);
+      }
+      if (phone && (digits.length < 8 || digits.length > 15)) return fail('That phone number does not look right.', form.elements.phone);
+      if (message.length < 10) return fail('Please write a sentence or two.', form.elements.description);
+
+      var route = { product: 'contact', form: 'contact_page', topic: reason, background: '', company: '', message: message };
+      if (reason === 'Project enquiry') {
+        var budget = String(data.get('budget') || '');
+        route = { product: 'contact', form: 'services_enquiry', topic: reason, company: company, background: String(data.get('timeline') || ''),
+                  message: (budget ? 'Budget: ' + budget + '\n\n' : '') + message };
+      } else if (reason === 'Training batch') {
+        route = { product: 'grove', form: 'batch_enquiry', topic: 'Complete Admin + Developer batch', company: '', background: String(data.get('background') || ''), message: message };
+      }
 
       button.disabled = true;
       status.style.color = '';
@@ -363,13 +417,15 @@ permalink: /contact/
         mode: 'cors',
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify({
-          product: 'contact',
-          form: 'contact_page',
-          topic: String(data.get('subject') || ''),
+          product: route.product,
+          form: route.form,
+          topic: route.topic,
           name: name,
           email: email,
-          phone: String(data.get('phone') || ''),
-          message: message,
+          phone: phone,
+          company: route.company,
+          background: route.background,
+          message: route.message,
           website: String(data.get('website') || ''),
           utmSource: params.get('utm_source') || '',
           utmMedium: params.get('utm_medium') || '',
@@ -388,7 +444,8 @@ permalink: /contact/
         })
         .then(function () {
           if (typeof window.gtag === 'function') {
-            window.gtag('event', 'contact_form_submit', { topic: String(data.get('subject') || ''), page_path: window.location.pathname });
+            window.gtag('event', 'contact_form_submit', { topic: reason, page_path: window.location.pathname });
+            window.gtag('event', 'generate_lead', { form_name: route.form, topic: reason, page_path: window.location.pathname });
           }
           window.location.href = '/contact-thank-you/';
         })
