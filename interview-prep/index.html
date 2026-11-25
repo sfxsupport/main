@@ -1,7 +1,7 @@
 ---
 layout: default
-title: "Salesforce Interview Preparation — 80+ Curated Resources | SFX Support"
-description: "Curated Salesforce interview prep resources for developers and admins. Find the best articles for Apex triggers, LWC, SOQL, Flows, Integration, Security, DevOps, and scenario-based questions."
+title: "Salesforce Interview Questions: Prep Resources by Topic"
+description: "Salesforce interview questions by topic: Apex triggers, async Apex, SOQL, LWC, Flow, security, integration and DevOps, with answers and 90+ curated resources."
 keywords: "Salesforce interview preparation, Salesforce interview questions, Apex triggers interview, LWC interview questions, SOQL interview, Salesforce flows interview, integration interview questions, Salesforce admin interview, scenario based Salesforce interview, Salesforce developer interview prep"
 permalink: /interview-prep/
 og_type: "website"
@@ -330,6 +330,11 @@ og_type: "website"
     .ip-hero h1 { font-size: 1.7rem; }
     .ip-row-title { font-size: .85rem; }
   }
+  .ip-own{max-width:760px;margin:0 auto 1.6rem;text-align:center;}
+  .ip-own p{font-size:.78rem;color:var(--t3);margin:0 0 .6rem;}
+  .ip-own ul{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;list-style:none;padding:0;margin:0;}
+  .ip-own a{display:inline-block;padding:.32rem .7rem;font-size:.78rem;color:var(--t2);text-decoration:none;border:1px solid rgba(255,255,255,.09);border-radius:999px;}
+  .ip-own a:hover{color:var(--t);border-color:rgba(255,255,255,.2);}
 </style>
 
 <div class="ip-wrap">
@@ -339,6 +344,10 @@ og_type: "website"
     <div class="ip-badge"><i class="bi bi-journal-bookmark-fill"></i> Interview Prep</div>
     <h1>Salesforce <span>Interview Resources</span></h1>
     <p>Curated articles and guides — grouped by topic so you find what you need fast.</p>
+    <nav class="ip-own" aria-label="Interview questions answered in our guides">
+      <p>Answered in our guides:</p>
+      <ul><li><a href="/apex-triggers/#faq">Apex Triggers interview questions</a></li><li><a href="/asynchronous-apex/#faq">Asynchronous Apex interview questions</a></li><li><a href="/soql-sosl/#faq">SOQL and SOSL interview questions</a></li><li><a href="/governor-limits/#faq">Governor Limits interview questions</a></li><li><a href="/flows-process-builder/#faq">Salesforce Flow interview questions</a></li><li><a href="/lwc-essentials/#faq">Lightning Web Components interview questions</a></li><li><a href="/security-sharing/#faq">Security and Sharing interview questions</a></li><li><a href="/salesforce-packaging/#faq">Salesforce Packaging interview questions</a></li><li><a href="/deployment-cicd/#faq">Deployment and CI/CD interview questions</a></li><li><a href="/integration-patterns/#faq">Integration Patterns interview questions</a></li></ul>
+    </nav>
     <div class="ip-search-wrap">
       <i class="bi bi-search ip-search-icon"></i>
       <input type="search" id="ip-search" placeholder="Search — apex, LWC, integration..." autocomplete="off" inputmode="search" enterkeyhint="search" />

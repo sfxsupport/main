@@ -1,36 +1,73 @@
 ---
 layout: learning-topic
-title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
 permalink: /flows-process-builder/
-sidebar_title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
 intro_text: Master Salesforce's powerful declarative automation tools – Flows and Process Builder. Learn to automate complex business processes, improve efficiency, and reduce the need for Apex code, empowering both admins and developers.
+title: "Salesforce Flow Guide: Types, Best Practices & Interview Q&A"
+headline: "Salesforce Flow: Types, Best Practices and Migrating from Process Builder"
+sidebar_title: "Salesforce Flow"
+description: "Salesforce Flow types, before-save vs after-save, bulk-safe design, fault paths, debugging, and moving Process Builder and Workflow Rules to Flow."
+keywords: "salesforce flow, record triggered flow, before save vs after save flow, process builder retirement, migrate to flow, salesforce flow interview questions, flow best practices"
+about: "Salesforce Flow"
+level: "Beginner"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Introduction to Salesforce Automation"
   - id: what-is-flow
     number: 2
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Understanding Salesforce Flow"
   - id: flow-types
     number: 3
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Types of Flows"
   - id: process-builder
     number: 4
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Understanding Process Builder"
   - id: flow-vs-pb-vs-workflow
     number: 5
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Flow vs. Process Builder vs. Workflow Rules"
   - id: best-practices
     number: 6
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Best Practices & Considerations"
   - id: debugging-flows
     number: 7
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
+    title: "Debugging & Troubleshooting"
   - id: conclusion
     number: 8
-    title: "Salesforce Flows Interview Questions & Complete Guide — SFX Support"
-description: "Master Salesforce Flows — screen flows, auto-launched flows, subflows, fault handling, and top Salesforce Flow interview questions for admins and developers."
-keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-launched flow, screen flow, subflow, Process Builder interview questions, declarative automation Salesforce"
+    title: "Conclusion & The Future of Automation"
+quick_question: "Which Salesforce automation tool should I use in 2026?"
+quick_answer: "Use Salesforce Flow. Salesforce ended support for Workflow Rules and Process Builder on 31 December 2025, so new automation belongs in Flow. Move existing rules with the Migrate to Flow tool and rebuild by hand anything it can't convert. Use a before-save record-triggered flow for fast updates to the same record, an after-save flow for related records and actions, and Apex when the logic is too complex or high-volume for Flow."
+key_points:
+  - "Flow types: record-triggered, screen, schedule-triggered, autolaunched and platform event-triggered."
+  - "Before-save flows update the triggering record without extra DML, so they are much faster."
+  - "Never put Get, Create, Update or Delete elements inside a loop; work with collections."
+  - "Add fault paths to every data element so errors are handled, not just emailed."
+  - "Use Flow Trigger Explorer and entry conditions to control order and avoid repeat runs."
+faq:
+  - q: "Is Process Builder still supported?"
+    a: "No. Salesforce ended support for Process Builder and Workflow Rules on 31 December 2025. Existing processes may keep running, but they no longer get support or fixes, so move them to Flow with the Migrate to Flow tool."
+  - q: "What is the difference between a before-save and an after-save flow?"
+    a: "A before-save flow (Fast Field Updates) runs before the record is saved and can only change fields on that record, with no DML, so it is fast. An after-save flow (Actions and Related Records) runs after the save and can create or update other records, send emails and call actions."
+  - q: "How do you stop a flow from hitting governor limits?"
+    a: "Keep data elements out of loops: assign changes to a collection inside the loop and run one Update Records after it. Use entry conditions so the flow runs only when relevant fields change, and avoid several flows updating the same record."
+  - q: "How do you debug a flow?"
+    a: "Use Debug in Flow Builder, with rollback mode so test runs don't save data. For record-triggered flows, check the debug log and the flow error emails, and add fault paths that log the error message."
+  - q: "When should I use Apex instead of Flow?"
+    a: "Use Apex for complex logic, very high data volumes, integrations with detailed error handling or anything that needs precise unit tests. Flow is the right default for most record automation that admins should be able to maintain."
+related:
+  - title: "Apex Triggers"
+    url: "/apex-triggers/"
+  - title: "Governor Limits"
+    url: "/governor-limits/"
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Deployment and CI/CD"
+    url: "/deployment-cicd/"
+sources:
+  - title: "Salesforce Help: Flow"
+    url: "https://help.salesforce.com/s/articleView?id=sf.flow.htm&type=5"
+  - title: "Execution governors and limits"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -98,7 +135,7 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
       <ul>
         <li><strong>Purpose:</strong> Execute automation when a record is created, updated, or deleted.</li>
         <li><strong>Fast Field Updates (Before Save):</strong> Runs before the record is saved to the database. Extremely fast and efficient for updating fields on the same triggering record. Similar to <code>before insert/update</code> Apex triggers.</li>
-        <li><strong>Actions and Related Records (After Save):</strong> Runs after the record is saved. Can perform actions on related records, make external callouts, or send emails. Similar to <code>after insert/update</code> Apex triggers.</li>
+        <li><strong>Actions and Related Records (After Save):</strong> Runs after the initial record save and can perform actions on related records or send emails. Use an asynchronous or eligible scheduled path for callouts after the triggering transaction. Similar to <code>after insert/update</code> Apex triggers.</li>
         <li><strong>Use Cases:</strong> Auto-populating fields, updating related records, sending notifications, complex data validation.</li>
       </ul>
     </li>
@@ -119,9 +156,9 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
     <li><strong>Auto-launched Flow (No Trigger):</strong>
       <ul>
         <li><strong>Purpose:</strong> Execute business logic when explicitly invoked.</li>
-        <li><strong>Launch:</strong> Can be called from Apex (<code>Flow.Interview.createFlow(...)</code>), REST API, Custom Buttons, or another Flow as a Subflow.</li>
+        <li><strong>Launch:</strong> Can be called from Apex using <code>Flow.Interview.createInterview('FlowApiName', inputs)</code> followed by <code>start()</code>, the REST API, Custom Buttons, or another Flow as a Subflow. Consider <code>Invocable.Action</code> for bulk invocation.</li>
         <li><strong>Use Cases:</strong> Reusable logic modules, background processing triggered by Apex, specific API integrations.</li>
-        <li><strong>Context:</strong> Inherits context from its invoker.</li>
+        <li><strong>Context:</strong> Default context depends on the launch method, and flow settings can override it. Check sharing, object permissions, and field access.</li>
       </ul>
     </li>
   </ul>
@@ -133,7 +170,7 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
 
   <h3>Key Concepts</h3>
   <ul>
-    <li><strong>Processes:</strong> The automated business logic you build. Each process is associated with a specific object.</li>
+    <li><strong>Processes:</strong> The automated business logic you build. A process can start from a record change or an event, or be invoked by another process.</li>
     <li><strong>Start Conditions:</strong> Define when the process starts (e.g., when a record is created, or created/edited).</li>
     <li><strong>Criteria:</strong> Conditions that must be met for actions to execute (e.g., <code>Opportunity Stage = 'Closed Won'</code>).</li>
     <li><strong>Actions:</strong> What the process does when criteria are met:
@@ -153,8 +190,12 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
   <p>Historically, Process Builder was chosen when Workflow Rules were insufficient but a full Flow was considered overkill — for example, updating fields on related records, creating new records, or chaining multiple actions together.</p>
 
   <blockquote>
-    <p><strong>Important:</strong> Salesforce is actively deprecating Process Builder. While existing processes will continue to function, it is strongly recommended to build all new automation with Salesforce Flow, especially Record-Triggered Flows, as they offer better performance, more features, and are the future of declarative automation.</p>
+    <p><strong>Important:</strong> Salesforce support for Process Builder and Workflow Rules ended on December 31, 2025. Existing automation continues to run; migrate it to Flow. Use the Migrate to Flow tool where it supports the existing automation, and test the result before activation. See the <a href="https://help.salesforce.com/s/articleView?id=000389396&amp;language=en_US&amp;type=1">Salesforce support notice</a> for details.</p>
   </blockquote>
+
+  <h3>How do you migrate existing automation safely?</h3>
+  <p>Inventory active rules and processes, their dependencies, and pending actions before selecting a migration approach. The <a href="https://help.salesforce.com/s/articleView?id=platform.flow_migrate_to_flow.htm&amp;language=en_US&amp;type=5">Migrate to Flow tool</a> supports eligible workflow rules and record-triggered processes, but some processes require partial or manual migration. Review the tool's results and configure any actions that need attention. Test in a sandbox, including order-of-execution differences, recursion, and scheduled actions. Plan the production cutover to avoid duplicate execution, and monitor pending actions and the new flows after activation. Pending-action behavior depends on the source and migration conditions, so consult the <a href="https://help.salesforce.com/s/articleView?id=sf.migrate_to_flow_tool_considerations_workflow.htm&amp;language=en_US&amp;type=5">migration considerations</a> for the specific automation before cutover.</p>
+
 </section>
 
 <section id="content-flow-vs-pb-vs-workflow" class="topic-content-section">
@@ -186,8 +227,8 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
       </tr>
       <tr>
         <td><strong>Execution Options</strong></td>
-        <td>Before Save (field update), After Save (other actions)</td>
-        <td>After Save only</td>
+        <td>Runs after the initial save; field updates update the record again</td>
+        <td>Record-change processes run after save and can schedule actions; other process types have different triggers</td>
         <td>Before Save, After Save, Screen, Scheduled, Platform Event, Invoked</td>
       </tr>
       <tr>
@@ -210,15 +251,13 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
       </tr>
       <tr>
         <td><strong>Roll-Back Transactions</strong></td>
-        <td>No</td>
-        <td>No</td>
-        <td>Yes (Fault Paths)</td>
+        <td colspan="3">Rollback depends on the transaction and error handling. Unhandled failures can roll back a transaction; use Custom Error or Roll Back Records where appropriate.</td>
       </tr>
       <tr>
         <td><strong>Call Apex</strong></td>
         <td>No</td>
         <td>Yes (<code>@InvocableMethod</code>)</td>
-        <td>Yes (<code>@InvocableMethod</code> or direct Apex Action)</td>
+        <td>Yes (an Apex Action backed by an <code>@InvocableMethod</code>)</td>
       </tr>
       <tr>
         <td><strong>External Callouts</strong></td>
@@ -229,24 +268,24 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
       <tr>
         <td><strong>Same-Record Update Performance</strong></td>
         <td>Excellent (if immediate)</td>
-        <td>Poor (always After Save, incurs DML)</td>
+        <td>Record-change processes run after save and can incur another update</td>
         <td>Excellent (Before Save Record-Triggered Flow)</td>
       </tr>
       <tr>
         <td><strong>Future State</strong></td>
-        <td>Deprecated → migrate to Flow</td>
-        <td>Deprecating → migrate to Flow</td>
-        <td>The future of declarative automation</td>
+        <td>Support ended; existing automation runs; migrate to Flow</td>
+        <td>Support ended; existing automation runs; migrate to Flow</td>
+        <td>Supported declarative automation option</td>
       </tr>
     </tbody>
   </table>
 
   <h3>Decision Guide (New Automation)</h3>
-  <p>For any new automation requirements, the recommendation is clear:</p>
+  <p>For new automation requirements, select a tool that fits the behavior and operational needs:</p>
   <ol>
-    <li><strong>Start with Salesforce Flow</strong> — always.</li>
+    <li><strong>Consider Salesforce Flow</strong> for declarative automation.</li>
     <li>For simple same-record field updates based on criteria, use a <strong>Before Save Record-Triggered Flow</strong> — the most performant approach.</li>
-    <li>For user interaction, complex branching, looping, or integrations, <strong>Flow is your only declarative choice.</strong></li>
+    <li>For user interaction, complex branching, looping, or integrations, choose Flow when its capabilities fit the requirement.</li>
     <li>Avoid using Workflow Rules and Process Builder for new automation. Focus on migrating existing ones to Flow where possible.</li>
   </ol>
 </section>
@@ -255,31 +294,38 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
   <h2>6. Best Practices &amp; Considerations</h2>
   <p>Building robust and maintainable automation requires adhering to best practices, especially with declarative tools like Flow.</p>
 
-  <h3>a. One Automation Per Object (or Purpose)</h3>
-  <p>Just like with Apex Triggers, aim for a single Record-Triggered Flow per object per trigger timing (Before Save / After Save). This consolidates logic, makes debugging easier, and helps control execution order. Use decision elements to create distinct paths for different criteria within that single Flow.</p>
+  <h3>a. Organize Automation by Purpose</h3>
+  <p>Use cohesive record-triggered flows with selective entry criteria and controlled ordering. Group related logic where it remains understandable, and separate unrelated responsibilities when that makes testing and maintenance easier. Review the other automation on the object before adding or changing a flow.</p>
 
   <h3>b. Think Transactional</h3>
-  <p>Understand when your Flow runs in the transaction and what impact its actions will have. <code>Before Save</code> is critical for performance when updating the same record. <code>After Save</code> allows actions on related records or external systems.</p>
+  <p>Understand when your Flow runs in the transaction and what impact its actions will have. <code>Before Save</code> is critical for performance when updating the same record. <code>After Save</code> allows actions on related records. Use an asynchronous or eligible scheduled path for callouts to external systems.</p>
 
   <h3>c. Error Handling (Fault Paths)</h3>
-  <p>Always implement fault paths on DML and callout elements to gracefully handle errors — log issues, notify users/admins, or roll back — instead of just failing the transaction silently.</p>
+  <p>Implement fault paths on DML and callout elements to handle errors, notify responsible users, and provide useful diagnostics. A fault path does not itself roll back changes. An unhandled failure can roll back the transaction; use Custom Error or Roll Back Records where appropriate, and verify the effect on the transaction.</p>
 
   <h3>d. Performance Considerations</h3>
   <ul>
-    <li><strong>Bulkify Your Flows:</strong> Be mindful of how many records a loop processes and how many DML operations a Flow triggers. Avoid per-record actions inside loops where possible.</li>
+    <li><strong>Bulkify Your Flows:</strong> Be mindful of how many records a loop processes and how many DML operations a Flow triggers. Avoid per-record actions inside loops where possible. Flow, Apex, and other automation in the same transaction share applicable governor limits.</li>
     <li><strong>Minimize DML:</strong> Batch <code>Create Record</code> and <code>Update Record</code> operations where possible.</li>
     <li><strong>Optimize Queries:</strong> Ensure <code>Get Records</code> elements filter efficiently.</li>
     <li><strong>Avoid Recursion:</strong> Be careful not to create infinite loops where a Flow triggers itself or another automation repeatedly.</li>
   </ul>
 
   <h3>e. Activate One Version at a Time</h3>
-  <p>Only one version of a Flow can be active at a time. When making changes, create a new version, test it thoroughly, then activate it. Keep inactive versions for historical reference or rollback.</p>
+  <p>Only one version of a Flow can be active at a time. When making changes, create a new version, test it thoroughly, then activate it. Keep inactive versions for historical reference or rollback. Track Flow metadata and dependencies in version control, validate deployments in a sandbox, and include deployment and activation checks in the release process.</p>
 
   <h3>f. Naming Conventions</h3>
   <p>Implement consistent and clear naming conventions for your Flows, elements, variables, and resources. This makes your Flows readable and maintainable by the whole team.</p>
 
   <h3>g. Test Thoroughly</h3>
-  <p>Always test your Flows extensively in a sandbox before deploying to production. Use different data scenarios — including edge cases and bulk data — to ensure they perform as expected and don't hit governor limits.</p>
+  <p>Test flows in a sandbox before deployment with success, fault, permission, edge-case, and bulk-data scenarios. For supported flows, save test scenarios and add assertions for expected outcomes. Run automated regression tests during delivery, and supplement them with tests of interactions with other automation and scheduled or asynchronous work.</p>
+
+  <h3>How do you control record-triggered flow order?</h3>
+  <p>Use Flow Trigger Explorer to inspect record-triggered flows for an object and set their relative order within the same trigger timing. Selective entry criteria and cohesive responsibilities reduce unnecessary execution and make the sequence easier to understand. Flow order does not override the wider save sequence: validation, Apex triggers, workflow rules, and other automation have their own positions, and later updates can cause automation to run again. Consult the complete <a href="https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-triggers-order-of-execution.html">order of execution</a> when designing or migrating automation, then test interactions and recursion with realistic records and bulk updates.</p>
+
+  <h3>When should you use asynchronous or scheduled paths?</h3>
+  <p>Use an asynchronous path for work that can run after the original save commits, and a scheduled path for work tied to a later time. Each runs outside the original save transaction, so a later failure does not roll back that save. A scheduled path can be canceled or rescheduled when record conditions change; test the behavior for the intended configuration. For integrations, use Named Credentials for endpoint and authentication configuration, and design retries and idempotent operations so repeated delivery does not duplicate work. Monitor failures and account for applicable asynchronous limits and execution delays.</p>
+
 </section>
 
 <section id="content-debugging-flows" class="topic-content-section">
@@ -301,8 +347,8 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
   <p>For advanced troubleshooting — especially when a Flow interacts with Apex or other processes — Salesforce debug logs are essential.</p>
   <ul>
     <li>Set up a <code>User Trace Flag</code> for the running user.</li>
-    <li>Set debug levels: <code>FLOW</code> to <code>FINEST</code>, <code>WORKFLOW</code> to <code>FINEST</code>.</li>
-    <li>Analyze the log for <code>FLOW_START_INTERVIEW</code>, <code>FLOW_ELEMENT_BEGIN</code>, <code>FLOW_VALUE_ASSIGNMENT</code>, <code>FLOW_BULK_ELEMENT_LIMIT</code>, <code>FLOW_END_INTERVIEW</code>, and any <code>LIMIT_EXCEEDED</code> messages.</li>
+    <li>Set <code>Workflow</code> to <code>FINER</code> or <code>FINEST</code>; configure <code>Apex Code</code> and <code>Database</code> as needed.</li>
+    <li>Analyze the log for <code>FLOW_START_INTERVIEW_BEGIN</code>, <code>FLOW_ELEMENT_BEGIN</code>, <code>FLOW_VALUE_ASSIGNMENT</code>, <code>FLOW_BULK_ELEMENT_LIMIT_USAGE</code>, <code>FLOW_INTERVIEW_FINISHED_LIMIT_USAGE</code>, and limit errors.</li>
   </ul>
 
   <h3>c. Flow Error Emails</h3>
@@ -316,19 +362,19 @@ keywords: "Salesforce Flow interview questions, Salesforce Flows guide, auto-lau
   <p>These emails are a great starting point for investigating production issues. Always ensure a responsible admin or team receives these notifications.</p>
 
   <h3>d. Custom Error Logging</h3>
-  <p>For proactive error management, build custom error logging mechanisms within your Flows using <code>Create Record</code> elements to log errors to a custom object. Combine this with fault paths to catch specific exceptions gracefully.</p>
+  <p>Use fault paths to capture useful error details and route them to a responsible team. A custom-object record created in the same transaction can be rolled back with the work it records. When diagnostics must survive rollback, use transaction-independent logging, such as a suitably configured Publish Immediately platform event with a separate subscriber, and monitor delivery and processing failures.</p>
 </section>
 
 <section id="content-conclusion" class="topic-content-section">
   <h2>8. Conclusion &amp; The Future of Automation</h2>
-  <p>Salesforce Flows have revolutionized declarative automation on the platform, empowering administrators to build sophisticated business logic that once required Apex code. With the deprecation of Workflow Rules and the ongoing transition from Process Builder to Flow, Salesforce Flow is clearly the future of declarative automation.</p>
+  <p>Salesforce Flow supports declarative automation for business logic that can otherwise require code. Support for Workflow Rules and Process Builder has ended, and existing automation should be assessed for migration to Flow.</p>
 
   <h3>Key Takeaways</h3>
   <ul>
-    <li><strong>Flow is the King:</strong> For new automation, always start with Salesforce Flow — the most flexible, powerful, and performant declarative tool.</li>
+    <li><strong>Choose a Suitable Tool:</strong> Consider Flow for new declarative automation when its capabilities fit the requirement.</li>
     <li><strong>Choose the Right Type:</strong> Select the correct Flow type (Screen, Record-Triggered, Scheduled, Platform Event, Auto-launched) based on your use case.</li>
     <li><strong>Prioritize Performance:</strong> Leverage <code>Before Save</code> Record-Triggered Flows for efficient same-record updates.</li>
-    <li><strong>Best Practices are Crucial:</strong> One automation per object, implement error handling with fault paths, and adhere to strong naming conventions.</li>
+    <li><strong>Best Practices are Crucial:</strong> Organize flows by purpose, control their order, handle errors, and use consistent naming conventions.</li>
     <li><strong>Master Debugging:</strong> Become proficient with the Flow Debugger and Salesforce debug logs to efficiently troubleshoot issues.</li>
   </ul>
   <p>By mastering Salesforce Flows, you position yourself as a highly capable Salesforce professional — ready to tackle complex business requirements with clicks, not code, and to build scalable, maintainable, and efficient solutions on the platform.</p>

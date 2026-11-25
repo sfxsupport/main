@@ -1,36 +1,81 @@
 ---
 layout: learning-topic
-title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
 permalink: /asynchronous-apex/
-sidebar_title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
 intro_text: "Dive into the world of Asynchronous Apex, a critical skill for any Salesforce developer. This module will teach you how to overcome governor limits, handle long-running operations, and integrate with external systems efficiently."
+title: "Asynchronous Apex: Queueable, Batch, Future & Scheduled"
+headline: "Asynchronous Apex: @future, Queueable, Batch and Scheduled Apex Explained"
+sidebar_title: "Asynchronous Apex"
+description: "Compare @future, Queueable, Batch and Scheduled Apex: when to use each, limits, chaining, callouts, monitoring with AsyncApexJob, and interview questions."
+keywords: "asynchronous apex, queueable apex, batch apex, future method salesforce, scheduled apex, future vs queueable, asynchronous apex interview questions"
+about: "Asynchronous Apex"
+level: "Intermediate"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Introduction to Asynchronous Apex"
   - id: future-methods
     number: 2
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "@future Methods"
   - id: queueable-apex
     number: 3
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Queueable Apex"
   - id: batch-apex
     number: 4
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Batch Apex"
   - id: scheduled-apex
     number: 5
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Scheduled Apex"
   - id: choosing-tool
     number: 6
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Choosing the Right Asynchronous Tool"
   - id: monitoring-debugging
     number: 7
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
+    title: "Monitoring & Debugging Asynchronous Apex"
   - id: conclusion
     number: 8
-    title: "Asynchronous Apex Interview Questions & Guide — SFX Support"
-description: "Complete guide to Salesforce Asynchronous Apex — Batch, Future, Queueable, Scheduled Apex with governor limits and top async Apex interview questions."
-keywords: "asynchronous Apex interview questions, Batch Apex, Future methods Salesforce, Queueable Apex, Scheduled Apex, Salesforce governor limits, async Apex guide"
+    title: "Conclusion & Best Practices"
+quick_question: "Which type of asynchronous Apex should I use?"
+quick_answer: "Use Queueable Apex for most background work: it accepts sObjects and complex types, returns a job Id you can monitor and can chain another job. Use Batch Apex for large data sets, processed in chunks (200 by default) with fresh governor limits for each chunk. Use Scheduled Apex to run code at set times. For new code, prefer Queueable over @future methods, including for callouts and mixed DML fixes."
+key_points:
+  - "Asynchronous transactions get higher limits: 200 SOQL queries, 60,000 ms CPU time and a larger heap."
+  - "A synchronous transaction can enqueue up to 50 Queueable jobs; a Queueable job can enqueue one child."
+  - "Up to 5 batch jobs can be queued or active at once, with up to 100 more waiting in the flex queue."
+  - "Scheduled Apex runs with synchronous limits."
+  - "Track every job in AsyncApexJob or Setup > Apex Jobs."
+faq:
+  - q: "What is the difference between a future method and Queueable Apex?"
+    a: "Future methods only accept primitive parameters, return no job Id and can't be chained. Queueable Apex accepts sObjects and custom types, returns a job Id from System.enqueueJob that you can monitor, and can enqueue a follow-up job. For new code, Queueable is usually the better choice."
+  - q: "What is the maximum batch size in Batch Apex?"
+    a: "The default scope is 200 records. When the start method returns a QueryLocator, you can set the scope up to 2,000 in Database.executeBatch. Each execute call gets its own set of governor limits."
+  - q: "Can you call a future method from Batch Apex?"
+    a: "No. Future methods can't be called from batch or future contexts. Use Queueable Apex from the finish method or chain another batch instead."
+  - q: "How do you make callouts from Batch Apex?"
+    a: "Implement Database.AllowsCallouts on the batch class, then make the callouts inside the execute method. Callout limits apply per execute transaction."
+  - q: "What does Database.Stateful do in Batch Apex?"
+    a: "By default, instance variables in a batch class are reset between execute calls. Implementing Database.Stateful keeps their values across chunks, which is useful for running totals or error lists, at some cost to performance."
+  - q: "How do you chain Queueable jobs?"
+    a: "Call System.enqueueJob for the next job inside the execute method of the current one. Each Queueable can add only one child job, so the chain runs one job after another."
+  - q: "How many scheduled Apex jobs can an org have?"
+    a: "Up to 100 Apex classes can be scheduled at the same time, or 5 in a Developer Edition org."
+related:
+  - title: "Governor Limits"
+    url: "/governor-limits/"
+  - title: "Apex Triggers"
+    url: "/apex-triggers/"
+  - title: "Integration Patterns"
+    url: "/integration-patterns/"
+  - title: "SOQL and SOSL"
+    url: "/soql-sosl/"
+sources:
+  - title: "Asynchronous Apex"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_async_overview.htm"
+  - title: "Queueable Apex"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_queueing_jobs.htm"
+  - title: "Batch Apex"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_batch_interface.htm"
+  - title: "Execution governors and limits"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm"
 ---
 
 <style>
@@ -113,11 +158,13 @@ keywords: "asynchronous Apex interview questions, Batch Apex, Future methods Sal
   <h3>What is Asynchronous Apex?</h3>
   <p>Asynchronous Apex executes in the background, at a later time, in a separate thread. This allows the main transaction to complete without waiting. This is crucial for:</p>
   <ul>
-    <li><strong>Bypassing Governor Limits:</strong> Async operations have higher limits (e.g., higher SOQL query limits, longer CPU time).</li>
+    <li><strong>Separate Limits:</strong> Async operations run in separate transactions and can have higher limits, such as SOQL query and CPU limits. Scheduled Apex uses synchronous limits.</li>
     <li><strong>Long-Running Operations:</strong> Complex calculations, large data processing, or extensive callouts.</li>
-    <li><strong>Callouts to External Systems:</strong> HTTP callouts must be made asynchronously.</li>
+    <li><strong>Callouts to External Systems:</strong> Callouts originating from triggers must be asynchronous; other contexts can make synchronous callouts.</li>
     <li><strong>Better User Experience:</strong> Prevents users from waiting for long processes to complete.</li>
   </ul>
+  <h3>How do transaction boundaries and capacity affect async work?</h3>
+  <p>Async work runs in a separate transaction, and a submitted Queueable job is not processed if its submitting transaction rolls back. Submission does not guarantee an immediate start. Plan for the shared 24-hour async execution quota across future, Queueable, Batch, and Scheduled Apex: the greater of 250,000 executions or the number of applicable user licenses multiplied by 200. Batch executions consume capacity per execution, so estimate the effect of chunk size and other org workloads. Monitor <code>DailyAsyncApexExecutions</code>, queue depth, and job failures, and allow for delays when designing service expectations.</p>
   <h3>When to use Asynchronous Apex?</h3>
   <p>Consider asynchronous Apex when your business logic involves:</p>
   <ul>
@@ -145,41 +192,49 @@ keywords: "asynchronous Apex interview questions, Batch Apex, Future methods Sal
     <li><strong>Static Method:</strong> Must be a <code>static</code> method.</li>
     <li><strong><code>@future</code> Annotation:</strong> Must be annotated with <code>@future</code>.</li>
     <li><strong>Void Return Type:</strong> Must return <code>void</code>.</li>
-    <li><strong>Primitive Parameters:</strong> Parameters must be primitive data types. Cannot pass sObjects directly — pass IDs and query within the method.</li>
+    <li><strong>Parameters:</strong> Use primitives or arrays or collections of primitives. Pass record IDs and query sObjects within the method.</li>
     <li><strong>Callouts:</strong> If making a callout, annotate with <code>@future(callout=true)</code>.</li>
     <li><strong>No Chaining:</strong> One <code>@future</code> method cannot call another.</li>
-    <li><strong>Limited Queue:</strong> Up to 50 <code>@future</code> calls per transaction.</li>
+    <li><strong>Submission Limits:</strong> A synchronous or Queueable transaction can submit up to 50 future calls; batch and future contexts cannot submit future calls.</li>
   </ul>
   <h3>Example: Making a Callout</h3>
   <div class="apex-block">
     <div class="apex-block-label">Apex Code Example</div>
     <pre><code class="language-apex">public class ExternalServiceCallout {
+    public class CalloutException extends Exception {}
+
     @future(callout=true)
     public static void sendAccountToExternalSystem(Set&lt;Id&gt; accountIds) {
-        List&lt;Account&gt; accounts = [SELECT Id, Name, AnnualRevenue FROM Account WHERE Id IN :accountIds];
-        System.debug('Sending ' + accounts.size() + ' accounts to external system asynchronously.');
-        for (Account acc : accounts) {
-            System.debug('Processing Account: ' + acc.Name + ' (' + acc.Id + ')');
-            // HttpRequest req = new HttpRequest();
-            // req.setEndpoint('http://api.external.com/accounts');
-            // req.setMethod('POST');
-            // req.setBody(JSON.serialize(acc));
-            // Http http = new Http();
-            // HTTPResponse res = http.send(req);
+        List&lt;Account&gt; accounts = [
+            SELECT Id, Name, AnnualRevenue FROM Account WHERE Id IN :accountIds
+        ];
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('callout:External_Accounts/accounts/bulk');
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody(JSON.serialize(accounts));
+        HttpResponse response = new Http().send(request);
+        if (response.getStatusCode() &lt; 200 || response.getStatusCode() &gt;= 300) {
+            throw new CalloutException('Account callout failed: HTTP ' + response.getStatusCode());
         }
     }
 }
 
 trigger AccountAfterInsert on Account (after insert) {
-    Set&lt;Id&gt; newAccountIds = new Set&lt;Id&gt;();
-    for (Account acc : Trigger.new) {
-        newAccountIds.add(acc.Id);
-    }
-    if (!newAccountIds.isEmpty()) {
-        ExternalServiceCallout.sendAccountToExternalSystem(newAccountIds);
+    Set&lt;Id&gt; accountIds = new Map&lt;Id, Account&gt;(Trigger.new).keySet();
+    if (!accountIds.isEmpty()) {
+        if (System.isBatch() || System.isFuture() ||
+            Limits.getFutureCalls() &gt;= Limits.getLimitFutureCalls()) {
+            for (Account account : Trigger.new) {
+                account.addError('Account integration could not be queued.');
+            }
+        } else {
+            ExternalServiceCallout.sendAccountToExternalSystem(accountIds);
+        }
     }
 }</code></pre>
   </div>
+  <p>Configure <code>External_Accounts</code> as a Named Credential with an HTTPS endpoint and appropriate authentication. The endpoint must accept a bulk payload and report failure with a non-success HTTP status. If it reports individual failures in a successful response, inspect those results as well. This trigger rejects the affected records when no future call is available, including batch and future contexts. For production, consider a durable outbox and a separate dispatcher so requests can be retained and retried without rejecting the source transaction.</p>
   <h3>Limitations:</h3>
   <ul>
     <li>Cannot monitor progress directly.</li>
@@ -194,67 +249,89 @@ trigger AccountAfterInsert on Account (after insert) {
   <p>Queueable Apex provides a more flexible and robust way to run async Apex. Implements the <code>Queueable</code> interface and allows chaining jobs and passing sObjects.</p>
   <h3>Key Characteristics:</h3>
   <ul>
-    <li><strong><code>Queueable</code> Interface:</strong> Class must implement <code>Database.Queueable</code>.</li>
+    <li><strong><code>Queueable</code> Interface:</strong> Implement <code>System.Queueable</code>, normally written <code>Queueable</code>.</li>
     <li><strong><code>execute</code> Method:</strong> Must contain a single <code>execute</code> method.</li>
     <li><strong>sObject Parameters:</strong> Can accept sObjects and collections as parameters.</li>
-    <li><strong>Chaining:</strong> A Queueable job can enqueue another (up to 50 jobs in a chain).</li>
+    <li><strong>Chaining:</strong> Each running job can enqueue one child. Developer and Trial orgs have a default depth limit; a configured stack-depth limit can also apply.</li>
     <li><strong>Job ID:</strong> <code>System.enqueueJob</code> returns a job ID for monitoring.</li>
-    <li><strong>Higher Limits:</strong> Generally higher limits than <code>@future</code>, especially heap size.</li>
+    <li><strong>Capabilities:</strong> Queueable offers job IDs, complex inputs, and chaining; it does not generally have a higher heap limit than future methods.</li>
   </ul>
   <h3>Example: Chaining Updates</h3>
   <div class="apex-block">
     <div class="apex-block-label">Apex Code Example</div>
     <pre><code class="language-apex">public class AccountContactUpdater implements Queueable {
-    private List&lt;Account&gt; accountsToProcess;
-    private Boolean updateContacts;
+    public class EnqueueException extends Exception {}
+    private List&lt;Id&gt; accountIds;
 
-    public AccountContactUpdater(List&lt;Account&gt; accounts, Boolean updateContactsFlag) {
-        this.accountsToProcess = accounts;
-        this.updateContacts = updateContactsFlag;
+    public AccountContactUpdater(List&lt;Id&gt; accountIds) {
+        this.accountIds = accountIds;
     }
 
     public void execute(QueueableContext context) {
-        List&lt;Contact&gt; contactsToUpdate = new List&lt;Contact&gt;();
-        for (Account acc : accountsToProcess) {
-            acc.Description = 'Processed by Queueable Apex.';
-            if (updateContacts) {
-                for (Contact con : [SELECT Id, MailingCity FROM Contact WHERE AccountId = :acc.Id]) {
-                    con.MailingCity = acc.BillingCity;
-                    contactsToUpdate.add(con);
-                }
+        Set&lt;Id&gt; currentIds = new Set&lt;Id&gt;();
+        List&lt;Id&gt; remainingIds = new List&lt;Id&gt;();
+        for (Integer i = 0; i &lt; accountIds.size(); i++) {
+            if (i &lt; 100) {
+                currentIds.add(accountIds[i]);
+            } else {
+                remainingIds.add(accountIds[i]);
             }
+        }
+        Map&lt;Id, Account&gt; accounts = new Map&lt;Id, Account&gt;([
+            SELECT Id, BillingCity, Description FROM Account WHERE Id IN :currentIds
+        ]);
+        List&lt;Contact&gt; contactsToUpdate = [
+            SELECT Id, AccountId, MailingCity FROM Contact WHERE AccountId IN :currentIds
+        ];
+        for (Contact contact : contactsToUpdate) {
+            contact.MailingCity = accounts.get(contact.AccountId).BillingCity;
+        }
+        for (Account account : accounts.values()) {
+            account.Description = 'Processed by Queueable Apex.';
+        }
+        List&lt;Account&gt; accountsToUpdate = accounts.values();
+        if (!accountsToUpdate.isEmpty()) {
+            update accountsToUpdate;
         }
         if (!contactsToUpdate.isEmpty()) {
             update contactsToUpdate;
         }
-        // Chain another job if needed
-        if (accountsToProcess.size() > 100) {
-            System.enqueueJob(new AccountContactUpdater(
-                accountsToProcess.subList(100, accountsToProcess.size()), updateContacts));
+        if (!remainingIds.isEmpty()) {
+            if (Limits.getQueueableJobs() &gt;= Limits.getLimitQueueableJobs()) {
+                throw new EnqueueException('Next account chunk could not be queued.');
+            }
+            System.enqueueJob(new AccountContactUpdater(remainingIds));
         }
     }
 }
 
 trigger AccountQueueableTrigger on Account (after insert, after update) {
-    if (Trigger.isAfter) {
-        List&lt;Account&gt; accountsToProcess = new List&lt;Account&gt;();
-        for (Account acc : Trigger.new) {
-            if (acc.AnnualRevenue != null && acc.AnnualRevenue > 1000000) {
-                accountsToProcess.add(acc);
-            }
+    List&lt;Id&gt; accountIds = new List&lt;Id&gt;();
+    for (Account account : Trigger.new) {
+        if (account.AnnualRevenue != null &amp;&amp; account.AnnualRevenue &gt; 1000000 &amp;&amp;
+            account.Description != 'Processed by Queueable Apex.') {
+            accountIds.add(account.Id);
         }
-        if (!accountsToProcess.isEmpty()) {
-            System.enqueueJob(new AccountContactUpdater(accountsToProcess, true));
+    }
+    if (!accountIds.isEmpty()) {
+        if (Limits.getQueueableJobs() &gt;= Limits.getLimitQueueableJobs()) {
+            for (Account account : Trigger.new) {
+                account.addError('Account processing could not be queued.');
+            }
+        } else {
+            System.enqueueJob(new AccountContactUpdater(accountIds));
         }
     }
 }</code></pre>
   </div>
+  <p>This example processes one account chunk per job and queries its contacts once. The marker prevents this trigger from re-enqueuing its own account updates, but it also prevents later changes from being processed while the marker remains set. Production recursion protection should reflect the actual fields and events to process. Use this pattern only when the contact count is bounded; use Batch Apex for unbounded contact volumes. If the transaction has no enqueue capacity, the trigger rejects the affected records. A durable outbox with a separate dispatcher can retain work for later submission. The two account triggers in this guide are independent examples and need an integrated design before being used together.</p>
+  <p>Queueable options also include a minimum delay, a duplicate signature, and a maximum stack depth. A transaction finalizer can observe a Queueable job's outcome in a separate transaction and support recovery. Design retries with a bounded policy, backoff, and durable failure records; external operations should be idempotent.</p>
 </section>
 
 <!-- ══ SECTION 4 ══ -->
 <section id="content-batch-apex" class="topic-content-section">
   <h2>4. Batch Apex</h2>
-  <p>Batch Apex processes large numbers of records (up to 50 million) by breaking them into smaller chunks processed asynchronously.</p>
+  <p>Batch Apex processes large numbers of records in chunks. A batch <code>QueryLocator</code> can retrieve up to 50 million records; SOQL queries used by an iterable remain subject to normal row limits.</p>
   <h3>Key Characteristics:</h3>
   <ul>
     <li><strong><code>Database.Batchable</code> Interface:</strong> Class must implement <code>Database.Batchable&lt;sObject&gt;</code>.</li>
@@ -267,7 +344,7 @@ trigger AccountQueueableTrigger on Account (after insert, after update) {
     </li>
     <li><strong>Higher Limits:</strong> Each <code>execute</code> call runs with its own set of governor limits.</li>
     <li><strong>Monitoring:</strong> Visible in Setup → Apex Jobs.</li>
-    <li><strong>Queue:</strong> Up to 5 concurrent batch jobs.</li>
+    <li><strong>Queue:</strong> Up to 5 batch jobs can be queued or active concurrently; the flex queue can hold up to 100 additional jobs. Execution can be delayed by resource availability and fair-use scheduling.</li>
   </ul>
   <h3>Example: Mass Data Update</h3>
   <div class="apex-block">
@@ -311,6 +388,7 @@ trigger AccountQueueableTrigger on Account (after insert, after update) {
 Database.executeBatch(new AccountRatingBatch(
     'SELECT Id, Name, Rating FROM Account WHERE CreatedDate = LAST_N_DAYS:30', 'Hot'), 200);</code></pre>
   </div>
+  <p>Each batch chunk is a separate transaction and chunks are not guaranteed to run in order. A failed chunk does not roll back successful chunks. Instance state is not retained between transactions unless the class implements <code>Database.Stateful</code>. If using partial DML, inspect every result and record failures for recovery; otherwise, allow an all-or-none DML failure to surface.</p>
 </section>
 
 <!-- ══ SECTION 5 ══ -->
@@ -322,7 +400,7 @@ Database.executeBatch(new AccountRatingBatch(
     <li><strong><code>Schedulable</code> Interface:</strong> Class must implement <code>Schedulable</code>.</li>
     <li><strong><code>execute</code> Method:</strong> Takes a <code>SchedulableContext</code> parameter.</li>
     <li><strong>Cron Expression:</strong> E.g., <code>'0 0 1 * * ?'</code> for 1 AM daily.</li>
-    <li><strong>Single Instance:</strong> Only one instance of a class can be scheduled at a time.</li>
+    <li><strong>Scheduled Jobs:</strong> The same class can have multiple uniquely named jobs. An org normally permits 100 scheduled Apex jobs; Developer Edition permits 5.</li>
     <li><strong>Combine with Batch:</strong> Often used to schedule Batch jobs.</li>
   </ul>
   <h3>Example: Daily Data Cleanup</h3>
@@ -334,8 +412,6 @@ Database.executeBatch(new AccountRatingBatch(
         if (!oldTasks.isEmpty()) {
             delete oldTasks;
         }
-        // Kick off a Batch job for large-scale cleanup
-        Database.executeBatch(new OldCaseCleanupBatch());
     }
 }
 
@@ -349,15 +425,15 @@ System.schedule('Daily Cleanup Job', '0 0 0 * * ?', new DailyDataCleanupSchedule
   <h2>6. Choosing the Right Asynchronous Tool</h2>
   <p>Select the appropriate tool based on your requirements:</p>
   <ul>
-    <li><strong><code>@future</code> Methods:</strong> Simple fire-and-forget callouts or small background tasks. No sObject passing, no chaining.</li>
+    <li><strong><code>@future</code> Methods:</strong> Existing simple background tasks or callouts. No sObject passing or chaining; Salesforce recommends Queueable for new work.</li>
     <li><strong>Queueable Apex:</strong> Need to pass sObjects, chain jobs, or require more flexibility than <code>@future</code>. Returns a job ID for monitoring.</li>
     <li><strong>Batch Apex:</strong> Processing thousands to millions of records. Separate governor limits per chunk, built-in monitoring.</li>
     <li><strong>Scheduled Apex:</strong> Run a class at a predetermined time or recurring schedule. Often used to kick off a Batch or Queueable job.</li>
   </ul>
   <h3>General Rule of Thumb:</h3>
   <ol>
-    <li>Start with declarative automation (Flows, Process Builder).</li>
-    <li>For simple fire-and-forget callouts → <code>@future</code>.</li>
+    <li>Consider Flow Builder first for suitable declarative automation.</li>
+    <li>For fire-and-forget callouts → prefer Queueable Apex.</li>
     <li>If you need sObjects or chaining → Queueable Apex.</li>
     <li>For large data volumes → Batch Apex.</li>
     <li>For recurring tasks → Scheduled Apex (often kicking off Batch or Queueable).</li>
@@ -384,16 +460,20 @@ System.schedule('Daily Cleanup Job', '0 0 0 * * ?', new DailyDataCleanupSchedule
 
 for (AsyncApexJob job : jobs) {
     System.debug('Job: ' + job.ApexClass.Name + ' | Status: ' + job.Status);
-    if (job.NumberOfErrors > 0) {
+    if (job.NumberOfErrors &gt; 0) {
         System.debug('Errors: ' + job.NumberOfErrors);
     }
 }</code></pre>
   </div>
+  <h3>How do you test asynchronous work and callouts?</h3>
+  <p>Enqueue the work between <code>Test.startTest()</code> and <code>Test.stopTest()</code>, then assert the resulting records or other observable outcomes. Use <code>HttpCalloutMock</code> and <code>Test.setMock</code> to supply controlled HTTP responses instead of making real callouts. Test successful responses, failures, bulk inputs, and submission-limit behavior. Keep batch test data within the scope supported by the test, and test chained jobs individually where needed rather than assuming an entire chain runs in one test. Verify that failures are surfaced or durably recorded.</p>
+  <h3>How do you enforce data access in async jobs?</h3>
+  <p>Choose the execution and data-access context deliberately, and enforce record sharing and object and field permissions appropriate to the operation. Sharing declarations govern record access but do not by themselves enforce object or field permissions. For Apex API version 67.0 and later, database operations default to user mode; specify the intended access mode explicitly when behavior must be clear across versions. Review the permissions of the submitting or running user, the data sent to external systems, and the Named Credential configuration. Test both authorized and restricted access paths.</p>
   <h3>Debugging Asynchronous Jobs:</h3>
   <ul>
     <li><strong>Debug Logs:</strong> Set up logs for the user who initiated the async job. Use appropriate logging levels.</li>
     <li><strong>System.debug():</strong> Use liberally to track execution flow and variable values.</li>
-    <li><strong>Exception Handling:</strong> Implement <code>try-catch</code> blocks. Log exceptions to a custom error object.</li>
+    <li><strong>Exception Handling:</strong> Surface failures or record actionable details in durable storage. Inspect partial DML results when using partial success.</li>
     <li><strong>Limits.get*() Methods:</strong> Monitor governor limit consumption, especially in Batch <code>execute</code> methods.</li>
   </ul>
   <div class="apex-block">
@@ -406,17 +486,13 @@ for (AsyncApexJob job : jobs) {
     public void execute(Database.BatchableContext bc, List&lt;Account&gt; scope) {
         System.debug('Heap: ' + Limits.getHeapSize() + ' / ' + Limits.getLimitHeapSize());
         System.debug('Queries: ' + Limits.getQueries() + ' / ' + Limits.getLimitQueries());
-        try {
-            for (Account acc : scope) {
-                if (acc.Name == 'Error Account') {
-                    throw new MyCustomException('Error Account encountered!');
-                }
-                acc.Description = 'Processed';
+        for (Account acc : scope) {
+            if (acc.Name == 'Error Account') {
+                throw new MyCustomException('Error Account encountered!');
             }
-            update scope;
-        } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'Error: ' + e.getMessage() + ' line ' + e.getLineNumber());
+            acc.Description = 'Processed';
         }
+        update scope;
     }
 
     public void finish(Database.BatchableContext bc) {
@@ -431,14 +507,14 @@ for (AsyncApexJob job : jobs) {
 <!-- ══ SECTION 8 ══ -->
 <section id="content-conclusion" class="topic-content-section">
   <h2>8. Conclusion &amp; Best Practices</h2>
-  <p>Asynchronous Apex is indispensable for building robust, scalable Salesforce applications that handle complex requirements without hitting governor limits.</p>
+  <p>Asynchronous Apex can help Salesforce applications handle background work within the limits of separate transactions.</p>
   <h3>Key Takeaways:</h3>
   <ul>
-    <li><strong>Governor Limits:</strong> Async Apex helps you work around stricter synchronous limits.</li>
-    <li><strong>Callouts:</strong> HTTP callouts must be made asynchronously.</li>
+    <li><strong>Governor Limits:</strong> Async transactions have their own limits, which can be higher; Scheduled Apex uses synchronous limits.</li>
+    <li><strong>Callouts:</strong> Callouts originating from triggers must be asynchronous. Synchronous callouts are permitted in other contexts.</li>
     <li><strong>Tool Selection:</strong> Match the tool to the use case — <code>@future</code>, Queueable, Batch, or Scheduled.</li>
     <li><strong>Bulkification:</strong> Always avoid SOQL/DML inside loops.</li>
-    <li><strong>Error Handling:</strong> Implement comprehensive <code>try-catch</code> and logging.</li>
+    <li><strong>Error Handling:</strong> Surface failures or record actionable errors, and inspect partial DML results.</li>
     <li><strong>Monitoring:</strong> Regularly check Apex Jobs and query <code>AsyncApexJob</code>.</li>
   </ul>
   <h3>General Best Practices:</h3>

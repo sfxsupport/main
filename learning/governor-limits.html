@@ -1,30 +1,69 @@
 ---
 layout: learning-topic
-title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
 permalink: /governor-limits/
-sidebar_title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
 intro_text: Understanding and adhering to Salesforce Governor Limits is crucial for writing scalable, efficient, and deployable Apex code. This module will explain what governor limits are, why they exist, and how to write code that respects them.
+title: "Salesforce Governor Limits: Full List and How to Avoid Them"
+headline: "Salesforce Governor Limits: The Full List, Common Errors and How to Avoid Them"
+sidebar_title: "Governor Limits"
+description: "Current Apex governor limits (SOQL 100, DML 150, CPU 10s, heap), sync vs async values, common LimitException errors, and patterns to stay under them."
+keywords: "salesforce governor limits, apex governor limits, governor limits in salesforce, soql 101 error, too many soql queries, apex cpu time limit exceeded, governor limits interview questions"
+about: "Apex governor limits"
+level: "Beginner"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
+    title: "Introduction to Governor Limits"
   - id: types-of-limits
     number: 2
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
+    title: "Types of Governor Limits"
   - id: common-errors
     number: 3
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
+    title: "Common Governor Limit Errors"
   - id: best-practices
     number: 4
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
+    title: "Strategies & Best Practices"
   - id: testing-limits
     number: 5
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
+    title: "Testing for Governor Limits"
   - id: conclusion
     number: 6
-    title: "Salesforce Governor Limits Guide & Interview Questions — SFX Support"
-description: "Understand Salesforce Governor Limits — synchronous vs asynchronous limits, best practices to avoid limit exceptions, and top interview questions."
-keywords: "Salesforce governor limits, governor limits interview questions, SOQL limits, DML limits, Apex governor limits, Salesforce best practices, bulkification"
+    title: "Conclusion & Key Takeaways"
+quick_question: "What are governor limits in Salesforce?"
+quick_answer: "Governor limits are runtime caps Salesforce enforces on every Apex transaction so that one org can't overload shared, multitenant servers. The ones developers hit most are 100 SOQL queries (200 in async Apex), 150 DML statements, 50,000 queried rows, 10,000 DML rows and 10 seconds of CPU time (60 seconds async). Going over a limit throws System.LimitException, which can't be caught."
+key_points:
+  - "Heap size: 10 MB synchronous, 25 MB asynchronous, per the current Apex Developer Guide."
+  - "Callouts: 100 per transaction, with 120 seconds of cumulative timeout."
+  - "Trigger recursion depth: 16 levels of triggers firing other triggers."
+  - "Batch Apex gets a fresh set of limits for every execute chunk."
+  - "Use the Limits class, for example Limits.getQueries(), to check usage at runtime."
+faq:
+  - q: "Can you catch a governor limit exception?"
+    a: "No. System.LimitException can't be caught by try/catch, and the whole transaction rolls back. Prevent it by bulkifying code and checking usage with the Limits class before expensive work."
+  - q: "What causes 'Too many SOQL queries: 101'?"
+    a: "More than 100 SOQL queries ran in one synchronous transaction, almost always because a query sits inside a loop or a trigger fires recursively. Query once outside the loop, store results in a Map and look them up inside the loop."
+  - q: "How do you fix 'Apex CPU time limit exceeded'?"
+    a: "Remove nested loops over large lists, use Maps for lookups, avoid repeated work across triggers and flows on the same object, and move heavy processing to Queueable or Batch Apex, which get 60,000 ms of CPU time."
+  - q: "Do managed packages share governor limits with my code?"
+    a: "Certified managed packages from AppExchange get their own per-transaction limits for most counters, such as SOQL and DML. CPU time, heap size and transaction time are shared across the whole transaction. Uncertified packages share all limits with your code."
+  - q: "Do custom metadata queries count toward the SOQL limit?"
+    a: "No. SOQL queries on custom metadata types don't count toward the 100-query limit, which makes them a good place for configuration."
+  - q: "Are governor limits different in tests?"
+    a: "Each test method gets its own set of limits. Wrap the code under test in Test.startTest() and Test.stopTest() to give it a fresh set of limits and to run queued async jobs."
+related:
+  - title: "Apex Triggers"
+    url: "/apex-triggers/"
+  - title: "Asynchronous Apex"
+    url: "/asynchronous-apex/"
+  - title: "SOQL and SOSL"
+    url: "/soql-sosl/"
+  - title: "Salesforce Flow"
+    url: "/flows-process-builder/"
+sources:
+  - title: "Execution governors and limits"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm"
+  - title: "Limits class"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_limits.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -46,7 +85,7 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
   <p>Salesforce imposes various types of governor limits, each targeting different aspects of code execution and resource consumption. Here are the most common ones:</p>
 
   <h3>a. Per-Transaction Apex Limits</h3>
-  <p>These limits apply to a single Apex transaction — from when a trigger fires or an anonymous block executes, until all associated DML, SOQL, and other operations complete.</p>
+  <p>These limits apply to a single Apex transaction, from when a trigger fires or an anonymous block executes until the associated operations complete. Scheduled Apex uses synchronous limits even though it is scheduled asynchronously. Bulk API and Bulk API 2.0 transactions generally use the higher effective synchronous or asynchronous limit; their CPU allowance is <code>60,000 ms</code>.</p>
   <ul>
     <li><strong>SOQL Queries:</strong>
       <ul>
@@ -72,7 +111,7 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
     </li>
     <li><strong>Heap Size:</strong>
       <ul>
-        <li>Maximum heap size: <code>6 MB</code> (synchronous), <code>12 MB</code> (asynchronous)</li>
+        <li>Maximum heap size: <code>10 MB</code> (synchronous), <code>25 MB</code> (asynchronous); email services have <code>50 MB</code></li>
       </ul>
     </li>
     <li><strong>Callouts:</strong>
@@ -83,31 +122,35 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
     </li>
     <li><strong>Future Methods:</strong>
       <ul>
-        <li>Total <code>@future</code> method calls per transaction: <code>50</code></li>
+        <li><code>@future</code> calls per invocation: <code>50</code> in synchronous and Queueable contexts, and <code>0</code> in Batch and future contexts</li>
       </ul>
     </li>
     <li><strong>Queueable Jobs:</strong>
       <ul>
-        <li>Maximum Queueable jobs added in a single transaction: <code>50</code></li>
+        <li>Maximum Queueable jobs added in a single transaction: <code>50</code> synchronously and <code>1</code> asynchronously; Bulk API and Bulk API 2.0 transactions use the higher effective limit</li>
       </ul>
     </li>
   </ul>
 
+  <h3>How are limits shared within a transaction?</h3>
+  <p>Flow, triggers, and Apex that run in the same transaction consume the transaction's shared resources. A governor limit exception cannot be caught, and the failed transaction rolls back its database changes.</p>
+  <p>Consider the full automation path when estimating queries, DML, CPU, and heap, including work started by record changes. Certified managed packages can receive separate per-transaction allowances for certain limits within their namespaces, subject to cumulative cross-namespace limits. CPU time and heap remain shared across namespaces. Review the combined workload and leave headroom for other automation rather than budgeting each component in isolation.</p>
+
   <h3>b. Per-Organization Limits</h3>
   <p>These limits apply across your entire Salesforce organization, not just a single transaction.</p>
   <ul>
-    <li><strong>Scheduled Jobs:</strong> Maximum scheduled jobs: <code>100</code></li>
+    <li><strong>Scheduled Jobs:</strong> Up to <code>100</code> Apex classes can be scheduled concurrently; Developer Edition allows <code>5</code></li>
     <li><strong>Batch Apex Jobs:</strong> Maximum Batch Apex jobs queued or active at one time: <code>5</code></li>
-    <li><strong>Daily Async Apex Executions:</strong> Total asynchronous Apex executions (future, Queueable, batch, scheduled) per 24 hours — varies by org edition (typically 250,000+, plus 200 × number of user licenses).</li>
+    <li><strong>Daily Async Apex Executions:</strong> The standard allocation for asynchronous Apex executions (future, Queueable, batch, and scheduled) per 24 hours is the greater of <code>250,000</code> or <code>200</code> times the number of applicable licenses.</li>
   </ul>
 
   <h3>c. Other Important Limits</h3>
   <ul>
-    <li><strong>Maximum trigger depth:</strong> <code>16</code> (prevents infinite recursion)</li>
-    <li><strong>Maximum stack depth:</strong> <code>1,000</code> (prevents infinite recursion in method calls)</li>
-    <li><strong>Maximum compiled Apex code:</strong> <code>5 MB</code></li>
+    <li><strong>Maximum trigger recursion depth:</strong> <code>16</code> (limits recursively fired triggers)</li>
+    <li><strong>Method call stack depth:</strong> Method calls are also subject to a stack depth limit; avoid uncontrolled recursion.</li>
+    <li><strong>Org-wide Apex code size:</strong> <code>6 MB</code>; scratch orgs have <code>10 MB</code></li>
   </ul>
-  <p>For the most up-to-date and complete list of governor limits, always refer to the official <a href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm" target="_blank">Salesforce Apex Developer Guide: Governor Limits</a>.</p>
+  <p>For the most up-to-date and complete list of governor limits, always refer to the official <a href="https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-gov-limits.html" target="_blank">Salesforce Apex Developer Guide: Governor Limits</a>.</p>
 </section>
 
 <section id="content-common-errors" class="topic-content-section">
@@ -115,10 +158,10 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
   <p>When governor limits are exceeded, Salesforce throws runtime exceptions that stop code execution. Understanding these errors helps you diagnose and fix problems quickly:</p>
   <ul>
     <li><strong>System.LimitException: Too many SOQL queries</strong> — Occurs when more than 100 SOQL queries are executed in a synchronous transaction.</li>
-    <li><strong>System.LimitException: Too many DML statements</strong> — Happens when more than 150 DML operations are performed in one transaction.</li>
-    <li><strong>System.LimitException: Apex CPU time limit exceeded</strong> — Apex code ran longer than 10 seconds (synchronous) or 60 seconds (asynchronous).</li>
-    <li><strong>System.LimitException: Heap size too large</strong> — The Apex heap size exceeded 6 MB (synchronous) or 12 MB (asynchronous).</li>
-    <li><strong>System.LimitException: Too many callouts</strong> — More than 100 callouts or 120 seconds of cumulative callout time in a transaction.</li>
+    <li><strong>System.LimitException: Too many DML statements</strong> — Occurs when a transaction exceeds 150 DML statements. DML rows have a separate limit.</li>
+    <li><strong>System.LimitException: Apex CPU time limit exceeded</strong> — The transaction exceeded its application-server CPU allowance, normally 10,000 ms synchronously or 60,000 ms asynchronously. Database execution and callout waiting are excluded.</li>
+    <li><strong>System.LimitException: Heap size too large</strong> — The Apex heap size exceeded 10 MB synchronously or 25 MB asynchronously; email services have a 50 MB limit.</li>
+    <li><strong>System.LimitException: Too many callouts</strong> — More than 100 callouts were made in a transaction. The cumulative callout timeout has a separate 120-second limit.</li>
   </ul>
   <p>Recognizing these exceptions early helps avoid costly debugging and improves code performance and reliability.</p>
 </section>
@@ -129,12 +172,15 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
   <ul>
     <li><strong>Bulkify Your Code:</strong> Always design code to handle multiple records at once — never put SOQL or DML inside loops.</li>
     <li><strong>Use Collections Wisely:</strong> Use lists, maps, and sets to reduce queries and DML operations.</li>
-    <li><strong>Avoid Recursive Triggers:</strong> Prevent infinite loops by using static flags or handler classes.</li>
+    <li><strong>Avoid Recursive Triggers:</strong> Use idempotent logic, field-change checks, and narrowly scoped guards. Test re-entry and multiple trigger chunks; a blanket static Boolean can skip later chunks.</li>
     <li><strong>Optimize SOQL Queries:</strong> Select only required fields, filter records with indexed fields, and avoid unnecessary queries.</li>
-    <li><strong>Use Asynchronous Processing:</strong> For complex or long-running tasks, leverage <code>@future</code>, Queueable, Batch Apex, or Scheduled Apex.</li>
+    <li><strong>Use Asynchronous Processing:</strong> Choose Queueable or Batch Apex for work suited to asynchronous processing, and use Scheduled Apex to start work at a specified time. Generally prefer Queueable to future methods.</li>
     <li><strong>Limit Data Returned:</strong> Use selective queries and pagination to limit heap usage and improve CPU time.</li>
-    <li><strong>Test with Large Data Volumes:</strong> Write tests that simulate bulk data to verify your code handles limits gracefully.</li>
+    <li><strong>Test with Large Data Volumes:</strong> Write tests with bulk data and check resource headroom to prevent limit failures.</li>
   </ul>
+  <h3>How does Batch Apex handle large data sets?</h3>
+  <p>Each Batch Apex <code>execute</code> invocation is a separate transaction with fresh per-transaction limits. A <code>Database.QueryLocator</code> returned from the batch <code>start</code> method can select up to 50 million rows.</p>
+  <p>Choose a scope size that leaves room for all automation invoked by each batch, and account for failures in individual transactions. For other queries, a SOQL for-loop can reduce heap pressure by retrieving records in batches, but it does not remove the normal query-row limit. Use selective filters and the Query Plan tool to assess queries on large data volumes, and avoid processing records that the operation does not need.</p>
 </section>
 
 <section id="content-testing-limits" class="topic-content-section">
@@ -143,11 +189,14 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
   <ul>
     <li><strong>Use @TestSetup Methods:</strong> Create reusable test data to simulate bulk processing.</li>
     <li><strong>Write Bulk Tests:</strong> Test triggers and classes with collections of records, not just single instances.</li>
-    <li><strong>Simulate Limit Exceptions:</strong> Use mocks or specialized code patterns to mimic limit exceptions and verify graceful handling.</li>
+    <li><strong>Prevent Limit Exceptions:</strong> Test bulk workloads and resource headroom to prevent limit exceptions. Test proactive fallback behavior separately.</li>
     <li><strong>Measure Performance:</strong> Use debug logs to track CPU time, heap size, and query counts during test execution.</li>
     <li><strong>Leverage Salesforce Tools:</strong> Use Developer Console, Apex Test Execution, and the <code>Limits</code> class to monitor resource usage.</li>
     <li><strong>Continuous Integration:</strong> Integrate tests into CI/CD pipelines to catch limit-related issues early in the development cycle.</li>
   </ul>
+  <h3>How do you test limits and asynchronous work?</h3>
+  <p>Use <code>Test.startTest()</code> to begin a fresh governor limit window for the work under test, and <code>Test.stopTest()</code> to end it and run asynchronous work queued in that window before assertions. The original test limits resume after <code>stopTest()</code>.</p>
+  <p>Set up representative data before the window, then exercise bulk records, trigger re-entry, and multiple chunks. Use the <code>Limits</code> methods to inspect consumption and verify that the workload retains sufficient headroom. Assert the resulting data and any deliberate fallback behavior separately. Test asynchronous stages independently where needed, rather than assuming an entire chain will run in a single test.</p>
 </section>
 
 <section id="content-conclusion" class="topic-content-section">
@@ -159,10 +208,10 @@ keywords: "Salesforce governor limits, governor limits interview questions, SOQL
     <li><strong>Multi-Tenancy is Key:</strong> Limits exist to protect shared resources and ensure optimal performance for all Salesforce customers.</li>
     <li><strong>Bulkify Everything:</strong> The golden rule — avoid SOQL queries and DML statements inside loops. Process data in collections.</li>
     <li><strong>One Trigger, One Handler:</strong> Centralize your trigger logic for better maintainability and control over execution order.</li>
-    <li><strong>Go Async When Necessary:</strong> For long-running processes, external callouts, or large data transformations, leverage <code>@future</code>, Queueable, Batch, or Scheduled Apex.</li>
+    <li><strong>Go Async When Necessary:</strong> Use Queueable or Batch Apex for suitable long-running work, callouts, or large data transformations. Scheduled Apex cannot make synchronous callouts directly; enqueue a Queueable or start a Batch job that implements <code>Database.AllowsCallouts</code>.</li>
     <li><strong>Be Selective:</strong> Write SOQL queries that efficiently use indexed fields to retrieve only the data you need.</li>
-    <li><strong>Guard Against Recursion:</strong> Implement static variables in trigger handlers to prevent infinite loops.</li>
-    <li><strong>Test Thoroughly:</strong> Always include unit tests that simulate maximum record scenarios to ensure your code handles governor limits gracefully.</li>
+    <li><strong>Guard Against Recursion:</strong> Use idempotent logic, field-change checks, and narrowly scoped guards; test re-entry and multiple trigger chunks.</li>
+    <li><strong>Test Thoroughly:</strong> Include unit tests for bulk workloads and check that the transaction has sufficient governor limit headroom.</li>
   </ul>
   <p>By internalizing these best practices, you'll not only avoid hitting governor limits but also become a more skilled, confident, and effective Salesforce developer, capable of building high-quality, scalable solutions.</p>
 </section>

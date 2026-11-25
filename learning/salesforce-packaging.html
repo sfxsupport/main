@@ -1,30 +1,63 @@
 ---
 layout: learning-topic
-title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
 permalink: /salesforce-packaging/
-sidebar_title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
 intro_text: Understand Salesforce packaging, a fundamental concept for distributing and managing your customizations. Learn about Unmanaged, Managed (1GP & 2GP), and Unlocked Packages, and how to create them easily.
+title: "Salesforce Packaging: Unlocked, 2GP Managed & Unmanaged"
+headline: "Salesforce Packaging: Unlocked, 2GP Managed and Unmanaged Packages Compared"
+sidebar_title: "Salesforce Packaging"
+description: "Compare Salesforce package types: unmanaged, unlocked, and first- vs second-generation managed packages, namespaces, versioning, and which to choose."
+keywords: "salesforce packaging, unlocked packages, second generation managed packages, 2gp vs 1gp, managed vs unmanaged package, appexchange package, salesforce dev hub"
+about: "Salesforce packaging"
+level: "Intermediate"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
+    title: "Introduction to Salesforce Packaging"
   - id: unmanaged-packages
     number: 2
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
+    title: "Unmanaged Packages"
   - id: managed-packages
     number: 3
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
+    title: "Managed Packages (1st Generation & 2nd Generation)"
   - id: unlocked-packages
     number: 4
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
+    title: "Unlocked Packages"
   - id: choosing-package-type
     number: 5
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
+    title: "Choosing the Right Package Type"
   - id: conclusion
     number: 6
-    title: "Salesforce Managed Packages & AppExchange Guide — SFX Support"
-description: "Complete guide to Salesforce packaging — managed vs unmanaged packages, 1GP vs 2GP, AppExchange publishing, and packaging interview questions."
-keywords: "Salesforce managed packages, AppExchange interview questions, 2GP packaging Salesforce, unmanaged packages, Salesforce ISV, packaging guide Salesforce"
+    title: "Conclusion & Key Takeaways"
+quick_question: "Which Salesforce package type should I use?"
+quick_answer: "Use unlocked packages to organise and deploy your own org's metadata in versioned modules. Use second-generation managed packages (2GP) to build and distribute an app to other orgs, for example on AppExchange; Salesforce recommends 2GP over first-generation (1GP) for new managed packages. Use unmanaged packages only to share samples or templates one time, because they can't be upgraded."
+key_points:
+  - "2GP packages are created from source with Salesforce CLI and a Dev Hub, not from a packaging org."
+  - "Managed packages need a namespace and protect their code; unlocked packages can have one but don't have to."
+  - "Package versions can be promoted and upgraded; unmanaged packages can't."
+  - "Unlocked packages are the standard way to split a large org into modules."
+  - "Apps listed on AppExchange must pass the security review."
+faq:
+  - q: "What is the difference between 1GP and 2GP managed packages?"
+    a: "1GP packages are built and versioned inside a single packaging org. 2GP packages are built from source in version control using Salesforce CLI and a Dev Hub, can share a namespace across several packages and fit modern CI/CD. Salesforce recommends 2GP for new managed packages."
+  - q: "What is the difference between an unlocked and an unmanaged package?"
+    a: "Unlocked packages are versioned and upgradeable, and the metadata stays linked to the package. Unmanaged packages are a one-time copy: once installed, the components belong to the org and can't be upgraded."
+  - q: "Do I need a namespace for a package?"
+    a: "Managed packages need a namespace. Unlocked packages can be created with or without one; most internal teams use no namespace."
+  - q: "What is a Dev Hub?"
+    a: "A Dev Hub is a Salesforce org, usually production or a Partner Business Org, with the Dev Hub feature enabled. It is used to create scratch orgs and to create and manage second-generation and unlocked packages."
+related:
+  - title: "Deployment and CI/CD"
+    url: "/deployment-cicd/"
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Integration Patterns"
+    url: "/integration-patterns/"
+  - title: "Lightning Web Components"
+    url: "/lwc-essentials/"
+sources:
+  - title: "Salesforce DX Developer Guide: Second-generation managed packages"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.pkg2_dev.meta/pkg2_dev/sfdx_dev_dev2gp.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -49,11 +82,11 @@ keywords: "Salesforce managed packages, AppExchange interview questions, 2GP pac
 
   <h3>Key Characteristics</h3>
   <ul>
-    <li><strong>Editable:</strong> All components (Apex, LWC, custom objects, etc.) are fully customizable by the installing organization.</li>
+    <li><strong>Editable:</strong> Unmanaged components are editable subject to normal metadata and org restrictions.</li>
     <li><strong>No Upgrade Path:</strong> No built-in mechanism for the original developer to push updates. Recipients must manually re-deploy changes.</li>
     <li><strong>No IP Protection:</strong> Source code of Apex classes, Visualforce pages, etc. is visible and accessible after installation.</li>
     <li><strong>No Namespace:</strong> Components have no unique namespace prefix — higher risk of naming conflicts in the installing org.</li>
-    <li><strong>Deletion:</strong> Uninstalling removes the package container, but installed components remain. You must manually delete them.</li>
+    <li><strong>Deletion:</strong> A successful uninstall removes the package components and associated data. Dependencies can block the uninstall.</li>
   </ul>
 
   <h3>Use Cases</h3>
@@ -82,7 +115,7 @@ keywords: "Salesforce managed packages, AppExchange interview questions, 2GP pac
   <div class="apex-block">
     <div class="apex-block-label">Bash — SFDX Unmanaged Package Workflow</div>
 <pre><code class="language-bash"># Develop your customizations in a scratch org or sandbox.
-# Pull the source to your local SFDX project:
+# With source tracking enabled, retrieve tracked changes to your local project:
 sf project retrieve start -o myDevOrg
 
 # Then use the Salesforce UI (Package Manager) in that same org
@@ -97,26 +130,31 @@ sf project retrieve start -o myDevOrg
 
   <h3>Key Characteristics (Common to 1GP and 2GP)</h3>
   <ul>
-    <li><strong>Protected Components:</strong> Source code of Apex classes, Visualforce pages, and other IP is hidden from the installing organization. Components are not editable after installation.</li>
+    <li><strong>Protected Components:</strong> Managed Apex source is hidden, but Visualforce page content is visible. Subscribers can edit certain managed-component properties, depending on the metadata type.</li>
     <li><strong>Upgrade Path:</strong> Package developers can push upgrades to installed managed packages — customers receive new features and bug fixes.</li>
     <li><strong>Unique Namespace:</strong> All components have a unique namespace prefix (e.g., <code>mycompany__MyComponent__c</code>), preventing naming conflicts.</li>
-    <li><strong>AppExchange Distribution:</strong> Required for listing applications on the Salesforce AppExchange.</li>
+    <li><strong>AppExchange Distribution:</strong> Managed packages support upgradeable commercial distribution; AppExchange also offers unmanaged solutions.</li>
     <li><strong>Version Control:</strong> Strong versioning capabilities for clear release management.</li>
   </ul>
 
+  <h3>How do you publish and maintain an AppExchange solution?</h3>
+  <p>Register as a Salesforce partner and prepare the solution for security review before publishing its listing. For a managed package listing, submit the required scans and review materials, resolve findings, and pass the review before distribution.</p>
+  <p>Prepare listing details, installation instructions, and a plan for subscriber support and licensing. Maintain the solution after publication and respond to Salesforce requests for a security re-review. Review requirements and partner agreements can change, so consult the <a href="https://developer.salesforce.com/docs/platform/salesforce-code-analyzer/guide/appexchange.html">security review guidance</a> and <a href="https://developer.salesforce.com/docs/platform/isvforce/guide/security-review-periodic-reviews.html">re-review guidance</a> when planning a release.</p>
+
   <h3>a. 1st Generation Managed Packages (1GP)</h3>
-  <p>The traditional approach to managed packaging, developed in a single Developer Edition org (the "packaging org"). An org-centric development model where all components for the package must reside in this one org.</p>
+  <p>The traditional approach to managed packaging uses a Developer Edition org (the "packaging org") to create package versions. Teams can develop and test source in scratch orgs, then deploy the components to the packaging org.</p>
   <ul>
-    <li><strong>Limitations:</strong> Difficult to manage for large, modular applications; limited integration with modern source control; no scratch org support; harder dependency management.</li>
+    <li><strong>Limitations:</strong> An org-centric release process can be harder to manage for large, modular applications and requires coordinating the packaging org with source control and dependencies.</li>
   </ul>
 
   <p><strong>Creation (High-Level — via Salesforce UI in a Packaging Org):</strong></p>
   <ol>
     <li>Request a special Developer Edition org for packaging.</li>
-    <li>Develop all your application's metadata directly in this packaging org.</li>
+    <li>Develop and test the application in scratch orgs, then deploy its metadata to the packaging org for version creation.</li>
     <li>In <strong>Setup</strong>, go to <strong>Package Manager</strong>.</li>
-    <li>Click <strong>New</strong> under "Managed Packages".</li>
-    <li>Provide a <strong>Package Name</strong>, select a unique <strong>Namespace Prefix</strong>, and fill in other details. Click <strong>Save</strong>.</li>
+    <li>Register a unique namespace prefix in <strong>Namespace Settings</strong> if the packaging org does not already have one.</li>
+    <li>Click <strong>New</strong> to create a package.</li>
+    <li>Provide a <strong>Package Name</strong> and fill in other details. Click <strong>Save</strong>.</li>
     <li>Add all your developed components to this package.</li>
     <li>Click <strong>Upload</strong> to create a new version.</li>
   </ol>
@@ -132,7 +170,7 @@ sf project retrieve start -o myDevOrg
 
   <p><strong>Creation (SFDX CLI — High-Level Steps):</strong></p>
   <ol>
-    <li><strong>Enable Dev Hub:</strong> In your production or developer org, go to Setup → search <code>Dev Hub</code> → enable it.</li>
+    <li><strong>Set up Dev Hub and the namespace:</strong> Enable Dev Hub and second-generation packaging in your Dev Hub org. Register a namespace in a separate org and link it to the Dev Hub.</li>
     <li><strong>Configure <code>sfdx-project.json</code>:</strong></li>
   </ol>
 
@@ -161,10 +199,10 @@ sf project retrieve start -o myDevOrg
 <pre><code class="language-bash">sf package create \
   --name "MyAwesomeApp" \
   --path "force-app" \
-  --packagetype Managed \
+  --package-type Managed \
   --json \
   --target-dev-hub YourDevHubAlias
-# Returns a Package ID (0Ho...). Update your sfdx-project.json with this ID.</code></pre>
+# Returns a Package ID (0Ho...). Check the generated packageAliases entry in sfdx-project.json.</code></pre>
   </div>
 
   <div class="apex-block">
@@ -172,19 +210,27 @@ sf project retrieve start -o myDevOrg
 <pre><code class="language-bash">sf package version create \
   --package "MyAwesomeApp" \
   --installation-key-bypass \
+  --code-coverage \
   --wait 10 \
   --json \
   --target-dev-hub YourDevHubAlias
-# Returns a Package Version ID (04t...). Use this to install the package.</code></pre>
+# On success, use the Package Version ID (04t...) to install the package.
+# If creation is pending, use the 08c request ID to check its status:
+# sf package version create report --package-create-request-id 08c... --target-dev-hub YourDevHubAlias</code></pre>
   </div>
+
+  <p>Create a validated version with code coverage and meet the applicable coverage requirements before promotion. If version creation finishes after the wait period, check the report for the resulting ID and update the version alias in the project file if needed.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">Bash — Promote Package Version (for Release)</div>
 <pre><code class="language-bash">sf package version promote \
-  --package "04txxxxxxxxxxxxxxxx" \
+  --package "04tXXXXXXXXXXXXXXX" \
   --json \
   --target-dev-hub YourDevHubAlias</code></pre>
   </div>
+  <h3>How do managed package versions support upgrades?</h3>
+  <p>Managed 2GP ancestry determines the released versions from which subscribers can upgrade. Set an appropriate ancestor for each new version, review the ancestry tree when maintaining branches, and test upgrades from the versions that subscribers use.</p>
+  <p>A new managed 2GP version is a beta until it is promoted. Test beta versions in scratch orgs or sandboxes; an installed beta cannot be upgraded. Before promotion, complete validation and meet the applicable Apex coverage requirements. A released version can be distributed to production subscribers. See Salesforce guidance on <a href="https://developer.salesforce.com/docs/platform/pkg2-dev/guide/sfdx-dev-dev2gp-package-ancestor-intro.html">package ancestry</a> and <a href="https://developer.salesforce.com/docs/platform/pkg2-dev/guide/sfdx-dev-dev2gp-get-ready-promote.html">promotion</a>.</p>
 </section>
 
 <section id="content-unlocked-packages" class="topic-content-section">
@@ -198,7 +244,7 @@ sf project retrieve start -o myDevOrg
     <li><strong>Upgrade Path:</strong> Supports upgrades, but changes made in the target org can be overwritten by new package versions.</li>
     <li><strong>No Namespace (Typically):</strong> Unlocked packages typically don't have a unique namespace, which can lead to naming conflicts if not managed carefully.</li>
     <li><strong>Internal Use:</strong> Designed for internal development teams to modularize their own Salesforce customizations — not intended for AppExchange distribution.</li>
-    <li><strong>Deletion:</strong> Uninstalling an unlocked package removes both the container and all its components from the target org.</li>
+    <li><strong>Deletion:</strong> A successful uninstall removes the package components and associated data. Dependencies can prevent uninstallation.</li>
   </ul>
 
   <h3>Use Cases</h3>
@@ -211,6 +257,7 @@ sf project retrieve start -o myDevOrg
   </ul>
 
   <h3>How to Create (SFDX CLI)</h3>
+  <p>This example creates a namespace-free package, which can help when migrating existing metadata. Salesforce recommends a namespaced unlocked package for new metadata.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">JSON — sfdx-project.json (Unlocked)</div>
@@ -236,29 +283,36 @@ sf project retrieve start -o myDevOrg
 <pre><code class="language-bash">sf package create \
   --name "MyInternalApp" \
   --path "force-app" \
-  --packagetype Unlocked \
+  --package-type Unlocked \
+  --no-namespace \
   --json \
   --target-dev-hub YourDevHubAlias
-# Returns a Package ID (0Ho...). Update sfdx-project.json.</code></pre>
+# Returns a Package ID (0Ho...). Check the generated packageAliases entry in sfdx-project.json.</code></pre>
   </div>
 
   <div class="apex-block">
     <div class="apex-block-label">Bash — Create Package Version</div>
 <pre><code class="language-bash">sf package version create \
   --package "MyInternalApp" \
+  --installation-key-bypass \
   --wait 10 \
   --json \
   --target-dev-hub YourDevHubAlias
-# Returns a Package Version ID (04t...).</code></pre>
+# On success, use the Package Version ID (04t...) to install the package.
+# If creation is pending, use the 08c request ID to check its status:
+# sf package version create report --package-create-request-id 08c... --target-dev-hub YourDevHubAlias</code></pre>
   </div>
 
   <div class="apex-block">
     <div class="apex-block-label">Bash — Install Package in Target Org</div>
 <pre><code class="language-bash">sf package install \
-  --package "04txxxxxxxxxxxxxxxx" \
+  --package "04tXXXXXXXXXXXXXXX" \
   --target-org mySandboxAlias \
   --wait 10</code></pre>
   </div>
+  <h3>How do you manage dependencies and package removal?</h3>
+  <p>Declare package dependencies in the project configuration and install prerequisites before packages that depend on them. Test the installation order and compatible versions in a representative org. An org-dependent unlocked package can rely on unpackaged metadata already in the installation org; Salesforce validates that metadata at installation. This variant cannot depend on other packages, so test it in a sandbox containing the required metadata.</p>
+  <p>Before removing components or uninstalling a package, review metadata-specific removal rules and references, back up needed data, and test the change. References can block uninstallation, and a successful uninstall removes package components and associated data. See <a href="https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-unlocked-pkg-org-dependent.html">org-dependent packages</a> and <a href="https://developer.salesforce.com/docs/platform/appexchange-install-guide/guide/appexchange-install-postinstall.html">uninstall considerations</a>.</p>
 </section>
 
 <section id="content-choosing-package-type" class="topic-content-section">
@@ -267,7 +321,7 @@ sf project retrieve start -o myDevOrg
 
   <h3>Unmanaged Packages</h3>
   <ul>
-    <li><strong>Use when:</strong> Simple code sharing, open-source projects, templates, small one-off deployments where the recipient needs full editability and no future upgrades are expected.</li>
+    <li><strong>Use when:</strong> Simple code sharing, open-source projects, templates, small one-off deployments where the recipient needs to edit the components, subject to metadata and org restrictions, and no future upgrades are expected.</li>
     <li><strong>Avoid when:</strong> Building commercial applications, requiring IP protection, or needing a clear upgrade path.</li>
   </ul>
 
@@ -280,7 +334,7 @@ sf project retrieve start -o myDevOrg
   <h3>Unlocked Packages</h3>
   <ul>
     <li><strong>Use when:</strong> Internal enterprise development, modularizing large Salesforce orgs, adopting source-driven development and CI/CD, replacing Change Sets, or distributing common internal components.</li>
-    <li><strong>Avoid when:</strong> Building AppExchange products (use Managed Packages) or when strict IP protection is required.</li>
+    <li><strong>Avoid when:</strong> Distributing upgradeable commercial packages on AppExchange or when strict IP protection is required.</li>
   </ul>
 
   <blockquote>
@@ -294,7 +348,7 @@ sf project retrieve start -o myDevOrg
 
   <h3>Key Takeaways</h3>
   <ul>
-    <li><strong>Unmanaged Packages:</strong> Simple sharing, fully editable, no upgrade path. Best for open-source and templates.</li>
+    <li><strong>Unmanaged Packages:</strong> Simple sharing, editable subject to metadata and org restrictions, no upgrade path. Best for open-source and templates.</li>
     <li><strong>Managed Packages:</strong> For AppExchange products, IP protection, and controlled upgrades. 2GP is the modern, source-driven approach.</li>
     <li><strong>Unlocked Packages:</strong> For internal enterprise development, modularity, version control, and flexible upgrades. A modern alternative to Change Sets.</li>
     <li><strong>Salesforce DX &amp; SFDX CLI:</strong> Essential tools for modern packaging (2GP and Unlocked), enabling source-driven development and CI/CD.</li>

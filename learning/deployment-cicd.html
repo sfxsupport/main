@@ -1,39 +1,76 @@
 ---
 layout: learning-topic
-title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
 permalink: /deployment-cicd/
-sidebar_title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
 intro_text: Master Salesforce deployment strategies and Continuous Integration/Continuous Delivery (CI/CD) practices. Learn to move changes efficiently and reliably across environments, ensuring quality and accelerating development cycles.
+title: "Salesforce CI/CD & Deployment: Guide and Interview Q&A"
+headline: "Salesforce Deployment and CI/CD: Change Sets, Salesforce CLI, Lifecycle Center and Pipelines"
+sidebar_title: "Deployment and CI/CD"
+description: "Salesforce deployment options compared: change sets, Salesforce CLI, Lifecycle Center, unlocked packages, and a CI/CD pipeline with GitHub Actions."
+keywords: "salesforce ci/cd, salesforce deployment, salesforce devops, salesforce cli deploy, lifecycle center, devops center, change sets vs cli, salesforce devops interview questions, github actions salesforce"
+about: "Salesforce deployment and CI/CD"
+level: "Intermediate"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "Introduction to Deployment & CI/CD"
   - id: deployment-methods
     number: 2
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "Salesforce Deployment Methods"
   - id: understanding-cicd
     number: 3
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "Understanding CI/CD"
   - id: cicd-tools
     number: 4
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "CI/CD Tools for Salesforce"
   - id: cicd-practices
     number: 5
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "Key CI/CD Practices for Salesforce"
   - id: deployment-best-practices
     number: 6
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
+    title: "Deployment Best Practices"
   - id: conclusion
     number: 7
-    title: "Salesforce DevOps & CI/CD Interview Questions — SFX Support"
-description: "Master Salesforce deployment and CI/CD — Salesforce DX, scratch orgs, Copado, Gearset, and top DevOps interview questions for Salesforce developers."
-keywords: "Salesforce DevOps interview questions, Salesforce CI/CD, Salesforce DX, scratch orgs, Copado Salesforce, Gearset, deployment interview questions Salesforce"
+    title: "Conclusion & Future Outlook"
+quick_question: "How do you set up CI/CD for Salesforce?"
+quick_answer: "Salesforce CI/CD keeps metadata in Git in source format and lets a pipeline, such as GitHub Actions, check every change automatically. Developers build in scratch orgs or sandboxes, the pipeline runs sf project deploy validate with Apex tests against a target org on each pull request, and after approval sf project deploy quick releases the validated change to production. Change sets still work for small teams but give no version history or automation."
+key_points:
+  - "Salesforce CLI (sf) is the current command-line tool; the older sfdx commands are deprecated."
+  - "Production deployments that include Apex need at least 75% code coverage, and every trigger needs some coverage."
+  - "Test levels include NoTestRun, RunSpecifiedTests, RunLocalTests and RunAllTestsInOrg."
+  - "Lifecycle Center, previously Next-Generation DevOps Center, is Salesforce's Git-backed release tool; the DevOps Center managed package loses support on 4 June 2027."
+  - "Authenticate pipelines with the JWT bearer flow and a connected or external client app, not a stored password."
+faq:
+  - q: "What is the difference between change sets and Salesforce CLI deployments?"
+    a: "Change sets move metadata between connected orgs through the Setup UI and keep no history. Salesforce CLI deploys from source files, so every change is tracked in Git, can be reviewed in a pull request and can be automated in a pipeline."
+  - q: "What code coverage does Salesforce require for production?"
+    a: "At least 75% of your Apex code must be covered by tests, all tests must pass, and every trigger must have some coverage. Aim higher and test real behaviour, not just lines."
+  - q: "What is a quick deploy?"
+    a: "Run sf project deploy validate with Apex tests against production. If it succeeds, you can release the same components within 10 days with sf project deploy quick and the job Id, without running the tests again. Note that sf project deploy start --dry-run does not produce a quick-deployable validation."
+  - q: "Is DevOps Center still supported?"
+    a: "Salesforce is ending support for the DevOps Center managed package on 4 June 2027 and recommends moving to Lifecycle Center, previously called Next-Generation DevOps Center. Lifecycle Center opens from the App Launcher with no package to install and keeps the Git-backed, work-item pipeline approach."
+  - q: "How do you authenticate Salesforce CLI in a CI pipeline?"
+    a: "Use the JWT bearer flow: create a connected app or external client app with a certificate, store the private key as a pipeline secret, and run sf org login jwt. Don't store user passwords in the pipeline."
+related:
+  - title: "Salesforce Packaging"
+    url: "/salesforce-packaging/"
+  - title: "Apex Triggers"
+    url: "/apex-triggers/"
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Integration Patterns"
+    url: "/integration-patterns/"
+sources:
+  - title: "Salesforce CLI Command Reference"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_top.htm"
+  - title: "Deploying Apex"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_deploying.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
   <h2>1. Introduction to Deployment &amp; CI/CD</h2>
   <p>In Salesforce development, moving changes from a development environment (like a Sandbox) to a testing environment, and eventually to production, is a critical and often complex process. This is known as <strong>Deployment</strong>. As development teams grow and changes become more frequent, manual deployment processes become slow, error-prone, and unsustainable.</p>
-  <p>This is where <strong>Continuous Integration (CI)</strong> and <strong>Continuous Delivery/Deployment (CD)</strong> come into play. CI/CD practices automate the entire software delivery lifecycle, from code commit to production release, ensuring faster, more reliable, and higher-quality deployments.</p>
+  <p>This is where <strong>Continuous Integration (CI)</strong> and <strong>Continuous Delivery/Deployment (CD)</strong> come into play. CI/CD automates build, test, and delivery steps. Production deployment may require approval.</p>
 
   <h3>Why are Deployment &amp; CI/CD Important?</h3>
   <ul>
@@ -42,7 +79,7 @@ keywords: "Salesforce DevOps interview questions, Salesforce CI/CD, Salesforce D
     <li><strong>Quality:</strong> Integrate automated testing, static code analysis, and security checks early in the development cycle.</li>
     <li><strong>Collaboration:</strong> Facilitate better collaboration among developers by frequently merging code.</li>
     <li><strong>Visibility:</strong> Provide clear visibility into the status of deployments and potential issues.</li>
-    <li><strong>Rollback Capability:</strong> Easier to revert to a stable state if issues arise in production.</li>
+    <li><strong>Recovery Planning:</strong> Use versioned changes and a tested recovery plan to address deployment issues.</li>
   </ul>
   <p>This module will guide you through various Salesforce deployment methods and introduce the core concepts, tools, and best practices of CI/CD tailored for the Salesforce platform.</p>
 </section>
@@ -78,11 +115,11 @@ keywords: "Salesforce DevOps interview questions, Salesforce CI/CD, Salesforce D
     <li><strong>Description:</strong> A powerful command-line interface that allows developers to interact with their Salesforce orgs, retrieve metadata, deploy changes, run tests, and manage scratch orgs. It's the cornerstone of the Salesforce DX development model.</li>
     <li><strong>Pros:</strong>
       <ul>
-        <li>Supports all metadata types.</li>
+        <li>Metadata support varies by type, API version, and operation. Consult <a href="https://developer.salesforce.com/docs/metadata-coverage">Metadata Coverage</a> before planning a deployment.</li>
         <li>Integrates well with version control systems (Git).</li>
         <li>Enables automation through scripting.</li>
         <li>Supports scratch orgs for isolated development.</li>
-        <li>Can deploy between any orgs (source-tracked or not).</li>
+        <li>Can deploy supported metadata to authorized target orgs, subject to compatibility, permissions, features, and dependencies.</li>
       </ul>
     </li>
     <li><strong>Cons:</strong>
@@ -99,19 +136,20 @@ keywords: "Salesforce DevOps interview questions, Salesforce CI/CD, Salesforce D
 <pre><code class="language-bash"># Retrieve metadata
 sf project retrieve start -m "ApexClass:MyClass,CustomObject:MyObject__c"
 
-# Deploy metadata
-sf project deploy start -d force-app/main/default -o myProductionOrg
+# Deploy metadata and wait for a result
+sf project deploy start -d force-app/main/default -o myProductionOrg --wait 10
 
-# Run Apex tests
-sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
+# Run Apex tests and wait for a result
+sf apex run test -l RunLocalTests -o myProductionOrg --wait 10</code></pre>
   </div>
+  <p>If a deployment is still running when the wait ends, check its final status with <code>sf project deploy report</code> or resume it. If the test run is still incomplete, poll with <code>sf apex get test --test-run-id &lt;test-run-id&gt; --target-org myProductionOrg</code>. A pipeline must gate on the final successful result, not the receipt of a job ID. See the <a href="https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_apex_run_test.html">Apex test command reference</a>.</p>
 
   <h3>c. Ant Migration Tool</h3>
   <ul>
     <li><strong>Description:</strong> A Java-based command-line utility that uses Apache Ant to retrieve and deploy Salesforce metadata. It was popular for programmatic deployments before SFDX.</li>
     <li><strong>Pros:</strong>
       <ul>
-        <li>Supports all metadata types.</li>
+        <li>Metadata support varies by type, API version, and operation. Consult <a href="https://developer.salesforce.com/docs/metadata-coverage">Metadata Coverage</a> before planning a deployment.</li>
         <li>Can be scripted for automation.</li>
       </ul>
     </li>
@@ -119,10 +157,10 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
       <ul>
         <li>Requires Java and Ant setup.</li>
         <li>XML-based configuration can be verbose.</li>
-        <li>Less modern compared to SFDX.</li>
+        <li>Retired in Spring 2024 and unsupported, although it can still function. See the <a href="https://developer.salesforce.com/docs/platform/salesforce-migration-guide/guide/forcemigrationtool-container-install.html">Ant Migration Tool guidance</a>.</li>
       </ul>
     </li>
-    <li><strong>Best For:</strong> Legacy projects, or teams already heavily invested in Ant. SFDX is generally preferred for new projects.</li>
+    <li><strong>Migration:</strong> Migrate legacy Ant pipelines to the supported Salesforce CLI.</li>
   </ul>
 
   <h3>d. Managed &amp; Unmanaged Packages</h3>
@@ -130,7 +168,8 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
     <li><strong>Description:</strong> Packages are containers for Salesforce components that can be distributed to other orgs.
       <ul>
         <li><strong>Unmanaged Packages:</strong> Used for distributing open-source projects or templates. Components are fully editable after installation.</li>
-        <li><strong>Managed Packages:</strong> Used by ISVs to distribute applications on AppExchange. Components are protected, and upgrades are managed.</li>
+        <li><strong>Managed Packages:</strong> Used to distribute applications, including AppExchange products. They provide upgradeability and <a href="https://developer.salesforce.com/docs/platform/pkg2-dev/guide/packaging-packageable-components.html">component-specific protection and editability rules</a>.</li>
+        <li><strong>Unlocked Packages:</strong> Organize supported metadata into versioned, upgradeable packages for modular development and deployment.</li>
       </ul>
     </li>
     <li><strong>Pros:</strong>
@@ -141,12 +180,15 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
     </li>
     <li><strong>Cons:</strong>
       <ul>
-        <li>Not ideal for continuous, iterative development within a single project.</li>
+        <li>Choose a package type for the distribution model; managed second-generation packages and unlocked packages can support iterative releases.</li>
         <li>Versioning and upgrade complexities for managed packages.</li>
       </ul>
     </li>
     <li><strong>Best For:</strong> Distributing solutions to multiple customers/orgs, AppExchange products.</li>
   </ul>
+
+  <h3>How do you validate and test a production deployment?</h3>
+  <p>Validate the exact deployment against the target production org, then use a successful validation for a quick deploy when it remains eligible. Record the validation job ID and check its final status; if the validation expires or the changes require a new validation, validate again. Select the deployment test level for the change and target org. Local or all-org tests provide broader feedback, while specified tests reduce scope but have different coverage requirements. Include Flow tests where relevant; <code>sf logic run test</code> can run Apex and Flow tests together. Require final passing results and review coverage before release. See the <a href="https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_quick.html">quick deploy reference</a> and <a href="https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_apex_run_test.html">test reference</a>.</p>
 </section>
 
 <section id="content-understanding-cicd" class="topic-content-section">
@@ -212,12 +254,12 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
     <li><strong>Azure DevOps:</strong> A suite of development services including Azure Pipelines. Offers robust build, test, and release management integrated with Azure services.</li>
     <li><strong>Bitbucket Pipelines:</strong> CI/CD integrated with Bitbucket repositories, configured via a <code>bitbucket-pipelines.yml</code> file.</li>
   </ul>
-  <p>These tools typically use SFDX CLI commands or the Ant Migration Tool internally to interact with Salesforce orgs.</p>
+  <p>These tools can use Salesforce CLI commands to interact with Salesforce orgs. Existing integrations may still use the retired, unsupported Ant Migration Tool.</p>
 
   <h3>b. Salesforce-Specific DevOps Platforms</h3>
   <p>These tools are designed specifically for Salesforce and provide higher-level abstractions and integrations with Salesforce metadata and processes.</p>
   <ul>
-    <li><strong>Salesforce DevOps Center:</strong> Salesforce's native solution for managing changes and releases. Integrates with version control and provides a guided deployment experience.</li>
+    <li><strong>Salesforce DevOps Center:</strong> A managed-package solution for managing changes and releases. Salesforce recommends migrating projects to Lifecycle Center before <a href="https://help.salesforce.com/s/articleView?id=005467269&amp;language=en_US&amp;type=1">support ends on June 4, 2027</a>.</li>
     <li><strong>Copado:</strong> A leading commercial DevOps platform built on Salesforce. Offers comprehensive features for release management, compliance, testing, and environment management.</li>
     <li><strong>Gearset:</strong> A popular commercial DevOps solution known for ease of use, intelligent comparisons, and automated deployments.</li>
     <li><strong>AutoRABIT:</strong> A comprehensive DevOps suite for Salesforce covering release management, continuous delivery, data loading, and more.</li>
@@ -231,7 +273,7 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
 
   <h3>a. Version Control (Git)</h3>
   <ul>
-    <li><strong>Central Repository:</strong> All Salesforce metadata (Apex, LWC, custom objects, profiles, permission sets, etc.) should be stored in Git.</li>
+    <li><strong>Central Repository:</strong> Store supported Salesforce metadata, including Apex, LWC, custom objects, profiles, and permission sets, in Git. Document and reconcile changes that cannot be retrieved or deployed through Metadata API.</li>
     <li><strong>Branching Strategy:</strong> Adopt a clear branching strategy (e.g., Gitflow, GitHub Flow) to manage development, features, releases, and hotfixes.</li>
     <li><strong>Single Source of Truth:</strong> Your Git repository should be the definitive source of truth for your Salesforce metadata.</li>
   </ul>
@@ -251,7 +293,7 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
 
   <h3>d. Environment Management</h3>
   <ul>
-    <li><strong>Dedicated Environments:</strong> Use dedicated sandboxes for development, integration, UAT, and production.</li>
+    <li><strong>Dedicated Environments:</strong> Use dedicated sandboxes for development, integration, and UAT, and a separate production org.</li>
     <li><strong>Scratch Orgs:</strong> Leverage Salesforce DX scratch orgs for isolated, short-lived development environments.</li>
     <li><strong>Environment Sync:</strong> Regularly refresh sandboxes and ensure metadata consistency between environments.</li>
   </ul>
@@ -260,8 +302,11 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
   <ul>
     <li><strong>Automated Deployments:</strong> Automate the deployment process to various environments.</li>
     <li><strong>Approval Gates:</strong> Implement manual approval steps for critical stages (e.g., deployment to production) to ensure human oversight.</li>
-    <li><strong>Rollback Strategy:</strong> Have a clear plan to quickly revert to a previous stable state if a deployment introduces critical issues.</li>
+    <li><strong>Recovery Strategy:</strong> Prepare and test a recovery plan, including corrective deployments and data restoration where applicable.</li>
   </ul>
+
+  <h3>How do pipelines authenticate securely?</h3>
+  <p>Use a dedicated integration identity and a supported headless authentication flow for each target org. For example, JWT authentication uses an approved client application and a certificate rather than an interactive login. Grant only the permissions needed for the pipeline's operations, and use separate identities or credentials where appropriate for different environments. Store private keys and other credentials in the CI platform's secret manager, restrict access, avoid printing them in logs, and rotate them according to policy. Verify that the org's authentication policies permit the chosen flow. See the <a href="https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-auth-jwt-flow.html">Salesforce JWT authentication guidance</a>.</p>
 </section>
 
 <section id="content-deployment-best-practices" class="topic-content-section">
@@ -279,6 +324,9 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
     <li><strong>Monitor Post-Deployment:</strong> Keep an eye on system performance, error logs, and user feedback after a deployment.</li>
     <li><strong>Document Deployments:</strong> Keep a record of what was deployed, when, by whom, and any issues encountered.</li>
   </ul>
+
+  <h3>How do you handle destructive changes and recovery?</h3>
+  <p>Plan deletions and their dependencies as part of the release, and prepare a recovery path before deploying. Salesforce supports destructive change manifests before or after a deployment, so order changes to satisfy dependencies and validate the complete release against the target org. Review the impact on data and downstream integrations, and back up what is needed before removal. A successful metadata deployment is not automatically reversible, and redeploying earlier metadata may not restore deleted data or every prior setting. Test corrective deployments and data restoration in a suitable environment, and use forward fixes when restoring the previous state is not feasible. See the <a href="https://developer.salesforce.com/docs/platform/api-metadata/references/file-based-calls/meta-deploy-deleting-files.html">destructive changes guidance</a>.</p>
 </section>
 
 <section id="content-conclusion" class="topic-content-section">
@@ -287,11 +335,11 @@ sf apex run test -l RunLocalTests -o myProductionOrg</code></pre>
 
   <h3>Key Takeaways</h3>
   <ul>
-    <li><strong>Automate Everything:</strong> From code commit to production release, automation is key to speed and reliability.</li>
+    <li><strong>Automate Delivery Steps:</strong> Automate build, test, and delivery checks while retaining production approval when required.</li>
     <li><strong>Version Control is Foundational:</strong> Git is the single source of truth for your Salesforce metadata.</li>
     <li><strong>Test Early and Often:</strong> Automated testing (Apex, LWC, UI) is critical for catching issues before they reach production.</li>
     <li><strong>Choose the Right Tools:</strong> Leverage SFDX CLI and suitable CI/CD platforms to build your pipeline.</li>
     <li><strong>Prioritize Best Practices:</strong> Plan, validate, communicate, and monitor every deployment.</li>
   </ul>
-  <p>The Salesforce DevOps landscape continues to mature with tools like Salesforce DevOps Center. Investing in CI/CD skills and infrastructure will empower your team to deliver value faster, more reliably, and with greater confidence on the Salesforce platform.</p>
+  <p>Salesforce delivery practices continue to evolve, including the transition from the DevOps Center managed package to Lifecycle Center. CI/CD skills and infrastructure help teams deliver changes more reliably and assess deployment outcomes.</p>
 </section>

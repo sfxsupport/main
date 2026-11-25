@@ -1,36 +1,73 @@
 ---
 layout: learning-topic
-title: "Salesforce Security & Sharing Interview Questions — SFX Support"
 permalink: /security-sharing/
-sidebar_title: "Salesforce Security & Sharing Interview Questions — SFX Support"
 intro_text: Understand the foundational Salesforce security and sharing model to control data access effectively. This module covers profiles, permission sets, OWDs, role hierarchy, sharing rules, and programmatic sharing.
+title: "Salesforce Security & Sharing Model: Guide & Interview Q&A"
+headline: "Salesforce Security and Sharing Model: Complete Guide and Interview Questions"
+sidebar_title: "Security and Sharing"
+description: "Salesforce security explained: profiles vs permission sets, OWD, role hierarchy, sharing rules, Apex managed sharing, with/without sharing and user mode."
+keywords: "salesforce sharing model, salesforce security interview questions, owd role hierarchy sharing rules, profile vs permission set, apex managed sharing, with sharing without sharing, user mode apex"
+about: "Salesforce security and sharing"
+level: "Intermediate"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Introduction to Salesforce Security"
   - id: declarative-security
     number: 2
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Declarative Security (Profiles & Permission Sets)"
   - id: data-access
     number: 3
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Data Access (OWD, Role Hierarchy, Sharing Rules)"
   - id: programmatic-sharing
     number: 4
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Programmatic Sharing (Apex Managed Sharing)"
   - id: security-in-apex
     number: 5
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Security in Apex (with sharing, FLS, CRUD)"
   - id: security-in-lwc
     number: 6
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Security in LWC (Locker Service, UI API)"
   - id: best-practices
     number: 7
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
+    title: "Security Best Practices"
   - id: conclusion
     number: 8
-    title: "Salesforce Security & Sharing Interview Questions — SFX Support"
-description: "Master Salesforce security model — OWD, role hierarchy, sharing rules, profiles, permission sets, and top Security & Sharing interview questions."
-keywords: "Salesforce security interview questions, sharing rules Salesforce, OWD Salesforce, profiles permission sets interview, Salesforce security model, record level access Salesforce"
+    title: "Conclusion & Key Takeaways"
+quick_question: "How does record access work in Salesforce?"
+quick_answer: "Salesforce record access starts from the organization-wide default (OWD), the baseline access users have to records they don't own. The role hierarchy, sharing rules, teams, manual sharing and Apex managed sharing then open access further, while restriction rules can narrow it. On top of that, object permissions and field-level security from profiles and permission sets decide what a user can do with the records they can reach."
+key_points:
+  - "Salesforce recommends managing permissions with permission sets and permission set groups, keeping profiles minimal."
+  - "Set org-wide defaults to the least access any user needs, then open access with sharing."
+  - "Use 'with sharing' or 'inherited sharing' on Apex classes by default."
+  - "Enforce field and object access with WITH USER_MODE in SOQL and AccessLevel.USER_MODE in DML; from Apex API version 67.0, database operations run in user mode by default."
+  - "Apex managed sharing writes rows to an object's __Share table."
+faq:
+  - q: "What is the difference between a profile and a permission set?"
+    a: "Every user has exactly one profile, while permission sets can be added and removed per user. Salesforce recommends granting permissions through permission sets and permission set groups and keeping profiles for minimal defaults."
+  - q: "What is the difference between with sharing and without sharing?"
+    a: "A class declared with sharing respects the running user's record access. Without sharing ignores sharing rules and sees all records. Inherited sharing uses the sharing mode of the calling class, and runs as with sharing when it is the entry point."
+  - q: "How do you enforce field-level security in Apex?"
+    a: "Add WITH USER_MODE to SOQL and use AccessLevel.USER_MODE for Database DML methods, which enforce object permissions, field-level security and sharing. Security.stripInaccessible removes fields the user can't access from a list of records. From Apex API version 67.0, database operations run in user mode by default; classes saved on earlier versions still run in system mode unless you ask for user mode."
+  - q: "What is Apex managed sharing?"
+    a: "Apex managed sharing grants record access in code by inserting rows into the object's share table, such as Project__Share, usually with a custom Apex sharing reason so the shares survive owner changes. It is used when the access rules are too complex for declarative sharing rules."
+  - q: "What are organization-wide defaults?"
+    a: "Organization-wide defaults (OWD) set the baseline access users have to records they don't own, such as Private, Public Read Only or Public Read/Write. Sharing rules and the role hierarchy open access from there, and restriction rules can narrow it."
+related:
+  - title: "SOQL and SOSL"
+    url: "/soql-sosl/"
+  - title: "Lightning Web Components"
+    url: "/lwc-essentials/"
+  - title: "Integration Patterns"
+    url: "/integration-patterns/"
+  - title: "Salesforce Flow"
+    url: "/flows-process-builder/"
+sources:
+  - title: "Using the with sharing, without sharing and inherited sharing keywords"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_keywords_sharing.htm"
+  - title: "Enforce user mode for database operations"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_enforce_usermode.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -85,20 +122,20 @@ keywords: "Salesforce security interview questions, sharing rules Salesforce, OW
   <h3>a. Organization-Wide Defaults (OWD)</h3>
   <p>OWDs are the most restrictive baseline settings for each object — defining the default level of access users have to each other's records.</p>
   <ul>
-    <li><strong>Private:</strong> Only the record owner and users higher in the role hierarchy can view, edit, and report on those records.</li>
-    <li><strong>Public Read Only:</strong> All users can view records, but only the owner and higher-role users can edit them.</li>
-    <li><strong>Public Read/Write:</strong> All users can view and edit all records.</li>
+    <li><strong>Private:</strong> The baseline limits access to the owner. Hierarchy access, sharing, teams, and elevated permissions can grant additional access.</li>
+    <li><strong>Public Read Only:</strong> Users have baseline read access; sharing, teams, hierarchy access, and elevated permissions can grant additional access, including edit access.</li>
+    <li><strong>Public Read/Write:</strong> Grants baseline read and edit access to records, subject to object permissions and applicable restrictions.</li>
     <li><strong>Public Read/Write/Transfer</strong> (Leads/Cases): Similar to Public Read/Write, but also allows transferring ownership.</li>
     <li><strong>Controlled by Parent:</strong> Access is determined by the user's access to the parent record (for master-detail relationships).</li>
   </ul>
   <blockquote>
-    <p><strong>Recommendation:</strong> Always set OWDs to the most restrictive level possible, then open up access using role hierarchy, sharing rules, and Apex managed sharing.</p>
+    <p><strong>Recommendation:</strong> Choose OWDs that meet access requirements while applying least privilege. Use the hierarchy, sharing rules, teams, and programmatic sharing where additional access is needed.</p>
   </blockquote>
 
   <h3>b. Role Hierarchy</h3>
-  <p>The Role Hierarchy opens up <em>vertical</em> access. Users at any given role level can automatically view, edit, and report on all records owned by users below them in the hierarchy, regardless of OWD settings.</p>
+  <p>The Role Hierarchy can grant <em>vertical</em> access to records owned by users lower in the hierarchy. The access provided depends on the object and its settings; custom objects can disable Grant Access Using Hierarchies.</p>
   <ul>
-    <li><strong>Vertical Access:</strong> Grants access up the hierarchy (managers can see subordinates' records).</li>
+    <li><strong>Vertical Access:</strong> Can grant access up the hierarchy, subject to object permissions and applicable settings.</li>
     <li><strong>Not for Horizontal Sharing:</strong> Does not grant access to peers at the same level.</li>
   </ul>
 
@@ -115,6 +152,14 @@ keywords: "Salesforce security interview questions, sharing rules Salesforce, OW
     <li><strong>Ad-hoc Access:</strong> Provides temporary or specific access to individual records.</li>
     <li><strong>Not Scalable:</strong> Not suitable for large-scale or automated sharing requirements.</li>
   </ul>
+
+  <h3>How do restriction rules differ from scoping rules?</h3>
+  <p>Restriction rules narrow the records that specified users can access on supported objects. Scoping rules help users focus on a subset of records without removing access to other records.</p>
+  <p>Use a restriction rule when the requirement is to limit access to records that sharing would otherwise expose. Use a scoping rule to set a useful working context in supported features such as list views and reports. A scoping rule is not a security boundary: users can still access other records for which they have permission. Check object and feature support, and test each rule with the intended users and their existing sharing grants.</p>
+
+  <h3>How is access managed for Experience Cloud and guest users?</h3>
+  <p>Authenticated external users can receive access through sharing mechanisms supported by their licenses, including sharing sets where applicable. Guest users require separate, carefully limited access.</p>
+  <p>Sharing sets can grant eligible users access to supported records by matching their account or contact to a related account or contact on the record. Check the user's license and object support before choosing this approach. For guest users, configure the minimum object and field permissions and narrowly scoped guest user sharing rules where needed. Review the data exposed by pages, APIs, and Apex, and test the experience while unauthenticated as well as with representative external user accounts.</p>
 </section>
 
 <section id="content-programmatic-sharing" class="topic-content-section">
@@ -123,72 +168,63 @@ keywords: "Salesforce security interview questions, sharing rules Salesforce, OW
 
   <h3>Key Concepts</h3>
   <ul>
-    <li><strong>Share Objects:</strong> Every standard or custom object has an associated Share object (e.g., <code>AccountShare</code>, <code>MyCustomObject__Share</code>) that stores explicit sharing records.</li>
-    <li><strong><code>AccessLevel</code> Field:</strong> Defines the level of access granted (<code>Read</code>, <code>Edit</code>, <code>All</code>).</li>
-    <li><strong><code>RowCause</code> Field:</strong> Indicates why a user has access. For Apex Managed Sharing, always use a custom <code>RowCause</code> with <code>Type = Apex</code>.</li>
-    <li><strong><code>without sharing</code>:</strong> Apex classes that create/update/delete share objects should generally run <code>without sharing</code> so they can modify sharing records regardless of the running user's own access.</li>
+    <li><strong>Share Objects:</strong> Supported objects have share objects, such as <code>AccountShare</code> and <code>MyCustomObject__Share</code>. Master-detail children use their parent's sharing.</li>
+    <li><strong>Access Level:</strong> Field names vary by share object. Programmatic shares generally grant <code>Read</code> or <code>Edit</code>; <code>All</code> is managed by the platform.</li>
+    <li><strong><code>RowCause</code> Field:</strong> Records the reason for a share. A custom Apex sharing reason identifies shares that the application manages separately from other grants.</li>
+    <li><strong>Execution Context:</strong> Choose the class sharing declaration and database access mode deliberately. Authorize callers and satisfy the permissions required to manage the selected shares.</li>
   </ul>
+  <p>Apex sharing reasons are created on a custom object's detail page under <strong>Apex Sharing Reasons</strong>, and they work when the object's organization-wide default is Private or Public Read Only. The example below shares a custom <code>Project__c</code> object through its <code>Project__Share</code> table using a reason named <code>Project_Team__c</code>. The caller must check that the current user may grant this access before calling the service.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">Apex — Custom Sharing Manager</div>
-<pre><code class="language-apex">public class CustomSharingManager {
+<pre><code class="language-apex">public without sharing class ProjectSharingService {
+    private static final String REASON =
+        Schema.Project__Share.RowCause.Project_Team__c;
 
-    // Custom RowCause defined in Setup → Sharing Settings → Your Object → New Sharing Reason
-    public static final Schema.SObjectRowCause CustomShareReason =
-        Schema.SObjectRowCause.MyCustomShareReason__c;
-
-    public static void shareAccountWithUser(Id accountId, Id userId, String accessLevel) {
-        if (!Schema.sObjectType.AccountShare.isCreateable()) {
-            throw new AuraHandledException('Insufficient permissions to create AccountShare records.');
+    // Grant Read access: usersByProject maps a Project Id to the users to share with.
+    public static void share(Map&lt;Id, Set&lt;Id&gt;&gt; usersByProject) {
+        List&lt;Project__Share&gt; shares = new List&lt;Project__Share&gt;();
+        for (Id projectId : usersByProject.keySet()) {
+            for (Id userId : usersByProject.get(projectId)) {
+                shares.add(new Project__Share(
+                    ParentId = projectId,
+                    UserOrGroupId = userId,
+                    AccessLevel = 'Read',
+                    RowCause = REASON
+                ));
+            }
         }
-
-        AccountShare accShare = new AccountShare();
-        accShare.ParentId      = accountId;
-        accShare.UserOrGroupId = userId;
-        accShare.AccessLevel   = accessLevel;   // 'Read', 'Edit', or 'All'
-        accShare.RowCause      = CustomShareReason;
-
-        try {
-            insert accShare;
-        } catch (DmlException e) {
-            System.debug('Error sharing account: ' + e.getMessage());
+        if (!shares.isEmpty()) {
+            insert shares; // failures throw, so the caller sees them
         }
     }
 
-    public static void removeAccountSharing(Id accountId, Id userId) {
-        List&lt;AccountShare&gt; sharesToDelete = [
-            SELECT Id FROM AccountShare
-            WHERE ParentId      = :accountId
-            AND   UserOrGroupId = :userId
-            AND   RowCause      = :CustomShareReason
+    // Remove only the shares this service created for the given projects.
+    public static void unshareAll(Set&lt;Id&gt; projectIds) {
+        delete [
+            SELECT Id FROM Project__Share
+            WHERE ParentId IN :projectIds AND RowCause = :REASON
         ];
-
-        if (!sharesToDelete.isEmpty()) {
-            try {
-                delete sharesToDelete;
-            } catch (DmlException e) {
-                System.debug('Error removing sharing: ' + e.getMessage());
-            }
-        }
     }
 }</code></pre>
   </div>
 
   <ul>
-    <li>Apex Managed Sharing is complex — use it judiciously.</li>
-    <li>Always define a custom <code>RowCause</code> to distinguish programmatic shares from other sharing types.</li>
-    <li>Be mindful of governor limits when performing DML on share objects at scale.</li>
+    <li>Use system mode only for a justified operation after authorizing the caller; do not expose this service directly to untrusted users.</li>
+    <li>The example propagates DML failures. Handle them at the appropriate transaction boundary; for partial success, inspect every result from a bulk <code>Database</code> operation.</li>
+    <li>Account share access must meet the applicable defaults and grant additional access as required by <code>AccountShare</code>. A redundant or invalid grant can fail. Plan for record volume and governor limits.</li>
+    <li>Custom reasons keep application-managed shares distinct and preserve them when ownership changes. Review sharing recalculation and the behavior of other share types when ownership or sharing settings change.</li>
   </ul>
 </section>
 
 <section id="content-security-in-apex" class="topic-content-section">
   <h2>5. Security in Apex (<code>with sharing</code>, FLS, CRUD)</h2>
-  <p>Apex code runs in system context by default — it has access to all objects and fields regardless of the running user's permissions. To enforce security, developers must explicitly implement these mechanisms.</p>
+  <p>Database operations in Apex compiled through API version 66.0 default to system mode. Starting with API version 67.0, they default to user mode, which enforces the running user's object permissions, field permissions, and sharing. Specify access modes explicitly and choose class sharing declarations deliberately so behavior is clear across API versions.</p>
 
   <h3>a. <code>with sharing</code> and <code>without sharing</code></h3>
   <ul>
-    <li><strong><code>with sharing</code>:</strong> Enforces the running user's sharing rules. Queries only return records the user can access; DML fails if the user lacks permission. <strong>Recommended default for most Apex classes.</strong></li>
-    <li><strong><code>without sharing</code>:</strong> Bypasses sharing rules entirely — runs in system context. Use with extreme caution, only for system-level operations like audit logging where user sharing should not block the operation.</li>
+    <li><strong><code>with sharing</code>:</strong> Enforces record sharing for system-mode operations. It does not itself enforce object or field permissions. Use it for user-facing classes unless a specific requirement justifies another mode.</li>
+    <li><strong><code>without sharing</code>:</strong> Allows system-mode operations to bypass record sharing. User-mode operations still enforce the running user's sharing and permissions. Use elevated access only for an authorized purpose.</li>
     <li><strong><code>inherited sharing</code>:</strong> (API v44.0+) Runs in the sharing mode of the calling class — promotes flexibility and reusability.</li>
   </ul>
 
@@ -197,46 +233,50 @@ keywords: "Salesforce security interview questions, sharing rules Salesforce, OW
 <pre><code class="language-apex">public with sharing class AccountService {
     public static List&lt;Account&gt; getMyAccounts() {
         // Only returns accounts the running user can see
-        return [SELECT Id, Name FROM Account];
+        return [SELECT Id, Name FROM Account WITH USER_MODE];
     }
 }
 
 public without sharing class AuditLogService {
     public static void createLog(String message) {
-        // System-level operation — bypasses sharing (use with caution)
-        insert new Audit_Log__c(Message__c = message);
+        // The caller must authorize this elevated operation.
+        insert as system new Audit_Log__c(Message__c = message);
     }
 }</code></pre>
   </div>
 
   <h3>b. FLS and CRUD Enforcement</h3>
-  <p>Even with <code>with sharing</code>, Apex does not automatically enforce FLS or CRUD. You must explicitly check these before DML operations or displaying sensitive data.</p>
+  <p>A sharing declaration alone does not enforce FLS or CRUD. User-mode operations enforce these permissions as well as record access; for system-mode operations, apply the checks appropriate to the authorized task before exposing or changing data.</p>
 
   <ul>
     <li><strong>CRUD Checks (Object-level):</strong> <code>Schema.SObjectType.Account.isAccessible()</code>, <code>.isCreateable()</code>, <code>.isUpdateable()</code>, <code>.isDeletable()</code></li>
     <li><strong>FLS Checks (Field-level):</strong> <code>Schema.SObjectType.Account.fields.Name.isAccessible()</code>, <code>.isCreateable()</code>, <code>.isUpdateable()</code></li>
   </ul>
 
-  <h3>c. <code>WITH SECURITY_ENFORCED</code> in SOQL</h3>
-  <p>(API v45.0+) Automatically enforces object and field-level security for the query. If the user lacks access to any object or field in the query, an error is thrown. <strong>Highly recommended for all queries.</strong></p>
+  <h3>c. <code>WITH USER_MODE</code> in SOQL</h3>
+  <p>Use <code>WITH USER_MODE</code> to enforce object and field permissions, record sharing, and applicable restriction rules for a query. A permission failure raises an exception, so handle it at the appropriate boundary. <code>WITH SECURITY_ENFORCED</code> does not compile in Apex API version 67.0 and later.</p>
 
   <div class="apex-block">
-    <div class="apex-block-label">Apex — WITH SECURITY_ENFORCED</div>
+    <div class="apex-block-label">Apex — WITH USER_MODE</div>
 <pre><code class="language-apex">public with sharing class SecureQueryExample {
     @AuraEnabled(cacheable=true)
     public static List&lt;Account&gt; getAccountsSecurely() {
         // Enforces FLS and CRUD for Account.Name and Account.Industry
         return [SELECT Id, Name, Industry
                 FROM Account
-                WITH SECURITY_ENFORCED
+                WITH USER_MODE
                 LIMIT 5];
     }
 }</code></pre>
   </div>
 
   <blockquote>
-    <p><strong>Best Practice:</strong> Always use <code>with sharing</code> for Apex classes handling user data. Use <code>WITH SECURITY_ENFORCED</code> in SOQL/SOSL queries. Explicitly check CRUD and FLS before DML operations.</p>
+    <p><strong>Best Practice:</strong> Declare the intended class sharing mode and specify the access mode for each database operation. Prefer user mode for user-facing work and handle permission failures; authorize and constrain any system-mode operation.</p>
   </blockquote>
+
+  <h3>How can Apex handle inaccessible fields gracefully?</h3>
+  <p>Use user-mode operations when a permission failure should stop the request. For a response that can omit inaccessible fields, <code>Security.stripInaccessible()</code> can remove fields the user cannot access.</p>
+  <p>Use the returned sanitized records rather than the original input, and inspect the removed fields when the application needs to explain an omission. The method can also sanitize records before DML; handle failures when required fields or object permissions are unavailable. Its default root object permission check can throw an exception. It does not enforce record sharing, so independently ensure that the records themselves are accessible. Choose the query and DML access modes deliberately and never return unsanitized data to the caller.</p>
 </section>
 
 <section id="content-security-in-lwc" class="topic-content-section">
@@ -245,15 +285,15 @@ public without sharing class AuditLogService {
 
   <h3>a. Locker Service</h3>
   <ul>
-    <li><strong>Purpose:</strong> Isolates Lightning components from each other and from the global DOM. Prevents components from accessing or manipulating resources they don't own.</li>
-    <li><strong>How it Works:</strong> Wraps components in a secure container with a strict API for interaction. All LWC components automatically run within Locker Service.</li>
-    <li><strong>Benefits:</strong> Prevents XSS attacks, protects sensitive data, and ensures safe component interoperability.</li>
+    <li><strong>Purpose:</strong> Lightning Locker and Lightning Web Security (LWS) provide isolation between components and restrict access to resources outside their allowed scope.</li>
+    <li><strong>How it Works:</strong> LWS is the default for new orgs; some older orgs use Lightning Locker. Each uses a different isolation architecture and imposes security boundaries on component code.</li>
+    <li><strong>Benefits:</strong> Isolation reduces security risks, but developers must still render untrusted content safely and handle input according to its context.</li>
   </ul>
 
   <h3>b. UI API Wire Adapters</h3>
   <p>When using standard UI API wire adapters (e.g., <code>lightning/uiRecordApi</code>), LWC automatically enforces FLS and CRUD based on the running user's profile and permission sets.</p>
   <ul>
-    <li>If a user lacks FLS access to a field, that field's data is not returned.</li>
+    <li>For <code>getRecord</code>, an inaccessible field in <code>fields</code> causes an error; an inaccessible field in <code>optionalFields</code> is omitted.</li>
     <li>If a user lacks CRUD access to an object, the UI API operation fails appropriately.</li>
   </ul>
 
@@ -267,22 +307,31 @@ import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 export default class AccountViewer extends LightningElement {
     @api recordId;
 
-    @wire(getRecord, { recordId: '$recordId', fields: [NAME_FIELD, INDUSTRY_FIELD] })
+    @wire(getRecord, {
+        recordId: '$recordId',
+        fields: [NAME_FIELD],
+        optionalFields: [INDUSTRY_FIELD]
+    })
     account;
 
-    get name()     { return getFieldValue(this.account.data, NAME_FIELD); }
-    get industry() { return getFieldValue(this.account.data, INDUSTRY_FIELD); }
-
-    // If user lacks FLS for Name/Industry → those fields return null
-    // If user lacks Read access to Account → account.data is undefined
+    get name() {
+        return this.account.data ? getFieldValue(this.account.data, NAME_FIELD) : undefined;
+    }
+    get industry() {
+        return this.account.data ? getFieldValue(this.account.data, INDUSTRY_FIELD) : undefined;
+    }
+    get errorMessage() {
+        return this.account.error ? 'Unable to load this account.' : undefined;
+    }
+    // Render errorMessage when present; optional Industry may be omitted.
 }</code></pre>
   </div>
 
   <h3>c. Imperative Apex Calls</h3>
-  <p>When calling Apex imperatively from LWC, security enforcement shifts to the Apex controller. Ensure your Apex methods use <code>with sharing</code> and <code>WITH SECURITY_ENFORCED</code> to respect the running user's permissions.</p>
+  <p>When calling Apex imperatively from LWC, the Apex controller must enforce the intended access. Declare its sharing mode, use user-mode queries and DML where appropriate, and handle permission errors. Users also need access to the Apex class.</p>
 
   <h3>d. Sanitization</h3>
-  <p>Always sanitize user-provided input before rendering it in the DOM or using it in queries/DML. While LWC and Locker Service provide protection, explicit sanitization is a best practice to prevent XSS vulnerabilities.</p>
+  <p>Validate input for its intended use. Bind values in queries, allowlist dynamic identifiers, and safely render untrusted content using context-appropriate escaping or sanitization when HTML is required. Component isolation does not replace these safeguards.</p>
 </section>
 
 <section id="content-best-practices" class="topic-content-section">
@@ -292,20 +341,20 @@ export default class AccountViewer extends LightningElement {
   <ul>
     <li><strong>Principle of Least Privilege:</strong> Grant users only the minimum access necessary to perform their job. Start restrictive and open up as needed.</li>
     <li><strong>Use Permission Sets for Access:</strong> Assign users to a minimal profile and use permission sets to grant additional permissions. Avoid creating numerous profiles.</li>
-    <li><strong>Most Restrictive OWDs:</strong> Set OWDs to the most restrictive level (Private), then use role hierarchy, sharing rules, and Apex managed sharing to open up access selectively.</li>
+    <li><strong>Appropriate OWDs:</strong> Choose baseline access that meets requirements and applies least privilege; grant additional access selectively.</li>
     <li><strong>Secure Apex:</strong>
       <ul>
-        <li>Always use <code>public with sharing class</code> for Apex controllers handling user data.</li>
-        <li>Use <code>WITH SECURITY_ENFORCED</code> in all SOQL/SOSL queries.</li>
-        <li>Perform explicit FLS and CRUD checks before DML operations.</li>
+        <li>Declare a suitable sharing mode for Apex controllers handling user data.</li>
+        <li>Specify user mode for queries and DML that should respect the running user's access, and handle permission failures.</li>
+        <li>For authorized system-mode operations, enforce the required object and field permissions or apply a deliberate, narrowly scoped elevation.</li>
         <li>Avoid <code>without sharing</code> unless absolutely necessary.</li>
       </ul>
     </li>
     <li><strong>Secure LWC:</strong>
       <ul>
         <li>Leverage UI API wire adapters — they automatically enforce FLS/CRUD.</li>
-        <li>Understand Locker Service and how it isolates your components.</li>
-        <li>Sanitize all user-provided input before rendering or using in data operations.</li>
+        <li>Understand Lightning Web Security or Lightning Locker and the isolation provided by the org's configuration.</li>
+        <li>Validate input, bind query values, allowlist dynamic identifiers, and render untrusted content safely.</li>
       </ul>
     </li>
     <li><strong>Regular Security Audits:</strong> Periodically review your org's profiles, permission sets, and sharing rules to ensure they align with current business needs and policies.</li>
@@ -324,9 +373,9 @@ export default class AccountViewer extends LightningElement {
     <li><strong>Profiles &amp; Permission Sets:</strong> Control "what users can do." Use permission sets to extend access without profile sprawl.</li>
     <li><strong>OWD, Role Hierarchy, Sharing Rules:</strong> Control "what records users can see." OWDs are the restrictive baseline; hierarchy extends vertical access; sharing rules extend horizontal access.</li>
     <li><strong>Apex Managed Sharing:</strong> For complex, dynamic, programmatic sharing requirements beyond declarative tools.</li>
-    <li><strong>Apex Security:</strong> Use <code>with sharing</code>, <code>WITH SECURITY_ENFORCED</code>, and explicit FLS/CRUD checks.</li>
-    <li><strong>LWC Security:</strong> Benefits from Locker Service isolation and UI API's automatic FLS/CRUD enforcement.</li>
-    <li><strong>Best Practices:</strong> Least privilege, sanitize input, encrypt sensitive data, enforce 2FA, and conduct regular audits.</li>
+    <li><strong>Apex Security:</strong> Declare sharing and database access modes explicitly, enforce the intended permissions, and handle failures.</li>
+    <li><strong>LWC Security:</strong> LWS or Lightning Locker provides isolation; UI API enforces access and reports errors for inaccessible required fields.</li>
+    <li><strong>Best Practices:</strong> Apply least privilege, validate input, bind query values, render content safely, encrypt sensitive data, enforce 2FA, and conduct regular audits.</li>
   </ul>
   <p>A deep understanding of the Salesforce security and sharing model is fundamental for any professional working on the platform — enabling you to build secure, scalable, and compliant applications that meet your organization's access control requirements.</p>
 </section>

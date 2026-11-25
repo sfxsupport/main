@@ -1,12 +1,31 @@
 # SFX Support
 
-> SFX Support (sfxsupport.com) publishes tested, copy-paste solutions for Salesforce + AI: Agentforce custom actions, Agentforce troubleshooting, Prompt Builder, the Models API, Data Cloud RAG, MCP, and calling Claude, OpenAI and Gemini from Apex. SFX also builds these solutions for clients as paid, fixed-scope work. SFX is independent and is not a Salesforce partner.
+> SFX Support (sfxsupport.com) publishes tested solutions and in-depth guides for Salesforce + AI: Agentforce custom actions, Agentforce troubleshooting, Prompt Builder, the Models API, Data Cloud RAG, MCP, and calling Claude, OpenAI and Gemini from Apex. SFX also builds these solutions for clients as paid, fixed-scope work. SFX is independent and is not a Salesforce partner.
 
 ## Services
 - [Salesforce + AI services](https://sfxsupport.com/services/): Agentforce actions, Prompt Builder, LLM integrations from Apex, Flow and LWC; written scope and fixed quote.
 
 ## Guides
 - [Blog](https://sfxsupport.com/blog/): Salesforce + AI solution guides with tested code, exact error messages and fixes.
+
+## Learning guides
+- [Apex Triggers](https://sfxsupport.com/apex-triggers/): Apex triggers explained: before vs after events, context variables, the handler pattern, recursion control, bulk-safe tests and interview questions.
+- [Asynchronous Apex](https://sfxsupport.com/asynchronous-apex/): Compare @future, Queueable, Batch and Scheduled Apex: when to use each, limits, chaining, callouts, monitoring with AsyncApexJob, and interview questions.
+- [SOQL and SOSL](https://sfxsupport.com/soql-sosl/): SOQL and SOSL explained with examples: relationship queries, aggregates, SOQL for loops, bind variables, SOSL FIND syntax, limits, and when to use each.
+- [Governor Limits](https://sfxsupport.com/governor-limits/): Current Apex governor limits (SOQL 100, DML 150, CPU 10s, heap), sync vs async values, common LimitException errors, and patterns to stay under them.
+- [Salesforce Flow](https://sfxsupport.com/flows-process-builder/): Salesforce Flow types, before-save vs after-save, bulk-safe design, fault paths, debugging, and moving Process Builder and Workflow Rules to Flow.
+- [Lightning Web Components](https://sfxsupport.com/lwc-essentials/): LWC fundamentals: component files, @api and @wire, events, lifecycle hooks, calling Apex, Lightning Web Security, Jest tests and interview questions.
+- [Security and Sharing](https://sfxsupport.com/security-sharing/): Salesforce security explained: profiles vs permission sets, OWD, role hierarchy, sharing rules, Apex managed sharing, with/without sharing and user mode.
+- [Salesforce Packaging](https://sfxsupport.com/salesforce-packaging/): Compare Salesforce package types: unmanaged, unlocked, and first- vs second-generation managed packages, namespaces, versioning, and which to choose.
+- [Deployment and CI/CD](https://sfxsupport.com/deployment-cicd/): Salesforce deployment options compared: change sets, Salesforce CLI, Lifecycle Center, unlocked packages, and a CI/CD pipeline with GitHub Actions.
+- [Integration Patterns](https://sfxsupport.com/integration-patterns/): Salesforce integration patterns, REST vs SOAP vs Bulk vs Pub/Sub APIs, OAuth flows, Named Credentials, platform events and CDC, with interview questions.
+- [Salesforce interview questions](https://sfxsupport.com/interview-prep/): interview questions and curated resources by topic.
+
+## Products
+- [SFX Travel Manager](https://sfxsupport.com/travel-manager/): booking, duty slip, driver, fleet, GST invoice and khata software for Indian travel agencies and taxi operators.
+- [SFX Grove](https://grove.sfxsupport.com): a guided Salesforce learning residency with reviewed projects and public portfolios.
+- [SFX Forge](https://forge.sfxsupport.com/): Apex practice problems run against a real Salesforce org.
+- [Salesforce training](https://sfxsupport.com/salesforce-training/): live Salesforce Admin and Developer batch.
 
 ## Tools
 - [Debug Log Analyzer](https://sfxsupport.com/debug-log-analyzer/): capture Apex debug logs and analyse them with AI.

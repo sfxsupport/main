@@ -1,39 +1,74 @@
 ---
 layout: learning-topic
-title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
 permalink: /lwc-essentials/
-sidebar_title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
 intro_text: Dive into the world of Lightning Web Components (LWC), Salesforce's modern framework for building high-performance UI. This module covers LWC fundamentals, component structure, data flow, event communication, and best practices.
+title: "Lightning Web Components (LWC) Guide & Interview Questions"
+headline: "Lightning Web Components (LWC): Complete Guide and Interview Questions"
+sidebar_title: "Lightning Web Components"
+description: "LWC fundamentals: component files, @api and @wire, events, lifecycle hooks, calling Apex, Lightning Web Security, Jest tests and interview questions."
+keywords: "lightning web components, lwc interview questions, lwc tutorial, @api @track @wire, lwc lifecycle hooks, lwc events, call apex from lwc, lightning message service"
+about: "Lightning Web Components"
+level: "Intermediate"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "Introduction to LWC"
   - id: lwc-basics
     number: 2
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "LWC Core Concepts"
   - id: component-structure
     number: 3
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "LWC Component Structure"
   - id: data-flow-decorators
     number: 4
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "Data Flow & Decorators (@api, @track, @wire)"
   - id: event-communication
     number: 5
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "Event Communication"
   - id: lifecycle-hooks
     number: 6
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "LWC Lifecycle Hooks"
   - id: working-with-apex
     number: 7
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "Working with Apex in LWC"
   - id: best-practices
     number: 8
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
+    title: "LWC Best Practices"
   - id: conclusion
     number: 9
-    title: "LWC Interview Questions & Lightning Web Components Guide — SFX Support"
-description: "Complete LWC guide — lifecycle hooks, wire service, component communication, Shadow DOM, and top Lightning Web Components interview questions for developers."
-keywords: "LWC interview questions, Lightning Web Components guide, LWC lifecycle hooks, wire service Salesforce, Shadow DOM LWC, LWC events, Salesforce developer interview"
+    title: "Conclusion & Next Steps"
+quick_question: "What is a Lightning Web Component?"
+quick_answer: "A Lightning Web Component (LWC) is a Salesforce UI component built with standard HTML, modern JavaScript and CSS on top of web standards such as custom elements and shadow DOM. Each component is a folder with an HTML template, a JavaScript class and a meta XML file. Data flows down through @api properties, events flow up through CustomEvent, and Salesforce data comes from @wire or imperative Apex calls."
+key_points:
+  - "@api exposes a public property or method; @wire reads data reactively; @track is only needed to watch changes inside objects and arrays."
+  - "Lifecycle: constructor, connectedCallback, render, renderedCallback, disconnectedCallback and errorCallback."
+  - "Use Lightning Message Service to talk between components that aren't parent and child."
+  - "Wired Apex methods must be @AuraEnabled(cacheable=true) and can't run DML."
+  - "Lightning Web Security is replacing Lightning Locker for component isolation."
+faq:
+  - q: "What is the difference between @api, @track and @wire?"
+    a: "@api makes a property or method public so a parent component can set or call it. @wire connects a property or function to a data source, such as an Apex method or a Lightning Data Service adapter, and refreshes it when its parameters change. @track is now needed only to observe changes inside an object or array, because all fields are reactive by default."
+  - q: "When should you use wire versus an imperative Apex call?"
+    a: "Use @wire for read-only data that should load and refresh automatically; the Apex method must be cacheable=true. Use an imperative call when you need to run DML, control exactly when the call happens, or call it in response to a user action."
+  - q: "How do sibling LWC components communicate?"
+    a: "Through a shared parent that listens for an event from one child and passes data down to the other, or through Lightning Message Service when the components are unrelated or on different parts of the page."
+  - q: "What is the order of LWC lifecycle hooks?"
+    a: "constructor runs first, then connectedCallback when the component is inserted into the DOM, then render and renderedCallback after each render. disconnectedCallback runs when it is removed, and errorCallback runs in a parent when a child throws an error."
+  - q: "What is Lightning Web Security?"
+    a: "Lightning Web Security (LWS) is Salesforce's newer security architecture for components. It isolates each namespace in its own JavaScript sandbox, allows more standard web APIs than Lightning Locker, and is replacing Locker for LWC."
+related:
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Integration Patterns"
+    url: "/integration-patterns/"
+  - title: "SOQL and SOSL"
+    url: "/soql-sosl/"
+  - title: "Deployment and CI/CD"
+    url: "/deployment-cicd/"
+sources:
+  - title: "Lightning Web Components Developer Guide"
+    url: "https://developer.salesforce.com/docs/platform/lwc/guide"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -48,7 +83,7 @@ keywords: "LWC interview questions, Lightning Web Components guide, LWC lifecycl
     <li><strong>Performance:</strong> Built on web standards, LWC is significantly faster than its predecessor Aura Components due to less framework overhead and native browser support.</li>
     <li><strong>Modern Web Standards:</strong> Familiarity for web developers, easier to learn, and aligned with industry best practices.</li>
     <li><strong>Reusability:</strong> Components are modular and reusable across different parts of your Salesforce org or Experience Cloud sites.</li>
-    <li><strong>Security:</strong> Leverages <code>Shadow DOM</code> for encapsulation, protecting component internals from external interference.</li>
+    <li><strong>Encapsulation:</strong> Shadow DOM scopes component markup and selectors. Lightning Web Security or Lightning Locker provides additional security isolation.</li>
     <li><strong>Developer Productivity:</strong> Modern tooling, clear component lifecycle, and a streamlined development model.</li>
     <li><strong>Coexistence with Aura:</strong> LWC and Aura components can coexist and communicate within the same Lightning page, allowing gradual migration.</li>
   </ul>
@@ -57,7 +92,7 @@ keywords: "LWC interview questions, Lightning Web Components guide, LWC lifecycl
 
 <section id="content-lwc-basics" class="topic-content-section">
   <h2>2. LWC Core Concepts</h2>
-  <p>At its heart, an LWC is a custom HTML element with its own JavaScript, HTML template, and CSS. These three files work together to define the component's behavior, structure, and styling.</p>
+  <p>A UI component is a custom HTML element with JavaScript and an HTML template, and it can include CSS. These files define its behavior, structure, and styling.</p>
 
   <h3>a. Component-Based Architecture</h3>
   <p>LWC promotes a component-based architecture where UIs are broken down into small, independent, and reusable building blocks. Each component manages its own state and renders its own UI, making development modular and maintainable.</p>
@@ -69,8 +104,8 @@ keywords: "LWC interview questions, Lightning Web Components guide, LWC lifecycl
     <div class="apex-block-label">HTML — Template</div>
 <pre><code class="language-html">&lt;template&gt;
     &lt;div class="container"&gt;
-        &lt;h1&gt;Hello, {greeting}!&lt;/h1&gt;
-        &lt;button onclick={handleClick}&gt;Change Greeting&lt;/button&gt;
+        &lt;h1&gt;Hello, {greeting}! Count: {counter}&lt;/h1&gt;
+        &lt;button onclick={handleClick}&gt;Increment Count&lt;/button&gt;
     &lt;/div&gt;
 &lt;/template&gt;</code></pre>
   </div>
@@ -87,11 +122,11 @@ keywords: "LWC interview questions, Lightning Web Components guide, LWC lifecycl
 
   <div class="apex-block">
     <div class="apex-block-label">JavaScript — Component Class</div>
-<pre><code class="language-javascript">import { LightningElement, api, track } from 'lwc';
+<pre><code class="language-javascript">import { LightningElement, api } from 'lwc';
 
 export default class HelloWorld extends LightningElement {
-    @api greeting = 'World';   // Public property
-    @track counter = 0;        // Reactive private property
+    @api greeting = 'World';   // Public input owned by the parent
+    counter = 0;               // Private component state
 
     connectedCallback() {
         console.log('Component is connected to the DOM!');
@@ -99,7 +134,6 @@ export default class HelloWorld extends LightningElement {
 
     handleClick() {
         this.counter++;
-        this.greeting = 'Salesforce Developer ' + this.counter;
     }
 }</code></pre>
   </div>
@@ -111,7 +145,7 @@ export default class HelloWorld extends LightningElement {
   </ul>
 
   <h3>d. CSS (<code>.css</code>)</h3>
-  <p>LWC uses <code>Shadow DOM</code> for CSS encapsulation — styles defined in a component's CSS file are scoped to that component and don't leak out or interfere with other components. This prevents style conflicts in complex applications.</p>
+  <p>In shadow DOM, component CSS selectors are scoped to the component, but inherited values and CSS custom properties can cross the shadow boundary. Light DOM has different scoping rules, and unscoped styles can affect other elements.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">CSS — Component Styles</div>
@@ -140,7 +174,7 @@ button {
 
 <section id="content-component-structure" class="topic-content-section">
   <h2>3. LWC Component Structure</h2>
-  <p>Every Lightning Web Component resides in a folder with the same name as the component, containing the HTML, JavaScript, metadata, and optionally a CSS file.</p>
+  <p>A UI component bundle resides in a folder with the component name and includes HTML, JavaScript, metadata, and optionally CSS. An API module that shares JavaScript functionality does not require an HTML template.</p>
 
   <h3>Standard Folder Structure</h3>
   <div class="apex-block">
@@ -198,7 +232,7 @@ button {
   <h3>a. <code>@api</code> — Public Properties</h3>
   <ul>
     <li><strong>Purpose:</strong> Exposes a property as public. Parent components can set its value on a child component. Changes are reactive.</li>
-    <li><strong>Use Cases:</strong> Passing data down from parent to child component.</li>
+    <li><strong>Use Cases:</strong> Passing data down from parent to child component. The owner controls a public input; a child can keep its own mutable state or dispatch an event requesting an update.</li>
   </ul>
 
   <div class="apex-block">
@@ -218,8 +252,8 @@ export default class ChildComponent extends LightningElement {
 
   <h3>b. <code>@track</code> — Reactive Private Properties</h3>
   <ul>
-    <li><strong>Purpose:</strong> Makes a private property reactive so template re-renders when its value changes.</li>
-    <li><strong>Important:</strong> As of Winter '20, all fields are reactive by default. Only use <code>@track</code> for objects or arrays when you need reactivity on their <em>internal property changes</em> (not just reference changes).</li>
+    <li><strong>Purpose:</strong> Observes mutations within plain objects and arrays. A mutation triggers rerendering only when it affects a property accessed during the previous render.</li>
+    <li><strong>Important:</strong> Since Spring '20, fields are shallow-reactive by default. Use <code>@track</code> when observing internal mutations of plain objects or arrays; assigning a new value is observed without it.</li>
   </ul>
 
   <div class="apex-block">
@@ -230,15 +264,15 @@ export default class MyComponent extends LightningElement {
     @track myObject = { name: 'Initial', value: 0 };
 
     updateObject() {
-        // Best practice: reassign to trigger reactivity clearly
-        this.myObject = { ...this.myObject, value: this.myObject.value + 1 };
+        // A render that accessed myObject.value can reflect this mutation.
+        this.myObject.value += 1;
     }
 }</code></pre>
   </div>
 
   <h3>c. <code>@wire</code> — Reactive Data Service</h3>
   <ul>
-    <li><strong>Purpose:</strong> Invokes an Apex method or UI API wire adapter and provisions data to a property or function. Automatically re-renders when underlying data changes.</li>
+    <li><strong>Purpose:</strong> Provisions data from an Apex method or wire adapter to a property or function. Changes to reactive parameters trigger reprovisioning; stale Apex data requires <code>refreshApex()</code> on the retained wire result.</li>
     <li><strong>Use Cases:</strong> Fetching records, getting picklist values, querying Apex methods reactively.</li>
   </ul>
 
@@ -266,7 +300,7 @@ export default class AccountList extends LightningElement {
   <p>Components in LWC communicate primarily through events. Understanding event flow is crucial for building interactive applications where components need to interact with each other.</p>
 
   <h3>a. Child-to-Parent Communication (Custom Events)</h3>
-  <p>Children dispatch custom events; parents listen for them. This is the recommended way for a child to notify its parent of an action or data change.</p>
+  <p>Children dispatch custom events; parents listen for them. This is the recommended way for a child to notify its parent of an action or data change. For this direct listener, the default values of <code>bubbles</code> and <code>composed</code> are both <code>false</code>.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">JavaScript — Child Dispatches Event</div>
@@ -275,9 +309,7 @@ export default class AccountList extends LightningElement {
 export default class ChildComponent extends LightningElement {
     handleClick() {
         const myCustomEvent = new CustomEvent('childclick', {
-            detail: { message: 'Hello from child!' },
-            bubbles: true,
-            composed: true
+            detail: 'Hello from child!'
         });
         this.dispatchEvent(myCustomEvent);
     }
@@ -294,13 +326,13 @@ export default class ChildComponent extends LightningElement {
 
   <div class="apex-block">
     <div class="apex-block-label">JavaScript — Parent Handles Event</div>
-<pre><code class="language-javascript">import { LightningElement, track } from 'lwc';
+<pre><code class="language-javascript">import { LightningElement } from 'lwc';
 
 export default class ParentComponent extends LightningElement {
-    @track childMessage = '';
+    childMessage = '';
 
     handleChildClick(event) {
-        this.childMessage = event.detail.message;
+        this.childMessage = event.detail;
     }
 }</code></pre>
   </div>
@@ -343,7 +375,7 @@ export default class SubscriberComponent extends LightningElement {
         this.subscription = subscribe(
             this.messageContext,
             SAMPLE_MESSAGE_CHANNEL,
-            (message) => { this.receivedMessage = message.message; }
+            (message) =&gt; { this.receivedMessage = message.message; }
         );
     }
 
@@ -364,7 +396,7 @@ export default class SubscriberComponent extends LightningElement {
     <li><strong><code>connectedCallback()</code></strong> — Called when the component is inserted into the DOM. Use for fetching initial data (if not using <code>@wire</code>), setting up event listeners, and accessing <code>@api</code> properties. Fires again if component is removed and reinserted.</li>
     <li><strong><code>renderedCallback()</code></strong> — Called after every render (initial and re-renders). Use for DOM manipulations or integrating third-party libraries. Be cautious — avoid updating reactive properties here without a guard condition to prevent infinite loops.</li>
     <li><strong><code>disconnectedCallback()</code></strong> — Called when the component is removed from the DOM. Use for cleanup: removing event listeners, unsubscribing from LMS to prevent memory leaks.</li>
-    <li><strong><code>errorCallback(error, stack)</code></strong> — Called when an error occurs in any descendant component. Acts like a JavaScript error boundary. Use for catching/logging errors and displaying fallback UI.</li>
+    <li><strong><code>errorCallback(error, stack)</code></strong> — Catches descendant errors in lifecycle hooks and declaratively assigned event handlers. It does not catch errors in programmatically assigned event handlers. Use it as an error boundary for logging and fallback UI.</li>
   </ul>
 
   <div class="apex-block">
@@ -406,7 +438,7 @@ export default class LifecycleDemo extends LightningElement {
   <p>LWC can interact with Salesforce data and logic stored in Apex classes — allowing complex database operations, business logic, and callouts not possible in client-side JavaScript alone.</p>
 
   <h3>a. Apex Method Requirements</h3>
-  <p>Apex methods called by LWC must be <code>public static</code> and annotated with <code>@AuraEnabled</code>. Read-only methods should also use <code>cacheable=true</code> for caching and performance.</p>
+  <p>An Apex method exposed to LWC must be <code>static</code>, <code>public</code> or <code>global</code>, and annotated with <code>@AuraEnabled</code>. A wired Apex method also requires <code>cacheable=true</code>. The user must have access to the Apex class.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">Apex — Controller Class</div>
@@ -414,58 +446,69 @@ export default class LifecycleDemo extends LightningElement {
 
     @AuraEnabled(cacheable=true)
     public static List&lt;Account&gt; getAccounts() {
-        return [SELECT Id, Name, Industry FROM Account LIMIT 10];
+        return [SELECT Id, Name, Industry FROM Account WITH USER_MODE LIMIT 10];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List&lt;Account&gt; getAccountDetails(Id accountId) {
+        return [SELECT Id, Name, Industry FROM Account
+                WHERE Id = :accountId WITH USER_MODE];
     }
 
     @AuraEnabled
-    public static String createAccount(String accountName) {
+    public static Id createAccount(String accountName) {
+        if (String.isBlank(accountName)) {
+            throw new AuraHandledException('Account name is required.');
+        }
         Account newAcc = new Account(Name = accountName);
-        insert newAcc;
+        insert as user newAcc;
         return newAcc.Id;
     }
 }</code></pre>
   </div>
 
   <h3>b. Calling Apex Imperatively</h3>
-  <p>Use imperative calls when you need explicit control over when the Apex method executes (e.g., on a button click). Returns a Promise.</p>
+  <p>Use an imperative call when you need explicit control over execution, such as for a button-triggered insert. It returns a Promise. This example waits for the wired read to return data, then refreshes its retained result after the insert. A UI can also disable the create action until the read succeeds.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">JavaScript — Imperative Apex Call</div>
-<pre><code class="language-javascript">import { LightningElement } from 'lwc';
+<pre><code class="language-javascript">import { LightningElement, wire } from 'lwc';
+import { refreshApex } from '@salesforce/apex';
 import getAccounts from '@salesforce/apex/AccountController.getAccounts';
 import createAccount from '@salesforce/apex/AccountController.createAccount';
 
 export default class ApexImperativeDemo extends LightningElement {
     accounts;
+    wiredAccountsResult;
     error;
 
-    handleLoadAccounts() {
-        getAccounts()
-            .then(result => {
-                this.accounts = result;
-                this.error = undefined;
-            })
-            .catch(error => {
-                this.error = error;
-                this.accounts = undefined;
-            });
+    @wire(getAccounts)
+    wiredAccounts(result) {
+        this.wiredAccountsResult = result; // Retain the complete result.
+        this.accounts = result.data;
+        if (result.error) {
+            this.error = result.error;
+        }
     }
 
-    handleCreateAccount() {
-        createAccount({ accountName: 'New Imperative Account' })
-            .then(result => {
-                console.log('Account created with ID:', result);
-                this.handleLoadAccounts(); // Refresh the list
-            })
-            .catch(error => {
-                this.error = error;
-            });
+    async handleCreateAccount() {
+        try {
+            if (!this.wiredAccountsResult || !this.wiredAccountsResult.data) {
+                throw new Error('Load accounts before creating an account.');
+            }
+            const accountId = await createAccount({ accountName: 'New Imperative Account' });
+            console.log('Account created with ID:', accountId);
+            await refreshApex(this.wiredAccountsResult);
+            this.error = undefined;
+        } catch (error) {
+            this.error = error;
+        }
     }
 }</code></pre>
   </div>
 
   <h3>c. Calling Apex with <code>@wire</code> (Reactive)</h3>
-  <p>Use <code>@wire</code> for reactive data — it automatically refreshes when reactive parameters change. The <code>$</code> prefix makes a parameter reactive.</p>
+  <p>Use <code>@wire</code> to provision read-only Apex data. The <code>$</code> prefix makes a parameter reactive, so a change to that parameter triggers reprovisioning. A server-side change alone does not guarantee a fresh Apex result.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">JavaScript — @wire with Apex</div>
@@ -474,21 +517,25 @@ import getAccountDetails from '@salesforce/apex/AccountController.getAccountDeta
 
 export default class AccountDetailsWire extends LightningElement {
     @api recordId;
+    accounts;
+    error;
 
     @wire(getAccountDetails, { accountId: '$recordId' }) // '$' makes it reactive
     wiredAccount({ error, data }) {
         if (data) {
-            this.account = data;
+            this.accounts = data;
             this.error = undefined;
         } else if (error) {
             this.error = error;
-            this.account = undefined;
+            this.accounts = undefined;
         }
     }
 }</code></pre>
   </div>
 
-  <p>Choose <strong>imperative</strong> when you need controlled execution (button click, DML). Choose <strong><code>@wire</code></strong> for read-only reactive data that should auto-refresh.</p>
+  <p>Choose <strong>imperative</strong> when you need controlled execution, including DML. Choose <strong><code>@wire</code></strong> for declarative read-only provisioning driven by reactive parameters. Retain the complete Apex wire result and pass it to <code>refreshApex()</code> when the data becomes stale.</p>
+  <h3>How do you choose a data service and refresh its cache?</h3>
+  <p>Use Lightning Data Service (LDS) and UI API adapters for supported record operations, or a GraphQL wire adapter when its query model fits the data. Use Apex when those services cannot provide the required operation or business logic. LDS manages record access and its record cache; Apex data has a separate cache. When an Apex wire result is stale, pass the complete retained result to <code>refreshApex()</code>. After records change outside LDS, call <code>notifyRecordUpdateAvailable()</code> with the affected record IDs so LDS can refresh its cached records. The <code>lightning/graphql</code> wire result provides its own <code>refresh()</code> method.</p>
 </section>
 
 <section id="content-best-practices" class="topic-content-section">
@@ -505,7 +552,7 @@ export default class AccountDetailsWire extends LightningElement {
   <ul>
     <li><strong>Unidirectional Data Flow:</strong> Data flows down via <code>@api</code>; events flow up via custom events.</li>
     <li><strong>Minimize <code>@track</code>:</strong> Only use for objects/arrays needing internal property reactivity. Primitives are auto-reactive.</li>
-    <li><strong>Prefer <code>@wire</code> for Read-Only Data:</strong> Use imperative Apex only for DML or when explicit execution control is needed.</li>
+    <li><strong>Choose a Data Access Pattern:</strong> Use wire adapters for declarative reads and imperative calls when execution must be controlled explicitly, including for DML.</li>
   </ul>
 
   <h3>c. Performance</h3>
@@ -517,9 +564,12 @@ export default class AccountDetailsWire extends LightningElement {
 
   <h3>d. Security</h3>
   <ul>
-    <li><strong>Respect FLS &amp; CRUD:</strong> LWC respects FLS and CRUD for UI API calls by default. In Apex, use <code>with sharing</code> and always manually check FLS and CRUD for sensitive data.</li>
-    <li><strong>Sanitize User Input:</strong> Always sanitize input before using it in queries or DML operations.</li>
+    <li><strong>Enforce Permissions:</strong> UI API respects record access, object permissions, and field-level security. In Apex, enforce applicable permissions for user-facing operations using explicit user-mode queries and DML or <code>stripInaccessible()</code>, as appropriate. Sharing alone does not enforce object or field permissions.</li>
+    <li><strong>Validate User Input:</strong> Validate input for the operation, use bind variables for SOQL, and enforce authorization and field permissions for DML.</li>
   </ul>
+
+  <h3>How do Lightning Web Security and CSP protect components?</h3>
+  <p>Lightning Web Security (LWS) isolates JavaScript by namespace, while Content Security Policy (CSP) restricts permitted resource loads and connections. LWS is the default for new orgs; some older orgs still use Lightning Locker. Both security architectures place restrictions on component code and access across namespaces, but their behavior differs, so test integrations under the architecture enabled in the org. Configure trusted URLs where appropriate, and load third-party libraries from static resources according to Salesforce guidance. Shadow DOM encapsulation is separate from these security controls and should not be treated as an authorization boundary.</p>
 
   <h3>e. Reusability &amp; Maintainability</h3>
   <ul>
@@ -527,6 +577,9 @@ export default class AccountDetailsWire extends LightningElement {
     <li><strong>Comments:</strong> Document complex logic and non-obvious parts of the code.</li>
     <li><strong>Use Lightning Base Components:</strong> Utilize standard <code>lightning-</code> components (e.g., <code>lightning-button</code>, <code>lightning-input</code>, <code>lightning-datatable</code>) — they are performant, accessible, and SLDS-compliant.</li>
   </ul>
+
+  <h3>How do you make component interactions accessible?</h3>
+  <p>Use semantic HTML and Lightning base components, and provide clear labels for controls. Ensure every action is operable with a keyboard and that focus moves predictably when content such as a dialog opens or closes. Expose state and errors to assistive technology using appropriate native semantics and ARIA attributes where needed. Do not rely on color alone to convey information. Test with keyboard navigation and a screen reader, including validation messages and dynamically updated content. Custom interactive controls need the expected keyboard behavior and an accessible name, role, and state.</p>
 
   <h3>f. Testing</h3>
   <ul>

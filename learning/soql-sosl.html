@@ -1,39 +1,78 @@
 ---
 layout: learning-topic
-title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
 permalink: /soql-sosl/
-sidebar_title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
 intro_text: Unlock the power of data retrieval in Salesforce! This module covers the fundamentals of SOQL (Salesforce Object Query Language) and SOSL (Salesforce Object Search Language), essential tools for developers to interact with the Salesforce database.
+title: "SOQL vs SOSL: Syntax, Examples & Interview Questions"
+headline: "SOQL and SOSL: Complete Guide with Examples and Interview Questions"
+sidebar_title: "SOQL and SOSL"
+description: "SOQL and SOSL explained with examples: relationship queries, aggregates, SOQL for loops, bind variables, SOSL FIND syntax, limits, and when to use each."
+keywords: "soql vs sosl, soql examples, sosl salesforce, soql relationship queries, soql aggregate functions, soql interview questions, with user_mode"
+about: "SOQL and SOSL"
+level: "Beginner"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "Introduction to SOQL & SOSL"
   - id: soql-basics
     number: 2
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "SOQL Basics"
   - id: relationship-queries
     number: 3
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "SOQL Relationship Queries"
   - id: aggregate-functions
     number: 4
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "SOQL Aggregate Functions & Grouping"
   - id: soql-for-loops
     number: 5
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "SOQL For Loops"
   - id: introduction-sosl
     number: 6
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "Introduction to SOSL"
   - id: sosl-syntax
     number: 7
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "SOSL Syntax & Features"
   - id: choosing-tool
     number: 8
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
+    title: "Choosing Between SOQL & SOSL"
   - id: best-practices
     number: 9
-    title: "SOQL & SOSL Interview Questions & Complete Guide — SFX Support"
-description: "Master Salesforce SOQL and SOSL — relationship queries, aggregate functions, dynamic SOQL, governor limits, and top SOQL interview questions for developers."
-keywords: "SOQL interview questions, SOSL Salesforce, Salesforce Object Query Language, dynamic SOQL, relationship queries, aggregate SOQL, Salesforce developer interview"
+    title: "SOQL & SOSL Best Practices"
+quick_question: "What is the difference between SOQL and SOSL?"
+quick_answer: "SOQL queries records from one object, and its related objects, when you know where the data lives; it returns records, or AggregateResult rows and counts for aggregate queries. SOSL runs a text search across many objects at once using the search index and returns a list of lists, one per object. Use SOQL for filters, relationships and aggregates, and SOSL when a user types a term and you don't know which object or field holds it."
+key_points:
+  - "SOQL: 100 queries per synchronous transaction (200 async) and 50,000 rows in total."
+  - "SOSL: 20 searches per transaction and 2,000 rows per search."
+  - "Use bind variables, never string concatenation, to prevent SOQL injection."
+  - "Add WITH USER_MODE to enforce the running user's object, field and sharing access."
+  - "Filter on indexed fields so queries stay selective on large objects."
+faq:
+  - q: "How many records can a SOQL query return?"
+    a: "A single transaction can retrieve 50,000 records across all its SOQL queries. To work with more, use Batch Apex with a QueryLocator, which can return up to 50 million records."
+  - q: "What is a SOQL for loop and why use it?"
+    a: "A SOQL for loop iterates over query results in chunks of 200 records, so large result sets don't fill the heap. It is the safest way to process many records in synchronous Apex."
+  - q: "How do you query parent and child records in SOQL?"
+    a: "Use dot notation for child-to-parent, for example SELECT Name, Account.Name FROM Contact. Use a subquery with the child relationship name for parent-to-child, for example SELECT Name, (SELECT LastName FROM Contacts) FROM Account. Custom relationships end in __r."
+  - q: "How do you prevent SOQL injection?"
+    a: "Use static SOQL with bind variables, or Database.queryWithBinds for dynamic SOQL. If you must build a query string, escape user input with String.escapeSingleQuotes and whitelist field and object names."
+  - q: "What does WITH USER_MODE do in SOQL?"
+    a: "It runs the query with the running user's object permissions, field-level security and sharing rules, and throws an exception if a field isn't accessible. Salesforce recommends it over the older WITH SECURITY_ENFORCED clause."
+  - q: "When should I use SOSL instead of SOQL?"
+    a: "Use SOSL for keyword search across several objects or text fields, such as a global search box. Use SOQL when you know the object and need exact filters, sorting, relationships or aggregates."
+related:
+  - title: "Governor Limits"
+    url: "/governor-limits/"
+  - title: "Apex Triggers"
+    url: "/apex-triggers/"
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Asynchronous Apex"
+    url: "/asynchronous-apex/"
+sources:
+  - title: "SOQL and SOSL Reference"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_sosl_intro.htm"
+  - title: "Execution governors and limits"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_gov_limits.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -62,7 +101,7 @@ keywords: "SOQL interview questions, SOSL Salesforce, Salesforce Object Query La
 
 <section id="content-soql-basics" class="topic-content-section">
   <h2>2. SOQL Basics</h2>
-  <p>SOQL queries are used in Apex, Visualforce controllers, Lightning components, and the Developer Console. They retrieve a list of sObject records.</p>
+  <p>SOQL queries are used in Apex, Visualforce controllers, Lightning components, and the Developer Console. The result depends on the query and how it is assigned in Apex.</p>
 
   <h3>Basic Syntax</h3>
   <div class="apex-block">
@@ -107,22 +146,22 @@ LIMIT 10</code></pre>
   </div>
 
   <div class="apex-block">
-    <div class="apex-block-label">SOQL — Closed Won Opportunities Over $10k</div>
+    <div class="apex-block-label">SOQL — Closed Won Opportunities of $10k or More</div>
 <pre><code>SELECT Name, StageName, Amount
 FROM Opportunity
-WHERE StageName = 'Closed Won' AND Amount >= 10000
+WHERE StageName = 'Closed Won' AND Amount &gt;= 10000
 ORDER BY Amount DESC</code></pre>
   </div>
 
   <h3>Using SOQL in Apex</h3>
-  <p>In Apex, embed SOQL queries directly within square brackets <code>[]</code>. The query returns a <code>List</code> of sObjects.</p>
+  <p>In Apex, embed SOQL queries directly within square brackets <code>[]</code>. The return type depends on the query and assignment: a query can be assigned to a list, a single sObject, or an <code>Integer</code> for <code>COUNT()</code>.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">Apex — SOQL in Code</div>
 <pre><code class="language-apex">List&lt;Account&gt; topAccounts = [
     SELECT Id, Name, AnnualRevenue
     FROM Account
-    ORDER BY AnnualRevenue DESC
+    ORDER BY AnnualRevenue DESC NULLS LAST
     LIMIT 5
 ];
 
@@ -130,14 +169,15 @@ for (Account acc : topAccounts) {
     System.debug('Account: ' + acc.Name + ', Revenue: ' + acc.AnnualRevenue);
 }
 
-// Single record retrieval
-Account singleAccount = [SELECT Id, Name FROM Account WHERE Name = 'Acme Corp' LIMIT 1];
-
-// Handle no results with try-catch
-try {
-    Account notFound = [SELECT Id FROM Account WHERE Name = 'NonExistent' LIMIT 1];
-} catch (QueryException e) {
-    System.debug('No account found: ' + e.getMessage());
+// Use a list when no matching record is a valid outcome.
+List&lt;Account&gt; matches = [
+    SELECT Id, Name FROM Account WHERE Name = 'Acme Corp' LIMIT 1
+];
+if (matches.isEmpty()) {
+    System.debug('No matching account found.');
+} else {
+    Account singleAccount = matches[0];
+    System.debug('Found account: ' + singleAccount.Name);
 }</code></pre>
   </div>
 </section>
@@ -208,7 +248,7 @@ for (Contact con : techContacts) {
   <ul>
     <li><code>COUNT()</code> — Number of rows.</li>
     <li><code>COUNT(FieldName)</code> — Rows where the field is not null.</li>
-    <li><code>COUNT(DISTINCT FieldName)</code> — Unique non-null values.</li>
+    <li><code>COUNT_DISTINCT(FieldName)</code> — Unique non-null values.</li>
     <li><code>SUM(FieldName)</code> — Sum of a numeric field.</li>
     <li><code>AVG(FieldName)</code> — Average of a numeric field.</li>
     <li><code>MIN(FieldName)</code> / <code>MAX(FieldName)</code> — Minimum or maximum value.</li>
@@ -246,53 +286,55 @@ for (AggregateResult ar : results) {
 <pre><code>SELECT StageName, COUNT(Id)
 FROM Opportunity
 GROUP BY StageName
-HAVING COUNT(Id) > 5</code></pre>
+HAVING COUNT(Id) &gt; 5</code></pre>
   </div>
 </section>
 
 <section id="content-soql-for-loops" class="topic-content-section">
   <h2>5. SOQL For Loops</h2>
-  <p>SOQL For Loops are a highly efficient way to process large query results. They automatically manage memory by retrieving records in batches — ideal for avoiding heap size governor limits.</p>
+  <p>SOQL for loops retrieve query results in batches and can reduce heap pressure. Process and release each batch without retaining the full result; retained records and other allocations can still exhaust the heap.</p>
 
   <div class="apex-block">
     <div class="apex-block-label">Apex — SOQL For Loop Syntax</div>
-<pre><code class="language-apex">for (sObject record : [SELECT Id, Name FROM MyObject WHERE ...]) {
-    // Process each record
+<pre><code class="language-apex">for (Account record : [SELECT Id, Name FROM Account]) {
+    System.debug(record.Name);
 }</code></pre>
   </div>
 
   <h3>Key Advantages</h3>
   <ul>
-    <li><strong>Automatic Batching:</strong> Salesforce fetches records in chunks (~200 at a time) — prevents exceeding heap size limits.</li>
-    <li><strong>Memory Efficiency:</strong> Records are processed then discarded, keeping memory consumption low.</li>
+    <li><strong>Automatic Batching:</strong> Salesforce fetches records in batches, reducing the need to hold the full result in memory.</li>
+    <li><strong>Memory Efficiency:</strong> Process and release records without retaining the full result. Other allocations and retained records still count toward the heap limit.</li>
     <li><strong>Still counts as one SOQL query</strong> — DML inside the loop is still subject to per-transaction limits, so bulkification remains critical.</li>
   </ul>
 
   <div class="apex-block">
-    <div class="apex-block-label">Apex — Bulkified SOQL For Loop</div>
-<pre><code class="language-apex">public class LeadProcessor {
+    <div class="apex-block-label">Apex — Batch Processing for Mass Updates</div>
+<pre><code class="language-apex">public with sharing class LeadProcessor implements Database.Batchable&lt;Lead&gt; {
+    public Database.QueryLocator start(Database.BatchableContext context) {
+        return Database.getQueryLocator([
+            SELECT Id, Description FROM Lead WHERE Email != null
+            WITH USER_MODE
+        ]);
+    }
 
-    public static void updateProcessedLeads() {
-        List&lt;Lead&gt; leadsToUpdate = new List&lt;Lead&gt;();
-
-        for (Lead l : [SELECT Id, Email, Status FROM Lead WHERE Status = 'New']) {
-            if (l.Email != null) {
-                l.Status = 'Contacted';
-                leadsToUpdate.add(l);
-            }
+    public void execute(Database.BatchableContext context, List&lt;Lead&gt; scope) {
+        for (Lead leadRecord : scope) {
+            leadRecord.Description = 'Processed';
         }
+        update as user scope;
+    }
 
-        if (!leadsToUpdate.isEmpty()) {
-            update leadsToUpdate; // Single DML operation — not inside the loop
-            System.debug('Updated ' + leadsToUpdate.size() + ' leads.');
-        }
+    public void finish(Database.BatchableContext context) {
     }
 }</code></pre>
   </div>
 
+  <p>For large mass updates, use Batch Apex with bounded transactions, as in the example above. Each <code>execute</code> call handles a separate scope and has its own transaction limits. Choose a scope size that also allows for automation invoked by the update.</p>
+
   <h3>For Loop vs. Direct List Assignment</h3>
   <ul>
-    <li><strong>Use SOQL For Loop:</strong> When expecting hundreds to thousands of records — preferred for triggers and batch jobs to avoid heap limits.</li>
+    <li><strong>Use SOQL For Loop:</strong> When processing records without retaining the full result; query row and heap limits still apply.</li>
     <li><strong>Use <code>List&lt;sObject&gt;</code> directly:</strong> When expecting a small number of records and needing the full collection in memory for subsequent operations.</li>
   </ul>
 </section>
@@ -313,9 +355,9 @@ HAVING COUNT(Id) > 5</code></pre>
   <ul>
     <li>Searches across multiple objects in a single query.</li>
     <li>Returns <code>List&lt;List&lt;sObject&gt;&gt;</code> — each inner list contains records of a specific object type.</li>
-    <li>Searches text fields: <code>Name</code>, <code>Email</code>, <code>Phone</code>, <code>TextArea</code>, <code>LongTextArea</code>, <code>RichText</code>.</li>
+    <li>Searches supported indexed fields, which vary by object and search group.</li>
     <li>Uses a search index for faster results.</li>
-    <li>Supports stemming — searching "run" also finds "running" and "ran".</li>
+    <li>Some search objects support linguistic features such as lemmatization; behavior varies.</li>
   </ul>
 </section>
 
@@ -324,7 +366,7 @@ HAVING COUNT(Id) > 5</code></pre>
 
   <div class="apex-block">
     <div class="apex-block-label">SOSL — Basic Syntax</div>
-<pre><code>FIND 'Search Term'
+<pre><code>FIND {Search Term}
 [IN SearchGroup]
 [RETURNING ObjectTypeName [(FieldList)]]
 [LIMIT Number]
@@ -332,32 +374,33 @@ HAVING COUNT(Id) > 5</code></pre>
   </div>
 
   <ul>
-    <li><strong><code>FIND 'Search Term'</code>:</strong> The phrase or term to search. Supports wildcards — <code>*</code> (zero or more characters), <code>?</code> (single character).</li>
+    <li><strong><code>FIND {Search Term}</code>:</strong> The API search term. Wildcards <code>*</code> (zero or more characters) and <code>?</code> (one character) can appear in the middle or at the end of a term.</li>
     <li><strong><code>IN SearchGroup</code>:</strong> Fields to search within — <code>ALL FIELDS</code> (default), <code>NAME FIELDS</code>, <code>EMAIL FIELDS</code>, <code>PHONE FIELDS</code>, <code>SIDEBAR FIELDS</code>.</li>
-    <li><strong><code>RETURNING ObjectTypeName [(FieldList)]</code>:</strong> Which sObjects and fields to return. If field list omitted, only <code>Id</code> is returned. Multiple objects can be specified.</li>
-    <li><strong><code>LIMIT</code> / <code>OFFSET</code>:</strong> Limit or skip rows per sObject type.</li>
+    <li><strong><code>RETURNING ObjectTypeName [(FieldList)]</code>:</strong> Which sObjects and fields to return. If the field list is omitted, only <code>Id</code> is returned. Multiple objects can be specified. This clause is optional in the API and required in Apex.</li>
+    <li><strong><code>LIMIT</code> / <code>OFFSET</code>:</strong> Set <code>LIMIT</code> globally or within <code>RETURNING</code>; use <code>OFFSET</code> only for a single object, as the final clause.</li>
   </ul>
 
   <h3>Examples</h3>
   <div class="apex-block">
     <div class="apex-block-label">SOSL — Search Across Accounts and Contacts</div>
-<pre><code>FIND 'GenePoint' IN ALL FIELDS
+<pre><code>FIND {GenePoint} IN ALL FIELDS
 RETURNING Account(Id, Name), Contact(Id, FirstName, LastName)</code></pre>
   </div>
 
   <div class="apex-block">
     <div class="apex-block-label">SOSL — Wildcard Search</div>
-<pre><code>FIND 'uni*' IN ALL FIELDS
+<pre><code>FIND {uni*} IN ALL FIELDS
 RETURNING Account(Id, Name), Contact(Id, Name)</code></pre>
   </div>
 
   <div class="apex-block">
     <div class="apex-block-label">SOSL — Phone Field Search</div>
-<pre><code>FIND '415-555-1212' IN PHONE FIELDS
+<pre><code>FIND {415\-555\-1212} IN PHONE FIELDS
 RETURNING Contact(Id, Name, Phone), Lead(Id, Name, Phone)</code></pre>
   </div>
 
   <h3>Using SOSL in Apex</h3>
+  <p>The standalone examples use API syntax with braces. Apex uses square brackets and a quoted search term, and requires <code>RETURNING</code>, as in <code>[FIND 'term' RETURNING Account(Id)]</code>.</p>
   <div class="apex-block">
     <div class="apex-block-label">Apex — SOSL Query and Result Iteration</div>
 <pre><code class="language-apex">List&lt;List&lt;SObject&gt;&gt; searchResults = [
@@ -392,7 +435,7 @@ for (List&lt;SObject&gt; sObjectList : searchResults) {
     <li>You need specific fields from a single object or closely related objects.</li>
     <li>You want to filter on exact field values (e.g., <code>WHERE Status = 'Active'</code>).</li>
     <li>You need aggregate functions (SUM, AVG, COUNT), ordering, or grouping.</li>
-    <li>You need <code>OFFSET</code> for pagination.</li>
+    <li>You need structured filtering or ordering for pagination. Both SOQL and SOSL support <code>OFFSET</code> with limits; choose based on the search and pagination requirements.</li>
   </ul>
 
   <div class="apex-block">
@@ -400,7 +443,7 @@ for (List&lt;SObject&gt; sObjectList : searchResults) {
 <pre><code>SELECT Id, Name, AnnualRevenue,
        (SELECT Id, FirstName, LastName FROM Contacts)
 FROM Account
-WHERE Industry = 'Technology' AND AnnualRevenue > 500000</code></pre>
+WHERE Industry = 'Technology' AND AnnualRevenue &gt; 500000</code></pre>
   </div>
 
   <h3>Use SOSL When</h3>
@@ -413,7 +456,7 @@ WHERE Industry = 'Technology' AND AnnualRevenue > 500000</code></pre>
 
   <div class="apex-block">
     <div class="apex-block-label">SOSL — Cross-Object Text Search</div>
-<pre><code>FIND 'Marketing Campaign' IN ALL FIELDS
+<pre><code>FIND {"Marketing Campaign"} IN ALL FIELDS
 RETURNING Account(Id, Name, Industry), Lead(Id, Name, Status, Company)</code></pre>
   </div>
 
@@ -428,7 +471,7 @@ RETURNING Account(Id, Name, Industry), Lead(Id, Name, Status, Company)</code></p
 
   <h3>General Best Practices</h3>
   <ul>
-    <li><strong>Never put SOQL/SOSL inside loops:</strong> This is a critical governor limit violation. You get only 100 SOQL queries and 20 SOSL queries per transaction.</li>
+    <li><strong>Avoid repeated queries inside loops:</strong> A query in a loop can quickly exhaust transaction limits. Apex permits 100 synchronous or 200 asynchronous SOQL queries, and 20 SOSL queries per transaction.</li>
     <li><strong>Bulkify your queries:</strong> Collect all IDs first, then perform a single query using <code>IN :collectionVariable</code>.</li>
     <li><strong>Select only necessary fields:</strong> Retrieve only what you need — reduces heap size and improves performance.</li>
     <li><strong>Use the Query Plan Tool:</strong> In Developer Console (Ctrl+I), analyze query performance to see which fields are indexed.</li>
@@ -437,20 +480,14 @@ RETURNING Account(Id, Name, Industry), Lead(Id, Name, Status, Company)</code></p
 
   <h3>SOQL Specific</h3>
   <ul>
-    <li><strong>Always use a <code>WHERE</code> clause</strong> — filter records as early as possible.</li>
+    <li><strong>Use selective filters when appropriate:</strong> Inspect the query plan; a <code>WHERE</code> clause alone does not guarantee selectivity.</li>
     <li><strong>Use relationship queries wisely</strong> — avoid excessive nesting.</li>
-    <li><strong>Use SOQL For Loops</strong> for large datasets in triggers and batch jobs.</li>
+    <li><strong>Use SOQL for loops</strong> to reduce heap pressure when processing query results without retaining the full collection.</li>
   </ul>
 
   <div class="apex-block">
-    <div class="apex-block-label">Apex — BAD vs GOOD: Query in Loop</div>
-<pre><code class="language-apex">// ❌ BAD — Query inside loop, hits 100 SOQL limit fast
-for (Account acc : Trigger.new) {
-    Contact c = [SELECT Id FROM Contact WHERE AccountId = :acc.Id LIMIT 1];
-}
-
-// ✅ GOOD — Bulkified: one query outside the loop
-Set&lt;Id&gt; accountIds = new Set&lt;Id&gt;();
+    <div class="apex-block-label">Apex — Group Contacts by Account</div>
+<pre><code class="language-apex">Set&lt;Id&gt; accountIds = new Set&lt;Id&gt;();
 for (Account acc : Trigger.new) {
     accountIds.add(acc.Id);
 }
@@ -461,18 +498,34 @@ List&lt;Contact&gt; contacts = [
     WHERE AccountId IN :accountIds
 ];
 
-Map&lt;Id, Contact&gt; contactsByAccountId = new Map&lt;Id, Contact&gt;();
+Map&lt;Id, List&lt;Contact&gt;&gt; contactsByAccountId = new Map&lt;Id, List&lt;Contact&gt;&gt;();
 for (Contact con : contacts) {
-    contactsByAccountId.put(con.AccountId, con);
+    if (!contactsByAccountId.containsKey(con.AccountId)) {
+        contactsByAccountId.put(con.AccountId, new List&lt;Contact&gt;());
+    }
+    contactsByAccountId.get(con.AccountId).add(con);
 }
 
 for (Account acc : Trigger.new) {
-    Contact primary = contactsByAccountId.get(acc.Id);
-    if (primary != null) {
-        // Process...
+    List&lt;Contact&gt; relatedContacts = contactsByAccountId.get(acc.Id);
+    if (relatedContacts != null) {
+        for (Contact con : relatedContacts) {
+            System.debug('Related contact: ' + con.Name);
+        }
     }
 }</code></pre>
   </div>
+
+  <p>The map preserves all queried contacts for each account. If the application needs a primary contact, define and apply an explicit business rule rather than relying on query order.</p>
+
+  <h3>How do you enforce data access in queries?</h3>
+  <p>Use user mode when a query must respect the running user's sharing, object permissions, and field-level security. In Apex API version 67.0 and later, database operations default to user mode; earlier versions default to system mode. Specify <code>WITH USER_MODE</code> on a SOQL or SOSL query to make the intended access mode explicit. A sharing declaration alone controls record sharing for system-mode operations and does not enforce object or field permissions. Handle access failures according to the application's requirements, and use system mode only where elevated access is justified. See <a href="https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm">Salesforce's user-mode guidance</a>.</p>
+
+  <h3>How do you prevent query injection?</h3>
+  <p>Bind user-supplied values instead of concatenating them into SOQL or SOSL query text. Static Apex queries support bind variables, and dynamic SOQL can use <code>Database.queryWithBinds</code> to supply values separately from the query. Binding values does not validate dynamic object names, field names, or other query structure. Choose those elements from an allowlist of permitted options and enforce the appropriate access permissions. Validate and type-check other inputs according to their context; escaping quotes alone is not a general solution. See <a href="https://developer.salesforce.com/docs/platform/communities-dev/guide/communities-dev-security-guest-users-soql-injection.html">Salesforce's injection guidance</a>.</p>
+
+  <h3>How do you plan queries for large data volumes?</h3>
+  <p>Use selective filters where appropriate and inspect the query plan against representative data. An index can help, but a filter or indexed field alone does not guarantee a selective plan; data distribution and the rest of the query matter. In Apex, ordinary SOQL queries are subject to a 50,000-row transaction limit, and parent-to-child relationship subqueries count separately toward the aggregate-query limit. A SOQL for loop reduces heap pressure but does not remove the row limit. For large mass updates, use Batch Apex and a <code>QueryLocator</code>, with each batch sized for the work and automation it invokes. See the <a href="https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-gov-limits.html">Apex governor limits</a>.</p>
 
   <h3>SOSL Specific</h3>
   <ul>

@@ -1,45 +1,86 @@
 ---
 layout: learning-topic
-title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
 permalink: /integration-patterns/
-sidebar_title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
 intro_text: Explore essential Salesforce integration patterns and technologies. Learn how to connect Salesforce with external systems efficiently, reliably, and securely, enabling a unified business ecosystem.
+title: "Salesforce Integration Patterns, APIs & Interview Questions"
+headline: "Salesforce Integration Patterns and APIs: Complete Guide and Interview Questions"
+sidebar_title: "Integration Patterns"
+description: "Salesforce integration patterns, REST vs SOAP vs Bulk vs Pub/Sub APIs, OAuth flows, Named Credentials, platform events and CDC, with interview questions."
+keywords: "salesforce integration patterns, salesforce integration interview questions, salesforce rest api, bulk api 2.0, named credentials, platform events vs change data capture, salesforce oauth flows, pub/sub api"
+about: "Salesforce integration"
+level: "Advanced"
+updated: 2026-11-25
 topics:
   - id: introduction
     number: 1
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Introduction to Salesforce Integration"
   - id: common-patterns
     number: 2
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Common Integration Patterns"
   - id: integration-technologies
     number: 3
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Integration Technologies: Salesforce APIs Overview"
   - id: oauth-flows
     number: 4
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "OAuth Flows for Salesforce Integration"
   - id: declarative-integration-tools
     number: 5
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Declarative Integration Tools"
   - id: programmatic-integration-tools
     number: 6
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Programmatic Integration Tools (Apex)"
   - id: middleware-ipaas
     number: 7
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Middleware & iPaaS Solutions"
   - id: best-practices
     number: 8
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Integration Best Practices"
   - id: error-handling-monitoring
     number: 9
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Error Handling & Monitoring"
   - id: integration-governance
     number: 10
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
+    title: "Integration Governance & Documentation"
   - id: conclusion
     number: 11
-    title: "Salesforce Integration Interview Questions & Patterns Guide — SFX Support"
-description: "Master Salesforce Integration patterns — REST vs SOAP, Bulk API, Platform Events, named credentials, and top integration interview questions."
-keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP API Salesforce, Salesforce integration patterns, Platform Events, Bulk API, named credentials Salesforce"
+    title: "Conclusion & Future Trends"
+quick_question: "Which Salesforce integration pattern should I use?"
+quick_answer: "Salesforce integration patterns are chosen by direction and timing. When Salesforce needs an answer right away, use Request and Reply with an Apex callout through a Named Credential. When it only needs to notify another system, use Fire and Forget with platform events, Change Data Capture or a Queueable callout. For large volumes, use Batch Data Synchronization with Bulk API 2.0, and when an outside system writes to Salesforce, use Remote Call-In with the REST or Composite API."
+key_points:
+  - "Store endpoints and credentials in Named Credentials and External Credentials, never in code."
+  - "Bulk API 2.0 is built for large data loads; REST and Composite APIs suit smaller, real-time calls."
+  - "Platform events carry custom business events; Change Data Capture publishes record changes automatically."
+  - "Subscribe to events from outside Salesforce with the Pub/Sub API."
+  - "Use the JWT bearer or client credentials OAuth flow for server-to-server access."
+faq:
+  - q: "What is the difference between REST and SOAP API in Salesforce?"
+    a: "REST API uses JSON over simple HTTP methods and suits web, mobile and most modern integrations. SOAP API uses XML with a strict WSDL contract, which some enterprise and legacy systems require. Both work on the same data and limits."
+  - q: "When should you use Bulk API 2.0?"
+    a: "Use it to load, update or extract large numbers of records, generally thousands or more, because it processes them asynchronously in batches and uses fewer API calls than record-by-record requests."
+  - q: "What are Named Credentials?"
+    a: "A Named Credential stores an endpoint URL, and with an External Credential the authentication details, in Setup. Apex refers to it as callout:Name, so secrets stay out of code and you don't need a separate Remote Site Setting."
+  - q: "What is the difference between platform events and Change Data Capture?"
+    a: "Platform events are custom messages you define and publish yourself, for example 'Order Shipped'. Change Data Capture automatically publishes an event whenever a record of a selected object is created, updated, deleted or undeleted."
+  - q: "Should I use a connected app or an external client app?"
+    a: "For new integrations, Salesforce recommends external client apps, which separate settings from policies and package cleanly. Existing connected apps keep working, so migrate them when you next change the integration."
+  - q: "Which OAuth flow should a server-to-server integration use?"
+    a: "Use the OAuth 2.0 JWT bearer flow or the client credentials flow, set up through a connected app or external client app. Both avoid sharing a user's password with the other system."
+  - q: "What is the Pub/Sub API?"
+    a: "The Pub/Sub API is a gRPC-based API for publishing and subscribing to platform events and Change Data Capture events from outside Salesforce, with efficient binary encoding and flow control."
+related:
+  - title: "Asynchronous Apex"
+    url: "/asynchronous-apex/"
+  - title: "Security and Sharing"
+    url: "/security-sharing/"
+  - title: "Deployment and CI/CD"
+    url: "/deployment-cicd/"
+  - title: "Lightning Web Components"
+    url: "/lwc-essentials/"
+sources:
+  - title: "Integration Patterns and Practices"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.integration_patterns_and_practices.meta/integration_patterns_and_practices/integ_pat_intro_overview.htm"
+  - title: "Named Credentials"
+    url: "https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_callouts_named_credentials.htm"
 ---
 
 <section id="content-introduction" class="topic-content-section">
@@ -111,7 +152,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
   <ul>
     <li><strong>Description:</strong> Salesforce initiates a connection to an external system to retrieve or send data. Salesforce acts as the client.</li>
     <li><strong>Use Cases:</strong> Sending order details to an ERP, fetching data from a legacy system, integrating with payment gateways or shipping carriers.</li>
-    <li><strong>Salesforce Technologies:</strong> <code>Apex Callouts</code>, <code>External Services</code>, <code>Lightning Connect</code>.</li>
+    <li><strong>Salesforce Technologies:</strong> <code>Apex Callouts</code>, <code>External Services</code>, <code>Salesforce Connect</code> for external-object integrations.</li>
     <li><strong>Considerations:</strong> <code>Remote Site Settings</code> or <code>Named Credentials</code> required; subject to callout limits; often requires async Apex to avoid UI blocking.</li>
   </ul>
 
@@ -120,7 +161,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
     <li><strong>Description:</strong> Salesforce publishes events for changes to records (create, update, delete, undelete). External systems subscribe to receive real-time notifications — a highly scalable and decoupled pattern.</li>
     <li><strong>Use Cases:</strong> Real-time sync with external systems, triggering external processes on Salesforce data changes, maintaining external data warehouses in sync.</li>
     <li><strong>Salesforce Technologies:</strong> <code>Change Data Capture (CDC) events</code>, <code>Platform Events</code>.</li>
-    <li><strong>Considerations:</strong> High event volumes; subscribers must handle duplicates and ensure idempotency; order is guaranteed per record, not across records.</li>
+    <li><strong>Considerations:</strong> Change events in the event bus follow transaction commit order; subscribers receive them in Replay ID order. Preserve that order during processing, handle duplicates, and make processing idempotent.</li>
   </ul>
 </section>
 
@@ -151,10 +192,10 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
   </ul>
 
   <h3>c. Bulk API</h3>
-  <p>An asynchronous API optimized for loading or querying large datasets (50,000 to millions of records). Processes records in batches for maximum efficiency.</p>
+  <p>An asynchronous API for loading or querying large datasets. Operations involving more than 2,000 records are candidates for Bulk API 2.0; choose an API based on the workload and its requirements.</p>
   <ul>
-    <li><strong>Process:</strong> Create Job → Upload Batches → Close Job → Monitor Status → Retrieve Results.</li>
-    <li><strong>Bulk API 2.0:</strong> Simplifies the process by combining steps, more efficient for very large volumes.</li>
+    <li><strong>Bulk API 2.0 ingest:</strong> Create a job, upload data, set the job state to <code>UploadComplete</code>, monitor the job, and retrieve results. Salesforce creates the batches.</li>
+    <li><strong>Query jobs:</strong> Create and monitor a query job, then retrieve its results. Review individual ingest results for successful and failed records.</li>
     <li><strong>Use Cases:</strong> Data migrations, large-scale nightly syncs with ERPs, mass updates/deletions.</li>
   </ul>
 
@@ -163,9 +204,13 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
   <ul>
     <li><strong>PushTopic Events:</strong> Custom SOQL queries streaming changes to specific fields. Older but still supported.</li>
     <li><strong>Platform Events:</strong> Custom events for decoupled, asynchronous communication — highly scalable and publishable from Apex, Flow, or external systems.</li>
-    <li><strong>Change Data Capture (CDC) Events:</strong> Standard events for record changes (create, update, delete, undelete) with guaranteed order per record. Recommended for real-time data replication.</li>
+    <li><strong>Change Data Capture (CDC) Events:</strong> Events for record changes (create, update, delete, undelete) delivered in Replay ID order. They can support real-time data replication when consumers preserve order and reconcile missed changes.</li>
     <li><strong>Use Cases:</strong> Real-time dashboards, event-driven architectures, IoT device integration, external data warehouse sync.</li>
   </ul>
+
+  <h3>How do you recover an event subscription?</h3>
+  <p>Use Pub/Sub API flow control and durable replay checkpoints to resume processing after interruptions. Checkpoint only after the corresponding work is durable, and make consumers idempotent because events can be delivered again.</p>
+  <p>Replay is limited by event retention, so monitor subscriber lag and plan a full reconciliation when a checkpoint is no longer available. CDC gap events indicate that changes were not captured; reconcile the affected data rather than assuming the stream is complete. Use transaction identifiers and sequence information to preserve transaction boundaries and ordering when applying changes. Test restart, duplicate, gap, and reconciliation paths against the needs of the destination system.</p>
 
   <h3>e. Metadata API</h3>
   <p>Used to retrieve, deploy, create, update, or delete customization information (metadata) in your org — essential for programmatic configuration management.</p>
@@ -176,7 +221,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
 
 <section id="content-oauth-flows" class="topic-content-section">
   <h2>4. OAuth Flows for Salesforce Integration</h2>
-  <p><code>OAuth 2.0</code> is the industry-standard protocol for authorization. Salesforce uses OAuth to allow users to securely authorize external applications to access their Salesforce data without sharing credentials. A <strong>Connected App</strong> in Salesforce defines the OAuth policies and permissions (scopes) for an external application.</p>
+  <p><code>OAuth 2.0</code> is the industry-standard protocol for authorization. Salesforce uses OAuth to authorize external applications to access Salesforce data. Use an <strong>External Client App</strong> for new integrations; existing Connected Apps remain supported. Salesforce recommends External Client Apps for new integrations. Configure the application’s OAuth policies and scopes for its intended access.</p>
 
   <h3>a. Web Server Flow</h3>
   <ul>
@@ -188,27 +233,31 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
 
   <h3>b. User-Agent Flow (Implicit Flow)</h3>
   <ul>
-    <li><strong>Purpose:</strong> For public client-side applications (JavaScript SPAs, mobile apps) that cannot securely store a client secret.</li>
-    <li><strong>Security:</strong> Lower — tokens are exposed in the URL fragment. Refresh tokens typically not issued.</li>
-    <li><strong>Use Cases:</strong> Single-page applications, mobile apps.</li>
+    <li><strong>Purpose:</strong> This flow returns an access token directly to the client through the browser.</li>
+    <li><strong>Security:</strong> Tokens can be exposed in the URL fragment, and refresh tokens are typically not issued.</li>
+    <li><strong>Guidance:</strong> Avoid implicit flow; use authorization code with PKCE for public clients such as single-page applications and mobile apps.</li>
   </ul>
 
   <h3>c. JWT Bearer Flow</h3>
   <ul>
     <li><strong>Purpose:</strong> Server-to-server integrations with no direct user interaction (headless integrations).</li>
-    <li><strong>Process:</strong> External app creates a JWT signed with a digital certificate uploaded to the Connected App → sent to Salesforce OAuth endpoint → Salesforce returns an access token.</li>
-    <li><strong>Security:</strong> Very high — relies on digital signatures, no credentials exchanged.</li>
+    <li><strong>Process:</strong> The client signs a JWT with its private key and exchanges the assertion at the Salesforce OAuth endpoint for an access token. Salesforce validates the signature using the configured certificate.</li>
+    <li><strong>Security:</strong> Protect the private key, signed assertion, and access token; grant only the access required by the integration.</li>
     <li><strong>Use Cases:</strong> Automated batch processes, scheduled integrations, data synchronization, headless integrations.</li>
   </ul>
 
   <h3>d. Username-Password Flow</h3>
   <ul>
-    <li><strong>Purpose:</strong> For highly trusted clients (command-line tools, desktop apps) that can securely store Salesforce credentials.</li>
-    <li><strong>Security:</strong> Lowest among OAuth flows.</li>
+    <li><strong>Purpose:</strong> Exchanges a Salesforce username and password for an access token.</li>
+    <li><strong>Security:</strong> Exposes user credentials to the client and is blocked by default in newer orgs.</li>
   </ul>
   <blockquote>
-    <p><strong>Not recommended for general use</strong> due to security risks of storing credentials. Avoid if other flows are possible — use only for trusted internal command-line utilities or initial setup.</p>
+    <p><strong>Avoid this flow.</strong> Use a supported alternative such as client credentials for a suitable server-to-server integration or authorization code for an interactive application.</p>
   </blockquote>
+
+  <h3>How do you authorize a server-to-server integration?</h3>
+  <p>Use the client credentials flow when an integration can authenticate as an application without interactive user authorization. Salesforce issues the access token in the context of the configured run-as user.</p>
+  <p>Assign a dedicated integration user to each integration so that access and activity can be managed independently. Grant only the object, field, and other permissions required for its work, and restrict the application's OAuth scopes and policies. Protect and rotate the client credentials, monitor their use, and revoke access when the integration is retired. For an integration acting on behalf of an individual user, select a flow suited to that delegation instead.</p>
 
   <h3>e. Device Flow</h3>
   <ul>
@@ -249,10 +298,10 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
 
   <h3>c. Outbound Messages</h3>
   <ul>
-    <li><strong>Description:</strong> A legacy declarative tool that sends a SOAP message (XML) to an external endpoint when a record meets certain criteria via Workflow Rule or Flow.</li>
-    <li><strong>Limitations:</strong> Limited functionality, no retry mechanism, being phased out in favor of Platform Events.</li>
+    <li><strong>Description:</strong> A declarative mechanism that sends a SOAP message (XML) to an external endpoint through a Workflow Rule or Flow. Workflow Rule support has ended; existing rules continue to run and can be migrated to Flow.</li>
+    <li><strong>Delivery:</strong> Failed deliveries are retried for up to 24 hours. Consumers must handle duplicate messages and possible reordering.</li>
   </ul>
-  <blockquote><p><strong>Not recommended for new integrations.</strong> Use Platform Events instead.</p></blockquote>
+  <blockquote><p><strong>Choosing a mechanism:</strong> Compare outbound messages and Platform Events against the delivery, data format, and integration requirements of the consumer.</p></blockquote>
 
   <h3>d. Platform Events (Declarative Usage)</h3>
   <ul>
@@ -279,50 +328,66 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
     <li><strong>Key Considerations:</strong>
       <ul>
         <li>Callouts from trigger context must be async: <code>@future(callout=true)</code>, <code>Queueable</code>, or <code>Batch Apex</code>.</li>
-        <li>Use <code>Named Credentials</code> (preferred over Remote Site Settings) for secure endpoint management.</li>
+        <li>Use <code>Named Credentials</code> for endpoint management. An associated External Credential defines authentication and principals; map principal access through permission sets, permission set groups, or profiles.</li>
         <li>Robust <code>try-catch</code> blocks for network issues, timeouts, and unexpected responses.</li>
       </ul>
     </li>
   </ul>
 
+  <p>The following example assumes an ERP batch endpoint whose contract treats every 2xx response as acceptance of the entire request. A successful acceptance does not necessarily mean processing is complete. If the API reports individual failures, inspect and handle each result. The caller must handle exceptions with a sanitized failure outcome and alert or retry as appropriate.</p>
   <div class="apex-block">
     <div class="apex-block-label">Apex — REST Callout (POST)</div>
-<pre><code class="language-apex">public class MyRestCallout {
-    public static void sendOpportunityToERP(Id opportunityId) {
-        Opportunity opp = [SELECT Name, Amount, CloseDate FROM Opportunity WHERE Id = :opportunityId];
+<pre><code class="language-apex">public with sharing class MyRestCallout {
+    public class IntegrationException extends Exception {}
 
+    public static void sendOpportunitiesToERP(Set&lt;Id&gt; opportunityIds) {
+        if (opportunityIds == null || opportunityIds.isEmpty()) {
+            return;
+        }
+
+        List&lt;Opportunity&gt; opportunities = [
+            SELECT Id, Name, Amount, CloseDate
+            FROM Opportunity
+            WHERE Id IN :opportunityIds
+            WITH USER_MODE
+        ];
+        if (opportunities.size() != opportunityIds.size()) {
+            throw new IntegrationException('Some requested opportunities are unavailable.');
+        }
+        List&lt;Map&lt;String, Object&gt;&gt; requestBody = new List&lt;Map&lt;String, Object&gt;&gt;();
+        for (Opportunity opp : opportunities) {
+            requestBody.add(new Map&lt;String, Object&gt;{
+                'salesforceId' =&gt; opp.Id,
+                'opportunityName' =&gt; opp.Name,
+                'amount' =&gt; opp.Amount,
+                'closeDate' =&gt; opp.CloseDate
+            });
+        }
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
-        req.setEndpoint('callout:MyERPIntegration/api/opportunities'); // Named Credential
+        req.setEndpoint('callout:MyERPIntegration/api/opportunities/batch');
         req.setHeader('Content-Type', 'application/json');
-
-        Map&lt;String, Object&gt; requestBody = new Map&lt;String, Object&gt;();
-        requestBody.put('opportunityName', opp.Name);
-        requestBody.put('amount', opp.Amount);
-        requestBody.put('closeDate', opp.CloseDate);
         req.setBody(JSON.serialize(requestBody));
 
-        Http http = new Http();
-        try {
-            HttpResponse res = http.send(req);
-            if (res.getStatusCode() == 200 || res.getStatusCode() == 201) {
-                System.debug('ERP Integration Success: ' + res.getBody());
-            } else {
-                System.debug('ERP Integration Error: ' + res.getStatusCode() + ' - ' + res.getBody());
-            }
-        } catch (System.CalloutException e) {
-            System.debug('Callout Exception: ' + e.getMessage());
+        HttpResponse res = new Http().send(req);
+        Integer status = res.getStatusCode();
+        if (status &lt; 200 || status &gt;= 300) {
+            throw new IntegrationException('ERP request failed with HTTP status ' + status);
         }
     }
 }</code></pre>
   </div>
+
+  <h3>How do you secure and test an Apex integration?</h3>
+  <p>Declare the intended sharing behavior and enforce object and field permissions for data accessed by the integration. Use explicit user-mode queries or DML where appropriate; database operations default to user mode in Apex API version 67.0 and later.</p>
+  <p>Use <code>HttpCalloutMock</code> to test successful responses, error statuses, and callout failures without calling the external service. Test with multiple records and verify that failures reach the caller. Arrange transactions so that callouts occur before DML that leaves uncommitted work, or split the work into separate transactions. Review permissions for the executing user and test denied access as well as authorized access.</p>
 
   <h3>b. Inbound Apex Web Services</h3>
   <ul>
     <li><strong>Description:</strong> Apex classes can be exposed as web services (RESTful or SOAP) that external systems can call.</li>
     <li><strong>Key Annotations:</strong>
       <ul>
-        <li><code>@RestResource(urlMapping='/services/apexrest/MyEndpoint/*')</code> — Exposes class as a RESTful service. Methods annotated with <code>@HttpGet</code>, <code>@HttpPost</code>, <code>@HttpPut</code>, <code>@HttpDelete</code>, <code>@HttpPatch</code>.</li>
+        <li><code>@RestResource(urlMapping='/MyEndpoint/*')</code> maps to the client path <code>/services/apexrest/MyEndpoint/*</code> and exposes the class as a RESTful service. Methods annotated with <code>@HttpGet</code>, <code>@HttpPost</code>, <code>@HttpPut</code>, <code>@HttpDelete</code>, <code>@HttpPatch</code>.</li>
         <li><code>global static webService void mySoapMethod(...)</code> — Exposes method as a SOAP web service.</li>
         <li><code>@InvocableMethod</code> — Makes an Apex method available to Flow, Process Builder, or REST API.</li>
       </ul>
@@ -332,7 +397,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
 
   <h3>c. Platform Events (Programmatic Usage)</h3>
   <ul>
-    <li><strong>Publishing from Apex:</strong> Create instances of the Platform Event object and publish via <code>EventBus.publish(events)</code>.</li>
+    <li><strong>Publishing from Apex:</strong> Create event instances and publish via <code>EventBus.publish(events)</code>. Publish Immediately can publish even if the transaction fails; Publish After Commit publishes only after a successful commit. The immediate result reports whether the request was queued, not final publication. Use an asynchronous Apex publish callback for the final result of high-volume events.</li>
     <li><strong>Subscribing from Apex:</strong> Use an Apex trigger on the Platform Event object: <code>trigger MyEventTrigger on My_Platform_Event__e (after insert) { ... }</code></li>
     <li><strong>Benefits:</strong> Decoupling of systems, asynchronous processing, scalability, event replayability.</li>
   </ul>
@@ -380,7 +445,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
       <ul>
         <li>Use OAuth 2.0 flows that don't require storing Salesforce credentials (Web Server, JWT Bearer, Device). Avoid Username-Password flow.</li>
         <li>Use <strong>Named Credentials</strong> for Apex callouts — they handle authentication securely.</li>
-        <li>Restrict API access via Connected App policies and Permission Sets.</li>
+        <li>Restrict API access through External Client App or Connected App policies and permission sets.</li>
         <li>Encrypt data in transit (HTTPS) and implement IP whitelisting.</li>
       </ul>
     </li>
@@ -395,7 +460,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
     <li><strong>Idempotency:</strong> Design so that performing an operation multiple times has the same effect as once — critical for handling retries and duplicate messages.</li>
     <li><strong>Data Transformation &amp; Mapping:</strong> Define data mapping rules clearly and perform transformations at the most appropriate layer.</li>
     <li><strong>Logging &amp; Monitoring:</strong> Comprehensive logging (custom objects, platform events, external logging services) and monitoring to track health, performance, and errors.</li>
-    <li><strong>Version Your APIs:</strong> Use versioned endpoints (e.g., <code>/services/data/vXX.0/</code>) to ensure future compatibility.</li>
+    <li><strong>Version Your APIs:</strong> Use versioned endpoints (e.g., <code>/services/data/vXX.0/</code>), monitor retirement notices, and test upgrades before a version is retired. Monitor API allocations and throttling, and handle partial failures at the record level.</li>
     <li><strong>Test Thoroughly:</strong> Unit tests, integration tests, and performance tests with realistic data volumes are critical.</li>
   </ul>
 </section>
@@ -410,7 +475,7 @@ keywords: "Salesforce integration interview questions, REST API Salesforce, SOAP
     <li><strong>Retry Mechanisms:</strong> For transient errors, implement automatic retries with exponential backoff. Use Queueable or Batch Apex for controlled retry logic; store failed requests in a custom object for a scheduled job to reprocess.</li>
     <li><strong>Dead-Letter Queues (DLQ):</strong> For messages that repeatedly fail, move them to a DLQ for manual inspection and reprocessing (typically managed by iPaaS or message queue systems).</li>
     <li><strong>Alerting:</strong> Set up alerts (email, Chatter, external monitoring tools) for critical failures, timeouts, or performance degradation.</li>
-    <li><strong>Comprehensive Logging:</strong> Log request/response payloads, status codes, error messages, timestamps, and record IDs.
+    <li><strong>Comprehensive Logging:</strong> Log correlation IDs and necessary diagnostics such as status codes and timestamps. Redact secrets and sensitive fields, and restrict access and retention.
       <ul>
         <li><strong>Salesforce Debug Logs:</strong> Useful for Apex-level debugging.</li>
         <li><strong>Custom Log Objects:</strong> Create a custom object (e.g., <code>Integration_Log__c</code>) to store transaction details and errors.</li>
