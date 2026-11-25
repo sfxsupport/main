@@ -82,12 +82,16 @@
     transition: opacity .18s, visibility .18s, transform .18s;
     box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(var(--sun),.04);
   }
+  .sfx-dd-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -18px; height: 18px; }
+  .sfx-dd-menu { transition: opacity .18s, visibility 0s linear .25s, transform .18s; }
   .sfx-dd:hover .sfx-dd-menu,
   .sfx-dd:focus-within .sfx-dd-menu,
   .sfx-dd.sfx-touch-open .sfx-dd-menu {
     opacity: 1; visibility: visible; pointer-events: all;
     transform: translateX(-50%) translateY(0);
+    transition: opacity .18s, visibility 0s, transform .18s;
   }
+  a.sfx-dd-btn { text-decoration: none; }
   .sfx-dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
   .sfx-dd-grid-3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.75rem; }
   .sfx-dd-col-desc { font-size: .74rem; color: var(--t3); line-height: 1.6; margin-bottom: .8rem; }
@@ -319,10 +323,10 @@
     <a href="/">Home</a>
 
     <div class="sfx-dd" tabindex="0">
-      <button class="sfx-dd-btn">
+      <a class="sfx-dd-btn" href="/learning/">
         Learning
         <i class="bi bi-chevron-down sfx-dd-chevron"></i>
-      </button>
+      </a>
       <div class="sfx-dd-menu" style="width:660px;">
         <div class="sfx-dd-grid-3">
           <div>
@@ -397,10 +401,10 @@
     </div>
 
     <div class="sfx-dd" tabindex="0">
-      <button class="sfx-dd-btn">
+      <a class="sfx-dd-btn" href="/services/">
         Services
         <i class="bi bi-chevron-down sfx-dd-chevron"></i>
-      </button>
+      </a>
       <div class="sfx-dd-menu" style="width:560px;">
         <div class="sfx-dd-grid">
           <div>
@@ -575,7 +579,8 @@
   // ── Touch-friendly dropdown ──
   document.querySelectorAll('.sfx-dd').forEach(function(dd) {
     dd.addEventListener('click', function(e) {
-      if (window.matchMedia('(hover: none)').matches) {
+      // Only the label toggles on touch screens; links inside the menu must still navigate.
+      if (window.matchMedia('(hover: none)').matches && e.target.closest('.sfx-dd-btn')) {
         e.preventDefault();
         var isOpen = dd.classList.contains('sfx-touch-open');
         document.querySelectorAll('.sfx-dd').forEach(function(d) { d.classList.remove('sfx-touch-open'); });
