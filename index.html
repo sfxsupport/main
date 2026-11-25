@@ -9,7 +9,7 @@
 <meta name="author" content="SFX Support">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://sfxsupport.com/">
-<link rel="icon" href="/assets/images/FinalLogo.png" type="image/png">
+<link rel="icon" href="/assets/images/favicon-64.png" type="image/png" sizes="64x64"><link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
@@ -84,7 +84,7 @@
 :root{
   --bg:#080808; --bg2:#0e0e0e; --bg3:#151515; --bg4:#1c1c1c;
   --b: rgba(255,255,255,.06); --b2:rgba(255,255,255,.035); --b3:rgba(255,255,255,.015);
-  --t: #f0f0f0; --t2:#8a8a8a; --t3:#404040;
+  --t: #f0f0f0; --t2:#a3a3a3; --t3:#7d7d7d;
   --sun:255,160,60;           /* RGB only — used in rgba() */
 }
 
@@ -422,7 +422,7 @@ h1.hero-h{
   border-color:rgba(var(--sun),.15);
   color:rgba(var(--sun),.7);
 }
-.wi h4{font-size:.975rem;font-weight:500;color:var(--t);margin-bottom:.35rem;}
+.wi h3{font-size:.975rem;font-weight:500;color:var(--t);margin-bottom:.35rem;}
 .wi p{font-size:.875rem;color:var(--t2);line-height:1.7;font-weight:300;}
 .wi-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem;}
 .wtag{
@@ -689,7 +689,7 @@ footer{
 /* ─── 2026 FORMAL REFRESH ─── */
 :root{ --bg:#0a0a0b; --bg2:#101012; --bg3:#16161a; --bg4:#1d1d22;
   --b:rgba(255,255,255,.09); --b2:rgba(255,255,255,.06); --b3:rgba(255,255,255,.03);
-  --t:#f4f4f5; --t2:#a1a1aa; --t3:#71717a; }
+  --t:#f4f4f5; --t2:#a1a1aa; --t3:#8b8b94; }
 body{font-weight:400;letter-spacing:-.005em;}
 body::before,body::after{display:none !important;}
 .it{font-family:inherit !important;font-style:normal !important;font-weight:inherit;color:var(--t2);}
@@ -749,7 +749,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
 <header>
   <div class="hdr">
     <a href="/" class="logo">
-      <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
+      <span style="color:rgb(255,160,60);background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
     </a>
     <nav class="dnav">
       <a href="/">Home</a>
@@ -825,14 +825,14 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
       <a href="/chatbot/" class="btn-w" style="padding:.35rem .8rem;font-size:.78rem;">
         <span class="live"></span>Ask Krrish
       </a>
-      <button class="hbg" onclick="toggleMob()"><i class="bi bi-list"></i></button>
+      <button class="hbg" onclick="toggleMob()" aria-label="Open menu"><i class="bi bi-list" aria-hidden="true"></i></button>
     </div>
   </div>
 </header>
 
 <!-- Mobile -->
 <div id="mob">
-  <button class="mx" onclick="toggleMob()"><i class="bi bi-x"></i></button>
+  <button class="mx" onclick="toggleMob()" aria-label="Close menu"><i class="bi bi-x" aria-hidden="true"></i></button>
   <a href="/">Home</a>
   <button class="ml" onclick="document.getElementById('ms').classList.toggle('open')">Learning</button>
   <div id="ms" class="ms">
@@ -877,6 +877,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
   <a href="/contact/">Contact</a>
 </div>
 <!-- ═══ HERO ═══ -->
+<main id="main-content">
 <section id="hero">
   <div class="hero-inner">
   <!-- Left -->
@@ -973,7 +974,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <ul class="prod-points"><li>Structured path from data model to Apex</li><li>Every project reviewed, every badge earned</li><li>A public portfolio learners can share with employers</li></ul>
         <a href="https://grove.sfxsupport.com" class="btn-w">Explore SFX Grove &rarr;</a>
       </div>
-      <div class="prod-shot prod-shot--video"><span class="prod-bar"><i></i><i></i><i></i><em>grove.sfxsupport.com</em></span><video controls preload="metadata" playsinline poster="/assets/images/grove/demo-poster.jpg" aria-label="A tour of the SFX Grove learning platform"><source src="/assets/videos/grove-demo.mp4" type="video/mp4"></video></div>
+      <div class="prod-shot prod-shot--video"><span class="prod-bar"><i></i><i></i><i></i><em>grove.sfxsupport.com</em></span><video controls preload="none" playsinline poster="/assets/images/grove/demo-poster.jpg" aria-label="A tour of the SFX Grove learning platform"><source src="/assets/videos/grove-demo.mp4" type="video/mp4"></video></div>
     </article>
 
     <article class="prod r d2" id="forge" style="--pc:249,115,22;">
@@ -1042,7 +1043,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-robot"></i></div>
           <div>
-            <h4><a href="/services/salesforce-agentforce-development/" style="color:inherit;text-decoration:none">Agentforce agents &amp; actions</a></h4>
+            <h3><a href="/services/salesforce-agentforce-development/" style="color:inherit;text-decoration:none">Agentforce agents &amp; actions</a></h3>
             <p>Custom Apex and Flow actions, topics and instructions that route correctly, permissions, and agent testing.</p>
             <div class="wi-tags"><span class="wtag">Agentforce</span><span class="wtag">Apex actions</span><span class="wtag">Topics</span><span class="wtag">Testing API</span></div>
           </div>
@@ -1050,7 +1051,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-chat-square-text"></i></div>
           <div>
-            <h4>Prompt Builder &amp; Models API</h4>
+            <h3>Prompt Builder &amp; Models API</h3>
             <p>Prompt templates grounded with Apex and Flow, called from Apex, returning structured output.</p>
             <div class="wi-tags"><span class="wtag">Prompt Builder</span><span class="wtag">Models API</span><span class="wtag">Grounding</span></div>
           </div>
@@ -1058,7 +1059,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-plug"></i></div>
           <div>
-            <h4><a href="/services/salesforce-ai-integration/" style="color:inherit;text-decoration:none">Claude, OpenAI &amp; Gemini from Apex</a></h4>
+            <h3><a href="/services/salesforce-ai-integration/" style="color:inherit;text-decoration:none">Claude, OpenAI &amp; Gemini from Apex</a></h3>
             <p>Secure LLM callouts with Named Credentials, bulk-safe Batch Apex, retries and tests.</p>
             <div class="wi-tags"><span class="wtag">Named Credentials</span><span class="wtag">Callouts</span><span class="wtag">Batch Apex</span></div>
           </div>
@@ -1066,7 +1067,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-database"></i></div>
           <div>
-            <h4><a href="/services/custom-rag-solutions/" style="color:inherit;text-decoration:none">Data Cloud RAG &amp; Knowledge</a></h4>
+            <h3><a href="/services/custom-rag-solutions/" style="color:inherit;text-decoration:none">Data Cloud RAG &amp; Knowledge</a></h3>
             <p>Search indexes, retrievers and Data Libraries so agents answer from your own data.</p>
             <div class="wi-tags"><span class="wtag">Data Cloud</span><span class="wtag">RAG</span><span class="wtag">Knowledge</span></div>
           </div>
@@ -1074,7 +1075,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-diagram-3"></i></div>
           <div>
-            <h4>MCP &amp; AI developer tools</h4>
+            <h3>MCP &amp; AI developer tools</h3>
             <p>Connect AI tools to Salesforce with MCP, and use AI to debug logs and write tests safely.</p>
             <div class="wi-tags"><span class="wtag">MCP</span><span class="wtag">DX MCP</span><span class="wtag">Debug logs</span></div>
           </div>
@@ -1082,7 +1083,7 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
         <div class="wi">
           <div class="wi-ic"><i class="bi bi-speedometer2"></i></div>
           <div>
-            <h4>AI cost, guardrails &amp; fixes</h4>
+            <h3>AI cost, guardrails &amp; fixes</h3>
             <p>Agentforce Flex Credit usage, prompt-injection guardrails, and fixing agents that misbehave.</p>
             <div class="wi-tags"><span class="wtag">Flex Credits</span><span class="wtag">Guardrails</span><span class="wtag">Troubleshooting</span></div>
           </div>
@@ -1167,10 +1168,11 @@ a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
 </section>
 
 <!-- ═══ FOOTER ═══ -->
+</main>
 <footer>
   <div class="fin">
     <a href="/" class="flogo">
-      <span style="background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
+      <span style="color:rgb(255,160,60);background:linear-gradient(135deg,rgba(var(--sun),1) 0%,rgba(var(--sun),.6) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">SFX</span>&nbsp;Support
     </a>
     <nav class="fnav">
       <a href="/">Home</a><a href="/about/">About</a>
