@@ -86,13 +86,17 @@ service:
     - "/services/salesforce-agentforce-development/"
     - "/services/ai-workflow-automation/"
     - "/services/ai-lead-qualification/"
+  example:
+    problem: "Agents read long case threads before they can help a customer."
+    scope: "Claude summary on every new case via Batch Apex, saved to a field, reviewed by the agent."
+    handover: "Apex classes, tests, Named Credential setup, cost limits and notes."
   form_heading: "Tell us which AI feature you want in Salesforce."
   form_placeholder: "e.g. Summarise every new case with Claude and save it to a field, about 2,000 cases a day."
 faq:
   - q: "Can Salesforce call OpenAI or Claude directly?"
     a: "Yes. Apex can call any HTTPS API. We store the key in a Named Credential, call the vendor from Apex, and run bulk work asynchronously because callouts aren't allowed directly in triggers."
   - q: "Should we use Agentforce or a direct integration?"
-    a: "Agentforce suits conversational agents inside the Salesforce trust boundary. A direct integration suits specific tasks, models Agentforce doesn't offer, or tighter cost control. We'll recommend one in the scope."
+    a: "Agentforce suits conversational agents managed in Salesforce with the Einstein Trust Layer's controls; depending on the model you pick, prompts may be processed by Salesforce, a partner model provider or your own provider. A direct integration suits specific tasks, models Agentforce doesn't offer, or tighter cost control. We'll recommend one in the scope."
   - q: "How do you control AI costs?"
     a: "Small, focused prompts, the cheapest model that meets the quality bar, token limits, usage logging and spend limits at the vendor."
   - q: "Does the Einstein Trust Layer apply to direct callouts?"
