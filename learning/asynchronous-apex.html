@@ -36,7 +36,7 @@ topics:
     number: 8
     title: "Conclusion & Best Practices"
 quick_question: "Which type of asynchronous Apex should I use?"
-quick_answer: "Use Queueable Apex for most background work: it accepts sObjects and complex types, returns a job Id you can monitor and can chain another job. Use Batch Apex for large data sets, processed in chunks (200 by default) with fresh governor limits for each chunk. Use Scheduled Apex to run code at set times. For new code, prefer Queueable over @future methods, including for callouts and mixed DML fixes."
+quick_answer: "Use Queueable Apex for most background work: it accepts sObjects, returns a job Id and can chain another job. Use Batch Apex for large data sets, processed in chunks of 200 by default with fresh governor limits per chunk. Use Scheduled Apex to run code at set times. For new code, prefer Queueable over @future methods."
 key_points:
   - "Asynchronous transactions get higher limits: 200 SOQL queries, 60,000 ms CPU time and a larger heap."
   - "A synchronous transaction can enqueue up to 50 Queueable jobs; a Queueable job can enqueue one child."
@@ -201,7 +201,7 @@ sources:
   <div class="apex-block">
     <div class="apex-block-label">Apex Code Example</div>
     <pre><code class="language-apex">public class ExternalServiceCallout {
-    public class CalloutException extends Exception {}
+    public class AccountSyncException extends Exception {}
 
     @future(callout=true)
     public static void sendAccountToExternalSystem(Set&lt;Id&gt; accountIds) {
@@ -215,7 +215,7 @@ sources:
         request.setBody(JSON.serialize(accounts));
         HttpResponse response = new Http().send(request);
         if (response.getStatusCode() &lt; 200 || response.getStatusCode() &gt;= 300) {
-            throw new CalloutException('Account callout failed: HTTP ' + response.getStatusCode());
+            throw new AccountSyncException('Account callout failed: HTTP ' + response.getStatusCode());
         }
     }
 }

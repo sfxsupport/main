@@ -45,7 +45,7 @@ topics:
     number: 11
     title: "Conclusion & Future Trends"
 quick_question: "Which Salesforce integration pattern should I use?"
-quick_answer: "Salesforce integration patterns are chosen by direction and timing. When Salesforce needs an answer right away, use Request and Reply with an Apex callout through a Named Credential. When it only needs to notify another system, use Fire and Forget with platform events, Change Data Capture or a Queueable callout. For large volumes, use Batch Data Synchronization with Bulk API 2.0, and when an outside system writes to Salesforce, use Remote Call-In with the REST or Composite API."
+quick_answer: "Salesforce integration patterns are chosen by direction and timing. Use Request and Reply with a Named Credential callout when Salesforce needs an answer now, and Fire and Forget with platform events or Change Data Capture to notify other systems. Use Bulk API 2.0 for large data syncs, and the REST or Composite API when outside systems write to Salesforce."
 key_points:
   - "Store endpoints and credentials in Named Credentials and External Credentials, never in code."
   - "Bulk API 2.0 is built for large data loads; REST and Composite APIs suit smaller, real-time calls."
@@ -221,7 +221,7 @@ sources:
 
 <section id="content-oauth-flows" class="topic-content-section">
   <h2>4. OAuth Flows for Salesforce Integration</h2>
-  <p><code>OAuth 2.0</code> is the industry-standard protocol for authorization. Salesforce uses OAuth to authorize external applications to access Salesforce data. Use an <strong>External Client App</strong> for new integrations; existing Connected Apps remain supported. Salesforce recommends External Client Apps for new integrations. Configure the application’s OAuth policies and scopes for its intended access.</p>
+  <p><code>OAuth 2.0</code> is the industry-standard protocol for authorization. Salesforce uses OAuth to authorize external applications to access Salesforce data. Use an <strong>External Client App</strong> for new integrations; existing Connected Apps remain supported. Configure the application’s OAuth policies and scopes for its intended access.</p>
 
   <h3>a. Web Server Flow</h3>
   <ul>

@@ -33,7 +33,7 @@ topics:
     number: 7
     title: "Conclusion & Future Outlook"
 quick_question: "How do you set up CI/CD for Salesforce?"
-quick_answer: "Salesforce CI/CD keeps metadata in Git in source format and lets a pipeline, such as GitHub Actions, check every change automatically. Developers build in scratch orgs or sandboxes, the pipeline runs sf project deploy validate with Apex tests against a target org on each pull request, and after approval sf project deploy quick releases the validated change to production. Change sets still work for small teams but give no version history or automation."
+quick_answer: "Salesforce CI/CD keeps metadata in Git and lets a pipeline such as GitHub Actions check every change. On each pull request the pipeline runs sf project deploy validate with Apex tests against the target org; after approval, sf project deploy quick releases the validated change. Change sets still work for small teams but have no version history or automation."
 key_points:
   - "Salesforce CLI (sf) is the current command-line tool; the older sfdx commands are deprecated."
   - "Production deployments that include Apex need at least 75% code coverage, and every trigger needs some coverage."
@@ -61,6 +61,8 @@ related:
   - title: "Integration Patterns"
     url: "/integration-patterns/"
 sources:
+  - title: "Salesforce Help: DevOps Center managed package end of support"
+    url: "https://help.salesforce.com/s/articleView?id=005467269&type=1"
   - title: "Salesforce CLI Command Reference"
     url: "https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_top.htm"
   - title: "Deploying Apex"
@@ -255,6 +257,41 @@ sf apex run test -l RunLocalTests -o myProductionOrg --wait 10</code></pre>
     <li><strong>Bitbucket Pipelines:</strong> CI/CD integrated with Bitbucket repositories, configured via a <code>bitbucket-pipelines.yml</code> file.</li>
   </ul>
   <p>These tools can use Salesforce CLI commands to interact with Salesforce orgs. Existing integrations may still use the retired, unsupported Ant Migration Tool.</p>
+
+  <h3>How do you validate Salesforce changes with GitHub Actions?</h3>
+  <p>Add a workflow that logs in with the JWT bearer flow and runs <code>sf project deploy validate</code> on every pull request. The validation compiles your changes and runs Apex tests in the target org without saving anything. Store the client ID, username and private key as repository secrets, never in the repository.</p>
+  <div class="apex-block">
+    <div class="apex-block-label">.github/workflows/validate-salesforce.yml</div>
+{% raw %}<pre><code class="language-yaml">name: Validate Salesforce changes
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Log in with the JWT bearer flow
+        env:
+          SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+        run: |
+          echo "$SF_JWT_KEY" &gt; server.key
+          sf org login jwt --client-id "${{ secrets.SF_CLIENT_ID }}" \
+            --jwt-key-file server.key --username "${{ secrets.SF_USERNAME }}" \
+            --instance-url https://login.salesforce.com --alias target
+          rm server.key
+
+      - name: Validate with local tests (no changes saved)
+        run: |
+          sf project deploy validate --source-dir force-app \
+            --test-level RunLocalTests --target-org target --wait 60</code></pre>{% endraw %}
+  </div>
+  <p>When the pull request is approved, release the validated components within 10 days with <code>sf project deploy quick --job-id &lt;validation job Id&gt; --target-org target</code>, which skips rerunning the tests. Production orgs should use a dedicated integration user with only the permissions the deployment needs.</p>
 
   <h3>b. Salesforce-Specific DevOps Platforms</h3>
   <p>These tools are designed specifically for Salesforce and provide higher-level abstractions and integrations with Salesforce metadata and processes.</p>

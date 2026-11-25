@@ -30,7 +30,7 @@ topics:
     number: 6
     title: "Conclusion & Key Takeaways"
 quick_question: "What are governor limits in Salesforce?"
-quick_answer: "Governor limits are runtime caps Salesforce enforces on every Apex transaction so that one org can't overload shared, multitenant servers. The ones developers hit most are 100 SOQL queries (200 in async Apex), 150 DML statements, 50,000 queried rows, 10,000 DML rows and 10 seconds of CPU time (60 seconds async). Going over a limit throws System.LimitException, which can't be caught."
+quick_answer: "Governor limits are runtime caps Salesforce enforces on every Apex transaction so one org can't overload shared servers. The most common are 100 SOQL queries (200 async), 150 DML statements, 50,000 queried rows, 10,000 DML rows and 10 seconds of CPU time (60 async). Exceeding one throws System.LimitException, which can't be caught."
 key_points:
   - "Heap size: 10 MB synchronous, 25 MB asynchronous, per the current Apex Developer Guide."
   - "Callouts: 100 per transaction, with 120 seconds of cumulative timeout."

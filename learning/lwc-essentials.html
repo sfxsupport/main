@@ -39,7 +39,7 @@ topics:
     number: 9
     title: "Conclusion & Next Steps"
 quick_question: "What is a Lightning Web Component?"
-quick_answer: "A Lightning Web Component (LWC) is a Salesforce UI component built with standard HTML, modern JavaScript and CSS on top of web standards such as custom elements and shadow DOM. Each component is a folder with an HTML template, a JavaScript class and a meta XML file. Data flows down through @api properties, events flow up through CustomEvent, and Salesforce data comes from @wire or imperative Apex calls."
+quick_answer: "A Lightning Web Component (LWC) is a Salesforce UI component built with standard HTML, modern JavaScript and CSS on web standards such as custom elements and shadow DOM. Each component has an HTML template, a JavaScript class and a meta XML file. Data flows down through @api properties, events flow up, and @wire or Apex calls load Salesforce data."
 key_points:
   - "@api exposes a public property or method; @wire reads data reactively; @track is only needed to watch changes inside objects and arrays."
   - "Lifecycle: constructor, connectedCallback, render, renderedCallback, disconnectedCallback and errorCallback."

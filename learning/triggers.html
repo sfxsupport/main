@@ -36,7 +36,7 @@ topics:
     number: 8
     title: "Conclusion & Next Steps"
 quick_question: "What is an Apex trigger?"
-quick_answer: "An Apex trigger is Apex code that runs automatically before or after records are inserted, updated, deleted or undeleted. Use a before trigger to validate or change fields on the same records without extra DML, and an after trigger when you need record Ids or must change related records. Keep one trigger per object, put the logic in a handler class, and write it to handle up to 200 records at a time."
+quick_answer: "An Apex trigger is Apex code that runs before or after records are inserted, updated, deleted or undeleted. Use a before trigger to change fields on the same records without DML, and an after trigger when you need record Ids or related records. Keep one trigger per object, with logic in a handler class that handles 200 records at once."
 key_points:
   - "Events: before and after insert, update and delete, plus after undelete."
   - "Context variables such as Trigger.new, Trigger.oldMap and Trigger.operationType tell you what fired the trigger."

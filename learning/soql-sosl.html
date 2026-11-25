@@ -39,7 +39,7 @@ topics:
     number: 9
     title: "SOQL & SOSL Best Practices"
 quick_question: "What is the difference between SOQL and SOSL?"
-quick_answer: "SOQL queries records from one object, and its related objects, when you know where the data lives; it returns records, or AggregateResult rows and counts for aggregate queries. SOSL runs a text search across many objects at once using the search index and returns a list of lists, one per object. Use SOQL for filters, relationships and aggregates, and SOSL when a user types a term and you don't know which object or field holds it."
+quick_answer: "SOQL queries one object and its related objects when you know where the data lives, and supports filters, relationships and aggregates. SOSL runs a text search across many objects at once using the search index and returns a list of lists, one per object. Use SOSL when a user types a term and you don't know which object holds it."
 key_points:
   - "SOQL: 100 queries per synchronous transaction (200 async) and 50,000 rows in total."
   - "SOSL: 20 searches per transaction and 2,000 rows per search."
