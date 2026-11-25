@@ -98,6 +98,6 @@ faq:
   - q: "Can it respect who is allowed to see what?"
     a: "Yes. Access filtering happens during retrieval, so restricted content never reaches the model for users who can't see it."
   - q: "Can RAG work without sending data to an external AI?"
-    a: "Retrieval can run entirely in your systems. For the answer step you can use a model inside your cloud or the Salesforce trust boundary, or skip generation and return the best matching passages."
+    a: "Retrieval with keyword search or self-hosted embeddings can run entirely in your systems. For the answer step you can use a model hosted in your own cloud account, or skip generation and return the best matching passages. Vendor models, including those reached through Salesforce, process the prompt outside your systems."
 ---
 {% include service-page.html %}

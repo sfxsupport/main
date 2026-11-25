@@ -94,7 +94,7 @@ faq:
   - q: "How much does a custom AI agent cost?"
     a: "It depends on how many tools and data sources the agent needs and how much testing the task requires. You get a fixed quote after the scope, before any work starts. Model usage (Claude, OpenAI, Gemini or Agentforce) is billed by the vendor to your account."
   - q: "Which AI model do you use?"
-    a: "The one that fits your task, data rules and budget. We often build so the model can be switched later. If you're on Salesforce and want everything inside the platform, Agentforce or the Models API may be the right choice."
+    a: "The one that fits your task, data rules and budget. We often build so the model can be switched later. If you're on Salesforce, Agentforce or the Models API add the Einstein Trust Layer's controls, but prompts may still be processed by external model providers, so we check where data goes for the models you choose."
   - q: "Will our data be used to train the model?"
     a: "We use vendor APIs and settings where your data isn't used for training, and we only send the fields the task needs. We explain exactly what leaves your systems in the scope."
   - q: "How long does it take?"

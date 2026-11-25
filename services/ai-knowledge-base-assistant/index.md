@@ -33,7 +33,7 @@ service:
   build_intro: "Many teams start with the no-LLM version and add generation later, using the same search."
   build:
     - title: "No-LLM assistant"
-      text: "TF-IDF or embeddings plus cosine similarity rank your articles against the question and return the best passages and links. No generative model, no per-question model cost."
+      text: "TF-IDF, or self-hosted embeddings, plus cosine similarity rank your articles against the question and return the best passages and links. No generative model and no per-question model fee."
       meta: "Predictable, private, cheap to run"
     - title: "LLM assistant (RAG)"
       text: "The same search finds the passages; Claude, OpenAI, Gemini or Agentforce writes a short answer from them, with citations."
@@ -54,13 +54,13 @@ service:
   stack_heading: "Technology we use"
   stack:
     - "TF-IDF vectors and cosine similarity, implementable in Apex or a small service"
-    - "Embedding models for meaning-based search, when allowed"
+    - "Embedding models for meaning-based search, self-hosted or via a vendor API when allowed"
     - "Salesforce Knowledge, Files and solved Cases as sources"
     - "Optional generation with Claude, OpenAI, Gemini or Agentforce"
   safeguards:
     - "Every answer links to its source article or case"
     - "Respects article visibility and data categories"
-    - "No-LLM mode keeps all text inside your systems"
+    - "No-LLM mode with TF-IDF or self-hosted embeddings keeps all text inside your systems"
     - "Test questions with expected articles, rerun after content changes"
   steps:
     - title: "Share sample content and questions"
@@ -91,7 +91,7 @@ service:
   form_placeholder: "e.g. 800 Knowledge articles in Salesforce. Agents can't find the right one quickly. We'd prefer no external AI."
 faq:
   - q: "Can you build an AI assistant without an LLM?"
-    a: "Yes. For many knowledge tasks, ranking articles with TF-IDF or embeddings and cosine similarity is enough. It returns the best matching articles and passages, costs nothing per question in model fees, and keeps all text in your systems."
+    a: "Yes. For many knowledge tasks, ranking articles with TF-IDF and cosine similarity is enough. It returns the best matching articles and passages, has no per-question model fee, and keeps all text in your systems. Hosted embedding APIs can improve matching, but they send text to the vendor and are billed per use."
   - q: "What is cosine similarity?"
     a: "A way to measure how close two pieces of text are once they're turned into number vectors. The assistant compares the question's vector with each article's vector and shows the closest ones."
   - q: "When is an LLM worth adding?"

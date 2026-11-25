@@ -28,7 +28,7 @@ service:
   not_fit:
     - "Agentforce already covers your use case and you're licensed for it"
     - "The task is better solved with a formula, validation rule or Flow"
-    - "You can't send any record data outside Salesforce (then consider the Models API or no-LLM retrieval)"
+    - "No record data may leave Salesforce at all (then consider TF-IDF retrieval with no external model)"
   build_heading: "Integrations we build"
   build:
     - title: "LLM client for Apex"
