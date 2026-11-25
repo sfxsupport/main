@@ -47,7 +47,7 @@
       <article class="svc-card{% if forloop.first %} svc-card--lead{% endif %} reveal">
         <h3>{{ b.title }}</h3>
         <p>{{ b.text }}</p>
-        {% if b.meta %}<p class="svc-card__meta">{{ b.meta }}</p>{% endif %}
+        {% if b.link %}<a class="svc-card__cta" href="{{ b.link }}" data-cta="service_crosslink">{{ b.meta | replace: "See: ", "See " }} <span aria-hidden="true">&rarr;</span></a>{% else %}{% if b.meta %}<p class="svc-card__meta">{{ b.meta }}</p>{% endif %}<a class="svc-card__cta" href="#enquire" data-topic="{{ b.title | escape }}" data-cta="service_card_enquire">Discuss this <span aria-hidden="true">&rarr;</span></a>{% endif %}
       </article>
       {% endfor %}
     </div>
@@ -135,3 +135,18 @@
 </section>
 
 {% include services-enquire.html need="Build an AI agent or AI automation" heading=s.form_heading placeholder=s.form_placeholder %}
+
+<script>
+  // "Discuss this" on a card: open the enquiry form and start the message with that card's topic.
+  (function () {
+    document.querySelectorAll('.svc-card__cta[data-topic]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var box = document.getElementById('svc-message');
+        if (!box) return;
+        var line = 'I am interested in: ' + a.getAttribute('data-topic') + '\n\n';
+        if (!box.value.trim() || /^I am interested in: /.test(box.value)) box.value = line;
+        setTimeout(function () { box.focus(); box.setSelectionRange(box.value.length, box.value.length); }, 450);
+      });
+    });
+  })();
+</script>

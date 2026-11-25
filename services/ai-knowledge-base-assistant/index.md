@@ -38,6 +38,7 @@ service:
     - title: "LLM assistant (RAG)"
       text: "The same search finds the passages; Claude, OpenAI, Gemini or Agentforce writes a short answer from them, with citations."
       meta: "See: custom RAG solutions"
+      link: "/services/custom-rag-solutions/"
     - title: "Inside Salesforce"
       text: "A Lightning component or utility bar on record pages, searching Knowledge and solved cases for the agent."
       meta: "Apex + LWC"

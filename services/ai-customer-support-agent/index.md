@@ -46,6 +46,7 @@ service:
     - title: "Agentforce service agent"
       text: "If you're licensed, an Agentforce agent with service topics and custom actions for your processes."
       meta: "See: Agentforce development"
+      link: "/services/salesforce-agentforce-development/"
     - title: "Knowledge gap report"
       text: "Find the questions the agent can't answer, so your team knows which articles to write next."
       meta: "Improves over time"

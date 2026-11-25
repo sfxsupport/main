@@ -66,8 +66,9 @@ a { color: inherit; }
 .proof-stat strong, .ticket strong, .batch-snapshot strong { color: var(--text); }
 
 /* sprint cards: whole card clickable, target highlight */
-.svc-card { position: relative; cursor: pointer; scroll-margin-top: 110px; }
-.svc-card:hover { border-color: rgba(251,146,60,.55) !important; }
+.svc-card { position: relative; scroll-margin-top: 110px; }
+.svc-card:has(.svc-card__cta) { cursor: pointer; }
+.svc-card:has(.svc-card__cta):hover { border-color: rgba(251,146,60,.55) !important; }
 .svc-card__cta { margin-top: auto; padding-top: 10px; color: var(--accent); font-size: .9rem; font-weight: 600; text-decoration: none; }
 .svc-card__cta::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
 .svc-card__cta:focus-visible { outline: none; }
@@ -75,3 +76,10 @@ a { color: inherit; }
 .svc-card:target, .svc-card.is-target { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(251,146,60,.25), 0 30px 80px -40px rgba(251,146,60,.6); animation: svcFlash 1.6s ease 1; }
 @keyframes svcFlash { 0%,60% { background: rgba(251,146,60,.10); } 100% { background: var(--surface); } }
 select.is-picked { border-color: var(--accent) !important; box-shadow: 0 0 0 3px rgba(251,146,60,.25); transition: box-shadow .3s; }
+
+/* focused fields stay dark (the light theme set a white background on focus) */
+.lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus,
+input:focus, select:focus, textarea:focus {
+  color: var(--text); background: #111114 !important; outline: none; border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(251,146,60,.18);
+}
