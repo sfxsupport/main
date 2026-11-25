@@ -37,24 +37,7 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <header class="campaign-header" data-campaign-header>
-    <div class="campaign-shell campaign-header__inner">
-      <a class="campaign-brand" href="/" aria-label="SFX Support home">
-        <img src="/assets/images/campaign/sfx-logo-96.webp" width="30" height="30" alt="">
-        <span><strong>SFX</strong> Support</span>
-      </a>
-      <nav class="campaign-nav" aria-label="Main navigation">
-        <a href="/services/">Services</a>
-        <a href="/blog/">Solution guides</a>
-        <a href="/salesforce-training/">Training</a>
-        <a href="/learning/">Learning</a>
-        <a href="/chatbot/">Ask Krrish</a>
-        <a href="/about/">About</a>
-      </nav>
-      <a class="campaign-home-link" href="/services/">Services</a>
-      <a class="button button--small button--primary" href="#enquire" data-cta="header_discuss">Discuss a project</a>
-    </div>
-  </header>
+  {% include site-header.html %}
 
   <main id="main-content">
     {{ content }}
@@ -110,5 +93,6 @@
     <a class="mobile-cta__whatsapp" href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: 'Hi, I saw sfxsupport.com. I need help with: ' | url_encode }}" target="_blank" rel="noopener" data-cta="mobile_whatsapp">WhatsApp</a>
     <a class="mobile-cta__call" href="#enquire" data-cta="mobile_discuss">Discuss a project</a>
   </div>
+  <script src="/assets/js/site-header.js" defer></script>
 </body>
 </html>

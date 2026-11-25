@@ -1,0 +1,54 @@
+{% assign u = page.url %}
+{% if include.variant == "campaign" %}
+<header class="site-header site-header--campaign" data-campaign-header>
+  <div class="campaign-shell site-header__inner">
+    <a class="site-brand" href="/" aria-label="SFX Support home"><img src="/assets/images/campaign/sfx-logo-96.webp" width="24" height="24" alt=""><span>SFX Support</span></a>
+    <nav class="site-nav" aria-label="On this page">
+      {% for l in page.header_links %}<a class="site-nav__link" href="{{ l.href }}">{{ l.label }}</a>{% endfor %}
+    </nav>
+    <a class="button button--small button--primary site-header__cta" href="{{ page.header_cta_href }}" {% if page.header_cta_href contains 'http' %}target="_blank" rel="noopener"{% endif %} data-cta="header_cta">{{ page.header_cta }}</a>
+  </div>
+</header>
+{% else %}
+<header class="site-header" data-campaign-header>
+  <div class="campaign-shell site-header__inner">
+    <a class="site-brand" href="/" aria-label="SFX Support home"><img src="/assets/images/campaign/sfx-logo-96.webp" width="24" height="24" alt=""><span>SFX Support</span></a>
+
+    <nav class="site-nav" aria-label="Main" id="site-nav" data-site-nav>
+      <div class="site-nav__group" data-dropdown>
+        <button class="site-nav__link{% if u contains '/services/' %} is-active{% endif %}" type="button" aria-expanded="false" aria-controls="dd-services">Services <svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+        <div class="site-dd site-dd--wide" id="dd-services">
+          <a href="/services/ai-agent-development/"><strong>AI agent development</strong><span>Custom agents that use your data and tools</span></a>
+          <a href="/services/salesforce-agentforce-development/"><strong>Agentforce development</strong><span>Topics, actions and testing before go-live</span></a>
+          <a href="/services/custom-rag-solutions/"><strong>RAG and knowledge assistants</strong><span>Answers from your documents, with sources</span></a>
+          <a href="/services/salesforce-ai-integration/"><strong>AI + Salesforce integration</strong><span>Claude, OpenAI or Gemini from Apex and Flow</span></a>
+          <a href="/services/#services"><strong>Salesforce fixes and automations</strong><span>Apex, Flow, LWC and integration work</span></a>
+          <a class="site-dd__all" href="/services/">All services <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="site-nav__group" data-dropdown>
+        <button class="site-nav__link{% if u contains '/blog' or u contains '/learning' or u contains '/interview-prep' %} is-active{% endif %}" type="button" aria-expanded="false" aria-controls="dd-guides">Guides <svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+        <div class="site-dd" id="dd-guides">
+          <a href="/blog/"><strong>Solution guides</strong><span>Salesforce + AI fixes with working code</span></a>
+          <a href="/learning/"><strong>Learning modules</strong><span>Apex, async, SOQL, LWC, integration, CI/CD</span></a>
+          <a href="/interview-prep/"><strong>Interview prep</strong><span>Questions and answers by topic</span></a>
+        </div>
+      </div>
+      <a class="site-nav__link{% if u contains '/salesforce-training' %} is-active{% endif %}" href="/salesforce-training/"{% if u contains '/salesforce-training' %} aria-current="page"{% endif %}>Training</a>
+      <div class="site-nav__group" data-dropdown>
+        <button class="site-nav__link" type="button" aria-expanded="false" aria-controls="dd-tools">Tools <svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+        <div class="site-dd" id="dd-tools">
+          <a href="/chatbot/"><strong>Ask Krrish</strong><span>AI assistant for Salesforce questions</span></a>
+          <a href="/debug-log-analyzer/"><strong>Debug Log Analyzer</strong><span>Explain Apex debug logs and limits</span></a>
+          <a href="https://forge.sfxsupport.com/" target="_blank" rel="noopener"><strong>SFX Forge ↗</strong><span>Practise Apex against a real org</span></a>
+          <a href="https://grove.sfxsupport.com/" target="_blank" rel="noopener"><strong>SFX Grove ↗</strong><span>Guided residency and portfolio</span></a>
+        </div>
+      </div>
+      <a class="site-nav__link{% if u contains '/about' %} is-active{% endif %}" href="/about/"{% if u contains '/about' %} aria-current="page"{% endif %}>About</a>
+    </nav>
+
+    <a class="button button--small button--primary site-header__cta" href="#enquire" data-cta="header_discuss">Discuss a project</a>
+    <button class="site-burger" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu" data-burger><span></span><span></span></button>
+  </div>
+</header>
+{% endif %}

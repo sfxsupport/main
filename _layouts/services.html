@@ -102,27 +102,7 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <header class="campaign-header" data-campaign-header>
-    <div class="campaign-shell campaign-header__inner">
-      <a class="campaign-brand" href="/" aria-label="SFX Support home">
-        <img src="/assets/images/campaign/sfx-logo-96.webp" width="42" height="42" alt="">
-        <span><strong>SFX</strong> Support</span>
-      </a>
-      <nav class="campaign-nav" aria-label="Services navigation">
-        {% if page.service %}<a href="/services/">All services</a>
-        <a href="#build">What we build</a>
-        <a href="#how">How it works</a>
-        <a href="#faq">FAQ</a>{% else %}<a href="#services">Services</a>
-        <a href="#how">How it works</a>
-        <a href="#ai">How we use AI</a>
-        <a href="#work">Our work</a>
-        <a href="#faq">FAQ</a>{% endif %}
-        <a href="/" data-cta="header_home">sfxsupport.com <span aria-hidden="true">↗</span></a>
-      </nav>
-      <a class="campaign-home-link" href="/" data-cta="header_home_mobile">sfxsupport.com <span aria-hidden="true">↗</span></a>
-      <a class="button button--small button--primary" href="#enquire" data-cta="header_discuss">Discuss a project</a>
-    </div>
-  </header>
+  {% include site-header.html %}
 
   <main id="main-content">
     {{ content }}
@@ -157,5 +137,6 @@
     <a class="mobile-cta__whatsapp" href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: "Hi, I saw the SFX Salesforce services page. I need help with: " | url_encode }}" target="_blank" rel="noopener" data-cta="mobile_whatsapp">WhatsApp</a>
     <a class="mobile-cta__call" href="#enquire" data-cta="mobile_discuss">Discuss a project</a>
   </div>
+  <script src="/assets/js/site-header.js" defer></script>
 </body>
 </html>
