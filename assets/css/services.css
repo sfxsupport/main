@@ -56,3 +56,8 @@
   .svc-grid, .svc-steps, #work .ai-proof__grid { grid-template-columns: 1fr; }
 }
 .svc-team .section-heading { margin-bottom: 0; }
+
+.svc-crumbs { font-size: .85rem; color: var(--campaign-muted); margin-bottom: 14px; }
+.svc-crumbs a { color: var(--campaign-muted); text-decoration: none; }
+.svc-crumbs a:hover { color: var(--campaign-blue); text-decoration: underline; }
+.svc-safeguards li::before { color: var(--campaign-blue); }

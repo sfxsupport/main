@@ -17,7 +17,7 @@ permalink: /services/
       <p class="hero__lead">A failing Flow, an Apex error, an LWC or integration that won't behave, or an automation you need built? Tell us the problem. You get a written scope and a fixed quote before any work starts.</p>
       <div class="hero__actions">
         <a class="button button--primary button--large" href="#enquire" data-cta="hero_discuss">Discuss your Salesforce project <span aria-hidden="true">→</span></a>
-        <a class="button button--whatsapp button--large" href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20SFX%20Salesforce%20services%20page.%20I%20need%20help%20with%3A%20" target="_blank" rel="noopener" data-cta="hero_whatsapp">WhatsApp us</a>
+        <a class="button button--whatsapp button--large" href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: 'Hi, I saw the SFX Salesforce services page. I need help with: ' | url_encode }}" target="_blank" rel="noopener" data-cta="hero_whatsapp">WhatsApp us</a>
       </div>
       <ul class="svc-assurances">
         <li>Written scope before work</li>
@@ -63,6 +63,20 @@ permalink: /services/
         <p>See where your Agentforce actions or LLM API spend goes, and what could be simpler. We check your own usage data and contract; we don't promise savings before we've looked.</p>
         <p class="svc-card__meta">For teams already using AI</p>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ai-services">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> AI services</p>
+      <h2>Salesforce + AI builds</h2>
+      <p>Each service has its own page with what we build, how, and the questions clients ask.</p>
+    </div>
+    <div class="ai-proof__grid">
+      {% assign svc_pages = site.pages | where_exp: "s", "s.service" | sort: "service_order" %}{% for s in svc_pages %}<a class="ai-tool reveal" href="{{ s.url }}" data-cta="ai_service_link"><strong>{{ s.service.name }}</strong><span>{{ s.service.card }}</span></a>
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -148,7 +162,7 @@ permalink: /services/
     <div class="section-heading svc-team__copy reveal">
       <p class="eyebrow"><span></span> Who you work with</p>
       <h2>A founder on every project</h2>
-      <p>SFX is led by founder <a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener" data-cta="founder_linkedin_abhay">Abhay Nama</a>. Delivery is done by a small team of Salesforce developers trained by SFX, with the founder reviewing every piece of work. A founder writes every scope, talks to you directly and reviews every delivery before handover.</p>
+      <p>SFX is led by founder <a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener" data-cta="founder_linkedin_abhay">Abhay Nama</a>. Delivery is done by a small team of Salesforce developers, with the founder reviewing every piece of work. A founder writes every scope, talks to you directly and reviews every delivery before handover.</p>
       <!-- TODO: add Abhay's photo (assets/images/campaign/abhay.webp exists), years of Salesforce experience and certifications. -->
     </div>
     <div class="svc-dev reveal">
@@ -174,80 +188,10 @@ permalink: /services/
       <details class="reveal"><summary>We're a Salesforce partner. Can you work under our brand?<span aria-hidden="true">+</span></summary><div><p>Yes. We can work inside your delivery process, tools and naming, and talk only to your team. We'd suggest one small paid pilot first so you can judge the quality.</p></div></details>
       <details class="reveal"><summary>What if the fix doesn't work?<span aria-hidden="true">+</span></summary><div><p>We test against the scenarios agreed in the scope before handover. If something we changed doesn't meet that scope, we fix it without extra cost.</p></div></details>
       <details class="reveal"><summary>Which time zones do you work in?<span aria-hidden="true">+</span></summary><div><p>We're based in India (IST). That overlaps with UK and Europe working hours and with US early mornings or evenings.</p></div></details>
-      <details class="reveal"><summary>Are you a Salesforce partner?<span aria-hidden="true">+</span></summary><div><p>No. SFX is an independent Salesforce + AI team, not a Salesforce partner and not endorsed by Salesforce. You work directly with the founder and a vetted developer.</p></div></details>
+      <details class="reveal"><summary>Are you a Salesforce partner?<span aria-hidden="true">+</span></summary><div><p>No. SFX is an independent Salesforce + AI team, not a Salesforce partner and not endorsed by Salesforce. You work directly with the founder and the developer on your project.</p></div></details>
       <details class="reveal"><summary>Are you affiliated with Salesforce?<span aria-hidden="true">+</span></summary><div><p>No. SFX Support is independent and is not a Salesforce partner. We work on your org with the access you give us.</p></div></details>
     </div>
   </div>
 </section>
 
-<section class="final-cta section" id="enquire">
-  <div class="campaign-shell final-cta__grid">
-    <div class="final-cta__copy reveal">
-      <p class="eyebrow"><span></span> Discuss your project</p>
-      <h2>Tell us what's broken or what you need built.</h2>
-      <p>A founder reads every message and replies personally, usually within one working day. If it's a fit, we send a written scope and quote.</p>
-      <div class="final-cta__alt">
-        <p>Prefer to talk now?</p>
-        <a href="https://wa.me/919414849173?text=Hi%2C%20I%20saw%20the%20SFX%20Salesforce%20services%20page.%20I%20need%20help%20with%3A%20" target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp 94148 49173</a>
-        <a href="tel:+917611896026" data-cta="final_call">Call +91 76118 96026</a>
-        <a href="mailto:founders@sfxsupport.com" data-cta="final_email">Email the founders</a>
-      </div>
-    </div>
-
-    <form class="lead-form reveal" data-services-form novalidate>
-      <h3>Describe your project</h3>
-      <p class="lead-form__hint">No payment is taken here. We reply with questions or a scope.</p>
-
-      <label for="svc-name">Your name</label>
-      <input id="svc-name" name="name" type="text" autocomplete="name" maxlength="80" required>
-
-      <label for="svc-email">Work email</label>
-      <input id="svc-email" name="email" type="email" autocomplete="email" maxlength="120" required>
-
-      <label for="svc-company">Company</label>
-      <input id="svc-company" name="company" type="text" autocomplete="organization" maxlength="120" required>
-
-      <label for="svc-phone">Phone or WhatsApp <span>(optional)</span></label>
-      <input id="svc-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20">
-
-      <label for="svc-need">What do you need?</label>
-      <select id="svc-need" name="need" required>
-        <option value="" disabled selected>Choose one</option>
-        <option value="Fix an Apex, Flow, LWC or integration issue">Fix an Apex, Flow, LWC or integration issue</option>
-        <option value="Build an automation">Build an automation</option>
-        <option value="LWC or integration work">LWC or integration work</option>
-        <option value="Overflow support for our Salesforce practice">Overflow support for our Salesforce practice</option>
-        <option value="Agentforce or AI usage review">Agentforce or AI usage review</option>
-        <option value="Something else">Something else</option>
-      </select>
-
-      <label for="svc-timeline">When do you need it?</label>
-      <select id="svc-timeline" name="timeline" required>
-        <option value="" disabled selected>Choose one</option>
-        <option value="urgent">Urgent, this week</option>
-        <option value="weeks">In the next few weeks</option>
-        <option value="planning">Just planning</option>
-      </select>
-
-      <label for="svc-budget">Approximate budget <span>(optional)</span></label>
-      <select id="svc-budget" name="budget">
-        <option value="" selected>Not sure yet</option>
-        <option value="Small fix">A small fix</option>
-        <option value="Defined project">A defined project</option>
-        <option value="Ongoing help">Ongoing help each month</option>
-      </select>
-
-      <label for="svc-message">Describe the problem or what you want built</label>
-      <textarea id="svc-message" name="message" rows="4" maxlength="1500" required placeholder="e.g. Our case Flow fails when the owner changes. Error: ..."></textarea>
-
-      <div class="lead-form__trap" aria-hidden="true">
-        <label for="svc-website">Leave this empty</label>
-        <input id="svc-website" name="website" type="text" tabindex="-1" autocomplete="off">
-      </div>
-
-      <button class="button button--primary button--large" type="submit" data-services-submit>Send project details <span aria-hidden="true">→</span></button>
-      <p class="lead-form__status" data-services-status role="status" aria-live="polite"></p>
-      <p class="lead-form__privacy">Your message is saved in the private SFX leads inbox and used only to reply about your project. Don't include passwords or customer data. See our <a href="/privacy/">privacy policy</a>.</p>
-    </form>
-  </div>
-</section>
+{% include services-enquire.html %}

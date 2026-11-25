@@ -21,6 +21,13 @@ layout: null
     <priority>0.9</priority>
   </url>
 
+  {% assign svc_pages = site.pages | where_exp: "s", "s.service" | sort: "service_order" %}{% for s in svc_pages %}
+  <url>
+    <loc>{{ s.url | absolute_url }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>{% endfor %}
+
   <!-- Campaign landing page -->
   <url>
     <loc>https://sfxsupport.com/salesforce-training/</loc>

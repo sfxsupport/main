@@ -1,0 +1,136 @@
+{% assign s = page.service %}
+<section class="hero section" id="top">
+  <div class="campaign-shell svc-hero">
+    <div class="hero__copy reveal">
+      <nav class="svc-crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span aria-hidden="true">›</span> <a href="/services/">Services</a> <span aria-hidden="true">›</span> <span>{{ s.short }}</span></nav>
+      <p class="eyebrow"><span></span> {{ s.eyebrow }}</p>
+      <h1>{{ s.h1 }}</h1>
+      <p class="hero__lead">{{ s.lead }}</p>
+      <div class="hero__actions">
+        <a class="button button--primary button--large" href="#enquire" data-cta="hero_discuss">{{ s.cta | default: "Discuss your project" }} <span aria-hidden="true">→</span></a>
+        <a class="button button--whatsapp button--large" href="https://wa.me/919414849173?text={{ page.whatsapp_text | url_encode }}" target="_blank" rel="noopener" data-cta="hero_whatsapp">WhatsApp us</a>
+      </div>
+      <ul class="svc-assurances">
+        <li>Written scope before work</li>
+        <li>Fixed quote, no hourly surprises</li>
+        <li>Built and tested in your sandbox</li>
+        <li>Handover notes; the code is yours</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section fit-section" aria-labelledby="problem-heading">
+  <div class="campaign-shell fit-grid">
+    <div class="fit-copy reveal">
+      <p class="eyebrow"><span></span> The problem</p>
+      <h2 id="problem-heading">{{ s.problem_heading }}</h2>
+      <p>{{ s.problem_intro }}</p>
+    </div>
+    <div class="fit-cards">
+      <article class="fit-card fit-card--yes reveal"><div aria-hidden="true">✓</div><h3>Good fit</h3><ul>{% for x in s.fit %}<li>{{ x }}</li>{% endfor %}</ul></article>
+      <article class="fit-card fit-card--no reveal"><div aria-hidden="true">×</div><h3>You probably don't need this if</h3><ul>{% for x in s.not_fit %}<li>{{ x }}</li>{% endfor %}</ul></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="build">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> What we build</p>
+      <h2>{{ s.build_heading }}</h2>
+      {% if s.build_intro %}<p>{{ s.build_intro }}</p>{% endif %}
+    </div>
+    <div class="svc-grid">
+      {% for b in s.build %}
+      <article class="svc-card{% if forloop.first %} svc-card--lead{% endif %} reveal">
+        <h3>{{ b.title }}</h3>
+        <p>{{ b.text }}</p>
+        {% if b.meta %}<p class="svc-card__meta">{{ b.meta }}</p>{% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section ai-first" id="approach">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> How we build it</p>
+      <h2>{{ s.approach_heading }}</h2>
+      {% if s.approach_intro %}<p>{{ s.approach_intro }}</p>{% endif %}
+    </div>
+    <div class="ai-compare reveal">
+      <div class="ai-compare__col ai-compare__col--with">
+        <h3>{{ s.stack_heading | default: "Technology" }}</h3>
+        <ul>{% for x in s.stack %}<li>{{ x }}</li>{% endfor %}</ul>
+      </div>
+      <div class="ai-compare__col ai-compare__col--with svc-safeguards">
+        <h3>Safeguards in every build</h3>
+        <ul>{% for x in s.safeguards %}<li>{{ x }}</li>{% endfor %}</ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> How it works</p>
+      <h2>From first message to working {{ s.noun | default: "build" }}</h2>
+    </div>
+    <ol class="svc-steps">
+      {% for st in s.steps %}<li class="reveal"><strong>{{ st.title }}</strong><span>{{ st.text }}</span></li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{% if s.guides %}
+<section class="section" id="guides">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> Free to read</p>
+      <h2>Solution guides on this topic</h2>
+      <p>Working code you can use yourself. If you'd rather we build it for you, use the form below.</p>
+    </div>
+    <div class="ai-proof__grid">
+      {% for g in s.guides %}<a class="ai-tool reveal" href="{{ g.url }}" data-cta="guide_link"><strong>{{ g.title }}</strong><span>{{ g.text }}</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if s.related %}
+<section class="section" id="related">
+  <div class="campaign-shell">
+    <div class="section-heading reveal">
+      <p class="eyebrow"><span></span> Related services</p>
+      <h2>Often built together</h2>
+    </div>
+    <div class="ai-proof__grid">
+      {% for r in s.related %}{% assign rp = site.pages | where: "url", r | first %}{% if rp %}<a class="ai-tool reveal" href="{{ rp.url }}" data-cta="related_service"><strong>{{ rp.service.name }}</strong><span>{{ rp.service.card }}</span></a>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section faq-section" id="faq">
+  <div class="campaign-shell faq-layout">
+    <div class="faq-intro reveal">
+      <p class="eyebrow"><span></span> FAQ</p>
+      <h2>Questions about {{ s.short | downcase }}</h2>
+      <p>Anything else? WhatsApp 94148 49173, call 76118 96026, or email the founders.</p>
+      <a href="mailto:founders@sfxsupport.com" data-cta="faq_email">founders@sfxsupport.com</a>
+    </div>
+    <div class="faq-list">
+      {% for f in page.faq %}<details class="reveal"><summary>{{ f.q }}<span aria-hidden="true">+</span></summary><div><p>{{ f.a }}</p></div></details>
+      {% endfor %}
+      <details class="reveal"><summary>Are you a Salesforce partner?<span aria-hidden="true">+</span></summary><div><p>No. SFX is an independent Salesforce + AI team, not a Salesforce partner and not endorsed by Salesforce. A founder writes every scope and reviews every delivery.</p></div></details>
+    </div>
+  </div>
+</section>
+
+{% include services-enquire.html need="Build an AI agent or AI automation" heading=s.form_heading placeholder=s.form_placeholder %}
