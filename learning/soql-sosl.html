@@ -310,7 +310,7 @@ HAVING COUNT(Id) &gt; 5</code></pre>
 
   <div class="apex-block">
     <div class="apex-block-label">Apex — Batch Processing for Mass Updates</div>
-<pre><code class="language-apex">public with sharing class LeadProcessor implements Database.Batchable&lt;Lead&gt; {
+<pre><code class="language-apex">public with sharing class LeadProcessor implements Database.Batchable&lt;SObject&gt; {
     public Database.QueryLocator start(Database.BatchableContext context) {
         return Database.getQueryLocator([
             SELECT Id, Description FROM Lead WHERE Email != null

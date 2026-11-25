@@ -556,17 +556,17 @@ private class AccountTriggerTest {
 
     @isTest
     static void testBulkInsert200Records() {
-        List&lt;Account&gt; bulk = new List&lt;Account&gt;();
+        List&lt;Account&gt; bulkAccounts = new List&lt;Account&gt;();
         for (Integer i = 0; i &lt; 200; i++) {
-            bulk.add(new Account(Name = 'Bulk ' + i, NumberOfEmployees = 1200));
+            bulkAccounts.add(new Account(Name = 'Bulk ' + i, NumberOfEmployees = 1200));
         }
 
         Test.startTest();
-        insert bulk;
+        insert bulkAccounts;
         Test.stopTest();
 
-        System.assertEquals(200, [SELECT COUNT() FROM Task WHERE WhatId IN :bulk],
-            'Should create 200 tasks for bulk accounts.');
+        System.assertEquals(200, [SELECT COUNT() FROM Task WHERE WhatId IN :bulkAccounts],
+            'Should create 200 tasks for bulkAccounts accounts.');
     }
 
     @isTest
