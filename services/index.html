@@ -38,31 +38,36 @@ permalink: /services/
       <p>We start with work that has a clear finish line. Each one gets its own scope and quote.</p>
     </div>
     <div class="svc-grid">
-      <article class="svc-card svc-card--lead reveal">
+      <article class="svc-card svc-card--lead reveal" id="issue-fix-sprint">
         <p class="svc-card__tag">Start here</p>
         <h3>Issue Fix Sprint</h3>
         <p>One defined Apex, Flow, LWC or integration problem. We find the cause, agree the fix with you, test it and hand it over.</p>
         <p class="svc-card__meta">Typically a few working days, agreed in the scope</p>
+      <a class="svc-card__cta" href="#enquire" data-need="Fix an Apex, Flow, LWC or integration issue" data-cta="sprint_issue_fix_sprint">Get a quote for a fix <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="svc-card reveal">
+      <article class="svc-card reveal" id="automation-sprint">
         <h3>Automation Sprint</h3>
         <p>One automation built end to end: a Flow, a trigger, a scheduled job or an approval process, with tests and notes.</p>
         <p class="svc-card__meta">Fixed scope, fixed quote</p>
+      <a class="svc-card__cta" href="#enquire" data-need="Build an automation" data-cta="sprint_automation_sprint">Get a quote for an automation <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="svc-card reveal">
+      <article class="svc-card reveal" id="lwc-integrations">
         <h3>LWC &amp; integrations</h3>
         <p>Lightning Web Components, REST/SOAP callouts, platform events and connections to the tools your team already uses.</p>
         <p class="svc-card__meta">Scoped per component or integration</p>
+      <a class="svc-card__cta" href="#enquire" data-need="LWC or integration work" data-cta="sprint_lwc_integrations">Get a quote for LWC or integration <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="svc-card reveal">
+      <article class="svc-card reveal" id="partner-overflow">
         <h3>Overflow support for Salesforce partners</h3>
         <p>Extra hands for consultancies: scoped development, bug fixing and testing under your delivery process, and under your brand if you prefer.</p>
         <p class="svc-card__meta">Start with one small paid pilot</p>
+      <a class="svc-card__cta" href="#enquire" data-need="Overflow support for our Salesforce practice" data-cta="sprint_partner_overflow">Start a paid pilot <span aria-hidden="true">&rarr;</span></a>
       </article>
-      <article class="svc-card reveal">
+      <article class="svc-card reveal" id="ai-usage-review">
         <h3>Agentforce &amp; AI usage review</h3>
         <p>See where your Agentforce actions or LLM API spend goes, and what could be simpler. We check your own usage data and contract; we don't promise savings before we've looked.</p>
         <p class="svc-card__meta">For teams already using AI</p>
+      <a class="svc-card__cta" href="#enquire" data-need="Agentforce or AI usage review" data-cta="sprint_ai_usage_review">Request a usage review <span aria-hidden="true">&rarr;</span></a>
       </article>
     </div>
   </div>
@@ -196,3 +201,33 @@ permalink: /services/
 </section>
 
 {% include services-enquire.html %}
+
+<script>
+  // Sprint cards: clicking a card opens the enquiry form with that need already chosen.
+  (function () {
+    function pick(need) {
+      var sel = document.querySelector('#enquire select[name="need"]');
+      if (!sel) return;
+      sel.value = need;
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      sel.classList.add('is-picked');
+      setTimeout(function () { sel.classList.remove('is-picked'); }, 1600);
+    }
+    document.querySelectorAll('.svc-card__cta[data-need]').forEach(function (a) {
+      a.addEventListener('click', function () { pick(a.getAttribute('data-need')); });
+    });
+    function goHash() {
+      var id = decodeURIComponent((location.hash || '').slice(1));
+      var el = id && document.getElementById(id);
+      if (el && el.classList.contains('svc-card')) {
+        el.classList.add('is-target');
+        setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+        setTimeout(function () { el.classList.remove('is-target'); }, 2400);
+      }
+    }
+    window.addEventListener('load', goHash);
+    window.addEventListener('hashchange', goHash);
+    var q = new URLSearchParams(window.location.search).get('need');
+    if (q) pick(q);
+  })();
+</script>
