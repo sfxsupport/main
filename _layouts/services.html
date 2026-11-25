@@ -97,47 +97,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/services.css">
   <link rel="stylesheet" href="/assets/css/sfx-2026.css">
+  <link rel="stylesheet" href="/assets/css/sfx-dark.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="/assets/js/services.js" defer></script>
   <script src="/assets/js/sfx-track.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
-  {% include site-header.html %}
+  {% include FinalHeader.html %}
 
   <main id="main-content">
     {{ content }}
   </main>
 
-  <footer class="campaign-footer">
-    <div class="campaign-shell campaign-footer__grid">
-      <div>
-        <a class="campaign-brand campaign-brand--footer" href="/" aria-label="SFX Support home">
-          <img src="/assets/images/campaign/sfx-logo-96.webp" width="40" height="40" alt="">
-          <span><strong>SFX</strong> Support</span>
-        </a>
-        <p>Salesforce + AI builds, scoped and quoted before work starts.</p>
-      </div>
-      <div class="campaign-footer__links" aria-label="Footer links">
-        <a href="/services/">Services</a>
-        {% assign svc_pages = site.pages | where_exp: "s", "s.service" | sort: "service_order" %}{% for s in svc_pages %}<a href="{{ s.url }}">{{ s.service.short }}</a>
-        {% endfor %}<a href="/blog/">Solution guides</a>
-        <a href="/salesforce-training/">Salesforce training</a>
-        <a href="/contributors/">Contributors</a>
-        <a href="/">SFX Support home</a>
-        <a href="/privacy/">Privacy</a>
-      </div>
-    </div>
-    <div class="campaign-shell campaign-footer__legal">
-      <p>SFX Support is independent and is not affiliated with or endorsed by Salesforce. Salesforce and Agentforce are trademarks of Salesforce, Inc.</p>
-      <p>&copy; {{ 'now' | date: '%Y' }} SFX Support.</p>
-    </div>
-  </footer>
+  {% include footer.html %}
 
   <div class="mobile-cta" data-mobile-cta>
     <a class="mobile-cta__whatsapp" href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: "Hi, I saw the SFX Salesforce services page. I need help with: " | url_encode }}" target="_blank" rel="noopener" data-cta="mobile_whatsapp">WhatsApp</a>
     <a class="mobile-cta__call" href="#enquire" data-cta="mobile_discuss">Discuss a project</a>
   </div>
-  <script src="/assets/js/site-header.js" defer></script>
 </body>
 </html>

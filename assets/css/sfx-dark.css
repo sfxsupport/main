@@ -1,0 +1,49 @@
+/* Dark, formal theme for service and campaign pages, matching the homepage and guides. Loaded after sfx-2026.css. */
+:root, body {
+  --bg: #0a0a0b;
+  --bg-alt: #101012;
+  --surface: #131316;
+  --text: #f4f4f5;
+  --text-2: #a1a1aa;
+  --muted: #8a8a93;
+  --border: rgba(255,255,255,.09);
+  --border-strong: rgba(255,255,255,.16);
+  --accent: #fb923c;
+  --accent-hover: #fdba74;
+  --accent-soft: rgba(251,146,60,.10);
+  --ok: #4ade80;
+  --warn: #fbbf24;
+  --ink: #131316;
+  --code-bg: #0c0c0f;
+  --campaign-shadow: none;
+}
+html, body { background: #0a0a0b; color: var(--text); color-scheme: dark; }
+main#main-content { padding-top: 76px; }
+::selection { background: rgba(251,146,60,.3); }
+
+/* hero: dark grid instead of the light paper grid */
+.hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 0%, rgba(251,146,60,.07), transparent 70%),
+    linear-gradient(to bottom, rgba(10,10,11,0) 0%, #0a0a0b 92%),
+    linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 56px 56px,
+    #0a0a0b;
+  border-bottom: 1px solid var(--border);
+}
+.hero h1, .hero h1 strong { color: var(--text); }
+.hero h1 em { color: #8a8a93; }
+.hero__lead, .hero__assurances li, .svc-assurances li { color: var(--text-2); }
+
+/* primary button: white on dark, like the homepage */
+.button--primary { color: #0a0a0b; background: #f4f4f5; border-color: #f4f4f5; box-shadow: none; }
+.button--primary:hover { color: #0a0a0b; background: #fff; border-color: #fff; }
+.lead-form .button--primary, .button--primary.button--accent { color: #0a0a0b; background: #f4f4f5; border-color: #f4f4f5; }
+.lead-form .button--primary:hover { background: #fff; border-color: #fff; }
+.button--whatsapp { color: #fff; }
+
+/* form controls */
+input, select, textarea { color: var(--text); background: #0f0f12; border-color: var(--border-strong); }
+input::placeholder, textarea::placeholder { color: #5f5f68; }
+select option { background: #131316; color: var(--text); }
+a { color: inherit; }
