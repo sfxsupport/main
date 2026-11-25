@@ -29,7 +29,7 @@
 
 ## Tools
 - [Debug Log Analyzer](https://sfxsupport.com/debug-log-analyzer/): capture Apex debug logs and analyse them with AI.
-- [Ask Krrish AI](https://sfxsupport.com/chatbot/): a Salesforce-focused AI assistant.
+- [Ask Krrish](https://sfxsupport.com/chatbot/): a Salesforce-focused AI assistant.
 
 ## About
 - [About SFX Support](https://sfxsupport.com/about/)
