@@ -2,7 +2,7 @@
 layout: site
 title: "SFX Support — Salesforce + AI Solutions: Agentforce, Prompt Builder & LLM Integrations"
 seo_title: "SFX Support — Salesforce + AI Solutions: Agentforce, Prompt Builder & LLM Integrations"
-description: "Salesforce + AI built right: Agentforce agents, custom AI agents, RAG and Claude/OpenAI/Gemini integrations from Apex. Solution guides with working code, and fixed-quote delivery."
+description: "Salesforce + AI built right: Ask Krrish AI, Debug Log Analyzer, solution guides with working code, live training, and fixed-quote Agentforce, RAG and LLM integration builds."
 canonical: "https://sfxsupport.com/"
 schema_include: home-schema.html
 whatsapp_text: "Hi, I saw sfxsupport.com. I need help with: "
@@ -11,40 +11,114 @@ whatsapp_text: "Hi, I saw sfxsupport.com. I need help with: "
 <section class="hero section home-hero" id="top">
   <div class="campaign-shell svc-hero">
     <div class="hero__copy">
-      <p class="eyebrow"><span></span> Salesforce + AI, independent team</p>
+      <p class="eyebrow"><span></span> Ask Krrish AI is live</p>
       <h1>Salesforce + AI, built right.</h1>
-      <p class="hero__sub">Agents, RAG and LLM integrations that work in your org.</p>
-      <p class="hero__lead">We design and build Agentforce agents, custom AI agents, RAG and Claude, OpenAI or Gemini integrations for Salesforce teams, with tests, guardrails and a written fixed quote. Our solution guides show the code before you hire anyone.</p>
+      <p class="hero__sub">AI tools, working code, live training and a team that builds it in your org.</p>
+      <p class="hero__lead">Ask Krrish answers your Salesforce questions. The Debug Log Analyzer explains your Apex logs. Our solution guides give you tested code, and when you'd rather not build it yourself, we scope it and quote it.</p>
       <div class="hero__actions">
-        <a class="button button--primary button--large" href="#enquire" data-cta="hero_discuss">Discuss a project <span aria-hidden="true">→</span></a>
-        <a class="button button--secondary button--large" href="/blog/" data-cta="hero_guides">Read the solution guides</a>
+        <a class="button button--primary button--large" href="/chatbot/" data-cta="hero_ask_krrish"><span class="live-dot" aria-hidden="true"></span> Ask Krrish AI</a>
+        <a class="button button--secondary button--large" href="/services/" data-cta="hero_get_built">Get it built <span aria-hidden="true">→</span></a>
       </div>
       <ul class="svc-assurances">
         <li>Salesforce + AI only</li>
-        <li>Written scope and fixed quote</li>
         <li>Code reviewed against official docs</li>
+        <li>Fixed-quote delivery</li>
       </ul>
     </div>
 
-    <figure class="code-card" aria-label="Example code from our tested guide">
-      <div class="code-card__bar"><span>CaseSummaryBatch.cls</span><span>Apex</span></div>
-<pre><code><span class="c">// one Case, one callout, one transaction</span>
-LlmClient.LlmResult r = LlmClient.complete(
-    LlmClient.Provider.CLAUDE,
-    <span class="s">'claude-sonnet-5-5'</span>,
-    <span class="s">'Summarise this case in 3 bullets.'</span>,
-    <span class="s">'Subject: '</span> + c.Subject,
-    <span class="n">400</span>
-);
-<span class="k">if</span> (r.stopReason == <span class="s">'end_turn'</span>) {
-    updates.add(<span class="k">new</span> Case(Id = c.Id,
-        AI_Summary__c = r.text.left(maxLen)));
-}</code></pre>
-      <figcaption class="code-card__foot">
-        <span class="code-card__ok">●</span> 9/9 Apex tests passed in a Developer Edition org (callouts mocked)
-        <a href="/blog/call-claude-openai-gemini-from-apex/" data-cta="hero_code_guide">Read the guide →</a>
-      </figcaption>
-    </figure>
+    <div class="chat-card" aria-label="Ask Krrish preview">
+      <div class="chat-card__bar">
+        <span class="chat-card__avatar" aria-hidden="true">K</span>
+        <strong>Ask Krrish</strong>
+        <span class="chat-card__status"><span class="live-dot" aria-hidden="true"></span> Online</span>
+      </div>
+      <div class="chat-card__msgs">
+        <p class="msg msg--user">My trigger hits governor limits on bulk insert. What's wrong?</p>
+        <div class="msg msg--ai">
+          <p>You're likely running <strong>SOQL or DML inside a loop</strong>. Query once, outside the loop:</p>
+          <pre><code>Map&lt;Id, Account&gt; accs = new Map&lt;Id, Account&gt;(
+    [SELECT Id, Name FROM Account WHERE Id IN :ids]);</code></pre>
+          <p>Then read from the map inside your <code>Trigger.new</code> loop.</p>
+        </div>
+      </div>
+      <div class="chat-card__chips" data-chat-chips>
+        <button type="button">Apex trigger help</button>
+        <button type="button">Flow vs Apex?</button>
+        <button type="button">Call Claude from Apex</button>
+        <button type="button">Agentforce actions</button>
+      </div>
+      <form class="chat-card__input" action="/chatbot/" method="get" data-chat-form>
+        <label class="sr-only" for="hero-q">Ask a Salesforce question</label>
+        <input id="hero-q" name="q" type="text" maxlength="300" autocomplete="off" placeholder="Ask anything about Salesforce…">
+        <button type="submit" aria-label="Ask Krrish">↑</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="stat-strip" aria-label="SFX in numbers">
+  <div class="campaign-shell stat-strip__grid">
+    <div><strong data-learner-count>70+</strong><span>learners on SFX Grove</span></div>
+    <div><strong data-contributor-count>40</strong><span>public builder portfolios</span></div>
+    <div><strong>129</strong><span>Apex challenges on SFX Forge</span></div>
+    <div><strong>8</strong><span>Salesforce + AI services</span></div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="campaign-shell">
+    <div class="section-heading section-heading--row">
+      <div>
+        <p class="eyebrow"><span></span> Products</p>
+        <h2>Tools we built and run</h2>
+        <p>Live today, built by the same team that delivers client work.</p>
+      </div>
+    </div>
+
+    <div class="bento">
+      <a class="bento__card bento__card--krrish" href="/chatbot/" data-cta="product_ask_krrish">
+        <div class="bento__copy">
+          <span class="bento__tag">AI assistant</span>
+          <h3>Ask Krrish</h3>
+          <p>An AI built for Salesforce. Ask anything from a basic SOQL question to an architecture decision. Sign in with Google and start.</p>
+          <em>Ask a question →</em>
+        </div>
+        <ul class="bento__qs" aria-label="Example questions">
+          <li>Why does my Queueable fail with "too many queueable jobs"?</li>
+          <li>Write a bulk-safe trigger handler for Opportunity.</li>
+          <li>When should I use Flow instead of Apex?</li>
+          <li>How do I call OpenAI from Apex with a Named Credential?</li>
+        </ul>
+      </a>
+
+      <a class="bento__card bento__card--debug" href="/debug-log-analyzer/" data-cta="product_debug">
+        <div class="bento__copy">
+          <span class="bento__tag">Chrome extension + AI</span>
+          <h3>Debug Log Analyzer</h3>
+          <p>Enable Apex debug logs in one click, capture them automatically and get an AI explanation: SOQL in loops, limit breaches, slow methods.</p>
+          <em>Analyse a log →</em>
+        </div>
+        <div class="log-panel" aria-label="Sample analysis">
+          <div class="log-panel__head"><span>Sample analysis</span><span>AccountTrigger · 4.2 s</span></div>
+          <div class="log-row log-row--bad"><span>●</span><div><strong>SOQL inside a loop</strong><small>AccountTriggerHandler.cls line 42 · 101 queries</small></div></div>
+          <div class="log-row log-row--warn"><span>●</span><div><strong>CPU time near the limit</strong><small>9,420 ms of 10,000 ms</small></div></div>
+          <div class="log-row log-row--ok"><span>●</span><div><strong>Fix suggested</strong><small>Move the query out of the loop and use a Map</small></div></div>
+        </div>
+      </a>
+
+      <a class="bento__card bento__card--shot" href="https://forge.sfxsupport.com/" target="_blank" rel="noopener" data-cta="product_forge">
+        <img src="/assets/images/campaign/built/forge.webp" width="960" height="600" loading="lazy" decoding="async" alt="Screenshot of SFX Forge">
+        <div class="bento__copy"><h3>SFX Forge</h3><p>129 Apex, trigger, SOQL and SOSL challenges that run against a real Salesforce org.</p><em>Try a challenge ↗</em></div>
+      </a>
+      <a class="bento__card bento__card--shot" href="https://grove.sfxsupport.com/" target="_blank" rel="noopener" data-cta="product_grove">
+        <img src="/assets/images/campaign/built/grove.webp" width="960" height="600" loading="lazy" decoding="async" alt="Screenshot of SFX Grove">
+        <div class="bento__copy"><h3>SFX Grove</h3><p>Daily missions, reviews, badges and a public portfolio for every learner.</p><em>Open Grove ↗</em></div>
+      </a>
+      <a class="bento__card bento__card--shot" href="/travel-manager/" data-cta="product_travel">
+        <img src="/assets/images/campaign/built/travel-manager.webp" width="960" height="600" loading="lazy" decoding="async" alt="Screenshot of SFX Travel Manager">
+        <div class="bento__copy"><h3>SFX Travel Manager</h3><p>Booking, duty slip, GST invoice and khata software for Indian travel agencies.</p><em>See the product →</em></div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -52,9 +126,9 @@ LlmClient.LlmResult r = LlmClient.complete(
   <div class="campaign-shell">
     <div class="section-heading section-heading--row">
       <div>
-        <p class="eyebrow"><span></span> What we build</p>
-        <h2>AI services for Salesforce teams</h2>
-        <p>Each service has a clear scope, a fixed quote and a handover your team can maintain.</p>
+        <p class="eyebrow"><span></span> Get it built</p>
+        <h2>Salesforce + AI services</h2>
+        <p>Each project gets a written scope, a fixed quote and a handover your team can maintain.</p>
       </div>
       <a class="text-link" href="/services/">All services →</a>
     </div>
@@ -70,13 +144,75 @@ LlmClient.LlmResult r = LlmClient.complete(
   </div>
 </section>
 
+<section class="section" id="classes">
+  <div class="campaign-shell">
+    <div class="section-heading section-heading--row">
+      <div>
+        <p class="eyebrow"><span></span> Free classes</p>
+        <h2>Learn from full live classes</h2>
+        <p>Recorded from our live batches and free on YouTube.</p>
+      </div>
+      <a class="text-link" href="https://www.youtube.com/playlist?list=UUc1viN8c8g9PRCNX4RJU5HQ" target="_blank" rel="noopener" data-cta="home_playlist">YouTube playlist ↗</a>
+    </div>
+    <div class="class-grid">
+      <a class="class-card" href="https://www.youtube.com/watch?v=NcfG7Y-kZWI" target="_blank" rel="noopener" data-cta="home_class_1"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/NcfG7Y-kZWI/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 1</small>Asynchronous processing &amp; future methods</span></a>
+      <a class="class-card" href="https://www.youtube.com/watch?v=6jEWBGkwgYE" target="_blank" rel="noopener" data-cta="home_class_2"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/6jEWBGkwgYE/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 2</small>Queueable Apex: chaining &amp; stack depth</span></a>
+      <a class="class-card" href="https://www.youtube.com/watch?v=WPnwWnA6aqU" target="_blank" rel="noopener" data-cta="home_class_3"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/WPnwWnA6aqU/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 3</small>Queueable Apex 2: finalizers &amp; errors</span></a>
+      <a class="class-card" href="https://www.youtube.com/watch?v=ziqWZmIpO2o" target="_blank" rel="noopener" data-cta="home_class_4"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/ziqWZmIpO2o/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 4</small>Batch Apex: query locators &amp; bulk data</span></a>
+      <a class="class-card" href="https://www.youtube.com/watch?v=YCHPTM_HOI8" target="_blank" rel="noopener" data-cta="home_class_5"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/YCHPTM_HOI8/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 5</small>Batch Apex 2: chaining &amp; stateful</span></a>
+      <a class="class-card" href="https://www.youtube.com/watch?v=HufTYMXD5Xo" target="_blank" rel="noopener" data-cta="home_class_6"><span class="class-card__thumb"><img src="https://i.ytimg.com/vi/HufTYMXD5Xo/mqdefault.jpg" width="320" height="180" loading="lazy" decoding="async" alt=""><span aria-hidden="true">▶</span></span><span class="class-card__title"><small>Class 6</small>Scheduled Apex &amp; cron expressions</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="campaign-shell">
+    <div class="section-heading section-heading--row">
+      <div>
+        <p class="eyebrow"><span></span> Learners and contributors</p>
+        <h2>Builders growing in public</h2>
+        <p>Short videos from learners in earlier batches, and the public portfolios they keep on SFX Grove.</p>
+      </div>
+      <a class="text-link" href="/contributors/" data-cta="home_contributors">All contributors →</a>
+    </div>
+
+    <div class="review-rail" aria-label="Learner video reviews">
+      <article class="review-card review-card--screen"><video controls playsinline preload="none" poster="/assets/images/campaign/reviews/minu-sunny.jpg"><source src="/assets/videos/reviews/minu-sunny.mp4" type="video/mp4"></video><div class="review-card__body"><p>Practical tasks that build real project confidence.</p><a href="https://grove.sfxsupport.com/u/user-805082df-a429-4cc1-a9a8-12d156ca9835" target="_blank" rel="noopener">Minu Sunny <span>↗</span></a></div></article>
+      <article class="review-card"><video controls playsinline preload="none" poster="/assets/images/campaign/reviews/divyani-waikar.jpg"><source src="/assets/videos/reviews/divyani-waikar.mp4" type="video/mp4"></video><div class="review-card__body"><p>Understand how things work in real-world scenarios.</p><a href="https://grove.sfxsupport.com/u/user-f38f8aeb-6f11-4ea4-8310-a380ceed24d5" target="_blank" rel="noopener">Divyani Waikar <span>↗</span></a></div></article>
+      <article class="review-card"><video controls playsinline preload="none" poster="/assets/images/campaign/reviews/chiluka-shilpa.jpg"><source src="/assets/videos/reviews/chiluka-shilpa.mp4" type="video/mp4"></video><div class="review-card__body"><p>More confidence with Apex, Triggers and Flows.</p><a href="https://grove.sfxsupport.com/u/user-f1fd3cde-228b-4482-a525-ae1ec66a85a2" target="_blank" rel="noopener">Chiluka Shilpa <span>↗</span></a></div></article>
+      <article class="review-card"><video controls playsinline preload="none" poster="/assets/images/campaign/reviews/aditya-kumar-choubey.jpg"><source src="/assets/videos/reviews/aditya-kumar-choubey.mp4" type="video/mp4"></video><div class="review-card__body"><p>Hands-on learning, not only theory.</p><a href="https://grove.sfxsupport.com/u/user-09e55cb1-adcb-4a0a-8fcc-d5c81322a357" target="_blank" rel="noopener">Aditya Kumar Choubey <span>↗</span></a></div></article>
+      <article class="review-card review-card--screen"><video controls playsinline preload="none" poster="/assets/images/campaign/reviews/trupthi-m-kolvekar.jpg"><source src="/assets/videos/reviews/trupthi-m-kolvekar.mp4" type="video/mp4"></video><div class="review-card__body"><p>Built six projects in two months.</p><a href="https://grove.sfxsupport.com/u/user-f539bb72-260c-48f1-87b5-de613727707b" target="_blank" rel="noopener">Trupthi M Kolvekar <span>↗</span></a></div></article>
+    </div>
+    <p class="review-note">Review summaries are condensed. Play each video to hear the learner's own words.</p>
+
+    <div class="contributor-grid" data-contributor-grid aria-live="polite">
+      <div class="contributor-placeholder"></div><div class="contributor-placeholder"></div><div class="contributor-placeholder"></div><div class="contributor-placeholder"></div><div class="contributor-placeholder"></div><div class="contributor-placeholder"></div>
+    </div>
+    <noscript><p><a href="/contributors/">See every public contributor profile.</a></p></noscript>
+  </div>
+</section>
+
+<section class="section promo-band" id="training">
+  <div class="campaign-shell promo-band__inner">
+    <div>
+      <p class="eyebrow"><span></span> Live training · next batch 7 Dec</p>
+      <h2>Salesforce Admin &amp; Developer batch, taught live.</h2>
+      <p>Mon–Fri · 10:00 PM IST · 2 months · English. Admin, Apex, LWC, integrations and Agentforce, with five real projects and every class recorded.</p>
+    </div>
+    <div class="promo-band__cta">
+      <p class="promo-band__price">₹7,999 <span>for 2 months</span></p>
+      <a class="button button--primary button--large" href="/salesforce-training/" data-cta="home_training">See the batch →</a>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="guides">
   <div class="campaign-shell">
     <div class="section-heading section-heading--row">
       <div>
         <p class="eyebrow"><span></span> Solution guides</p>
         <h2>Working code, not opinions</h2>
-        <p>Step-by-step fixes for Salesforce + AI problems, with the code, tests and deploy commands.</p>
+        <p>Step-by-step fixes for Salesforce + AI problems, with code, tests and deploy commands.</p>
       </div>
       <a class="text-link" href="/blog/">All guides →</a>
     </div>
@@ -88,40 +224,7 @@ LlmClient.LlmResult r = LlmClient.complete(
         <span class="guide-row__arrow" aria-hidden="true">→</span>
       </a>{% endfor %}
     </div>
-  </div>
-</section>
-
-<section class="section" id="how">
-  <div class="campaign-shell">
-    <div class="section-heading">
-      <p class="eyebrow"><span></span> How it works</p>
-      <h2>From problem to working AI</h2>
-    </div>
-    <ol class="svc-steps svc-steps--4">
-      <li><strong>Tell us the problem</strong><span>Use the form or WhatsApp. A short call if needed.</span></li>
-      <li><strong>Written scope and fixed quote</strong><span>What we'll build, what we won't, the timeline and the price.</span></li>
-      <li><strong>Build and test in your sandbox</strong><span>AI-assisted development, reviewed by a developer and the founder.</span></li>
-      <li><strong>Handover</strong><span>Deployment support, tests and notes. The code is yours.</span></li>
-    </ol>
-  </div>
-</section>
-
-<section class="section" id="tools">
-  <div class="campaign-shell">
-    <div class="section-heading">
-      <p class="eyebrow"><span></span> Tools and learning</p>
-      <h2>Built by the same team</h2>
-      <p>Free tools and learning for Salesforce developers, plus a live course.</p>
-    </div>
-    <div class="ai-proof__grid">
-      <a class="ai-tool" href="/salesforce-training/" data-cta="home_training"><strong>Live Salesforce training</strong><span>Admin to Apex, LWC, integrations and Agentforce, taught live in English with five real projects.</span><em>See the next batch →</em></a>
-      <a class="ai-tool" href="/chatbot/" data-cta="home_ask_krrish"><strong>Ask Krrish</strong><span>An AI assistant for Salesforce questions: Apex, SOQL, Flow, LWC and architecture.</span><em>Ask a question →</em></a>
-      <a class="ai-tool" href="/debug-log-analyzer/" data-cta="home_debug"><strong>Debug Log Analyzer</strong><span>Capture Apex debug logs and get an AI explanation of limits, SOQL in loops and slow code.</span><em>Open the tool →</em></a>
-      <a class="ai-tool" href="https://forge.sfxsupport.com/" target="_blank" rel="noopener" data-cta="home_forge"><strong>SFX Forge</strong><span>Apex practice questions you solve with real code, run against a Salesforce org and tests.</span><em>Practise Apex ↗</em></a>
-      <a class="ai-tool" href="https://grove.sfxsupport.com/" target="_blank" rel="noopener" data-cta="home_grove"><strong>SFX Grove</strong><span>A guided residency with reviewed projects and a public builder portfolio.</span><em>Visit Grove ↗</em></a>
-      <a class="ai-tool" href="/learning/" data-cta="home_learning"><strong>Learning modules</strong><span>Apex triggers, async Apex, SOQL, LWC, integration patterns, security and CI/CD.</span><em>Start learning →</em></a>
-    </div>
-    <p class="home-more">We also build and support <a href="/travel-manager/">SFX Travel Manager</a>, booking and invoicing software for Indian travel agencies.</p>
+    <p class="home-more">Learning modules: <a href="/apex-triggers/">Apex triggers</a> · <a href="/asynchronous-apex/">Async Apex</a> · <a href="/soql-sosl/">SOQL &amp; SOSL</a> · <a href="/lwc-essentials/">LWC</a> · <a href="/integration-patterns/">Integration patterns</a> · <a href="/deployment-cicd/">CI/CD</a> · <a href="/interview-prep/">Interview prep</a></p>
   </div>
 </section>
 
@@ -134,13 +237,15 @@ LlmClient.LlmResult r = LlmClient.complete(
       <a href="mailto:founders@sfxsupport.com" data-cta="faq_email">founders@sfxsupport.com</a>
     </div>
     <div class="faq-list">
-      <details><summary>Who is behind SFX Support?<span aria-hidden="true">+</span></summary><div><p>SFX Support is a Salesforce + AI solutions team led by founder <a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener">Abhay Nama</a>, who reviews every piece of work. We publish solution guides checked against official docs, and build Agentforce, Prompt Builder and AI integrations for clients.</p></div></details>
-      <details><summary>What does SFX work on?<span aria-hidden="true">+</span></summary><div><p>Salesforce + AI: Agentforce agents and custom actions, Prompt Builder and the Models API, Claude, OpenAI and Gemini integrations from Apex, RAG and knowledge assistants, AI workflow automation, and fixing AI that is already live. We also fix Apex, Flow, LWC and integration issues.</p></div></details>
-      <details><summary>How much does a project cost?<span aria-hidden="true">+</span></summary><div><p>Every project gets a written scope and a fixed quote before work starts, so you see the price, timeline and exclusions first. Model usage is billed by the AI vendor to your own account.</p></div></details>
+      <details><summary>Who is behind SFX Support?<span aria-hidden="true">+</span></summary><div><p>SFX Support is a Salesforce + AI solutions team led by founder <a href="https://www.linkedin.com/in/abhay-nama-0739793a7/" target="_blank" rel="noopener">Abhay Nama</a>, who reviews every piece of work. We publish solution guides checked against official docs, build tools like Ask Krrish and the Debug Log Analyzer, run live training, and build Agentforce and AI integrations for clients.</p></div></details>
       <details><summary>How does Ask Krrish work?<span aria-hidden="true">+</span></summary><div><p>Ask Krrish is an AI assistant for Salesforce questions: code help, best practices and debugging guidance. Sign in with Google to start. There is a daily message limit that resets every 24 hours.</p></div></details>
+      <details><summary>What does the Debug Log Analyzer do?<span aria-hidden="true">+</span></summary><div><p>It turns on Apex debug logging, captures the logs and uses AI to explain them: SOQL or DML inside loops, governor limit usage, slow methods and where a field changed.</p></div></details>
+      <details><summary>Can SFX build this in my org?<span aria-hidden="true">+</span></summary><div><p>Yes. We build and fix Agentforce actions, Prompt Builder templates, LLM integrations from Apex, RAG assistants, Flows and LWC as paid, fixed-scope work. You get a written scope and a fixed quote before anything starts.</p></div></details>
       <details><summary>Is SFX affiliated with Salesforce?<span aria-hidden="true">+</span></summary><div><p>No. SFX Support is independent. We are not a Salesforce partner and are not affiliated with, endorsed by, or connected to Salesforce, Inc.</p></div></details>
     </div>
   </div>
 </section>
 
 {% include services-enquire.html need="Build an AI agent or AI automation" heading="Tell us what you want to build or fix." placeholder="e.g. We want AI summaries on cases, or our Agentforce agent picks the wrong action." %}
+
+<script src="/assets/js/home.js" defer></script>
