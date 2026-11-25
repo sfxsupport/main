@@ -6,7 +6,7 @@ title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
 description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 04:30:00 +0530
+last_modified_at: 2026-11-25 06:45:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -360,7 +360,7 @@ To switch vendors, change the provider enum and the model ID, and set up that ve
 
 **Check the stop reason every time.** Only treat the output as complete when Claude returns `end_turn`, OpenAI returns `completed`, or Gemini returns `STOP`, and the text is not blank. Anything else (`max_tokens`, `refusal`, `incomplete`, `MAX_TOKENS`, `SAFETY`) means the text was cut off, refused or blocked. Don't write it to a record as if it were complete.
 
-## How do I run the LLM call asynchronously from a record?
+## How do I run LLM calls in bulk with Batch Apex?
 {: #async-queueable}
 
 LLM calls are slow, and Salesforce doesn't allow callouts from triggers or after uncommitted DML. For bulk work, the safest design is a **durable queue**: the trigger (or a record-triggered flow) only ticks a checkbox, and a scheduled job runs **one Batch Apex job with a scope of 1** over the ticked records. Every record then gets its own transaction and its own 120-second callout budget, trigger chunking and Queueable limits can't break the insert, and only one job runs at a time.
@@ -375,10 +375,12 @@ Create three fields on Case first: a Long Text Area `AI_Summary__c`, a Checkbox 
 trigger CaseTrigger on Case (before insert, before update) {
     for (Case c : Trigger.new) {
         Case old = Trigger.isUpdate ? Trigger.oldMap.get(c.Id) : null;
-        if (String.isNotBlank(c.Description) && (old == null || CaseSummaryBatch.textChanged(old, c))) {
-            c.AI_Summary_Requested__c = true;
-            c.AI_Summary_Attempts__c = 0;
+        if (old != null && !CaseSummaryBatch.textChanged(old, c)) {
+            continue; // nothing the summary depends on changed
         }
+        // New or changed text: queue it, or cancel a queued request if the Description is now empty.
+        c.AI_Summary_Requested__c = String.isNotBlank(c.Description);
+        c.AI_Summary_Attempts__c = 0;
     }
 }
 ```
@@ -401,8 +403,12 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
 
     // Apex == and != ignore letter case for strings, so compare with equals() (case-sensitive, null-safe).
     public static Boolean textChanged(Case a, Case b) {
-        return !String.valueOf(a.Subject).equals(String.valueOf(b.Subject))
-            || !String.valueOf(a.Description).equals(String.valueOf(b.Description));
+        return !same(a.Subject, b.Subject) || !same(a.Description, b.Description);
+    }
+
+    // Null-safe and case-sensitive: same(null, null) is true, same(null, 'x') is false.
+    private static Boolean same(String x, String y) {
+        return x == null ? y == null : x.equals(y);
     }
 
     public void execute(Database.BatchableContext ctx, List<Case> scope) {
@@ -492,6 +498,7 @@ How this behaves:
 - **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A caught failure is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. The limit counts only failures the job could record: if the whole transaction fails (an uncaught exception, or the final update itself failing), nothing is saved and the record is tried again, so check **Apex Jobs** in Setup for failed batches. Editing the Subject or Description (case-sensitive) queues it again with a fresh counter. Unticking the checkbox stops retries, and a run that finishes after you untick it or edit the text leaves the record alone.
 - **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
 - **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
+- **One dispatcher only:** schedule `CaseSummaryDispatcher` exactly once. `System.schedule` refuses a second job with the same name, and the dispatcher skips its run while a batch is still active. If two batches ever do overlap (for example someone also starts one by hand), the locked re-check stops the second one from saving over the first, but both may already have paid for a call.
 
 If you're unsure whether the entry point should be a flow or a trigger, see [Flow or Apex? A decision guide](/blog/salesforce-flow-vs-apex-decision-guide/).
 
