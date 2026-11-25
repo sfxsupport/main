@@ -78,7 +78,7 @@ service:
       text: "Topics, actions, reasoning and the Einstein Trust Layer, with real examples."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "When to call an LLM directly from Apex"
-      text: "The alternative to Agentforce for models it doesn't support. Tested code."
+      text: "The alternative to Agentforce for models it doesn't support. Unit-tested pattern."
     - url: "/blog/salesforce-flow-vs-apex-decision-guide/"
       title: "Flow or Apex for an action?"
       text: "A decision guide for choosing how to build each action."

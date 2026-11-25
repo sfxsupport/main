@@ -79,7 +79,7 @@ service:
       text: "How Salesforce grounds AI answers in your data."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Add generation with an LLM from Apex"
-      text: "Tested code for the optional answer step."
+      text: "LLM callout pattern for the optional answer step (callouts mocked in tests)."
     - url: "/blog/salesforce-too-many-soql-queries-101/"
       title: "Avoid governor limits when searching"
       text: "Query patterns that scale in Apex."

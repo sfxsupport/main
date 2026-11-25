@@ -77,7 +77,7 @@ service:
   guides:
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Call Claude, OpenAI & Gemini from Apex"
-      text: "Secure LLM callouts with Named Credentials, Batch Apex and tests. Tested in a Developer Edition org."
+      text: "Secure LLM callouts with Named Credentials, Batch Apex and tests. Unit tests pass in a Developer Edition org (callouts mocked)."
     - url: "/blog/salesforce-ai-case-summary-human-review/"
       title: "AI case summaries with human review"
       text: "Keep a person in the loop when AI writes into Salesforce records."
@@ -98,7 +98,7 @@ faq:
   - q: "Will our data be used to train the model?"
     a: "We use vendor APIs and settings where your data isn't used for training, and we only send the fields the task needs. We explain exactly what leaves your systems in the scope."
   - q: "How long does it take?"
-    a: "It depends on the number of tools, data sources and test cases. The timeline is written into the scope, and starting with one narrow job is always faster than a broad agent."
+    a: "It depends on the number of tools, data sources and test cases. The timeline is written into the scope, and starting with one narrow job is usually faster than a broad agent."
   - q: "What happens when the agent is wrong?"
     a: "It's designed to say when it's unsure and hand over to a person. Everything it does is logged, so mistakes can be found, explained and fixed."
 ---

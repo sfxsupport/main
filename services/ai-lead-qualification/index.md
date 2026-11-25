@@ -78,7 +78,7 @@ service:
       text: "The guardrails we build into every scoring project."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Call an LLM from Apex"
-      text: "Tested code for scoring leads in bulk."
+      text: "LLM callout and Batch Apex pattern you can adapt to lead scoring (example uses cases)."
     - url: "/blog/salesforce-flow-vs-apex-decision-guide/"
       title: "Flow or Apex?"
       text: "Choosing how to build routing and scoring steps."

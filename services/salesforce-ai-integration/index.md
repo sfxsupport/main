@@ -75,7 +75,7 @@ service:
   guides:
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Call Claude, OpenAI & Gemini from Apex"
-      text: "The full pattern: Named Credentials, LlmClient, Batch Apex and tests. 9/9 tests passed in a Developer Edition org."
+      text: "The full pattern: Named Credentials, LlmClient, Batch Apex and tests. 9/9 unit tests passed in a Developer Edition org, with callouts mocked."
     - url: "/blog/salesforce-ai-lead-qualification-guardrails/"
       title: "AI lead qualification guardrails"
       text: "Score leads with AI without losing control."
