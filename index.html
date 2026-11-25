@@ -726,6 +726,41 @@ code,pre,kbd{font-family:'Geist Mono',ui-monospace,Menlo,monospace !important;}
 .desc a{color:var(--t);text-underline-offset:3px;}
 .faqa a{color:var(--t);text-underline-offset:3px;}
 a.tc,.tools a,#tools a{color:inherit;}
+
+/* ─── PRODUCTS ─── */
+.prod{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:3.5rem;align-items:center;padding:3.25rem 0;border-top:1px solid var(--b2);}
+.prod:first-of-type{border-top:0;padding-top:0;}
+.prod--flip .prod-copy{order:2;}
+.prod-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.1rem;}
+.prod-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:11px;color:#fff;font-weight:700;font-size:1.05rem;flex-shrink:0;}
+.prod-kind{display:block;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--t3);margin-bottom:2px;}
+.prod-head h3{font-size:1.55rem;font-weight:600;letter-spacing:-.025em;color:var(--t);}
+.prod-lead{color:var(--t2);font-size:1rem;line-height:1.7;margin-bottom:1.1rem;max-width:440px;}
+.prod-points{list-style:none;margin:0 0 1.6rem;padding:0;display:grid;gap:.5rem;}
+.prod-points li{position:relative;padding-left:1.3rem;color:var(--t2);font-size:.9rem;line-height:1.5;}
+.prod-points li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:rgb(var(--pc));}
+.prod-shot{display:block;position:relative;overflow:hidden;border:1px solid var(--b);border-radius:14px;background:var(--bg2);box-shadow:0 30px 80px -40px rgba(var(--pc),.35);text-decoration:none;transition:border-color .2s,transform .2s;}
+a.prod-shot:hover{border-color:rgba(var(--pc),.45);transform:translateY(-2px);}
+.prod-bar{display:flex;align-items:center;gap:6px;padding:.6rem .85rem;border-bottom:1px solid var(--b2);background:var(--bg3);}
+.prod-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);}
+.prod-bar em{margin-left:.6rem;font-style:normal;font-size:.7rem;color:var(--t3);font-family:'Geist Mono',ui-monospace,monospace;}
+.prod-shot img,.prod-shot video{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;}
+.prod-shot video{background:#000;}
+.prod-mock{min-height:330px;}
+.mock-chat{display:grid;gap:.8rem;padding:1.2rem;}
+.mock-chat .mu{justify-self:end;max-width:85%;padding:.6rem .85rem;border-radius:12px 12px 4px 12px;background:var(--bg4);color:var(--t);font-size:.83rem;}
+.mock-chat .mk{max-width:92%;padding:.7rem .9rem;border-radius:12px 12px 12px 4px;border:1px solid var(--b);color:var(--t2);font-size:.83rem;line-height:1.55;}
+.mock-chat .mk p{margin:0 0 .35rem;} .mock-chat .mk ul{margin:.2rem 0 .4rem 1.1rem;padding:0;} .mock-chat strong{color:var(--t);}
+.mock-chat code{font-size:.75rem;color:rgb(253,186,116);}
+.mock-log{padding:1rem 1.1rem;font-size:.83rem;}
+.ml-head{display:flex;justify-content:space-between;padding:.2rem 0 .8rem;color:var(--t3);font-family:'Geist Mono',ui-monospace,monospace;font-size:.72rem;border-bottom:1px solid var(--b2);}
+.ml-row{display:flex;gap:.7rem;padding:.8rem 0;border-bottom:1px solid var(--b3);}
+.ml-row:last-child{border-bottom:0;}
+.ml-row b{font-size:.65rem;line-height:1.9;}
+.ml-row.bad b{color:#f87171;} .ml-row.warn b{color:#fbbf24;} .ml-row.ok b{color:#4ade80;}
+.ml-row strong{display:block;color:var(--t);font-weight:500;}
+.ml-row small{color:var(--t3);font-family:'Geist Mono',ui-monospace,monospace;font-size:.72rem;}
+@media(max-width:900px){.prod{grid-template-columns:1fr;gap:2rem;}.prod--flip .prod-copy{order:0;}}
 </style>
 </head>
 <body>
@@ -936,136 +971,77 @@ a.tc,.tools a,#tools a{color:inherit;}
   </div><!-- /hero-inner -->
 </section>
 
-<!-- ═══ AI TOOLS ═══ -->
-<section id="tools">
+<!-- ═══ PRODUCTS ═══ -->
+<section id="products">
   <div class="wrap">
-    <div class="label r">AI Tools</div>
-    <h2 class="r d1">Salesforce tools,<br><strong>built by our team.</strong></h2>
-    <p class="desc r d2" style="margin-bottom:3rem;">Free tools and learning resources, maintained by the team behind our client work.</p>
+    <div class="label r">Our Products</div>
+    <h2 class="r d1">Software we build<br><strong>and run every day.</strong></h2>
+    <p class="desc r d2" style="margin-bottom:3.5rem;">Five live products, built and maintained by the same team that delivers client projects.</p>
 
-    <a href="/chatbot/" class="tool-feat r d2">
-      <div class="tool-av">K</div>
-      <div>
-        <div class="tbdg">
-          <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
-          Live Now
-        </div>
-        <h3>Ask Krrish</h3>
-        <p>An AI built for Salesforce — ask anything from a basic SOQL question to an architecture pattern discussion. Sign in with Google and start instantly.</p>
-        <div class="ttags">
-          <span class="ttag">Apex</span><span class="ttag">SOQL</span><span class="ttag">Flows</span>
-          <span class="ttag">LWC</span><span class="ttag">Troubleshooting</span>
-          <span class="ttag">Deployment</span><span class="ttag">Architecture</span>
-        </div>
+    <article class="prod r d2" id="travel-manager" style="--pc:34,197,94;">
+      <div class="prod-copy">
+        <div class="prod-head"><span class="prod-ic" style="background:linear-gradient(140deg,#22c55e,#0f766e);"><i class="bi bi-car-front-fill"></i></span><div><span class="prod-kind">Business software</span><h3>SFX Travel Manager</h3></div></div>
+        <p class="prod-lead">Booking, duty slip, driver, fleet, GST invoice, payment and agent/vendor khata software for Indian travel agencies and taxi operators.</p>
+        <ul class="prod-points"><li>From customer request to vehicle and driver assignment</li><li>Duty slips, GST invoices and payments in one place</li><li>Agent and vendor khata, fleet and reports</li></ul>
+        <a href="/travel-manager/" class="btn-w">Explore Travel Manager &rarr;</a>
       </div>
-      <span class="tool-cta">Open Chat &rarr;</span>
-    </a>
+      <a class="prod-shot" href="/travel-manager/" tabindex="-1" aria-hidden="true"><span class="prod-bar"><i></i><i></i><i></i><em>sfx travel manager</em></span><img src="/assets/images/campaign/built/travel-manager.webp" width="960" height="600" loading="lazy" decoding="async" alt=""></a>
+    </article>
 
-    <a href="/debug-log-analyzer/" class="tool-feat r d3" style="--feat-glow:66,133,244;">
-      <div class="tool-av" style="background:linear-gradient(140deg,rgba(66,133,244,0.9) 0%,rgba(139,92,246,0.85) 100%);">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+    <article class="prod prod--flip r d2" id="grove" style="--pc:59,130,246;">
+      <div class="prod-copy">
+        <div class="prod-head"><span class="prod-ic" style="background:linear-gradient(140deg,#16a34a,#065f46);"><i class="bi bi-tree-fill"></i></span><div><span class="prod-kind">Learning platform</span><h3>SFX Grove</h3></div></div>
+        <p class="prod-lead">A guided Salesforce residency: stage-by-stage modules, daily missions, reviewed projects and a public builder portfolio.</p>
+        <ul class="prod-points"><li>Structured path from data model to Apex</li><li>Every project reviewed, every badge earned</li><li>A public portfolio learners can share with employers</li></ul>
+        <a href="https://grove.sfxsupport.com" class="btn-w">Explore SFX Grove &rarr;</a>
       </div>
-      <div>
-        <div class="tbdg">
-          <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
-          Live Now
-        </div>
-        <h3>SFX Debug Analyzer</h3>
-        <p>Enable Apex debug logging with one click, capture logs automatically, and get instant AI analysis. Trace any field, find N+1 SOQL, spot governor limit breaches — without leaving Salesforce.</p>
-        <div class="ttags">
-          <span class="ttag">Debug Logs</span><span class="ttag">Apex</span><span class="ttag">AI Analysis</span>
-          <span class="ttag">Field Tracker</span><span class="ttag">Governor Limits</span><span class="ttag">Chrome Extension</span>
-        </div>
-      </div>
-      <span class="tool-cta" style="background:rgba(66,133,244,0.12);color:rgba(66,133,244,0.9);border:1px solid rgba(66,133,244,0.25);">Open Analyzer &rarr;</span>
-    </a>
+      <div class="prod-shot prod-shot--video"><span class="prod-bar"><i></i><i></i><i></i><em>grove.sfxsupport.com</em></span><video controls preload="metadata" playsinline poster="/assets/images/grove/demo-poster.jpg" aria-label="A tour of the SFX Grove learning platform"><source src="/assets/videos/grove-demo.mp4" type="video/mp4"></video></div>
+    </article>
 
-    <a href="https://forge.sfxsupport.com/" class="tool-feat r d3" style="--feat-glow:249,115,22;">
-      <div class="tool-av" style="background:linear-gradient(140deg,rgba(249,115,22,0.9) 0%,rgba(194,65,12,0.85) 100%);">
-        <i class="bi bi-hammer" style="font-size:1.15rem;color:#fff;"></i>
+    <article class="prod r d2" id="forge" style="--pc:249,115,22;">
+      <div class="prod-copy">
+        <div class="prod-head"><span class="prod-ic" style="background:linear-gradient(140deg,#f97316,#c2410c);"><i class="bi bi-hammer"></i></span><div><span class="prod-kind">Apex practice</span><h3>SFX Forge</h3></div></div>
+        <p class="prod-lead">129 Salesforce Apex problems across triggers, SOQL, SOSL and core Apex. Write real Apex, run it against a real org and get pass/fail feedback.</p>
+        <ul class="prod-points"><li>Real org execution, not multiple choice</li><li>Hints and solutions when you are stuck</li><li>Built for interview preparation</li></ul>
+        <a href="https://forge.sfxsupport.com/" class="btn-w">Start practising &rarr;</a>
       </div>
-      <div>
-        <div class="tbdg">
-          <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
-          Live Now
-        </div>
-        <h3>SFX Forge</h3>
-        <p>129 Salesforce Apex interview questions across triggers, SOQL, SOSL and core Apex. Write real Apex, run it against a real Salesforce org, and get instant pass/fail feedback with hints when you're stuck. Sign in with Google; most problems run without connecting your own org.</p>
-        <div class="ttags">
-          <span class="ttag">Apex Interview Questions</span><span class="ttag">Triggers</span><span class="ttag">SOQL</span>
-          <span class="ttag">SOSL</span><span class="ttag">Hints &amp; Solutions</span><span class="ttag">Real Org Execution</span>
+      <a class="prod-shot" href="https://forge.sfxsupport.com/" tabindex="-1" aria-hidden="true"><span class="prod-bar"><i></i><i></i><i></i><em>forge.sfxsupport.com</em></span><img src="/assets/images/campaign/built/forge.webp" width="960" height="600" loading="lazy" decoding="async" alt=""></a>
+    </article>
+
+    <article class="prod prod--flip r d2" id="ask-krrish" style="--pc:234,88,12;">
+      <div class="prod-copy">
+        <div class="prod-head"><span class="prod-ic" style="background:linear-gradient(140deg,#ea580c,#9a3412);">K</span><div><span class="prod-kind">AI assistant</span><h3>Ask Krrish</h3></div></div>
+        <p class="prod-lead">An AI assistant built for Salesforce. Ask anything from a basic SOQL question to an architecture decision, and get answers with code.</p>
+        <ul class="prod-points"><li>Apex, SOQL, Flow, LWC and integration help</li><li>Debugging guidance and best practices</li><li>Sign in with Google and start</li></ul>
+        <a href="/chatbot/" class="btn-w"><span class="live"></span>&nbsp;Open Ask Krrish &rarr;</a>
+      </div>
+      <div class="prod-shot prod-mock"><span class="prod-bar"><i></i><i></i><i></i><em>sfxsupport.com/chatbot</em></span>
+        <div class="mock-chat">
+          <p class="mu">When should I use a Queueable instead of a future method?</p>
+          <div class="mk"><p>Use <strong>Queueable</strong> when you need to:</p><ul><li>pass non-primitive types, like sObjects</li><li>chain jobs or monitor them by job Id</li><li>call out from a chained, async context</li></ul><p>Future methods are fine for simple, fire-and-forget callouts.</p></div>
+          <p class="mu">Show me a Queueable that updates Accounts.</p>
+          <div class="mk"><code>public class AccountJob implements Queueable { … }</code></div>
         </div>
       </div>
-      <span class="tool-cta" style="background:rgba(249,115,22,0.12);color:rgba(249,115,22,0.9);border:1px solid rgba(249,115,22,0.25);">Start practising &rarr;</span>
-    </a>
+    </article>
 
-    <a href="#grove" class="tool-feat r d3">
-      <div class="tool-av" style="background:linear-gradient(140deg,rgba(110,200,140,.9) 0%,rgba(30,110,80,.85) 100%);">
-        <span style="font-size:1.1rem;">&#127793;</span>
+    <article class="prod r d2" id="debug-analyzer" style="--pc:99,102,241;">
+      <div class="prod-copy">
+        <div class="prod-head"><span class="prod-ic" style="background:linear-gradient(140deg,#6366f1,#4338ca);"><i class="bi bi-stars"></i></span><div><span class="prod-kind">Chrome extension + AI</span><h3>SFX Debug Log Analyzer</h3></div></div>
+        <p class="prod-lead">Enable Apex debug logging in one click, capture logs automatically and get an AI explanation without leaving Salesforce.</p>
+        <ul class="prod-points"><li>Find SOQL and DML inside loops</li><li>Spot governor limit pressure and slow methods</li><li>Trace where a field value changed</li></ul>
+        <a href="/debug-log-analyzer/" class="btn-w">Open Analyzer &rarr;</a>
       </div>
-      <div>
-        <div class="tbdg">
-          <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>
-          Live Now
+      <div class="prod-shot prod-mock"><span class="prod-bar"><i></i><i></i><i></i><em>sample analysis</em></span>
+        <div class="mock-log">
+          <div class="ml-head"><span>AccountTrigger · bulk update · 200 records</span><span>4.2 s</span></div>
+          <div class="ml-row bad"><b>●</b><div><strong>SOQL inside a loop</strong><small>AccountTriggerHandler.cls, line 42 · 101 queries</small></div></div>
+          <div class="ml-row warn"><b>●</b><div><strong>CPU time near the limit</strong><small>9,420 ms of 10,000 ms</small></div></div>
+          <div class="ml-row warn"><b>●</b><div><strong>Field changed twice</strong><small>Account.Rating · Flow, then trigger</small></div></div>
+          <div class="ml-row ok"><b>●</b><div><strong>Suggested fix</strong><small>Query once before the loop and read from a Map</small></div></div>
         </div>
-        <h3>SFX Grove</h3>
-        <p>A guided Salesforce residency — structured modules, reviewed projects, and a public builder portfolio. Learn by shipping real work, not watching videos.</p>
-        <div class="ttags">
-          <span class="ttag">Learning Path</span><span class="ttag">Reviewed Projects</span><span class="ttag">Public Portfolio</span>
-        </div>
       </div>
-      <span class="tool-cta">See below &rarr;</span>
-    </a>
-
-  </div>
-</section>
-
-<hr class="dv">
-
-<!-- ═══ TRAVEL MANAGER ═══ -->
-<section id="travel-manager">
-  <div class="wrap">
-    <div class="label r">Business Software</div>
-    <h2 class="r d1">One connected system<br><strong>for every trip.</strong></h2>
-    <p class="desc r d2" style="margin-bottom:2.5rem;">SFX Travel Manager is booking, duty slip, driver, fleet, GST invoice, payment and Agent/Vendor khata software built for Indian travel agencies and taxi operators.</p>
-    <a href="/travel-manager/" class="tool-feat r d3" style="--feat-glow:34,197,94;">
-      <div class="tool-av" style="background:linear-gradient(140deg,rgba(34,197,94,.92) 0%,rgba(15,118,110,.88) 100%);">
-        <i class="bi bi-car-front-fill" style="font-size:1.1rem;color:#fff;"></i>
-      </div>
-      <div>
-        <div class="tbdg"><span style="width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2.2s infinite;"></span>Available now</div>
-        <h3>SFX Travel Manager</h3>
-        <p>Manage the full journey from customer request and vehicle assignment to driver updates, GST invoice, payment and khata—without copying the same trip between calls, WhatsApp, registers and spreadsheets.</p>
-        <div class="ttags"><span class="ttag">Bookings</span><span class="ttag">Driver app</span><span class="ttag">GST invoices</span><span class="ttag">Fleet</span><span class="ttag">Khata</span><span class="ttag">Reports</span></div>
-      </div>
-      <span class="tool-cta">Explore Travel Manager</span>
-    </a>
-  </div>
-</section>
-
-<hr class="dv">
-
-<!-- ═══ SFX GROVE ═══ -->
-<section id="grove">
-  <div class="wrap">
-    <div class="label r">Residency Platform</div>
-    <h2 class="r d1">Learn Salesforce,<br><span class="it">guided end to end.</span></h2>
-    <p class="desc r d2" style="margin-bottom:2.5rem;">SFX Grove is our structured residency — stage-by-stage modules, reviewed evidence, and a public builder portfolio.</p>
-
-    <div class="grove-video-frame r d3">
-      <video
-        controls
-        preload="metadata"
-        playsinline
-        poster="/assets/images/grove/demo-poster.jpg"
-        aria-label="A tour of the SFX Grove learning platform">
-        <source src="/assets/videos/grove-demo.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <a href="https://grove.sfxsupport.com" class="btn-w r d3" style="margin-top:2rem;">
-      Explore SFX Grove <span aria-hidden="true">&rarr;</span>
-    </a>
+    </article>
   </div>
 </section>
 
