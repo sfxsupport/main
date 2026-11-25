@@ -57,6 +57,8 @@ faq:
     a: "Use static SOQL with bind variables, or Database.queryWithBinds for dynamic SOQL. If you must build a query string, escape user input with String.escapeSingleQuotes and whitelist field and object names."
   - q: "What does WITH USER_MODE do in SOQL?"
     a: "It runs the query with the running user's object permissions, field-level security and sharing rules, and throws an exception if a field isn't accessible. Salesforce recommends it over the older WITH SECURITY_ENFORCED clause."
+  - q: "What is the difference between SOQL and SQL?"
+    a: "SOQL is Salesforce's read-only query language. It looks like SQL SELECT but has no INSERT, UPDATE or DELETE (you use DML for that), no SELECT *, and no arbitrary joins: you follow relationship fields instead, such as Account.Name or a Contacts subquery. Queries are also bound by governor limits."
   - q: "When should I use SOSL instead of SOQL?"
     a: "Use SOSL for keyword search across several objects or text fields, such as a global search box. Use SOQL when you know the object and need exact filters, sorting, relationships or aggregates."
 related:

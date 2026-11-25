@@ -54,6 +54,8 @@ faq:
     a: "Implement Database.AllowsCallouts on the batch class, then make the callouts inside the execute method. Callout limits apply per execute transaction."
   - q: "What does Database.Stateful do in Batch Apex?"
     a: "By default, instance variables in a batch class are reset between execute calls. Implementing Database.Stateful keeps their values across chunks, which is useful for running totals or error lists, at some cost to performance."
+  - q: "What is the difference between synchronous and asynchronous Apex?"
+    a: "Synchronous Apex runs immediately while the user or calling process waits, with limits such as 100 SOQL queries and 10 seconds of CPU time. Asynchronous Apex (Queueable, Batch, Scheduled and @future) runs later in its own transaction with higher limits, such as 200 SOQL queries and 60 seconds of CPU time."
   - q: "How do you chain Queueable jobs?"
     a: "Call System.enqueueJob for the next job inside the execute method of the current one. Each Queueable can add only one child job, so the chain runs one job after another."
   - q: "How many scheduled Apex jobs can an org have?"

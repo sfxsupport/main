@@ -46,6 +46,8 @@ key_points:
 faq:
   - q: "Is Process Builder still supported?"
     a: "No. Salesforce ended support for Process Builder and Workflow Rules on 31 December 2025. Existing processes may keep running, but they no longer get support or fixes, so move them to Flow with the Migrate to Flow tool."
+  - q: "What is the difference between Flow, Process Builder and Workflow Rules?"
+    a: "All three automate record changes without code, but only Flow is still supported. Workflow Rules handled simple field updates, emails and outbound messages; Process Builder added more actions; Flow covers both plus loops, screens, scheduled paths, subflows and error handling. Support for Workflow Rules and Process Builder ended on 31 December 2025."
   - q: "What is the difference between a before-save and an after-save flow?"
     a: "A before-save flow (Fast Field Updates) runs before the record is saved and can only change fields on that record, with no DML, so it is fast. An after-save flow (Actions and Related Records) runs after the save and can create or update other records, send emails and call actions."
   - q: "How do you stop a flow from hitting governor limits?"

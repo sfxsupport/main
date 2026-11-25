@@ -38,6 +38,8 @@ key_points:
   - "Unlocked packages are the standard way to split a large org into modules."
   - "Apps listed on AppExchange must pass the security review."
 faq:
+  - q: "What is a managed package in Salesforce?"
+    a: "A managed package is a versioned, upgradeable bundle of metadata with its own namespace, used to distribute an app to other orgs, often through AppExchange. Its Apex code is hidden from subscribers, and publishers can push upgrades without overwriting the subscriber's data."
   - q: "What is the difference between 1GP and 2GP managed packages?"
     a: "1GP packages are built and versioned inside a single packaging org. 2GP packages are built from source in version control using Salesforce CLI and a Dev Hub, can share a namespace across several packages and fit modern CI/CD. Salesforce recommends 2GP for new managed packages."
   - q: "What is the difference between an unlocked and an unmanaged package?"
