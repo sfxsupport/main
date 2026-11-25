@@ -52,3 +52,7 @@ exclude:
 google_tag_id: "GTM-NSWHW4DV"
 google_ads_id: ""
 google_ads_lead_label: ""
+
+sass:
+  style: compressed
+  sourcemap: never
