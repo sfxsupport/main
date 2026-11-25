@@ -6,7 +6,7 @@ title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
 seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
 description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
-last_modified_at: 2026-11-25 02:10:00 +0530
+last_modified_at: 2026-11-25 04:30:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -409,7 +409,17 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
         Integer maxLen = Case.AI_Summary__c.getDescribe().getLength();
         List<Case> updates = new List<Case>();
 
-        for (Case c : scope) {
+        for (Case row : scope) {
+            // Re-read in user mode right before the callout: skip Cases that were deleted,
+            // are no longer visible to this user, or are no longer requested.
+            List<Case> current = [SELECT Id, Subject, Description, AI_Summary_Attempts__c,
+                                         AI_Summary_Requested__c
+                                  FROM Case WHERE Id = :row.Id WITH USER_MODE];
+            if (current.isEmpty() || !current[0].AI_Summary_Requested__c) {
+                continue;
+            }
+            Case c = current[0];
+
             LlmClient.LlmResult r = null;
             try {
                 r = LlmClient.complete(
@@ -428,9 +438,9 @@ public with sharing class CaseSummaryBatch implements Database.Batchable<SObject
 
             // Success or failure: re-read and lock the row. If someone edited the text or
             // unticked the request while the model was answering, leave the record alone.
-            Case fresh = [SELECT Subject, Description, AI_Summary_Requested__c FROM Case
-                          WHERE Id = :c.Id WITH USER_MODE FOR UPDATE];
-            if (!fresh.AI_Summary_Requested__c || textChanged(c, fresh)) {
+            List<Case> locked = [SELECT Subject, Description, AI_Summary_Requested__c FROM Case
+                                 WHERE Id = :c.Id WITH USER_MODE FOR UPDATE];
+            if (locked.isEmpty() || !locked[0].AI_Summary_Requested__c || textChanged(c, locked[0])) {
                 continue;
             }
 
@@ -478,7 +488,7 @@ public with sharing class CaseSummaryDispatcher implements Schedulable {
 
 How this behaves:
 
-- **Permissions:** the query runs `WITH USER_MODE` and the update runs `as user`, so the job only sends and changes data the running user can see and edit. Schedule it as a user who can read the Cases, read `Subject` and `Description`, and edit `AI_Summary__c`, `AI_Summary_Requested__c` and `AI_Summary_Attempts__c`. Give that user the External Credential principal access and User External Credentials access from the setup section too.
+- **Permissions:** each Case is re-read `WITH USER_MODE` right before the callout and again (locked) before saving, and the update runs `as user`, so the job skips Cases the running user can no longer see and only changes what that user can edit. If the user loses field access completely, the user-mode query throws and that run fails loudly in **Apex Jobs** instead of sending data. A call already sent to the vendor can't be recalled. Schedule the job as a user who can read the Cases, read `Subject` and `Description`, and edit `AI_Summary__c`, `AI_Summary_Requested__c` and `AI_Summary_Attempts__c`. Give that user the External Credential principal access and User External Credentials access from the setup section too.
 - **Failures:** only `LlmClient.LlmException` and `System.CalloutException` are caught, so real bugs (bad casts, null pointers) still fail loudly. A caught failure is retried on the next runs, up to 3 attempts; then its checkbox is cleared and `AI_Summary_Attempts__c` = 3 marks it for review. The limit counts only failures the job could record: if the whole transaction fails (an uncaught exception, or the final update itself failing), nothing is saved and the record is tried again, so check **Apex Jobs** in Setup for failed batches. Editing the Subject or Description (case-sensitive) queues it again with a fresh counter. Unticking the checkbox stops retries, and a run that finishes after you untick it or edit the text leaves the record alone.
 - **Duplicate charges:** a record is cleared only after its summary is saved, and only one batch runs at a time. That keeps repeat calls rare, but it can't rule them out: if the vendor call succeeds and the Salesforce update then fails, the next run calls the model again. Set a spend limit at the vendor and watch the debug logs. The same retry problem is covered in [why integration retries create duplicates](/blog/salesforce-integration-retries-idempotency/).
 - **Volume:** `LIMIT 2000` keeps each run bounded; anything left over is handled by the next scheduled run.
@@ -665,6 +675,19 @@ private class CaseSummaryBatchTest {
     }
 
     @IsTest
+    static void dispatcherStartsTheBatch() {
+        Case c = newCase(0);
+        Test.setMock(HttpCalloutMock.class, new Mock(200));
+        Test.startTest();
+        new CaseSummaryDispatcher().execute(null);
+        Test.stopTest();
+        Assert.areEqual(1, [SELECT COUNT() FROM AsyncApexJob
+                            WHERE ApexClass.Name = 'CaseSummaryBatch' AND JobType = 'BatchApex']);
+        c = [SELECT AI_Summary_Requested__c FROM Case WHERE Id = :c.Id];
+        Assert.isFalse(c.AI_Summary_Requested__c);
+    }
+
+    @IsTest
     static void stopsAfterThirdFailure() {
         Case c = newCase(2);
         Test.setMock(HttpCalloutMock.class, new Mock(500));
@@ -805,7 +828,9 @@ sf apex generate trigger --name CaseTrigger --sobject Case --event "before inser
   --output-dir force-app/main/default/triggers
 ```
 
-**3. Paste the code** from this guide into the matching `.cls` and `.trigger` files, replacing the generated stubs.
+**3. Paste the code** from this guide into the matching `.cls` and `.trigger` files, replacing the generated stubs. Put the `MockLlm`-based tests in `LlmClientTest.cls` and the batch and dispatcher tests in `CaseSummaryBatchTest.cls`.
+
+> **Testing status:** this code was reviewed line by line against the official Apex, Named Credential and vendor API docs, but it has not yet been run in a Salesforce org by SFX. Run the tests in a sandbox before production, and tell us if anything fails so we can fix the guide.
 
 **4. Deploy to a sandbox and run the tests:**
 

@@ -876,7 +876,7 @@ footer{
     <div class="hero-trust r d4">
       <span><i class="bi bi-cpu"></i> Salesforce + AI only</span>
       <span class="htd">·</span>
-      <span><i class="bi bi-patch-check"></i> Tested in real orgs</span>
+      <span><i class="bi bi-patch-check"></i> Reviewed against official docs</span>
       <span class="htd">·</span>
       <span><i class="bi bi-code-slash"></i> Copy-paste code</span>
       <span class="htd">·</span>
@@ -933,7 +933,7 @@ footer{
     <div class="label r">Real People, Real Proof</div>
     <h2 class="r d1">Meet the builders<br><span class="it">growing in public.</span></h2>
     <p class="desc r d2" style="margin-bottom:2.5rem;">
-      <strong id="contrib-stat">Many</strong> learners building real Salesforce skills at SFX Grove — no gatekeeping, just proof.
+      <span id="contrib-stat-wrap" hidden><strong id="contrib-stat"></strong> </span><span id="contrib-noun">Learners</span> building real Salesforce skills at SFX Grove — no gatekeeping, just proof.
     </p>
 
     <div class="contrib-marquee r d3" id="contrib-marquee">
@@ -1319,6 +1319,8 @@ document.querySelectorAll('.r').forEach(el=>obs.observe(el));
     .then(data=>{
       if(data && typeof data.totalLearners==='number' && data.totalLearners>0){
         statEl.textContent=data.totalLearners+'+';
+        statEl.parentNode.hidden=false;
+        document.getElementById('contrib-noun').textContent='learners';
       }
     })
     .catch(()=>{});
