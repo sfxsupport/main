@@ -122,8 +122,8 @@
   <div class="campaign-shell faq-layout">
     <div class="faq-intro reveal">
       <p class="eyebrow"><span></span> FAQ</p>
-      <h2>Questions about {{ s.short | downcase }}</h2>
-      <p>Anything else? WhatsApp 94148 49173, call 76118 96026, or email the founders.</p>
+      <h2>Questions about {{ s.name }}</h2>
+      <p>Anything else? <a href="https://wa.me/919414849173" target="_blank" rel="noopener" data-cta="faq_whatsapp">WhatsApp +91 94148 49173</a>, <a href="tel:+917611896026" data-cta="faq_call">call +91 76118 96026</a>, or email the founders.</p>
       <a href="mailto:founders@sfxsupport.com" data-cta="faq_email">founders@sfxsupport.com</a>
     </div>
     <div class="faq-list">
@@ -134,7 +134,7 @@
   </div>
 </section>
 
-{% include services-enquire.html need="Build an AI agent or AI automation" heading=s.form_heading placeholder=s.form_placeholder %}
+{% include services-enquire.html need=s.name heading=s.form_heading placeholder=s.form_placeholder %}
 
 <script>
   // "Discuss this" on a card: open the enquiry form and start the message with that card's topic.

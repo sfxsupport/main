@@ -81,7 +81,7 @@ service:
       title: "Call an LLM from Apex"
       text: "LLM callout and Batch Apex pattern, shown with case summaries."
     - url: "/blog/agentforce-interview-questions-answers/"
-      title: "How Agentforce agents work"
+      title: "Agentforce Q&A: topics, actions, Trust Layer"
       text: "Topics, actions and the Trust Layer, explained."
   related:
     - "/services/ai-knowledge-base-assistant/"

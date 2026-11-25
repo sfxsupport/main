@@ -34,6 +34,7 @@ service:
     - title: "LLM client for Apex"
       text: "One Apex class for Claude, OpenAI and Gemini, with Named Credentials, typed errors and tests. Switch vendors without rewriting callers."
       meta: "Code from our tested guide, adapted to your org"
+      link: "/blog/call-claude-openai-gemini-from-apex/"
     - title: "Bulk AI jobs"
       text: "Batch Apex that processes thousands of records safely: one callout per transaction, bounded retries and a durable queue."
       meta: "Governor-limit safe"
@@ -98,7 +99,7 @@ faq:
   - q: "Should we use Agentforce or a direct integration?"
     a: "Agentforce suits conversational agents managed in Salesforce with the Einstein Trust Layer's controls; depending on the model you pick, prompts may be processed by Salesforce, a partner model provider or your own provider. A direct integration suits specific tasks, models Agentforce doesn't offer, or tighter cost control. We'll recommend one in the scope."
   - q: "How do you control AI costs?"
-    a: "Small, focused prompts, the cheapest model that meets the quality bar, token limits, usage logging and spend limits at the vendor."
+    a: "We keep prompts small and focused, use the cheapest model that meets the quality bar, cap output tokens, log usage per call and set spend limits in the vendor account."
   - q: "Does the Einstein Trust Layer apply to direct callouts?"
     a: "No. Direct callouts go to the vendor under your contract with them, so we only send the fields the task needs and document that data flow for your security team."
 ---

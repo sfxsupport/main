@@ -6,7 +6,7 @@
       <p>A founder reads every message and replies personally, usually within one working day. If it's a fit, we send a written scope and quote.</p>
       <div class="final-cta__alt">
         <p>Prefer to talk now?</p>
-        <a href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: 'Hi, I saw the SFX Salesforce services page. I need help with: ' | url_encode }}" target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp 94148 49173</a>
+        <a href="https://wa.me/919414849173?text={{ page.whatsapp_text | default: 'Hi, I saw the SFX Salesforce services page. I need help with: ' | url_encode }}" target="_blank" rel="noopener" data-cta="final_whatsapp">WhatsApp +91 94148 49173</a>
         <a href="tel:+917611896026" data-cta="final_call">Call +91 76118 96026</a>
         <a href="mailto:founders@sfxsupport.com" data-cta="final_email">Email the founders</a>
       </div>
@@ -37,6 +37,7 @@
         <option value="Overflow support for our Salesforce practice"{% if include.need == "Overflow support for our Salesforce practice" %} selected{% endif %}>Overflow support for our Salesforce practice</option>
         <option value="Agentforce or AI usage review"{% if include.need == "Agentforce or AI usage review" %} selected{% endif %}>Agentforce or AI usage review</option>
         <option value="Build an AI agent or AI automation"{% if include.need == "Build an AI agent or AI automation" %} selected{% endif %}>Build an AI agent or AI automation</option>
+        {% assign svc_static = "Fix an Apex, Flow, LWC or integration issue|Build an automation|LWC or integration work|Overflow support for our Salesforce practice|Agentforce or AI usage review|Build an AI agent or AI automation|Something else" | split: "|" %}{% if include.need %}{% unless svc_static contains include.need %}<option value="{{ include.need | escape }}" selected>{{ include.need }}</option>{% endunless %}{% endif %}
         <option value="Something else"{% if include.need == "Something else" %} selected{% endif %}>Something else</option>
       </select>
 
@@ -59,7 +60,7 @@
       <label for="svc-message">Describe the problem or what you want built</label>
       <textarea id="svc-message" name="message" rows="4" maxlength="1500" required placeholder="{{ include.placeholder | default: 'e.g. Our case Flow fails when the owner changes. Error: ...' }}"></textarea>
 
-      <div class="lead-form__trap" aria-hidden="true">
+      <div class="lead-form__trap" aria-hidden="true" hidden style="display:none">
         <label for="svc-website">Leave this empty</label>
         <input id="svc-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>

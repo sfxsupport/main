@@ -28,7 +28,7 @@ service:
   not_fit:
     - "You need an official Salesforce partner for procurement (we're independent)"
     - "The use case is a fixed rule that a Flow alone handles"
-    - "You want an agent that uses a model Agentforce doesn't support (see AI + Salesforce integration)"
+    - "You want an agent that uses a model Agentforce doesn't support (see <a href=\"/services/salesforce-ai-integration/\">AI + Salesforce integration</a>)"
   build_heading: "Agentforce work we do"
   build:
     - title: "New agent, end to end"
@@ -74,7 +74,7 @@ service:
       text: "Deployment support and notes your admins can use to maintain topics and actions."
   guides:
     - url: "/blog/agentforce-interview-questions-answers/"
-      title: "How Agentforce works"
+      title: "Agentforce Q&A: topics, actions, Trust Layer"
       text: "Topics, actions, reasoning and the Einstein Trust Layer, with real examples."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "When to call an LLM directly from Apex"

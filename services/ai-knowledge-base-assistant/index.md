@@ -76,7 +76,7 @@ service:
       text: "Deployment, re-indexing schedule and notes. The code is yours."
   guides:
     - url: "/blog/salesforce-data-cloud-interview-questions-answers/"
-      title: "Data Cloud and grounding"
+      title: "Data Cloud and grounding Q&A"
       text: "How Salesforce grounds AI answers in your data."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Add generation with an LLM from Apex"

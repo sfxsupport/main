@@ -86,7 +86,7 @@ service:
       title: "AI case summaries with human review"
       text: "Keep a person in the loop when AI writes into Salesforce records."
     - url: "/blog/agentforce-interview-questions-answers/"
-      title: "How Agentforce agents work"
+      title: "Agentforce Q&A: topics, actions, Trust Layer"
       text: "Topics, actions, reasoning and the Einstein Trust Layer, explained."
   related:
     - "/services/salesforce-agentforce-development/"
@@ -100,7 +100,7 @@ service:
   form_placeholder: "e.g. Read support emails, find the customer's order in Salesforce, draft a reply and send unclear ones to a person."
 faq:
   - q: "How much does a custom AI agent cost?"
-    a: "It depends on how many tools and data sources the agent needs and how much testing the task requires. You get a fixed quote after the scope, before any work starts. Model usage (Claude, OpenAI, Gemini or Agentforce) is billed by the vendor to your account."
+    a: "It depends on how many tools and data sources the agent needs and how much testing the task requires. You get a fixed quote after the scope, before any work starts. Model usage is billed to you directly: Claude, OpenAI or Gemini by that vendor, and Agentforce by Salesforce under your org licence."
   - q: "Which AI model do you use?"
     a: "The one that fits your task, data rules and budget. We often build so the model can be switched later. If you're on Salesforce, Agentforce or the Models API add the Einstein Trust Layer's controls, but prompts may still be processed by external model providers, so we check where data goes for the models you choose."
   - q: "Will our data be used to train the model?"

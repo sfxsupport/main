@@ -38,7 +38,7 @@ service:
       text: "Embeddings for meaning plus keyword search for names, codes and error messages, ranked together."
       meta: "Measured on your questions"
     - title: "Access control"
-      text: "Users only retrieve content they're allowed to see, using your existing permissions where possible."
+      text: "Users only retrieve content they're allowed to see, based on your Salesforce sharing, or on access rules copied from the source system for external documents."
       meta: "Designed in, not added later"
     - title: "Grounded answers with citations"
       text: "The model is instructed to answer only from retrieved passages, link each source and decline when nothing fits. Wrong answers are still possible, so we measure and review them."
@@ -74,7 +74,7 @@ service:
       text: "Deployment, sync schedule and notes on how to add content and rerun the tests."
   guides:
     - url: "/blog/salesforce-data-cloud-interview-questions-answers/"
-      title: "Data Cloud and grounding explained"
+      title: "Data Cloud and grounding Q&A"
       text: "How Data Cloud data reaches Agentforce and prompts."
     - url: "/blog/call-claude-openai-gemini-from-apex/"
       title: "Call an LLM from Apex"
