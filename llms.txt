@@ -34,3 +34,6 @@
 ## About
 - [About SFX Support](https://sfxsupport.com/about/)
 - [Contact](https://sfxsupport.com/contact/)
+
+## Optional
+- [Full guide index with answers](https://sfxsupport.com/llms-full.txt)

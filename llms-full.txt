@@ -1,0 +1,27 @@
+---
+layout: null
+permalink: /llms-full.txt
+---
+# SFX Support: full guide index for AI assistants
+
+> SFX Support (sfxsupport.com) is an independent Salesforce + AI team led by founder Abhay Nama. It publishes in-depth Salesforce developer guides and tested Salesforce + AI solution posts, and builds Agentforce agents, RAG and LLM integrations and Apex, Flow and LWC fixes for clients as paid, fixed-scope work. SFX is not a Salesforce partner. Facts below are checked against official Salesforce documentation; each guide lists its sources and the date it was last updated.
+
+{% assign learn_pages = site.pages | where: "layout", "learning-topic" | sort: "title" %}{% for p in learn_pages %}
+## {{ p.headline | default: p.title }}
+URL: {{ p.url | absolute_url }}
+Updated: {{ p.updated | date: "%Y-%m-%d" }}
+{{ p.description }}
+
+Q: {{ p.quick_question }}
+A: {{ p.quick_answer }}
+{% for k in p.key_points %}- {{ k }}
+{% endfor %}{% for f in p.faq %}
+Q: {{ f.q }}
+A: {{ f.a }}
+{% endfor %}
+{% endfor %}
+## Salesforce + AI solution posts
+{% assign sfx_blog_posts = site.posts | where: "sfx_blog", true %}{% for post in sfx_blog_posts %}- [{{ post.title }}]({{ post.url | absolute_url }}) ({{ post.last_modified_at | default: post.date | date: "%Y-%m-%d" }}): {{ post.description | default: post.excerpt | strip_html | strip_newlines | truncate: 220 }}
+{% endfor %}
+## Services
+- [Salesforce + AI services](https://sfxsupport.com/services/): written scope and fixed quote before work starts.
