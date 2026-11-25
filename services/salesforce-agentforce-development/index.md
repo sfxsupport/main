@@ -86,6 +86,10 @@ service:
     - "/services/ai-agent-development/"
     - "/services/salesforce-ai-integration/"
     - "/services/ai-customer-support-agent/"
+  example:
+    problem: "The service agent picks the wrong topic and the return action fails."
+    scope: "Rewrite two topics, rebuild one Apex action with input validation, add test conversations."
+    handover: "Working topics and action, Apex tests, test conversations and admin notes."
   form_heading: "Tell us about your Agentforce use case."
   form_placeholder: "e.g. Our service agent should check order status and create a return case, but it keeps choosing the wrong topic."
 faq:

@@ -86,6 +86,10 @@ service:
     - "/services/salesforce-ai-integration/"
     - "/services/ai-lead-qualification/"
     - "/services/ai-agent-development/"
+  example:
+    problem: "Order PDFs arrive by email and someone types them into Salesforce."
+    scope: "Extract order fields with AI, create records, send low-confidence ones to a review queue."
+    handover: "Intake automation, review queue, logs, accuracy on 100 past orders."
   form_heading: "Tell us which manual task to automate."
   form_placeholder: "e.g. We get 100 order emails a day with PDF attachments and someone types them into Salesforce."
 faq:

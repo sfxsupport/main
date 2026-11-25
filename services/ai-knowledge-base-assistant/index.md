@@ -87,6 +87,10 @@ service:
     - "/services/custom-rag-solutions/"
     - "/services/ai-customer-support-agent/"
     - "/services/ai-agent-development/"
+  example:
+    problem: "Agents can't find the right Knowledge article for a new case."
+    scope: "TF-IDF similar-article panel on the case page, no external AI, 30 test questions."
+    handover: "Apex search, LWC panel, test results and re-index job."
   form_heading: "Tell us where your answers live."
   form_placeholder: "e.g. 800 Knowledge articles in Salesforce. Agents can't find the right one quickly. We'd prefer no external AI."
 faq:

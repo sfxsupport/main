@@ -17,6 +17,7 @@
         <li>Handover notes; the code is yours</li>
       </ul>
     </div>
+    {% if s.example %}{% include example-scope.html problem=s.example.problem scope=s.example.scope handover=s.example.handover %}{% endif %}
   </div>
 </section>
 

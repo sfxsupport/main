@@ -86,6 +86,10 @@ service:
     - "/services/ai-knowledge-base-assistant/"
     - "/services/custom-rag-solutions/"
     - "/services/salesforce-agentforce-development/"
+  example:
+    problem: "Most tickets are order status and return-policy questions."
+    scope: "Reply drafts for those two ticket types, grounded in Knowledge, reviewed by agents."
+    handover: "Draft action in Service Cloud, test results on past tickets, gap report."
   form_heading: "Tell us about your support team."
   form_placeholder: "e.g. 300 emails a day, mostly order status and returns. We use Service Cloud and Knowledge."
 faq:

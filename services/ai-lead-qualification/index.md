@@ -86,6 +86,10 @@ service:
     - "/services/salesforce-ai-integration/"
     - "/services/ai-workflow-automation/"
     - "/services/ai-agent-development/"
+  example:
+    problem: "Reps work leads in arrival order and good ones wait."
+    scope: "Score web-form leads against written criteria with a reason, route hot leads in minutes."
+    handover: "Scoring job, routing, accuracy report on past leads and override tracking."
   form_heading: "Tell us about your leads."
   form_placeholder: "e.g. 500 inbound leads a month from web forms. We want the good ones routed to sales within minutes."
 faq:

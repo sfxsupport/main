@@ -86,6 +86,10 @@ service:
     - "/services/ai-knowledge-base-assistant/"
     - "/services/ai-agent-development/"
     - "/services/ai-customer-support-agent/"
+  example:
+    problem: "Staff search 300 policy PDFs and still ask colleagues for answers."
+    scope: "Ingest the PDFs, hybrid search, cited answers in one internal page, 40 test questions."
+    handover: "Pipeline, search, answer page, evaluation results and re-index schedule."
   form_heading: "Tell us what your AI should answer from."
   form_placeholder: "e.g. 400 product PDFs and our Salesforce Knowledge base. Support agents should get answers with links to the source."
 faq:

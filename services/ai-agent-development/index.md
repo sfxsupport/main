@@ -88,6 +88,10 @@ service:
     - "/services/salesforce-agentforce-development/"
     - "/services/custom-rag-solutions/"
     - "/services/ai-workflow-automation/"
+  example:
+    problem: "Support emails pile up; agents copy order details from Salesforce by hand."
+    scope: "One agent that reads the email, looks up the order, drafts a reply and flags unclear cases."
+    handover: "Agent, tools, test set of 50 real emails, logging and handover notes."
   form_heading: "Tell us what you want the agent to do."
   form_placeholder: "e.g. Read support emails, find the customer's order in Salesforce, draft a reply and send unclear ones to a person."
 faq:
