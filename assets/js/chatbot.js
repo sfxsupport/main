@@ -97,8 +97,9 @@ export async function initChat(user) {
     // Clean URL so refresh doesn't re-send
     const cleanUrl = window.location.pathname;
     window.history.replaceState({}, '', cleanUrl);
-    // Auto-send after tiny delay so UI is ready
-    setTimeout(() => handleSend(), 280);
+    // Auto-send after tiny delay so UI is ready; if today's limit is used up,
+    // leave the prompt in the box so the user can send it later.
+    if (status.remaining > 0) setTimeout(() => handleSend(), 280);
   }
 }
 

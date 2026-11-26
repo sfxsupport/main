@@ -41,7 +41,7 @@
   a: "For system-mode database operations, with sharing enforces the user's record sharing, without sharing ignores it and inherited sharing follows the caller. They don't enforce object or field permissions. User-mode operations (WITH USER_MODE, AccessLevel.USER_MODE) enforce sharing, object and field permissions regardless of the class keyword."
   points:
     - "Sharing keywords cover record access only"
-    - "inherited sharing is the safe default for utility classes"
+    - "with sharing by default; inherited sharing only for classes safe in both modes"
     - "CRUD/FLS needs USER_MODE or stripInaccessible"
   follow: "A class has no sharing keyword. What mode does it run in?"
   link: /security-sharing/
@@ -119,7 +119,7 @@
   role: developer
   level: mid
   q: "Explain the Salesforce order of execution."
-  a: "In short: system validation, before-save record-triggered flows, before triggers, custom validation rules, duplicate rules, save (not committed), after triggers, assignment and auto-response rules, workflow rules (which can re-run triggers once), escalation rules, after-save flows, entitlement and roll-up summary updates, then commit and post-commit work such as emails and async jobs."
+  a: "In short: system validation, before-save record-triggered flows, before triggers, custom validation rules, duplicate rules, save (not committed), after triggers, assignment and auto-response rules, workflow rules (which can re-run triggers once), escalation rules, after-save flows (API 54.0+; older ones run after entitlements), entitlement and roll-up updates, then commit and post-commit work such as emails and async jobs."
   points:
     - "Before-save flows run before before triggers"
     - "Validation rules after before triggers"
