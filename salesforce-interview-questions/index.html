@@ -48,6 +48,7 @@ permalink: /salesforce-interview-questions/
 .iq-chip{font:inherit;font-size:.82rem;color:var(--t2);background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:.35rem .8rem;cursor:pointer}
 .iq-chip:hover{color:var(--t);border-color:rgba(255,255,255,.25)}
 .iq-chip[aria-pressed="true"]{color:#111;background:var(--t);border-color:var(--t)}
+.iq-h2{font-size:1.15rem;font-weight:600;margin:0 0 .4rem}
 .iq-count{font-size:.8rem;color:var(--t3);margin:0 0 1rem}
 .iq-list{display:grid;gap:.75rem}
 .iq-card{border:1px solid rgba(255,255,255,.09);background:#111114;border-radius:14px;overflow:hidden}
@@ -130,23 +131,24 @@ permalink: /salesforce-interview-questions/
     </div>
   </div>
 
+  <h2 class="iq-h2">Salesforce interview questions and answers</h2>
   <p class="iq-count" id="iq-count" aria-live="polite">Showing all {{ qs.size }} questions</p>
 
   <div class="iq-list" id="iq-list">
     {% for x in qs %}
     <details class="iq-card" id="{{ x.id }}" data-level="{{ x.level }}" data-role="{{ x.role }}" data-topic="{{ x.topic | slugify }}">
       <summary>
-        <h3>{{ x.q }}</h3>
-        <div class="iq-tags"><span>{{ x.topic }}</span><span class="lv-{{ x.level }}">{% case x.level %}{% when 'fresher' %}Fresher{% when 'mid' %}2–4 yrs{% else %}5+ yrs{% endcase %}</span></div>
+        <h3>{{ x.q | escape }}</h3>
+        <span class="iq-tags"><span>{{ x.topic }}</span><span class="lv-{{ x.level }}">{% case x.level %}{% when 'fresher' %}Fresher{% when 'mid' %}2–4 yrs{% else %}5+ yrs{% endcase %}</span></span>
       </summary>
       <div class="iq-body">
-        <p>{{ x.a }}</p>
+        <p>{{ x.a | escape }}</p>
         <h4>What the interviewer wants to hear</h4>
-        <ul>{% for p in x.points %}<li>{{ p }}</li>{% endfor %}</ul>
+        <ul>{% for p in x.points %}<li>{{ p | escape }}</li>{% endfor %}</ul>
         <h4>Likely follow-up</h4>
-        <p class="iq-follow">{{ x.follow }}</p>
+        <p class="iq-follow">{{ x.follow | escape }}</p>
         <div class="iq-links">
-          <button class="iq-btn iq-btn--w" type="button" data-practice>Practise this answer</button>
+          <button class="iq-btn iq-btn--w" type="button" data-practice>Practice this answer</button>
           {% if x.link %}<a class="iq-btn iq-btn--g" href="{{ x.link }}">Read the full guide →</a>{% endif %}
         </div>
         <div class="iq-prac" hidden>
@@ -156,7 +158,7 @@ permalink: /salesforce-interview-questions/
             <button class="iq-btn iq-btn--g" type="button" data-check>Check against key points</button>
             <button class="iq-btn iq-btn--w" type="button" data-grade>Grade with Ask Krrish (AI) →</button>
           </div>
-          <ul class="iq-check" hidden>{% for p in x.points %}<li data-kp="{{ p | escape }}"><i aria-hidden="true"></i><span>{{ p }}</span></li>{% endfor %}</ul>
+          <ul class="iq-check" hidden>{% for p in x.points %}<li data-kp="{{ p | escape }}"><i aria-hidden="true"></i><span>{{ p | escape }}</span></li>{% endfor %}</ul>
           <p class="iq-note">The check looks for the main words of each point in your answer. It's a quick self-check; the AI grade gives real feedback. Ask Krrish needs a Google sign-in, and your answer is kept for after you sign in.</p>
         </div>
       </div>
@@ -195,7 +197,7 @@ permalink: /salesforce-interview-questions/
 
   <section class="iq-cta">
     <h2>Want to be interview-ready, not just read answers?</h2>
-    <p>Our live Salesforce Admin + Developer batch covers Apex, LWC, Flow, integrations and Agentforce with five real projects and mock interviews. Every class is recorded.</p>
+    <p>Our live Salesforce Admin + Developer batch covers Apex, LWC, Flow, integrations and Agentforce with five real projects. Every class is recorded.</p>
     <div class="iq-links">
       <a class="iq-btn iq-btn--w" href="/salesforce-training/" data-cta="iq_training">See the batch →</a>
       <a class="iq-btn iq-btn--g" href="/chatbot/" data-cta="iq_askkrrish">Ask Krrish a question</a>
@@ -235,6 +237,7 @@ permalink: /salesforce-interview-questions/
     var c=document.getElementById(h); if(c&&c.classList.contains('iq-card')){ c.open=true; }
   }
   window.addEventListener('hashchange',fromHash); fromHash();
+  document.querySelectorAll('a[href^="#level="],a[href^="#role="],a[href^="#topic="]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();history.replaceState(null,'',a.getAttribute('href'));fromHash();});});
 
   function words(s){ return (s.toLowerCase().match(/[a-z0-9@.$_]+/g)||[]).filter(function(w){return w.length>2&&['the','and','for','not','vs','with','per','use','own','why','can','its','one','how'].indexOf(w)<0;}); }
   list.addEventListener('click',function(e){

@@ -256,11 +256,11 @@
   role: developer
   level: mid
   q: "When do you call Apex imperatively instead of using @wire?"
-  a: "Use @wire to read data that should load and refresh automatically; the Apex method must be cacheable=true. Call Apex imperatively when the call is triggered by a user action, when it changes data (DML), or when you need control over when it runs. After imperative DML, call refreshApex or notify LDS so wired data updates."
+  a: "Use @wire for read-only data that loads automatically; the Apex method must be cacheable=true. Call Apex imperatively for user-triggered calls, DML, or when you control timing. After imperative DML, call refreshApex on the wired Apex result and notifyRecordUpdateAvailable for Lightning Data Service records (both if both are used)."
   points:
     - "@wire needs cacheable=true and is read-only"
     - "Imperative for actions and DML"
-    - "refreshApex / record notifications"
+    - "refreshApex for Apex wires, notifyRecordUpdateAvailable for LDS"
   follow: "Why can't a cacheable method do DML?"
   link: /lwc-essentials/
 
@@ -333,7 +333,7 @@
   role: admin
   level: fresher
   q: "Is Process Builder still supported? What should you do with old processes?"
-  a: "Salesforce retired Workflow Rules and Process Builder in favour of Flow. Existing automations still run but new ones can't be created and they no longer get fixes. Use the Migrate to Flow tool to convert them to record-triggered flows, then test and deactivate the old automation."
+  a: "Salesforce retired Workflow Rules and Process Builder in favour of Flow. Existing automations still run but no longer get fixes, and new Process Builder processes can't be created (developer orgs keep a narrow exception for managed-package testing). Use the Migrate to Flow tool to convert them to record-triggered flows, then test and deactivate the old automation."
   points:
     - "Flow is the strategic tool"
     - "Migrate to Flow tool"
@@ -359,12 +359,12 @@
   role: admin
   level: mid
   q: "Explain the Salesforce sharing model."
-  a: "Object and field access come from profiles and permission sets. Record access starts from organization-wide defaults (the most restrictive baseline), then opens up through the role hierarchy, sharing rules, teams, manual sharing and Apex sharing. Sharing can only widen access beyond OWD, never restrict it."
+  a: "Object and field access come from profiles and permission sets. Record access starts from organization-wide defaults, then opens up through the role hierarchy, sharing rules, teams, manual and Apex sharing. Those only widen access. Restriction rules, on supported objects, do the opposite: they filter which records a user can see."
   points:
     - "Object/field vs record access"
     - "OWD is the floor"
     - "Role hierarchy, sharing rules, manual/Apex sharing"
-    - "Sharing only opens access"
+    - "Sharing widens access; restriction rules narrow it"
   follow: "A user can see a record they shouldn't. How do you find out why?"
   link: /blog/why-salesforce-user-can-see-record/
 
@@ -477,7 +477,7 @@
   role: developer
   level: senior
   q: "Unmanaged vs unlocked vs managed packages: what's the difference?"
-  a: "Unmanaged packages are a one-time copy; the installed code can be edited and can't be upgraded. Unlocked packages are versioned and upgradable, meant for an org's own modular development. Managed packages (2GP) are for ISVs: namespaced, upgradable, code protected and listable on AppExchange."
+  a: "Unmanaged packages are a one-time copy; the installed code can be edited and can't be upgraded. Unlocked packages are versioned and upgradable, meant for an org's own modular development. Managed packages (first or second generation, 2GP recommended) are for ISVs: namespaced, upgradable, code protected and listable on AppExchange."
   points:
     - "Upgradeability"
     - "Who each is for"
@@ -516,10 +516,10 @@
   role: ai
   level: mid
   q: "What is the Einstein Trust Layer?"
-  a: "It is the set of safeguards between Salesforce and the language model: secure data retrieval that respects user permissions, dynamic grounding, masking of sensitive data in prompts, zero data retention agreements with model providers, toxicity scoring of responses and an audit trail of prompts and responses."
+  a: "It is the set of safeguards between Salesforce and the language model: secure data retrieval that respects user permissions, dynamic grounding, zero data retention agreements with model providers, toxicity scoring and an audit trail. Data masking of sensitive fields applies to some generative AI features, but Salesforce disables it for agents."
   points:
     - "Permission-aware grounding"
-    - "Data masking"
+    - "Masking: where it applies, and that it is off for agents"
     - "Zero data retention"
     - "Toxicity detection and audit"
   follow: "Does the Trust Layer apply when you call OpenAI directly from Apex?"
