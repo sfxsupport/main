@@ -234,7 +234,7 @@ permalink: /salesforce-interview-questions/
     var h=location.hash.slice(1); if(!h) return;
     var m=h.match(/^(level|role|topic)=([a-z0-9-]+)$/);
     if(m){ state={level:'all',role:'all',topic:'all'}; state[m[1]]=m[2]; apply(); list.scrollIntoView({behavior:'smooth',block:'start'}); return; }
-    var c=document.getElementById(h); if(c&&c.classList.contains('iq-card')){ c.open=true; }
+    var c=document.getElementById(h); if(c&&c.classList.contains('iq-card')){ state={level:'all',role:'all',topic:'all'}; apply(); c.open=true; c.scrollIntoView({block:'start'}); }
   }
   window.addEventListener('hashchange',fromHash); fromHash();
   document.querySelectorAll('a[href^="#level="],a[href^="#role="],a[href^="#topic="]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();history.replaceState(null,'',a.getAttribute('href'));fromHash();});});

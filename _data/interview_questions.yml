@@ -51,9 +51,9 @@
   role: developer
   level: fresher
   q: "What code coverage does Salesforce require and what makes a good test class?"
-  a: "Production deployment needs at least 75% overall Apex coverage, and every trigger needs some coverage. A good test creates its own data (or uses @testSetup), runs the logic inside Test.startTest/stopTest, tests bulk (200 records), positive, negative and permission cases, and asserts results with System.assertEquals or the Assert class."
+  a: "With the default test levels, production needs at least 75% overall Apex coverage and every trigger needs some coverage; with RunSpecifiedTests, each deployed class and trigger needs 75%. Good tests create their own data (or use @testSetup), run the logic inside Test.startTest/stopTest, cover bulk, negative and permission cases and assert results with System.assertEquals or the Assert class."
   points:
-    - "75% is the minimum, not the goal"
+    - "75% rules per test level; a minimum, not the goal"
     - "Own test data; avoid SeeAllData=true"
     - "Bulk and negative tests"
     - "Real assertions, not just coverage"
@@ -106,11 +106,11 @@
   role: developer
   level: mid
   q: "How do you prevent recursive triggers?"
-  a: "Track what has already been processed. A static Boolean stops all re-entry but breaks with batches over 200 records, because the trigger runs again for the next chunk. A static Set<Id> of processed record Ids is safer. Better still, compare Trigger.oldMap values and only act when the relevant field actually changed."
+  a: "Track what has already been processed in this transaction. A static Boolean blocks all re-entry, including the next 200-record chunk. A static Set<Id> of processed Ids, checked per operation, is safer. Field-change checks help but alone are not enough: on a workflow re-fire Trigger.old still holds the original values."
   points:
     - "Why a static Boolean is risky"
     - "Static Set<Id> approach"
-    - "Field-changed checks reduce re-runs"
+    - "Why oldMap checks alone fail on workflow re-fires"
   follow: "A workflow field update re-fires your trigger. What happens to your static variables?"
   link: /blog/salesforce-apex-trigger-interview-questions-6-years-experience/
 
@@ -647,4 +647,3 @@
     - "Permissions as a cause"
     - "Regression test"
   follow: "The log is truncated at 20 MB. What do you do?"
-  link: /debug-log-analyzer/
