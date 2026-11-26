@@ -105,10 +105,22 @@ export async function initChat(user) {
     inputEl.dispatchEvent(new Event("input"));   // enables the send button
     // Keep the saved copy in step with edits until it is sent successfully.
     inputEl.addEventListener("input", () => {
-      if (draftFromStorage && inputEl.value.trim()) {
-        try { sessionStorage.setItem('sfx_chat_prefill', inputEl.value); } catch (e) {}
-      }
+      if (!draftFromStorage) return;
+      try {
+        if (inputEl.value.trim()) sessionStorage.setItem('sfx_chat_prefill', inputEl.value);
+        else sessionStorage.removeItem('sfx_chat_prefill');
+      } catch (e) {}
     });
+  }
+}
+
+// Put a practice draft back in the box after a failed or stopped send.
+function restoreDraft(text) {
+  draftFromStorage = true;
+  if (!inputEl.value.trim()) {
+    inputEl.value = text;
+    autoResize();
+    inputEl.dispatchEvent(new Event("input"));
   }
 }
 
@@ -152,7 +164,7 @@ async function handleSend() {
       // aborts and dropped streams also call onDone({}) and keep it.
       if (sendingDraft) {
         if (usage?.used != null) { try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {} }
-        else draftFromStorage = true;
+        else restoreDraft(text);
       }
       setTyping(false);
       setLocked(false);
@@ -170,9 +182,10 @@ async function handleSend() {
     },
     onError(err) {
       clearTimeout(streamTimeout);
-      if (sendingDraft) draftFromStorage = true;   // saved draft stays recoverable
+
       setTyping(false);
       setLocked(false);
+      if (sendingDraft) restoreDraft(text);   // saved draft stays recoverable
       isStreaming = false;
       abortController = null;
       if (err.type === "limit") {
