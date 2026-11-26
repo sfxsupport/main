@@ -149,7 +149,7 @@ permalink: /salesforce-interview-questions/
         <p class="iq-follow">{{ x.follow | escape }}</p>
         <div class="iq-links">
           <button class="iq-btn iq-btn--w" type="button" data-practice>Practice this answer</button>
-          {% if x.link %}<a class="iq-btn iq-btn--g" href="{{ x.link }}">Read the full guide →</a>{% endif %}
+          {% if x.link %}<a class="iq-btn iq-btn--g" href="{{ x.link }}">{% if x.link contains '/services/' %}See how we build it →{% else %}Read the full guide →{% endif %}</a>{% endif %}
         </div>
         <div class="iq-prac" hidden>
           <label for="ans-{{ x.id }}">Answer as you would in the interview</label>
@@ -259,7 +259,7 @@ permalink: /salesforce-interview-questions/
     if(e.target.closest('[data-grade]')){
       var q=card.querySelector('h3').textContent.trim(), a=ta.value.trim();
       if(!a){ ta.focus(); ta.placeholder='Type your answer first, then ask for a grade.'; return; }
-      var prompt='Act as a Salesforce interviewer. Question: "'+q+'"\n\nMy answer: "'+a+'"\n\nGrade my answer out of 10, list what I got right, what I missed or got wrong, and give a stronger model answer. Then ask me one follow-up question.';
+      var prompt='Act as a Salesforce interviewer.\n\nQUESTION:\n'+q+'\n\nMY ANSWER (between the markers):\n<<<ANSWER\n'+a+'\nANSWER>>>\n\nGrade my answer out of 10, list what I got right, what I missed or got wrong, and give a stronger model answer. Then ask me one follow-up question.';
       try{ sessionStorage.setItem('sfx_chat_prefill',prompt); }catch(err){}
       if(window.gtag) gtag('event','iq_ai_grade',{question:card.id});
       location.href='/chatbot/';

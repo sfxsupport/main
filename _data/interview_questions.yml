@@ -38,7 +38,7 @@
   role: developer
   level: mid
   q: "What is the difference between with sharing, without sharing and inherited sharing?"
-  a: "with sharing enforces the running user's record-level sharing rules; without sharing ignores them; inherited sharing takes the sharing mode of the calling class. None of them enforce object or field permissions. For CRUD and field-level security use WITH USER_MODE in SOQL, AccessLevel.USER_MODE in DML, or Security.stripInaccessible."
+  a: "For system-mode database operations, with sharing enforces the user's record sharing, without sharing ignores it and inherited sharing follows the caller. They don't enforce object or field permissions. User-mode operations (WITH USER_MODE, AccessLevel.USER_MODE) enforce sharing, object and field permissions regardless of the class keyword."
   points:
     - "Sharing keywords cover record access only"
     - "inherited sharing is the safe default for utility classes"
@@ -106,7 +106,7 @@
   role: developer
   level: mid
   q: "How do you prevent recursive triggers?"
-  a: "Track what has already been processed in this transaction. A static Boolean blocks all re-entry, including the next 200-record chunk. A static Set<Id> of processed Ids, checked per operation, is safer. Field-change checks help but alone are not enough: on a workflow re-fire Trigger.old still holds the original values."
+  a: "Track what has already been processed in this transaction. A static Boolean blocks all re-entry, including the next 200-record chunk. A static Set<Id> per operation is safer for records that have Ids (not before insert). Field-change checks help but alone are not enough: on a workflow re-fire Trigger.old still holds the original values."
   points:
     - "Why a static Boolean is risky"
     - "Static Set<Id> approach"
@@ -333,10 +333,10 @@
   role: admin
   level: fresher
   q: "Is Process Builder still supported? What should you do with old processes?"
-  a: "Salesforce retired Workflow Rules and Process Builder in favour of Flow. Existing automations still run but no longer get fixes, and new Process Builder processes can't be created (developer orgs keep a narrow exception for managed-package testing). Use the Migrate to Flow tool to convert them to record-triggered flows, then test and deactivate the old automation."
+  a: "Salesforce retired Workflow Rules and Process Builder in favour of Flow. Existing automations still run but no longer get fixes, and new Process Builder processes can't be created (developer orgs keep a narrow exception for managed-package testing). Use Migrate to Flow where it supports the process, rebuild unsupported parts by hand, then test and deactivate the old automation."
   points:
     - "Flow is the strategic tool"
-    - "Migrate to Flow tool"
+    - "Migrate to Flow where supported; rebuild the rest"
     - "Test then deactivate"
   follow: "Which old automations can't the migration tool convert?"
   link: /flows-process-builder/
