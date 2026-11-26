@@ -1,0 +1,266 @@
+---
+layout: HomePageFinalTest
+title: "Salesforce Interview Questions 2026: Practice by Experience"
+og_title: "Salesforce Interview Questions, with AI practice"
+description: "Salesforce interview questions for freshers to 10 years experience: Apex, LWC, Flow, integration, security and Agentforce, with answers and AI practice."
+permalink: /salesforce-interview-questions/
+---
+{% assign qs = site.data.interview_questions %}
+{% assign topics = qs | map: "topic" | uniq %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "FAQPage",
+      "@id": "https://sfxsupport.com/salesforce-interview-questions/#faq",
+      "mainEntity": [
+        {% for x in qs %}{ "@type": "Question", "name": {{ x.q | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ x.a | jsonify }} } }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sfxsupport.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Salesforce interview questions", "item": "https://sfxsupport.com/salesforce-interview-questions/" }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+.iq{max-width:1080px;margin:0 auto;padding:7.5rem 1.25rem 4rem;color:var(--t)}
+.iq-crumbs{font-size:.78rem;color:var(--t3);margin-bottom:1.25rem}
+.iq-crumbs a{color:var(--t2);text-decoration:none}
+.iq-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:1rem}
+.iq-eyebrow i{width:6px;height:6px;border-radius:50%;background:rgb(var(--sun));display:inline-block}
+.iq h1{font-size:clamp(2rem,4.6vw,3.3rem);line-height:1.08;letter-spacing:-.03em;font-weight:600;max-width:820px}
+.iq h1 em{font-style:normal;color:var(--t2)}
+.iq-lead{color:var(--t2);font-size:1.05rem;line-height:1.7;max-width:720px;margin:1.1rem 0 1.6rem}
+.iq-stats{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.2rem}
+.iq-stats span{font-size:.78rem;color:var(--t2);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:.35rem .8rem}
+.iq-stats b{color:var(--t);font-weight:600}
+.iq-panel{position:sticky;top:68px;z-index:5;background:rgba(10,10,11,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:.9rem 1rem;margin-bottom:1.6rem}
+.iq-row{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin:.25rem 0}
+.iq-row>span{font-size:.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;min-width:86px}
+.iq-chip{font:inherit;font-size:.82rem;color:var(--t2);background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:.35rem .8rem;cursor:pointer}
+.iq-chip:hover{color:var(--t);border-color:rgba(255,255,255,.25)}
+.iq-chip[aria-pressed="true"]{color:#111;background:var(--t);border-color:var(--t)}
+.iq-count{font-size:.8rem;color:var(--t3);margin:0 0 1rem}
+.iq-list{display:grid;gap:.75rem}
+.iq-card{border:1px solid rgba(255,255,255,.09);background:#111114;border-radius:14px;overflow:hidden}
+.iq-card[hidden]{display:none}
+.iq-card summary{list-style:none;cursor:pointer;padding:1.05rem 1.2rem;display:flex;gap:.9rem;align-items:flex-start}
+.iq-card summary::-webkit-details-marker{display:none}
+.iq-card h3{font-size:1rem;font-weight:500;line-height:1.45;flex:1;margin:0}
+.iq-tags{display:flex;gap:.35rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;max-width:240px}
+.iq-tags span{font-size:.68rem;color:var(--t2);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.15rem .45rem;white-space:nowrap}
+.iq-tags .lv-fresher{color:#86efac;border-color:rgba(134,239,172,.3)}
+.iq-tags .lv-mid{color:#fcd34d;border-color:rgba(252,211,77,.3)}
+.iq-tags .lv-senior{color:#fca5a5;border-color:rgba(252,165,165,.3)}
+.iq-body{padding:0 1.2rem 1.2rem;border-top:1px solid rgba(255,255,255,.06)}
+.iq-body p{color:var(--t2);line-height:1.75;margin:.9rem 0}
+.iq-body h4{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin:1rem 0 .45rem;font-weight:500}
+.iq-body ul{margin:0;padding-left:1.1rem;color:var(--t2);line-height:1.8}
+.iq-follow{border-left:2px solid rgba(var(--sun),.6);padding-left:.8rem;color:var(--t2)}
+.iq-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.iq-btn{font:inherit;font-size:.84rem;font-weight:600;border-radius:9px;padding:.55rem .95rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.iq-btn--w{background:var(--t);color:#111;border:1px solid var(--t)}
+.iq-btn--g{background:transparent;color:var(--t);border:1px solid rgba(255,255,255,.16)}
+.iq-btn--g:hover{border-color:rgba(255,255,255,.3)}
+.iq-prac{margin-top:1rem;border:1px dashed rgba(255,255,255,.14);border-radius:12px;padding:1rem}
+.iq-prac[hidden]{display:none}
+.iq-prac label{display:block;font-size:.82rem;color:var(--t2);margin-bottom:.45rem}
+.iq-prac textarea{width:100%;min-height:120px;background:#0c0c0e;color:var(--t);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.75rem;font:inherit;font-size:.92rem;line-height:1.6;resize:vertical}
+.iq-prac textarea:focus{outline:none;border-color:rgb(var(--sun));box-shadow:0 0 0 3px rgba(var(--sun),.18)}
+.iq-check{list-style:none;padding:0!important;margin:.8rem 0 0}
+.iq-check li{display:flex;gap:.5rem;align-items:flex-start;color:var(--t2)}
+.iq-check li.hit{color:var(--t)}
+.iq-check li i{flex-shrink:0;margin-top:.3rem;width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.25)}
+.iq-check li.hit i{background:#4ade80;border-color:#4ade80}
+.iq-note{font-size:.78rem;color:var(--t3);margin-top:.6rem}
+.iq-sec{margin-top:4rem}
+.iq-sec h2{font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.02em;font-weight:600;margin-bottom:.6rem}
+.iq-sec>p{color:var(--t2);line-height:1.7;max-width:720px}
+.iq-exp{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin-top:1.2rem}
+.iq-exp a{display:block;border:1px solid rgba(255,255,255,.09);background:#111114;border-radius:14px;padding:1.1rem;text-decoration:none;color:var(--t)}
+.iq-exp a:hover{border-color:rgba(var(--sun),.5)}
+.iq-exp b{display:block;font-weight:600;margin-bottom:.3rem}
+.iq-exp span{color:var(--t2);font-size:.88rem;line-height:1.6}
+.iq-guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.6rem;margin-top:1.2rem}
+.iq-guides a{color:var(--t2);text-decoration:none;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.75rem .9rem;font-size:.9rem}
+.iq-guides a:hover{color:var(--t);border-color:rgba(255,255,255,.2)}
+.iq-cta{margin-top:4rem;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:2rem;background:radial-gradient(600px 200px at 90% 0%,rgba(var(--sun),.12),transparent),#111114}
+.iq-cta h2{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.5rem}
+.iq-cta p{color:var(--t2);line-height:1.7;max-width:640px;margin-bottom:1.2rem}
+@media(max-width:640px){.iq-card summary{flex-direction:column;gap:.5rem}.iq-tags{justify-content:flex-start;max-width:none}.iq-panel{position:static}.iq-row>span{min-width:0;width:100%}}
+</style>
+
+<div class="iq">
+  <nav class="iq-crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Salesforce interview questions</span></nav>
+  <p class="iq-eyebrow"><i></i> Interview prep with AI practice</p>
+  <h1>Salesforce interview questions, <em>by role and years of experience.</em></h1>
+  <p class="iq-lead">Questions interviewers ask Salesforce admins, developers and Agentforce / AI engineers, from freshers to 10+ years. Each one has a short answer, what the interviewer wants to hear and a likely follow-up. Type your own answer, check it against the key points, then have Ask Krrish grade it like an interviewer.</p>
+  <div class="iq-stats">
+    <span><b>{{ qs.size }}</b> questions</span>
+    <span><b>{{ topics.size }}</b> topics</span>
+    <span>Fresher · 2–4 yrs · 5+ yrs</span>
+    <span>Admin · Developer · AI / Agentforce</span>
+  </div>
+
+  <div class="iq-panel" role="region" aria-label="Filter questions">
+    <div class="iq-row" data-group="level"><span>Experience</span>
+      <button class="iq-chip" type="button" data-v="all" aria-pressed="true">All</button>
+      <button class="iq-chip" type="button" data-v="fresher" aria-pressed="false">Fresher (0–1 yr)</button>
+      <button class="iq-chip" type="button" data-v="mid" aria-pressed="false">2–4 years</button>
+      <button class="iq-chip" type="button" data-v="senior" aria-pressed="false">5+ years</button>
+    </div>
+    <div class="iq-row" data-group="role"><span>Role</span>
+      <button class="iq-chip" type="button" data-v="all" aria-pressed="true">All</button>
+      <button class="iq-chip" type="button" data-v="admin" aria-pressed="false">Admin</button>
+      <button class="iq-chip" type="button" data-v="developer" aria-pressed="false">Developer</button>
+      <button class="iq-chip" type="button" data-v="ai" aria-pressed="false">AI / Agentforce</button>
+    </div>
+    <div class="iq-row" data-group="topic"><span>Topic</span>
+      <button class="iq-chip" type="button" data-v="all" aria-pressed="true">All</button>
+      {% for t in topics %}<button class="iq-chip" type="button" data-v="{{ t | slugify }}" aria-pressed="false">{{ t }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p class="iq-count" id="iq-count" aria-live="polite">Showing all {{ qs.size }} questions</p>
+
+  <div class="iq-list" id="iq-list">
+    {% for x in qs %}
+    <details class="iq-card" id="{{ x.id }}" data-level="{{ x.level }}" data-role="{{ x.role }}" data-topic="{{ x.topic | slugify }}">
+      <summary>
+        <h3>{{ x.q }}</h3>
+        <div class="iq-tags"><span>{{ x.topic }}</span><span class="lv-{{ x.level }}">{% case x.level %}{% when 'fresher' %}Fresher{% when 'mid' %}2–4 yrs{% else %}5+ yrs{% endcase %}</span></div>
+      </summary>
+      <div class="iq-body">
+        <p>{{ x.a }}</p>
+        <h4>What the interviewer wants to hear</h4>
+        <ul>{% for p in x.points %}<li>{{ p }}</li>{% endfor %}</ul>
+        <h4>Likely follow-up</h4>
+        <p class="iq-follow">{{ x.follow }}</p>
+        <div class="iq-links">
+          <button class="iq-btn iq-btn--w" type="button" data-practice>Practise this answer</button>
+          {% if x.link %}<a class="iq-btn iq-btn--g" href="{{ x.link }}">Read the full guide →</a>{% endif %}
+        </div>
+        <div class="iq-prac" hidden>
+          <label for="ans-{{ x.id }}">Answer as you would in the interview</label>
+          <textarea id="ans-{{ x.id }}" maxlength="1500" placeholder="Type your answer here…"></textarea>
+          <div class="iq-links">
+            <button class="iq-btn iq-btn--g" type="button" data-check>Check against key points</button>
+            <button class="iq-btn iq-btn--w" type="button" data-grade>Grade with Ask Krrish (AI) →</button>
+          </div>
+          <ul class="iq-check" hidden>{% for p in x.points %}<li data-kp="{{ p | escape }}"><i aria-hidden="true"></i><span>{{ p }}</span></li>{% endfor %}</ul>
+          <p class="iq-note">The check looks for the main words of each point in your answer. It's a quick self-check; the AI grade gives real feedback. Ask Krrish needs a Google sign-in, and your answer is kept for after you sign in.</p>
+        </div>
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+
+  <section class="iq-sec" id="by-experience">
+    <h2>Salesforce interview questions by years of experience</h2>
+    <p>Interviewers change the questions as experience grows. Freshers are asked definitions and basics, mid-level candidates get "how would you build it" questions, and senior people get design, scale and trade-off questions.</p>
+    <div class="iq-exp">
+      <a href="#level=fresher"><b>Freshers and 1 year</b><span>Governor limits, SOQL vs SOSL, trigger basics, profiles vs permission sets, Flow types.</span></a>
+      <a href="#level=mid"><b>2 to 4 years</b><span>Async Apex, LWC communication, order of execution, Named Credentials, Flow error handling, Agentforce actions.</span></a>
+      <a href="#level=senior"><b>5 to 10+ years</b><span>Trigger frameworks, selective queries, OAuth for integrations, idempotency, packages, RAG and AI cost control.</span></a>
+      <a href="#role=ai"><b>Agentforce and AI roles</b><span>Topics and actions, Einstein Trust Layer, Prompt Builder, calling LLMs from Apex, testing agents.</span></a>
+    </div>
+  </section>
+
+  <section class="iq-sec" id="guides">
+    <h2>Go deeper: interview guides by topic</h2>
+    <div class="iq-guides">
+      <a href="/blog/salesforce-apex-trigger-interview-questions-6-years-experience/">Apex trigger questions (6 years experience)</a>
+      <a href="/blog/salesforce-interview-questions-scenario-based/">Scenario-based Salesforce questions</a>
+      <a href="/blog/salesforce-flow-interview-scenarios/">Flow interview scenarios</a>
+      <a href="/blog/salesforce-integration-interview-questions/">Integration interview questions</a>
+      <a href="/blog/salesforce-integration-system-design-interview-questions/">Integration system design questions</a>
+      <a href="/blog/salesforce-security-interview-sharing-model/">Security and sharing model questions</a>
+      <a href="/blog/salesforce-admin-interview-permission-sets/">Admin: permission sets</a>
+      <a href="/blog/salesforce-deployment-interview-runbook/">Deployment and DevOps questions</a>
+      <a href="/blog/agentforce-interview-questions-answers/">Agentforce interview questions</a>
+      <a href="/blog/salesforce-data-cloud-interview-questions-answers/">Data Cloud interview questions</a>
+      <a href="/interview-prep/">90+ interview prep resources</a>
+      <a href="/governor-limits/">Governor limits, full list</a>
+    </div>
+  </section>
+
+  <section class="iq-cta">
+    <h2>Want to be interview-ready, not just read answers?</h2>
+    <p>Our live Salesforce Admin + Developer batch covers Apex, LWC, Flow, integrations and Agentforce with five real projects and mock interviews. Every class is recorded.</p>
+    <div class="iq-links">
+      <a class="iq-btn iq-btn--w" href="/salesforce-training/" data-cta="iq_training">See the batch →</a>
+      <a class="iq-btn iq-btn--g" href="/chatbot/" data-cta="iq_askkrrish">Ask Krrish a question</a>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var list=document.getElementById('iq-list'); if(!list) return;
+  var cards=[].slice.call(list.querySelectorAll('.iq-card'));
+  var state={level:'all',role:'all',topic:'all'};
+  var count=document.getElementById('iq-count');
+  function apply(){
+    var n=0;
+    cards.forEach(function(c){
+      var ok=(state.level==='all'||c.dataset.level===state.level)&&(state.role==='all'||c.dataset.role===state.role)&&(state.topic==='all'||c.dataset.topic===state.topic);
+      c.hidden=!ok; if(ok) n++;
+    });
+    count.textContent=n===cards.length?('Showing all '+n+' questions'):('Showing '+n+' of '+cards.length+' questions');
+    document.querySelectorAll('.iq-row').forEach(function(r){
+      var g=r.dataset.group;
+      r.querySelectorAll('.iq-chip').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===state[g]));});
+    });
+  }
+  document.querySelectorAll('.iq-row').forEach(function(r){
+    r.addEventListener('click',function(e){
+      var b=e.target.closest('.iq-chip'); if(!b) return;
+      state[r.dataset.group]=b.dataset.v; apply();
+      if(window.gtag) gtag('event','iq_filter',{group:r.dataset.group,value:b.dataset.v});
+    });
+  });
+  function fromHash(){
+    var h=location.hash.slice(1); if(!h) return;
+    var m=h.match(/^(level|role|topic)=([a-z0-9-]+)$/);
+    if(m){ state={level:'all',role:'all',topic:'all'}; state[m[1]]=m[2]; apply(); list.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+    var c=document.getElementById(h); if(c&&c.classList.contains('iq-card')){ c.open=true; }
+  }
+  window.addEventListener('hashchange',fromHash); fromHash();
+
+  function words(s){ return (s.toLowerCase().match(/[a-z0-9@.$_]+/g)||[]).filter(function(w){return w.length>2&&['the','and','for','not','vs','with','per','use','own','why','can','its','one','how'].indexOf(w)<0;}); }
+  list.addEventListener('click',function(e){
+    var card=e.target.closest('.iq-card'); if(!card) return;
+    var prac=card.querySelector('.iq-prac'), ta=prac.querySelector('textarea');
+    if(e.target.closest('[data-practice]')){
+      prac.hidden=false; ta.focus();
+      if(window.gtag) gtag('event','iq_practice_open',{question:card.id});
+    }
+    if(e.target.closest('[data-check]')){
+      var ans=' '+words(ta.value).join(' ')+' ', hits=0, kps=prac.querySelectorAll('[data-kp]');
+      kps.forEach(function(li){
+        var w=words(li.dataset.kp), got=w.filter(function(x){return ans.indexOf(' '+x)>-1;}).length;
+        var hit=w.length&&got/w.length>=0.5; li.classList.toggle('hit',!!hit); if(hit) hits++;
+      });
+      prac.querySelector('.iq-check').hidden=false;
+      if(window.gtag) gtag('event','iq_self_check',{question:card.id,score:hits+'/'+kps.length});
+    }
+    if(e.target.closest('[data-grade]')){
+      var q=card.querySelector('h3').textContent.trim(), a=ta.value.trim();
+      if(!a){ ta.focus(); ta.placeholder='Type your answer first, then ask for a grade.'; return; }
+      var prompt='Act as a Salesforce interviewer. Question: "'+q+'"\n\nMy answer: "'+a+'"\n\nGrade my answer out of 10, list what I got right, what I missed or got wrong, and give a stronger model answer. Then ask me one follow-up question.';
+      try{ sessionStorage.setItem('sfx_chat_prefill',prompt); }catch(err){}
+      if(window.gtag) gtag('event','iq_ai_grade',{question:card.id});
+      location.href='/chatbot/';
+    }
+  });
+})();
+</script>

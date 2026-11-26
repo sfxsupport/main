@@ -86,7 +86,11 @@ export async function initChat(user) {
 
   // ── Prefill from homepage redirect (?q=...) ──────────────────
   const urlParams = new URLSearchParams(window.location.search);
-  const prefill   = urlParams.get('q');
+  // Interview practice hands its prompt over in sessionStorage so the
+  // user's own answer never ends up in a URL or analytics.
+  let stored = null;
+  try { stored = sessionStorage.getItem('sfx_chat_prefill'); sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
+  const prefill   = urlParams.get('q') || stored;
   if (prefill) {
     inputEl.value = prefill;
     autoResize();

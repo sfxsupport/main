@@ -1,0 +1,650 @@
+# Salesforce interview question bank for /salesforce-interview-questions/
+# level: fresher (0-1 yr), mid (2-4 yrs), senior (5+ yrs)
+# role: admin | developer | ai
+# a: short answer, 60 words or less (shown first, used in FAQ schema)
+# points: what the interviewer wants to hear
+# follow: a likely follow-up question
+# link: deeper SFX guide
+
+- id: apex-governor-limits
+  topic: Apex
+  role: developer
+  level: fresher
+  q: "What are governor limits in Salesforce and why do they exist?"
+  a: "Governor limits are runtime caps Salesforce enforces per Apex transaction because orgs share servers (multitenancy). The common ones are 100 SOQL queries (200 async), 150 DML statements, 50,000 rows returned by SOQL and 10,000 rows processed by DML. Exceeding one throws System.LimitException, which cannot be caught."
+  points:
+    - "Multitenancy is the reason"
+    - "Limits are per transaction, sync vs async values differ"
+    - "LimitException can't be caught, so design to avoid it"
+    - "Use the Limits class to check usage"
+  follow: "How would you find which limit is close to failing in a long transaction?"
+  link: /governor-limits/
+
+- id: apex-soql-in-loop
+  topic: Apex
+  role: developer
+  level: fresher
+  q: "Why should you never put SOQL or DML inside a for loop?"
+  a: "Each iteration runs a separate query or DML statement, so a loop over 200 records can exceed the 100-SOQL or 150-DML limit and throw a LimitException. Query once before the loop into a Map or Set, collect changes in a List inside the loop, and do one DML after it."
+  points:
+    - "Ties the problem to per-transaction limits"
+    - "Shows the Map/Set pattern"
+    - "Single DML on a List after the loop"
+  follow: "Rewrite a loop that queries the Account for each Contact."
+  link: /blog/salesforce-too-many-soql-queries-101/
+
+- id: apex-with-without-sharing
+  topic: Apex
+  role: developer
+  level: mid
+  q: "What is the difference between with sharing, without sharing and inherited sharing?"
+  a: "with sharing enforces the running user's record-level sharing rules; without sharing ignores them; inherited sharing takes the sharing mode of the calling class. None of them enforce object or field permissions. For CRUD and field-level security use WITH USER_MODE in SOQL, AccessLevel.USER_MODE in DML, or Security.stripInaccessible."
+  points:
+    - "Sharing keywords cover record access only"
+    - "inherited sharing is the safe default for utility classes"
+    - "CRUD/FLS needs USER_MODE or stripInaccessible"
+  follow: "A class has no sharing keyword. What mode does it run in?"
+  link: /security-sharing/
+
+- id: apex-test-coverage
+  topic: Apex
+  role: developer
+  level: fresher
+  q: "What code coverage does Salesforce require and what makes a good test class?"
+  a: "Production deployment needs at least 75% overall Apex coverage, and every trigger needs some coverage. A good test creates its own data (or uses @testSetup), runs the logic inside Test.startTest/stopTest, tests bulk (200 records), positive, negative and permission cases, and asserts results with System.assertEquals or the Assert class."
+  points:
+    - "75% is the minimum, not the goal"
+    - "Own test data; avoid SeeAllData=true"
+    - "Bulk and negative tests"
+    - "Real assertions, not just coverage"
+  follow: "What does Test.startTest() actually reset?"
+  link: /apex-triggers/
+
+- id: apex-exceptions
+  topic: Apex
+  role: developer
+  level: mid
+  q: "How do you handle errors in Apex so one bad record doesn't fail the whole batch?"
+  a: "Use Database.insert/update with allOrNone set to false, then loop the SaveResult array and log or report the failed rows. Wrap callouts and risky logic in try/catch, catch specific exceptions first, and use addError on trigger records to show a clear message instead of failing silently."
+  points:
+    - "Database methods with allOrNone=false"
+    - "Inspect SaveResult errors"
+    - "addError for user-facing validation"
+    - "Logging strategy (custom object or Platform Event)"
+  follow: "Why publish a Platform Event for error logs instead of inserting a log record?"
+  link: /blog/salesforce-interview-questions-scenario-based/
+
+- id: trigger-best-practices
+  topic: Triggers
+  role: developer
+  level: fresher
+  q: "What are Apex trigger best practices?"
+  a: "One trigger per object, no logic in the trigger body (delegate to a handler class), bulkify for 200 records, no SOQL or DML in loops, use context variables like Trigger.new and Trigger.oldMap, prevent recursion, and choose before triggers for same-record field updates and after triggers when you need the record Id or touch other records."
+  points:
+    - "One trigger per object + handler"
+    - "Bulkification"
+    - "Before vs after use cases"
+    - "Recursion control"
+  follow: "Show a handler pattern you've used."
+  link: /apex-triggers/
+
+- id: trigger-before-after
+  topic: Triggers
+  role: developer
+  level: fresher
+  q: "When do you use a before trigger and when an after trigger?"
+  a: "Use before triggers to validate or change fields on the records being saved; changes to Trigger.new are saved without extra DML. Use after triggers when you need system values such as the record Id or CreatedDate, or when you create or update related records. Records in Trigger.new are read-only in after triggers."
+  points:
+    - "Before: same-record updates, no DML needed"
+    - "After: Id available, related records"
+    - "Trigger.new is read-only after save"
+  follow: "Why can't you update Trigger.new in an after update trigger?"
+  link: /apex-triggers/
+
+- id: trigger-recursion
+  topic: Triggers
+  role: developer
+  level: mid
+  q: "How do you prevent recursive triggers?"
+  a: "Track what has already been processed. A static Boolean stops all re-entry but breaks with batches over 200 records, because the trigger runs again for the next chunk. A static Set<Id> of processed record Ids is safer. Better still, compare Trigger.oldMap values and only act when the relevant field actually changed."
+  points:
+    - "Why a static Boolean is risky"
+    - "Static Set<Id> approach"
+    - "Field-changed checks reduce re-runs"
+  follow: "A workflow field update re-fires your trigger. What happens to your static variables?"
+  link: /blog/salesforce-apex-trigger-interview-questions-6-years-experience/
+
+- id: trigger-order-of-execution
+  topic: Triggers
+  role: developer
+  level: mid
+  q: "Explain the Salesforce order of execution."
+  a: "In short: system validation, before-save record-triggered flows, before triggers, custom validation rules, duplicate rules, save (not committed), after triggers, assignment and auto-response rules, workflow rules (which can re-run triggers once), after-save flows, entitlement and roll-up summary updates, then commit and post-commit work such as emails and async jobs."
+  points:
+    - "Before-save flows run before before triggers"
+    - "Validation rules after before triggers"
+    - "Record saved but not committed for after triggers"
+    - "Commit happens last; async runs after commit"
+  follow: "Where do before-save flows run compared to before triggers?"
+  link: /apex-triggers/
+
+- id: trigger-framework
+  topic: Triggers
+  role: developer
+  level: senior
+  q: "How would you design a trigger framework for a large org?"
+  a: "A single trigger per object calls a handler that routes by context (before insert, after update and so on). Add a bypass mechanism through custom metadata or a custom permission for data loads, recursion control by record Id, and keep business logic in service classes so it can be called from Flow, batch jobs and APIs too."
+  points:
+    - "Routing by context"
+    - "Configurable bypass (custom metadata/permission)"
+    - "Logic in service classes, reusable"
+    - "Testability"
+  follow: "How would an admin switch off one handler in production without a deployment?"
+  link: /blog/salesforce-apex-trigger-interview-questions-6-years-experience/
+
+- id: soql-vs-sosl
+  topic: SOQL
+  role: developer
+  level: fresher
+  q: "What is the difference between SOQL and SOSL?"
+  a: "SOQL queries one object (plus related objects through relationships) when you know where the data is, like SQL SELECT. SOSL is a text search across many objects and fields at once using the search index, returning a list of lists. Use SOQL for precise filters and SOSL to find a term anywhere."
+  points:
+    - "SOQL: one object, exact filters"
+    - "SOSL: many objects, text search index"
+    - "Return types differ"
+    - "Each has its own governor limits"
+  follow: "Which would you use for a global search box and why?"
+  link: /soql-sosl/
+
+- id: soql-relationship
+  topic: SOQL
+  role: developer
+  level: fresher
+  q: "How do you query parent and child records in one SOQL query?"
+  a: "Child to parent uses dot notation on the relationship name, for example SELECT Name, Account.Name FROM Contact. Parent to child uses a subquery on the child relationship name, for example SELECT Name, (SELECT LastName FROM Contacts) FROM Account. Custom relationships end in __r."
+  points:
+    - "Dot notation for parent fields"
+    - "Subquery with plural child relationship name"
+    - "__r suffix for custom relationships"
+  follow: "What is the relationship name of a custom lookup Invoice__c on Account?"
+  link: /soql-sosl/
+
+- id: soql-selective
+  topic: SOQL
+  role: developer
+  level: senior
+  q: "What makes a SOQL query selective and why does it matter?"
+  a: "A selective query filters on an indexed field (Id, Name, lookups, external Ids, unique fields or custom indexes) and the filter returns a small enough share of rows for the optimizer to use the index. On large objects, non-selective queries in triggers fail, and they are slow everywhere. Avoid leading wildcards, negative filters and filtering on null."
+  points:
+    - "Indexed fields"
+    - "Threshold idea, large data volumes"
+    - "Query Plan tool"
+    - "Anti-patterns: != , NOT LIKE, leading %"
+  follow: "How do you check a query's cost before deploying it?"
+  link: /soql-sosl/
+
+- id: async-types
+  topic: Async Apex
+  role: developer
+  level: mid
+  q: "Future vs Queueable vs Batch vs Scheduled Apex: when do you use each?"
+  a: "Future: simple fire-and-forget work such as a callout from a trigger, primitive parameters only. Queueable: like future but accepts objects, returns a job Id and can chain jobs. Batch: processing very large record sets in chunks, each with fresh limits. Scheduled: running any of these at a set time."
+  points:
+    - "Future limits (primitives, no chaining)"
+    - "Queueable chaining and monitoring"
+    - "Batch for large data volumes"
+    - "Scheduled is a trigger for the others"
+  follow: "Why can't you call a future method from a batch execute method?"
+  link: /asynchronous-apex/
+
+- id: async-batch-scope
+  topic: Async Apex
+  role: developer
+  level: mid
+  q: "How does Batch Apex work and what is the scope size?"
+  a: "start returns a QueryLocator or Iterable, execute runs once per chunk with its own governor limits, and finish runs once at the end. The default scope is 200 records; with a QueryLocator you can set up to 2,000. Use Database.Stateful to keep values like counters across chunks."
+  points:
+    - "start/execute/finish"
+    - "Fresh limits per execute"
+    - "Default 200, max 2,000 with QueryLocator"
+    - "Database.Stateful"
+  follow: "When would you lower the scope size below 200?"
+  link: /asynchronous-apex/
+
+- id: async-callout-trigger
+  topic: Async Apex
+  role: developer
+  level: mid
+  q: "How do you make an HTTP callout when a record is saved?"
+  a: "Callouts aren't allowed in a trigger's synchronous transaction, so hand the work to async Apex: a Queueable that implements Database.AllowsCallouts (preferred) or a future method with callout=true. Pass record Ids, re-query inside the job, and handle retries and failures. Platform Events or Flow with an async path are alternatives."
+  points:
+    - "Why the trigger can't call out directly"
+    - "Queueable with AllowsCallouts"
+    - "Pass Ids, not records"
+    - "Retry and error handling"
+  follow: "How do you stop duplicate records if the external system retries?"
+  link: /blog/salesforce-integration-retries-idempotency/
+
+- id: lwc-decorators
+  topic: LWC
+  role: developer
+  level: fresher
+  q: "What do @api, @track and @wire do in Lightning Web Components?"
+  a: "@api makes a property or method public so a parent component can set or call it. @wire connects a property or function to a data source such as an Apex method or Lightning Data Service and re-runs when reactive parameters change. Fields are reactive by default now; @track is only needed to observe changes inside objects or arrays."
+  points:
+    - "@api = public API, parent to child"
+    - "@wire = reactive data"
+    - "@track only for deep object/array changes"
+  follow: "Can a child component change a property it received through @api?"
+  link: /lwc-essentials/
+
+- id: lwc-communication
+  topic: LWC
+  role: developer
+  level: mid
+  q: "How do Lightning Web Components communicate with each other?"
+  a: "Parent to child: set @api properties or call @api methods. Child to parent: dispatch a CustomEvent and handle it in the parent. Between unrelated components on a page: Lightning Message Service on a message channel. Avoid pub-sub libraries in new code."
+  points:
+    - "Properties down, events up"
+    - "CustomEvent with detail"
+    - "Lightning Message Service across the DOM"
+  follow: "How would an LWC talk to an Aura component or a Visualforce page?"
+  link: /lwc-essentials/
+
+- id: lwc-wire-vs-imperative
+  topic: LWC
+  role: developer
+  level: mid
+  q: "When do you call Apex imperatively instead of using @wire?"
+  a: "Use @wire to read data that should load and refresh automatically; the Apex method must be cacheable=true. Call Apex imperatively when the call is triggered by a user action, when it changes data (DML), or when you need control over when it runs. After imperative DML, call refreshApex or notify LDS so wired data updates."
+  points:
+    - "@wire needs cacheable=true and is read-only"
+    - "Imperative for actions and DML"
+    - "refreshApex / record notifications"
+  follow: "Why can't a cacheable method do DML?"
+  link: /lwc-essentials/
+
+- id: lwc-lifecycle
+  topic: LWC
+  role: developer
+  level: fresher
+  q: "What are the lifecycle hooks in LWC?"
+  a: "constructor runs first (no DOM or public properties yet), connectedCallback when the component is inserted into the DOM (good for initial data calls), renderedCallback after every render (guard it to avoid loops), disconnectedCallback when removed (clean up listeners), and errorCallback to catch errors from child components."
+  points:
+    - "Order of hooks"
+    - "What is available in each"
+    - "renderedCallback can run many times"
+  follow: "Where would you subscribe to a Lightning Message Service channel and where unsubscribe?"
+  link: /lwc-essentials/
+
+- id: flow-types
+  topic: Flow
+  role: admin
+  level: fresher
+  q: "What types of Flow are there in Salesforce?"
+  a: "Screen flows (guide a user through screens), record-triggered flows (run when a record is created, updated or deleted), schedule-triggered flows (run on a schedule for a batch of records), platform event-triggered flows, and autolaunched flows with no trigger, called from Apex, buttons, other flows or Agentforce actions."
+  points:
+    - "Names each type with a use case"
+    - "Autolaunched flows are reusable building blocks"
+  follow: "Which type would you use for a nightly clean-up job?"
+  link: /flows-process-builder/
+
+- id: flow-before-after-save
+  topic: Flow
+  role: admin
+  level: mid
+  q: "What is the difference between before-save and after-save record-triggered flows?"
+  a: "Before-save (Fast Field Updates) changes fields on the triggering record before it is saved, with no extra DML, so it is much faster. After-save (Actions and Related Records) runs after the save, so it can create or update other records, send emails and call actions, and the record Id is available."
+  points:
+    - "Fast Field Updates = before save"
+    - "Same-record updates should be before-save"
+    - "After-save for related records and actions"
+  follow: "A flow updates the same record in an after-save path. What's the problem?"
+  link: /blog/salesforce-flow-interview-scenarios/
+
+- id: flow-vs-apex
+  topic: Flow
+  role: admin
+  level: mid
+  q: "When would you choose Flow over Apex, and when Apex over Flow?"
+  a: "Choose Flow for straightforward record automation and guided screens that admins should maintain. Choose Apex for complex logic, heavy data volumes, complex collections or algorithms, callouts that need fine error handling, and code that needs proper unit tests and reuse. Many teams combine them with invocable Apex called from Flow."
+  points:
+    - "Maintainability by admins"
+    - "Complexity and volume push to Apex"
+    - "Invocable Apex as the bridge"
+  follow: "How do you call Apex from a Flow?"
+  link: /blog/salesforce-flow-vs-apex-decision-guide/
+
+- id: flow-fault
+  topic: Flow
+  role: admin
+  level: mid
+  q: "How do you handle errors in a Flow?"
+  a: "Add a fault path to every element that can fail (Get, Create, Update, Delete records and actions). In the fault path, log the {!$Flow.FaultMessage} to a custom log object or send it to an admin, and show a friendly message on screen flows. Without a fault path users see a generic unhandled fault error."
+  points:
+    - "Fault connectors"
+    - "$Flow.FaultMessage"
+    - "Logging and user messaging"
+  follow: "How would you test that your fault path works?"
+  link: /blog/salesforce-flow-interview-scenarios/
+
+- id: flow-process-builder
+  topic: Flow
+  role: admin
+  level: fresher
+  q: "Is Process Builder still supported? What should you do with old processes?"
+  a: "Salesforce retired Workflow Rules and Process Builder in favour of Flow. Existing automations still run but new ones can't be created and they no longer get fixes. Use the Migrate to Flow tool to convert them to record-triggered flows, then test and deactivate the old automation."
+  points:
+    - "Flow is the strategic tool"
+    - "Migrate to Flow tool"
+    - "Test then deactivate"
+  follow: "Which old automations can't the migration tool convert?"
+  link: /flows-process-builder/
+
+- id: admin-profile-permset
+  topic: Security
+  role: admin
+  level: fresher
+  q: "What is the difference between a profile and a permission set?"
+  a: "Every user has exactly one profile, which sets baseline settings like page layouts and login hours. Permission sets add permissions on top and a user can have many. Salesforce recommends minimal profiles and granting access through permission sets and permission set groups."
+  points:
+    - "One profile, many permission sets"
+    - "Permission set groups"
+    - "Minimum-access profile direction"
+  follow: "What is a muting permission set?"
+  link: /blog/salesforce-admin-interview-permission-sets/
+
+- id: admin-sharing-model
+  topic: Security
+  role: admin
+  level: mid
+  q: "Explain the Salesforce sharing model."
+  a: "Object and field access come from profiles and permission sets. Record access starts from organization-wide defaults (the most restrictive baseline), then opens up through the role hierarchy, sharing rules, teams, manual sharing and Apex sharing. Sharing can only widen access beyond OWD, never restrict it."
+  points:
+    - "Object/field vs record access"
+    - "OWD is the floor"
+    - "Role hierarchy, sharing rules, manual/Apex sharing"
+    - "Sharing only opens access"
+  follow: "A user can see a record they shouldn't. How do you find out why?"
+  link: /blog/why-salesforce-user-can-see-record/
+
+- id: admin-validation-rule
+  topic: Admin
+  role: admin
+  level: fresher
+  q: "How do you write a validation rule that only fires when a field changes?"
+  a: "Use ISCHANGED(Field__c) in the formula, combined with the condition you want to block, for example AND(ISCHANGED(Amount), Amount > 100000, NOT($Permission.Can_Approve_Large)). The rule fires when the formula returns true. ISCHANGED only works on edits, so use ISNEW() if you also need to check new records."
+  points:
+    - "Formula true = error"
+    - "ISCHANGED / PRIORVALUE"
+    - "Bypass with custom permission"
+  follow: "How would you let a data migration user bypass the rule?"
+  link: /blog/salesforce-admin-interview-permission-sets/
+
+- id: admin-lookup-master
+  topic: Admin
+  role: admin
+  level: fresher
+  q: "What is the difference between a lookup and a master-detail relationship?"
+  a: "In master-detail the child can't exist without the parent, inherits its sharing and owner, is deleted with it, and the parent can have roll-up summary fields. A lookup is a looser link: the child has its own owner and sharing, the field can be optional, and deleting the parent doesn't delete the child by default."
+  points:
+    - "Ownership and sharing inheritance"
+    - "Cascade delete"
+    - "Roll-up summaries on master-detail"
+  follow: "Can you convert a lookup to master-detail when some children have no parent?"
+  link: /security-sharing/
+
+- id: integration-named-credentials
+  topic: Integration
+  role: developer
+  level: mid
+  q: "What are Named Credentials and External Credentials?"
+  a: "A Named Credential stores the endpoint URL; an External Credential stores how to authenticate (OAuth, JWT, custom headers, API key) and which users get it via a permission set mapping. Apex then calls callout:Your_Named_Credential/path and Salesforce adds the auth, so no secrets live in code and you don't need a Remote Site Setting."
+  points:
+    - "Endpoint vs authentication split"
+    - "Permission set principal access"
+    - "callout: syntax, no secrets in code"
+  follow: "How would you store an OpenAI or Claude API key for Apex?"
+  link: /blog/call-claude-openai-gemini-from-apex/
+
+- id: integration-patterns
+  topic: Integration
+  role: developer
+  level: senior
+  q: "Which integration patterns does Salesforce describe and when do you use each?"
+  a: "Request and reply (call and wait for the answer), fire and forget (send and continue, for example Platform Events or outbound messages), batch data synchronization (bulk loads with Bulk API or ETL), remote call-in (an external system calls Salesforce APIs), UI update based on data changes (streaming), and data virtualization (Salesforce Connect, no copy)."
+  points:
+    - "Names the patterns"
+    - "Sync vs async trade-offs"
+    - "Picks tools per pattern"
+  follow: "An ERP needs order updates in near real time. Which pattern and tools?"
+  link: /integration-patterns/
+
+- id: integration-platform-events
+  topic: Integration
+  role: developer
+  level: mid
+  q: "What are Platform Events and Change Data Capture, and how do they differ?"
+  a: "Platform Events are custom event messages you define and publish from Apex, Flow or APIs, for decoupled event-driven integration. Change Data Capture publishes standard change events automatically when records are created, updated, deleted or undeleted. Use CDC to sync record changes; use Platform Events for business events you design."
+  points:
+    - "Custom events vs automatic change events"
+    - "Subscribers: triggers, flows, CometD/Pub/Sub API"
+    - "Replay and retention"
+  follow: "How does an external system subscribe to these events?"
+  link: /blog/salesforce-integration-interview-questions/
+
+- id: integration-oauth
+  topic: Integration
+  role: developer
+  level: senior
+  q: "Which OAuth flow would you use for a server-to-server integration?"
+  a: "For server-to-server with no user present, use the OAuth 2.0 JWT Bearer flow (certificate-signed assertion for a pre-authorized integration user) or the Client Credentials flow on an External Client App or connected app with a run-as user. Avoid the username-password flow. Give the integration user minimal permissions."
+  points:
+    - "No interactive login"
+    - "JWT bearer vs client credentials"
+    - "Dedicated, least-privilege integration user"
+  follow: "How do you rotate the certificate without downtime?"
+  link: /blog/salesforce-integration-system-design-interview-questions/
+
+- id: integration-idempotency
+  topic: Integration
+  role: developer
+  level: senior
+  q: "How do you stop duplicate records when an integration retries?"
+  a: "Make writes idempotent. Send a unique external Id from the source system and upsert on an External ID field, so a retry updates instead of inserting. For callouts out of Salesforce, send an idempotency key the other system can de-duplicate on, and record request status so retries skip work already done."
+  points:
+    - "External Id + upsert"
+    - "Idempotency keys"
+    - "Retry with status tracking"
+  follow: "The external system times out but the record was created. What happens on retry?"
+  link: /blog/salesforce-integration-retries-idempotency/
+
+- id: devops-deploy
+  topic: DevOps
+  role: developer
+  level: mid
+  q: "How do you deploy changes between Salesforce orgs?"
+  a: "Options are change sets (simple, org-to-org, no version control), Salesforce CLI with source tracking and a Git repository (the standard for teams), unlocked or managed packages, and Salesforce release tools or a CI/CD pipeline such as GitHub Actions running sf project deploy with tests. Use validation (check-only) deploys and quick deploy for production."
+  points:
+    - "Change sets vs CLI + Git"
+    - "Packages for modular delivery"
+    - "Validate then quick deploy"
+  follow: "Which test level would you run for a production deployment?"
+  link: /deployment-cicd/
+
+- id: devops-packages
+  topic: DevOps
+  role: developer
+  level: senior
+  q: "Unmanaged vs unlocked vs managed packages: what's the difference?"
+  a: "Unmanaged packages are a one-time copy; the installed code can be edited and can't be upgraded. Unlocked packages are versioned and upgradable, meant for an org's own modular development. Managed packages (2GP) are for ISVs: namespaced, upgradable, code protected and listable on AppExchange."
+  points:
+    - "Upgradeability"
+    - "Who each is for"
+    - "Namespace and IP protection"
+  follow: "Why would an internal team choose unlocked packages over plain CLI deploys?"
+  link: /salesforce-packaging/
+
+- id: ai-agentforce-what
+  topic: Agentforce
+  role: ai
+  level: fresher
+  q: "What is Agentforce and how is an agent built?"
+  a: "Agentforce is Salesforce's platform for AI agents that understand a request, decide what to do and take actions in Salesforce. An agent is configured with topics (jobs it handles), instructions (rules for each topic) and actions it can run, such as Flows, Apex invocable methods, prompt templates and APIs, grounded in your Salesforce data."
+  points:
+    - "Topics, instructions, actions"
+    - "Reasoning engine picks topic and actions"
+    - "Grounded in CRM data"
+  follow: "What's the difference between a topic instruction and an action instruction?"
+  link: /blog/agentforce-interview-questions-answers/
+
+- id: ai-agentforce-actions
+  topic: Agentforce
+  role: ai
+  level: mid
+  q: "How do you add a custom action to an Agentforce agent?"
+  a: "Build the logic as an autolaunched Flow, an Apex class with an @InvocableMethod, or a prompt template, then add it as an agent action and assign it to a topic. Write clear action and input/output descriptions, because the reasoning engine uses them to decide when to call the action and what to pass."
+  points:
+    - "Flow, invocable Apex, prompt template"
+    - "Descriptions drive action selection"
+    - "Permissions of the running user"
+  follow: "Your agent never calls the action. What do you check first?"
+  link: /services/salesforce-agentforce-development/
+
+- id: ai-trust-layer
+  topic: Agentforce
+  role: ai
+  level: mid
+  q: "What is the Einstein Trust Layer?"
+  a: "It is the set of safeguards between Salesforce and the language model: secure data retrieval that respects user permissions, dynamic grounding, masking of sensitive data in prompts, zero data retention agreements with model providers, toxicity scoring of responses and an audit trail of prompts and responses."
+  points:
+    - "Permission-aware grounding"
+    - "Data masking"
+    - "Zero data retention"
+    - "Toxicity detection and audit"
+  follow: "Does the Trust Layer apply when you call OpenAI directly from Apex?"
+  link: /blog/agentforce-interview-questions-answers/
+
+- id: ai-prompt-builder
+  topic: Agentforce
+  role: ai
+  level: mid
+  q: "What is Prompt Builder and what template types does it have?"
+  a: "Prompt Builder creates reusable prompt templates grounded with merge fields, related records, Flow or Apex. Types include Sales Email, Field Generation, Record Summary and Flex templates. Templates can run from record pages, Flow, Apex and as Agentforce actions, and each run goes through the Einstein Trust Layer."
+  points:
+    - "Template types"
+    - "Grounding sources (merge fields, Flow, Apex)"
+    - "Where templates can be invoked"
+  follow: "How would you ground a template with data from a related object?"
+  link: /blog/agentforce-interview-questions-answers/
+
+- id: ai-llm-from-apex
+  topic: AI integration
+  role: ai
+  level: mid
+  q: "How would you call OpenAI, Claude or Gemini from Apex?"
+  a: "Store the endpoint in a Named Credential and the API key in an External Credential, build the JSON request, send it with HttpRequest to callout:Your_Credential, parse the response and handle timeouts and errors. Run it asynchronously (Queueable) when triggered by record changes, and keep a human review step for anything customer-facing."
+  points:
+    - "Named + External Credentials"
+    - "Async for trigger-driven calls"
+    - "Error handling and limits"
+    - "Human review, data sent to the vendor"
+  follow: "What data would you avoid sending to an external model?"
+  link: /blog/call-claude-openai-gemini-from-apex/
+
+- id: ai-rag
+  topic: AI integration
+  role: ai
+  level: senior
+  q: "What is RAG and how do you do it in Salesforce?"
+  a: "Retrieval-augmented generation first finds relevant passages from your content, then asks the model to answer only from them, ideally with citations. In Salesforce you can use Data Cloud search indexes and retrievers grounding Agentforce or prompt templates, or build it yourself with an external vector store called from Apex."
+  points:
+    - "Retrieve, then generate"
+    - "Chunking and indexing"
+    - "Permission-aware retrieval"
+    - "Evaluation with test questions"
+  follow: "How do you stop RAG answers from leaking records a user can't see?"
+  link: /services/custom-rag-solutions/
+
+- id: ai-human-review
+  topic: AI integration
+  role: ai
+  level: mid
+  q: "How do you add AI to a business process safely?"
+  a: "Start with a narrow task, ground the model in the right records, keep a human approval step before anything is sent or saved, log prompts and outputs, cap tokens and cost, and test with real examples before go-live. Treat the AI output as a draft, not a decision."
+  points:
+    - "Human in the loop"
+    - "Logging and monitoring"
+    - "Cost limits"
+    - "Test set before go-live"
+  follow: "Who reviews the AI output and where is that decision stored?"
+  link: /blog/salesforce-ai-case-summary-human-review/
+
+- id: ai-agent-testing
+  topic: Agentforce
+  role: ai
+  level: senior
+  q: "How do you test an Agentforce agent before go-live?"
+  a: "Write test cases of real utterances with the expected topic, actions and outcome, run them in Agentforce Testing Center (or the testing API and CLI), review the reasoning trace for wrong topic choices, and test as users with different permissions. Re-run the suite after every change to instructions or actions."
+  points:
+    - "Expected topic and action per utterance"
+    - "Testing Center / CLI"
+    - "Permission-based tests"
+    - "Regression after changes"
+  follow: "The agent picks the wrong topic for 10% of tests. What do you change?"
+  link: /blog/agentforce-interview-questions-answers/
+
+- id: ai-data-cloud
+  topic: Data Cloud
+  role: ai
+  level: mid
+  q: "What is Data Cloud and how does it help AI in Salesforce?"
+  a: "Data Cloud (now Data 360) brings data from Salesforce and external sources into one model, resolves identities into unified profiles and makes it available for segments, insights and AI. For Agentforce and prompts, it provides grounding data, including unstructured content through search indexes and retrievers."
+  points:
+    - "Ingest, harmonize, unify"
+    - "Identity resolution"
+    - "Grounding for AI and RAG"
+  follow: "What is a data model object (DMO) compared to a data lake object (DLO)?"
+  link: /blog/salesforce-data-cloud-interview-questions-answers/
+
+- id: ai-cost
+  topic: AI integration
+  role: ai
+  level: senior
+  q: "How do you control the cost of AI features in Salesforce?"
+  a: "Know the billing model first (Agentforce usage or model tokens from the vendor). Then keep prompts short, use the cheapest model that meets the quality bar, cap output tokens, avoid calling the model when a rule or cache can answer, log usage per feature and set spend alerts or limits."
+  points:
+    - "Billing model awareness"
+    - "Smaller prompts and models"
+    - "Caching and skipping calls"
+    - "Usage logging and alerts"
+  follow: "How would you report AI cost per business unit?"
+  link: /services/salesforce-ai-integration/
+
+- id: scenario-large-data
+  topic: Apex
+  role: developer
+  level: senior
+  q: "You need to update 5 million records. How do you do it?"
+  a: "Use Batch Apex (or Bulk API 2.0 from outside) with a selective QueryLocator, a sensible scope size, Database.update with allOrNone=false and error logging, and run it off-hours. Consider turning off non-essential automation with a bypass, test on a full sandbox, and monitor the job from Apex Jobs."
+  points:
+    - "Batch Apex / Bulk API"
+    - "Partial success + logging"
+    - "Automation bypass"
+    - "Sandbox rehearsal and monitoring"
+  follow: "How do you restart from where it failed?"
+  link: /asynchronous-apex/
+
+- id: scenario-debug
+  topic: Apex
+  role: developer
+  level: mid
+  q: "A user reports an error when saving a record. How do you debug it?"
+  a: "Reproduce it, set a trace flag for that user and capture the debug log, then read the log for the exception and the last executed line, checking triggers, flows and validation rules in order of execution. Check the user's permissions and sharing too, fix, add a test that reproduces the bug, then deploy."
+  points:
+    - "Reproduce + trace flag"
+    - "Read the log in order of execution"
+    - "Permissions as a cause"
+    - "Regression test"
+  follow: "The log is truncated at 20 MB. What do you do?"
+  link: /debug-log-analyzer/
