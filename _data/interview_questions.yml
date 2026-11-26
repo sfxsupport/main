@@ -38,7 +38,7 @@
   role: developer
   level: mid
   q: "What is the difference between with sharing, without sharing and inherited sharing?"
-  a: "For system-mode database operations, with sharing enforces the user's record sharing, without sharing ignores it and inherited sharing follows the caller. They don't enforce object or field permissions. User-mode operations (WITH USER_MODE, AccessLevel.USER_MODE) enforce sharing, object and field permissions regardless of the class keyword."
+  a: "For system-mode database operations, with sharing enforces the user's record sharing, without sharing ignores it and inherited sharing follows the caller. They don't enforce object or field permissions (and queries on Pricebook2 ignore sharing). User-mode operations (WITH USER_MODE, AccessLevel.USER_MODE) enforce sharing, object and field permissions regardless of the class keyword."
   points:
     - "Sharing keywords cover record access only"
     - "with sharing by default; inherited sharing only for classes safe in both modes"
@@ -106,7 +106,7 @@
   role: developer
   level: mid
   q: "How do you prevent recursive triggers?"
-  a: "Track what has already been processed in this transaction. A static Boolean blocks all re-entry, including the next 200-record chunk. A static Set<Id> per operation is safer for records that have Ids (not before insert). Field-change checks help but alone are not enough: on a workflow re-fire Trigger.old still holds the original values."
+  a: "Make the logic idempotent first. A static Boolean blocks all re-entry, including the next 200-record chunk. A narrow guard, such as a static Set<Id> per operation for records with Ids, is safer; partial-save retries keep static state, so test them. Field-change checks help but alone are not enough: on a workflow re-fire Trigger.old still holds the original values."
   points:
     - "Why a static Boolean is risky"
     - "Static Set<Id> approach"
@@ -464,7 +464,7 @@
   role: developer
   level: mid
   q: "How do you deploy changes between Salesforce orgs?"
-  a: "Options are change sets (simple, org-to-org, no version control), Salesforce CLI with source tracking and a Git repository (the standard for teams), unlocked or managed packages, and Salesforce release tools or a CI/CD pipeline such as GitHub Actions running sf project deploy with tests. Use validation (check-only) deploys and quick deploy for production."
+  a: "Options are change sets (simple, org-to-org, no version control), Salesforce CLI with source tracking and a Git repository (the standard for teams), unlocked or managed packages, and Salesforce release tools or a CI/CD pipeline such as GitHub Actions running sf project deploy start with tests. Use validation (check-only) deploys and quick deploy for production."
   points:
     - "Change sets vs CLI + Git"
     - "Packages for modular delivery"

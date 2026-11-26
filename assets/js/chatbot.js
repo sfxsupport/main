@@ -101,7 +101,7 @@ export async function initChat(user) {
     // Auto-send after tiny delay so UI is ready; if today's limit is used up,
     // leave the prompt in the box so the user can send it later.
     if (status.remaining > 0) {
-      try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
+      if (prefill === stored) { try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {} }
       setTimeout(() => handleSend(), 280);
     }
   }
