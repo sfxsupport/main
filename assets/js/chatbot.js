@@ -4,6 +4,7 @@
 
 import { getStatus, loadHistory, clearHistory, sendMessage } from "./conversationManager.js";
 
+let draftFromStorage = false;
 let messagesEl, inputEl, sendBtn, usageBarEl, usageTextEl,
     limitBannerEl, clearBtn, typingEl, welcomeEl;
 
@@ -98,8 +99,16 @@ export async function initChat(user) {
     window.history.replaceState({}, '', window.location.pathname);
     if (status.remaining > 0) setTimeout(() => handleSend(), 280);
   } else if (stored) {
+    draftFromStorage = true;
     inputEl.value = stored;
     autoResize();
+    inputEl.dispatchEvent(new Event("input"));   // enables the send button
+    // Keep the saved copy in step with edits until it is sent successfully.
+    inputEl.addEventListener("input", () => {
+      if (draftFromStorage && inputEl.value.trim()) {
+        try { sessionStorage.setItem('sfx_chat_prefill', inputEl.value); } catch (e) {}
+      }
+    });
   }
 }
 
@@ -108,7 +117,8 @@ async function handleSend() {
   if (isStreaming) return;
   const text = inputEl.value.trim();
   if (!text) return;
-  try { if (sessionStorage.getItem('sfx_chat_prefill') === text) sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
+  const sendingDraft = draftFromStorage;
+  draftFromStorage = false;
 
   inputEl.value = "";
   autoResize();
@@ -138,6 +148,12 @@ async function handleSend() {
     },
     onDone(usage) {
       clearTimeout(streamTimeout);
+      // Only a real completion (server sent usage) clears the saved draft;
+      // aborts and dropped streams also call onDone({}) and keep it.
+      if (sendingDraft) {
+        if (usage?.used != null) { try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {} }
+        else draftFromStorage = true;
+      }
       setTyping(false);
       setLocked(false);
       isStreaming = false;
@@ -154,6 +170,7 @@ async function handleSend() {
     },
     onError(err) {
       clearTimeout(streamTimeout);
+      if (sendingDraft) draftFromStorage = true;   // saved draft stays recoverable
       setTyping(false);
       setLocked(false);
       isStreaming = false;

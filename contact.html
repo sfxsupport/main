@@ -2,7 +2,7 @@
 layout: HomePageFinalTest
 title: "Contact SFX Support: Talk to the Founders"
 og_title: "Contact SFX Support"
-description: "Talk to the SFX Support founders about a Salesforce + AI project, the live batch or a question. WhatsApp, call or email; replies within one working day."
+description: "Talk to the SFX Support founders about a Salesforce + AI project or a question. WhatsApp, call or email; replies within one working day."
 image: /assets/images/campaign/abhay.webp
 permalink: /contact/
 ---
@@ -198,11 +198,6 @@ permalink: /contact/
           <span><b>A Salesforce + AI project</b><span>Agentforce, an LLM integration, or an Apex, Flow or LWC fix.</span></span>
           <i class="ck bi bi-check-circle-fill"></i>
         </button>
-        <button type="button" class="ct-path" style="--pc:34,197,94" data-reason="Training batch" aria-pressed="false">
-          <span class="pi"><i class="bi bi-mortarboard"></i></span>
-          <span><b>Join the live Salesforce batch</b><span>Timings, fees, syllabus and how the classes work.</span></span>
-          <i class="ck bi bi-check-circle-fill"></i>
-        </button>
         <button type="button" class="ct-path" style="--pc:96,165,250" data-reason="Salesforce question" aria-pressed="false">
           <span class="pi"><i class="bi bi-question-circle"></i></span>
           <span><b>A Salesforce question</b><span>Stuck on an error or a design choice? Tell us what you've tried.</span></span>
@@ -230,7 +225,6 @@ permalink: /contact/
           <select id="subject" name="subject" required>
             <option value="" disabled selected>Choose one…</option>
             <option value="Project enquiry">A Salesforce + AI project</option>
-            <option value="Training batch">The live Salesforce batch</option>
             <option value="Salesforce question">A Salesforce question</option>
             <option value="Feedback">Feedback or something else</option>
           </select>
@@ -316,7 +310,7 @@ permalink: /contact/
     <div>
       <p class="ct-label">Questions</p>
       <h2>Before you <strong>write to us.</strong></h2>
-      <p class="ct-lead" style="font-size:.95rem;">Looking for our services? <a href="/services/" style="color:rgba(var(--sun),.95);">See what we build</a>. Want to learn Salesforce? <a href="/salesforce-training/" style="color:rgba(var(--sun),.95);">See the batch</a>.</p>
+      <p class="ct-lead" style="font-size:.95rem;">Looking for our services? <a href="/services/" style="color:rgba(var(--sun),.95);">See what we build</a>.</p>
     </div>
     <div>
       <details open><summary>How fast do you reply? <i class="bi bi-plus-lg"></i></summary><p>A founder reads every message and usually replies within one working day. WhatsApp is the fastest way to reach us.</p></details>
@@ -335,7 +329,7 @@ permalink: /contact/
     var paths = Array.prototype.slice.call(document.querySelectorAll('.ct-path'));
     var hints = {
       'Project enquiry': 'Tell us what the agent, integration or fix should do, which Salesforce cloud you use, and any deadline. We reply with questions or a written scope and fixed quote.',
-      'Training batch': 'Tell us your background (fresher, admin, developer) and when you can attend. We send timings, fees and the syllabus. You can also <a href="/salesforce-training/">read the batch page</a>.',
+      'Training batch': 'Tell us your background (fresher, admin, developer) and when you can attend. We send timings, fees and the syllabus.',
       'Salesforce question': 'Paste the exact error text and what you have tried. For an instant answer, you can also try <a href="/chatbot/">Ask Krrish</a> or the <a href="/learning/">learning guides</a>.',
       'Feedback': 'Tell us the page link and what is wrong or what you would like to see. Every message is read.'
     };
@@ -357,7 +351,7 @@ permalink: /contact/
     paths.forEach(function (p) { p.addEventListener('click', function () { choose(p.getAttribute('data-reason'), true); }); });
     select.addEventListener('change', function () { choose(select.value, false); });
     var pre = new URLSearchParams(window.location.search).get('topic');
-    var map = { project: 'Project enquiry', training: 'Training batch', question: 'Salesforce question', feedback: 'Feedback' };
+    var map = { project: 'Project enquiry', question: 'Salesforce question', feedback: 'Feedback' };
     if (pre && map[pre]) choose(map[pre], false);
   })();
 

@@ -26,7 +26,6 @@
 - [SFX Travel Manager](https://sfxsupport.com/travel-manager/): booking, duty slip, driver, fleet, GST invoice and khata software for Indian travel agencies and taxi operators.
 - [SFX Grove](https://grove.sfxsupport.com): a guided Salesforce learning residency with reviewed projects and public portfolios.
 - [SFX Forge](https://forge.sfxsupport.com/): Apex practice problems run against a real Salesforce org.
-- [Salesforce training](https://sfxsupport.com/salesforce-training/): live Salesforce Admin and Developer batch.
 
 ## Tools
 - [Debug Log Analyzer](https://sfxsupport.com/debug-log-analyzer/): capture Apex debug logs and analyse them with AI.
