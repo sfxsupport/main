@@ -89,7 +89,8 @@ export async function initChat(user) {
   // Interview practice hands its prompt over in sessionStorage so the
   // user's own answer never ends up in a URL or analytics.
   let stored = null;
-  try { stored = sessionStorage.getItem('sfx_chat_prefill'); sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
+  // Keep it until it can actually be sent (removed only when auto-sending).
+  try { stored = sessionStorage.getItem('sfx_chat_prefill'); } catch (e) {}
   const prefill   = urlParams.get('q') || stored;
   if (prefill) {
     inputEl.value = prefill;
@@ -99,7 +100,10 @@ export async function initChat(user) {
     window.history.replaceState({}, '', cleanUrl);
     // Auto-send after tiny delay so UI is ready; if today's limit is used up,
     // leave the prompt in the box so the user can send it later.
-    if (status.remaining > 0) setTimeout(() => handleSend(), 280);
+    if (status.remaining > 0) {
+      try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
+      setTimeout(() => handleSend(), 280);
+    }
   }
 }
 

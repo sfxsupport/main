@@ -490,7 +490,7 @@
   role: ai
   level: fresher
   q: "What is Agentforce and how is an agent built?"
-  a: "Agentforce is Salesforce's platform for AI agents that understand a request, decide what to do and take actions in Salesforce. An agent is configured with topics (jobs it handles), instructions (rules for each topic) and actions it can run, such as Flows, Apex invocable methods, prompt templates and APIs, grounded in your Salesforce data."
+  a: "Agentforce is Salesforce's platform for AI agents that understand a request, decide what to do and take actions in Salesforce. An agent is configured with topics (called subagents in newer releases: jobs it handles), instructions (rules for each topic) and actions it can run, such as Flows, Apex invocable methods, prompt templates and APIs, grounded in your Salesforce data."
   points:
     - "Topics, instructions, actions"
     - "Reasoning engine picks topic and actions"
