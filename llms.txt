@@ -19,7 +19,7 @@
 - [Salesforce Packaging](https://sfxsupport.com/salesforce-packaging/): Compare Salesforce package types: unmanaged, unlocked, and first- vs second-generation managed packages, namespaces, versioning, and which to choose.
 - [Deployment and CI/CD](https://sfxsupport.com/deployment-cicd/): Salesforce deployment options compared: change sets, Salesforce CLI, Lifecycle Center, unlocked packages, and a CI/CD pipeline with GitHub Actions.
 - [Integration Patterns](https://sfxsupport.com/integration-patterns/): Salesforce integration patterns, REST vs SOAP vs Bulk vs Pub/Sub APIs, OAuth flows, Named Credentials, platform events and CDC, with interview questions.
-- [Salesforce interview questions by experience](https://sfxsupport.com/salesforce-interview-questions/): 48 questions for admins, developers and Agentforce/AI roles, fresher to 10+ years, each with a short answer, key points, a follow-up and AI practice.
+- [Salesforce interview questions by experience](https://sfxsupport.com/salesforce-interview-questions/): questions for admins, developers and Agentforce/AI roles, fresher to 10+ years, each with a short answer, key points, a follow-up and AI practice.
 - [Interview prep resources](https://sfxsupport.com/interview-prep/): interview questions and curated resources by topic.
 
 ## Products
