@@ -84,26 +84,22 @@ export async function initChat(user) {
   if (status.remaining <= 0) showLimitBanner(status.resetAt);
   inputEl.focus();
 
-  // ── Prefill from homepage redirect (?q=...) ──────────────────
+  // ── Prefill ───────────────────────────────────────────────────
+  // ?q= (homepage box) is auto-sent. An interview-practice prompt arrives in
+  // sessionStorage (so the user's answer never sits in a URL); it is only
+  // placed in the box as a draft and is removed once the user actually sends it.
   const urlParams = new URLSearchParams(window.location.search);
-  // Interview practice hands its prompt over in sessionStorage so the
-  // user's own answer never ends up in a URL or analytics.
+  const q = urlParams.get('q');
   let stored = null;
-  // Keep it until it can actually be sent (removed only when auto-sending).
   try { stored = sessionStorage.getItem('sfx_chat_prefill'); } catch (e) {}
-  const prefill   = urlParams.get('q') || stored;
-  if (prefill) {
-    inputEl.value = prefill;
+  if (q) {
+    inputEl.value = q;
     autoResize();
-    // Clean URL so refresh doesn't re-send
-    const cleanUrl = window.location.pathname;
-    window.history.replaceState({}, '', cleanUrl);
-    // Auto-send after tiny delay so UI is ready; if today's limit is used up,
-    // leave the prompt in the box so the user can send it later.
-    if (status.remaining > 0) {
-      try { sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
-      setTimeout(() => handleSend(), 280);
-    }
+    window.history.replaceState({}, '', window.location.pathname);
+    if (status.remaining > 0) setTimeout(() => handleSend(), 280);
+  } else if (stored) {
+    inputEl.value = stored;
+    autoResize();
   }
 }
 
@@ -112,6 +108,7 @@ async function handleSend() {
   if (isStreaming) return;
   const text = inputEl.value.trim();
   if (!text) return;
+  try { if (sessionStorage.getItem('sfx_chat_prefill') === text) sessionStorage.removeItem('sfx_chat_prefill'); } catch (e) {}
 
   inputEl.value = "";
   autoResize();
