@@ -33,7 +33,7 @@ faq:
   - q: "Does selecting AccountId also load Account.Name?"
     a: "No. Select Account.Name explicitly when Apex needs to read the parent Account’s name."
   - q: "Why does a Visualforce extension throw this error without an explicit SOQL query?"
-    a: "A standard controller loads fields based on the page and its controller configuration. Add the extension’s required fields before the record is loaded, reference them in the page, or use an explicit query."
+    a: "A standard controller loads fields based on the page and its controller configuration. Reference the field in the page, use addFields before loading for a dynamic Visualforce binding, or use an explicit query."
   - q: "Can I use FIELDS(ALL) to fix the error in Apex?"
     a: "No. Salesforce does not support FIELDS(ALL) or FIELDS(CUSTOM) in Apex SOQL. Select the fields your code needs."
   - q: "Does getPopulatedFieldsAsMap show every field selected by SOQL?"
@@ -87,8 +87,8 @@ The immediate cause is a field access on a record that does not have that field 
 | --- | --- | --- |
 | Field omitted from `SELECT` | Compare the failing field with the query that created the instance. | Select the field, including any formula field the code reads. |
 | Parent relationship field omitted | The query selects `AccountId`, but the code reads `Account.Name`. | Select the complete path, such as `Account.Name`. |
-| Visualforce standard controller did not load a field | An extension reads a field from `getRecord()` that is not referenced or added to the controller. | Reference it in the page, call `addFields()` before loading, or query explicitly. |
-| Dynamic query or binding omitted a field | Inspect the final generated query or dynamic field name used at runtime. | Include the required field in the actual query or add it to the standard controller. |
+| Visualforce standard controller did not load a field | An extension reads a field from `getRecord()` that is not referenced or added to the controller. | Reference it in the page or query explicitly; for a dynamic Visualforce binding, `addFields()` is also an option. |
+| Dynamic query or binding omitted a field | Inspect the final generated query or dynamic field name used at runtime. | Include the required field in the actual query or, for a dynamic Visualforce binding, add it to the standard controller. |
 | A different partial record reached a helper, batch, or test | Trace the failing instance through its callers, not just another query for the same ID. | Update each caller’s field list or bulk-requery the necessary records. |
 
 The [Salesforce SOQL results guide](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/langcon-apex-soql-working-with-results.html) describes working with queried records.
@@ -106,24 +106,34 @@ Start at the failing read, then correct the source of that specific record. Run 
 
 4. **Select the full relationship path.** Selecting `AccountId` loads the ID, not the parent’s name. Select `Account.Name` if code reads it. For a custom lookup, use the relationship name and field, such as `Ticket__r.SomeField__c`; confirm the relationship name in the lookup field’s details. Also handle a null lookup before dereferencing the parent.
 
-5. **Check Visualforce and dynamic fields.** In **Setup → Visualforce Pages**, inspect the page and its extension; in **Setup → Apex Classes**, inspect the extension code. A standard controller loads fields referenced by the page. For an extension-only field, reference it in markup, including a hidden component if appropriate, call `addFields()` before the record is loaded, or issue an explicit query. Dynamic field names must be added to the actual query or controller field list. Log generated field names cautiously: avoid exposing sensitive record data.
+5. **Check Visualforce and dynamic fields.** In **Setup → Visualforce Pages**, inspect the page and its extension; in **Setup → Apex Classes**, inspect the extension code. A standard controller loads fields referenced by the page. For an extension-only field, reference it in markup, including a hidden component if appropriate, or issue an explicit query. For dynamic Visualforce bindings, `addFields()` can add fields before the controller loads the record. Dynamic field names must be included in the actual query or, for a dynamic Visualforce binding, the controller field list. Log generated field names cautiously: avoid exposing sensitive record data.
 
 6. **Retest the actual callers.** Cover the original entry point and any other caller passing records to the same helper. If a requery is needed, collect IDs and retrieve records in one query outside loops. Make sure the replacement records, rather than the original partial instances, reach the helper.
 
-For a standard controller extension, the ordering matters:
+For a standard controller used with a dynamic Visualforce binding, the ordering matters. This extension adds `Status` before retrieving the record:
 
 ```apex
-public class CasePageExtension {
+public with sharing class CasePageExtension {
     public Case caseRecord { get; private set; }
+    public String fieldName { get; private set; }
 
     public CasePageExtension(ApexPages.StandardController controller) {
-        controller.addFields(new List<String>{ 'Status' });
+        fieldName = 'Status';
+        controller.addFields(new List<String>{ fieldName });
         caseRecord = (Case) controller.getRecord();
     }
 }
 ```
 
-Call `addFields()` before the record is loaded. If adding fields later, Salesforce documents using `reset()` to reacquire the record; **reset discards pending changes**. `addFields()` affects the standard controller’s record, not a separate SOQL query written in the extension. See the [StandardController reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-pages-standardcontroller.html) and [dynamic Visualforce guidance](https://developer.salesforce.com/docs/platform/salesforce-pages-developers-guide/guide/pages-dynamic-vf-sample-standard.html).
+A page using this extension can reference the field dynamically:
+
+```html
+<apex:page standardController="Case" extensions="CasePageExtension">
+    <apex:outputText value="{!caseRecord[fieldName]}" />
+</apex:page>
+```
+
+Salesforce documents `addFields()` for controllers used by dynamic Visualforce bindings. Call it before the record is loaded. If calling it outside the constructor, call `reset()` directly before `addFields()`; **reset discards pending changes**. `addFields()` affects the standard controller’s record, not a separate SOQL query written in the extension. An Apex test that constructs a standard controller with an in-memory record can fail when it calls `addFields()`; account for that behavior when designing the test instead of skipping the production path. See the [StandardController reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-pages-standardcontroller.html) and [dynamic Visualforce guidance](https://developer.salesforce.com/docs/platform/salesforce-pages-developers-guide/guide/pages-dynamic-vf-sample-standard.html).
 
 A field-access failure is a separate concern from selecting the field. Check the intended user’s object and field access, and the query’s execution mode. Salesforce documents version-dependent database operation defaults, including user-mode defaults starting with API version 67.0; verify the version and explicit access mode in the code you are changing. See [versioned behavior changes](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/versioned-behavior-changes.html). Do not grant broader access solely to silence the exception.
 
@@ -158,6 +168,7 @@ public with sharing class AccountFieldReader {
             SELECT Id, Name, Industry
             FROM Account
             WHERE Id IN :accountIds
+            WITH USER_MODE
         ];
     }
 
@@ -173,7 +184,7 @@ public with sharing class AccountFieldReader {
 }
 ```
 
-The helper accepts a set of IDs and performs one query for the set. It returns only matching records. The `with sharing` declaration addresses record sharing; field and object permissions still need to be handled according to the application’s intended access model.
+The helper accepts a set of IDs and performs one query for the set. `WITH USER_MODE` enforces the running user’s record, object, and field access; the query returns matching records visible to that user and can fail if the user lacks access to a queried object or field. Run the example and its test as a user with read access to Account, `Name`, and `Industry`.
 
 Save this as `AccountFieldReaderTest.cls`:
 
@@ -220,6 +231,15 @@ private class AccountFieldReaderTest {
 
         System.assertEquals(0, result.size(), 'Empty input should return no rows');
     }
+
+    @IsTest
+    static void handlesNullInput() {
+        Test.startTest();
+        Map<Id, String> result = AccountFieldReader.industriesById(null);
+        Test.stopTest();
+
+        System.assertEquals(0, result.size(), 'Null input should return no rows');
+    }
 }
 ```
 
@@ -230,7 +250,7 @@ The test creates its own data and asserts the returned values. Org-specific vali
 
 Use a Developer Edition org and test data to reproduce the exception without changing production records. The following anonymous Apex catches the expected exception so you can inspect its message.
 
-1. Open **Setup → Developer Console**, then **Debug → Open Execute Anonymous Window**.
+1. In Lightning Experience, open **Setup gear icon → Developer Console**, then **Debug → Open Execute Anonymous Window**.
 2. Run the following code. It inserts a temporary Account, queries a partial instance, and rolls the insert back.
 3. Open the execution log and search for `EXPECTED`.
 
@@ -283,9 +303,35 @@ Need this fixed in your org? [SFX can build it](/services/) with a written scope
 
 These errors have different causes, so check the exception type before applying the missing-field fix.
 
-- `System.QueryException: List has no rows for assignment to SObject` — a single-record assignment received no rows. Use a list when zero results are expected and handle the empty result.
-- `System.QueryException: List has more than 1 row for assignment to SObject` — a single-record assignment received multiple rows. Refine the filter or handle a list.
-- `QUERY_TOO_COMPLICATED` — the query may exceed Salesforce’s query complexity constraints. Review and simplify the query; see [SOQL and SOSL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
+### No rows for assignment to an SObject
+
+```text
+System.QueryException: List has no rows for assignment to SObject
+```
+
+**Cause:** A single-record assignment received no rows.
+
+**Fix:** Use a list when zero results are expected and handle the empty result.
+
+### More than one row for assignment to an SObject
+
+```text
+System.QueryException: List has more than 1 row for assignment to SObject
+```
+
+**Cause:** A single-record assignment received multiple rows.
+
+**Fix:** Refine the filter or handle a list.
+
+### Query too complicated
+
+```text
+QUERY_TOO_COMPLICATED
+```
+
+**Cause:** The query may exceed Salesforce’s query complexity constraints.
+
+**Fix:** Review and simplify the query; see [SOQL and SOSL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
 
 See Salesforce’s [built-in exception reference](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-exception-builtin.html) for exception types.
 
