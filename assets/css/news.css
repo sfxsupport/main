@@ -1,115 +1,136 @@
-/* SFX AI News: newsletter reading layout (light theme, same body class as the blog) */
-body.blog-light-theme { --bg:#ffffff; --bg2:#f8f9fa; --bg3:#f1f3f4; --b:#dadce0; --t:#202124; --t2:#3c4043; --t3:#5f6368; background:#ffffff; color:#202124; }
-body.blog-light-theme::before, body.blog-light-theme::after, body.blog-light-theme #star-canvas { display:none; }
-body.blog-light-theme main { margin-top:64px; }
-body.blog-light-theme footer { border-color:#e8eaed; background:#f8f9fa; }
-body.blog-light-theme .flogo { color:#202124; }
-body.blog-light-theme .fnav a, body.blog-light-theme .fcp, body.blog-light-theme .fdis { color:#5f6368; }
-body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
+/* SFX AI News: dark, minimal reading layout */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap");
+body.sfx-news { background:#0a0a0a; color:#ededed; }
+body.sfx-news::before, body.sfx-news::after, body.sfx-news #star-canvas { display:none; }
+body.sfx-news main { margin-top:64px; }
+
 .nl-shell {
-  --nl-ink: #1f2328; --nl-ink2: #424a53; --nl-muted: #6b7280; --nl-line: #e5e7eb; --nl-soft: #f6f8fa;
-  --nl-accent: #7c3aed; --nl-accent-soft: #f3edff; --nl-blue: #1a73e8;
-  --nl-claude: #c2410c; --nl-claude-bg: #fff4ec;
-  --nl-gpt: #0f766e; --nl-gpt-bg: #ecfdf8;
-  --nl-gem: #1d4ed8; --nl-gem-bg: #eef3ff;
-  background: #fff; color: var(--nl-ink);
-  padding: 32px max(16px, env(safe-area-inset-right, 0px)) 72px max(16px, env(safe-area-inset-left, 0px));
+  --bg:#0a0a0a; --ink:#ededed; --ink2:#a1a1a1; --mute:#737373; --line:#1f1f1f; --line2:#2a2a2a; --card:#111111;
+  --acc:#a78bfa; --claude:#f59e6b; --gpt:#34d399; --gem:#7aa2ff;
+  background:var(--bg); color:var(--ink);
+  font-family:Geist, Inter, system-ui, -apple-system, sans-serif;
+  padding:40px 16px 96px;
 }
-.nl-shell .article-progress { position: fixed; top: 64px; left: 0; right: 0; height: 3px; z-index: 50; }
-.nl-shell .article-progress span { display: block; height: 100%; background: var(--nl-accent); transform-origin: left; transform: scaleX(0); }
-.nl-issue { max-width: 720px; margin: 0 auto; font: 400 17px/1.7 Inter, system-ui, -apple-system, sans-serif; }
-.nl-crumbs { font: 500 13px/1.4 Inter, system-ui, sans-serif; color: var(--nl-muted); display: flex; gap: 6px; align-items: center; margin-bottom: 20px; }
-.nl-crumbs a { color: var(--nl-muted); text-decoration: none; } .nl-crumbs a:hover { color: var(--nl-blue); }
-.nl-crumbs i { font-size: 10px; }
+.nl-shell code, .nl-shell pre, .nl-mono { font-family:"Geist Mono", ui-monospace, Menlo, monospace; }
+.nl-shell a { color:var(--ink); text-decoration:underline; text-decoration-color:#404040; text-underline-offset:3px; }
+.nl-shell a:hover { text-decoration-color:var(--ink); }
+.nl-shell .article-progress { position:fixed; top:0; left:0; right:0; height:2px; z-index:2000; }
+.nl-shell .article-progress span { display:block; height:100%; background:var(--acc); transform-origin:left; transform:scaleX(0); }
 
-.nl-masthead { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 500 13px/1.4 Inter, system-ui, sans-serif; color: var(--nl-muted); }
-.nl-series { font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 11.5px; padding: 4px 10px; border-radius: 999px; background: var(--nl-accent-soft); color: var(--nl-accent); }
-.nl-series.sf { background: #e6f7fb; color: #0e7490; }
-.nl-series.weekly { background: #f1edff; color: #5b21b6; }
-.nl-head h1 { font: 800 clamp(30px, 5.4vw, 44px)/1.12 Inter, system-ui, sans-serif; letter-spacing: -.025em; margin: 14px 0 12px; text-wrap: balance; color: var(--nl-ink); }
-.nl-dek { font-size: 20px; line-height: 1.5; color: var(--nl-ink2); margin: 0 0 28px; }
+/* article: rail + column */
+.nl-issue { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:200px minmax(0,640px); column-gap:64px; justify-content:center; }
+.nl-crumbs { grid-column:1 / -1; font-size:13px; color:var(--mute); display:flex; gap:8px; align-items:center; margin-bottom:40px; }
+.nl-crumbs a { color:var(--mute); text-decoration:none; } .nl-crumbs a:hover { color:var(--ink); }
+.nl-crumbs i { font-size:9px; }
+.nl-head { display:contents; }
+.nl-masthead { grid-column:1; grid-row:2 / span 20; align-self:start; position:sticky; top:96px; display:flex; flex-direction:column; gap:10px; font-size:13px; color:var(--mute); border-left:1px solid var(--line2); padding-left:16px; }
+.nl-masthead time { color:var(--ink); font-weight:500; }
+.nl-series { font:500 11px/1 "Geist Mono", ui-monospace, monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--acc); }
+.nl-series.sf { color:#5eead4; } .nl-series.weekly { color:#c4b5fd; }
+.nl-issue-no { font:500 12px "Geist Mono", ui-monospace, monospace; color:var(--ink2); }
+.nl-copy { align-self:flex-start; margin-top:6px; display:inline-flex; gap:6px; align-items:center; font:500 12.5px Geist, Inter, sans-serif; color:var(--ink2); background:transparent; border:1px solid var(--line2); border-radius:8px; padding:6px 10px; cursor:pointer; }
+.nl-copy:hover { color:var(--ink); border-color:#404040; }
+.nl-head h1, .nl-dek, .nl-tldr, .nl-panel, .nl-body, .nl-faq, .nl-pager, .nl-foot { grid-column:2; }
+.nl-head h1 { font:600 clamp(32px,5vw,48px)/1.08 Geist, Inter, sans-serif; letter-spacing:-.035em; margin:0 0 16px; text-wrap:balance; color:var(--ink); }
+.nl-dek { font-size:19px; line-height:1.55; color:var(--ink2); margin:0 0 40px; text-wrap:pretty; }
 
-.nl-tldr { border: 1px solid #e9ddff; background: linear-gradient(180deg, #faf7ff, #fff); border-radius: 14px; padding: 18px 22px; margin: 0 0 36px; font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.6; }
-.nl-tldr-label { font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--nl-accent); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
-.nl-tldr ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; } .nl-tldr p { margin: 0; }
-
-.nl-body > p:first-child { font-size: 19px; line-height: 1.6; font-weight: 500; color: var(--nl-ink); }
-.nl-body p { margin: 0 0 18px; }
-.nl-body h2 { font: 800 24px/1.25 Inter, system-ui, sans-serif; letter-spacing: -.015em; margin: 40px 0 12px; color: var(--nl-ink); }
-.nl-body h3 { font: 700 19px/1.35 Inter, system-ui, sans-serif; margin: 28px 0 8px; }
-.nl-body ul, .nl-body ol { padding-left: 24px; margin: 0 0 20px; } .nl-body li { margin-bottom: 8px; }
-.nl-body strong { color: var(--nl-ink); }
-.nl-body a { color: var(--nl-blue); text-underline-offset: 3px; }
-.nl-body code { font: 500 .85em/1.4 "JetBrains Mono", ui-monospace, Menlo, monospace; background: var(--nl-soft); border: 1px solid var(--nl-line); border-radius: 5px; padding: 1px 5px; }
-.nl-body pre { background: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 16px 18px; overflow-x: auto; font-size: 14px; line-height: 1.55; margin: 0 0 22px; }
-.nl-body pre code { background: none; border: 0; color: inherit; padding: 0; }
-.nl-body blockquote { margin: 0 0 20px; padding: 2px 0 2px 18px; border-left: 3px solid var(--nl-line); color: var(--nl-ink2); }
-.nl-body hr { border: 0; border-top: 1px solid var(--nl-line); margin: 36px 0; }
-.nl-body em:only-child { color: var(--nl-muted); }
+/* TL;DR */
+.nl-tldr { margin:0 0 48px; padding:0; }
+.nl-tldr-label { font:500 11px/1 "Geist Mono", monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); margin-bottom:14px; }
+.nl-tldr-label i { display:none; }
+.nl-tldr ul { list-style:none; margin:0; padding:0; counter-reset:t; }
+.nl-tldr li { counter-increment:t; position:relative; padding:12px 0 12px 32px; border-top:1px solid var(--line); font-size:16px; line-height:1.55; color:var(--ink); }
+.nl-tldr li:last-child { border-bottom:1px solid var(--line); }
+.nl-tldr li::before { content:"0" counter(t); position:absolute; left:0; top:14px; font:500 12px/1.6 "Geist Mono", monospace; color:var(--mute); }
+.nl-tldr p { margin:0; font-size:16px; line-height:1.6; }
 
 /* AI panel */
-.nl-panel { margin: 0 0 36px; }
-.nl-panel-head h2 { font: 800 20px/1.3 Inter, system-ui, sans-serif; margin: 0 0 4px; letter-spacing: -.01em; }
-.nl-panel-head p { font-size: 13.5px; line-height: 1.5; color: var(--nl-muted); margin: 0 0 14px; }
-.nl-panel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.nl-take { border-radius: 14px; padding: 14px 16px; border: 1px solid var(--nl-line); display: flex; flex-direction: column; gap: 8px; min-width: 0; font-size: 15px; line-height: 1.5; }
-.nl-take-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.nl-take-name { font-weight: 700; font-size: 13.5px; display: inline-flex; align-items: center; gap: 7px; }
-.nl-take-name::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
-.nl-stance { font: 700 11px/1 Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: #fff; border: 1px solid currentColor; }
-.nl-verdict { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.4; color: var(--nl-ink); }
-.nl-missed { margin: 0; color: var(--nl-ink2); font-size: 14.5px; }
-.nl-missed span { font-weight: 600; color: var(--nl-muted); }
-.nl-take-claude { background: var(--nl-claude-bg); border-color: #fed7aa; } .nl-take-claude .nl-take-name, .nl-take-claude .nl-stance { color: var(--nl-claude); }
-.nl-take-chatgpt { background: var(--nl-gpt-bg); border-color: #a7f3d0; } .nl-take-chatgpt .nl-take-name, .nl-take-chatgpt .nl-stance { color: var(--nl-gpt); }
-.nl-take-gemini { background: var(--nl-gem-bg); border-color: #c7d7fe; } .nl-take-gemini .nl-take-name, .nl-take-gemini .nl-stance { color: var(--nl-gem); }
+.nl-panel { margin:0 0 56px; }
+.nl-panel-head h2 { font:500 11px/1 "Geist Mono", monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); margin:0 0 6px; }
+.nl-panel-head p { font-size:12.5px; color:#5a5a5a; margin:0 0 16px; line-height:1.5; }
+.nl-panel-grid { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); border:1px solid var(--line2); border-radius:12px; overflow:hidden; background:var(--card); }
+.nl-take { padding:18px 18px 20px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.nl-take + .nl-take { border-left:1px solid var(--line2); }
+.nl-take-top { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.nl-take-name { display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:14px; color:var(--ink); }
+.nl-take-name::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--dot); box-shadow:0 0 12px var(--dot); }
+.nl-stance { font:500 10.5px/1 "Geist Mono", monospace; letter-spacing:.06em; text-transform:uppercase; color:var(--dot); }
+.nl-verdict { margin:0; font-size:15.5px; line-height:1.45; font-weight:500; color:var(--ink); text-wrap:pretty; }
+.nl-missed { margin:0; font-size:13.5px; line-height:1.55; color:var(--ink2); }
+.nl-missed span { display:block; font:500 10.5px/1 "Geist Mono", monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); margin-bottom:6px; }
+.nl-take-claude { --dot:var(--claude); } .nl-take-chatgpt { --dot:var(--gpt); } .nl-take-gemini { --dot:var(--gem); }
 
-/* masthead extras, pager */
-.nl-issue-no { font-weight: 700; color: var(--nl-ink); }
-.nl-copy { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font: 600 13px Inter, system-ui, sans-serif; color: var(--nl-ink2); background: #fff; border: 1px solid var(--nl-line); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
-.nl-copy:hover { border-color: var(--nl-blue); color: var(--nl-blue); }
-.nl-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px; }
-.nl-pager a { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--nl-line); border-radius: 12px; text-decoration: none; color: var(--nl-ink); font-weight: 650; font-size: 15px; line-height: 1.4; min-width: 0; }
-.nl-pager a span { font-size: 12.5px; font-weight: 600; color: var(--nl-muted); }
-.nl-pager a.newer { text-align: right; grid-column: 2; }
-.nl-pager a:hover { border-color: var(--nl-blue); }
+/* body */
+.nl-body { font-size:17px; line-height:1.75; color:var(--ink2); }
+.nl-body > p:first-child { font-size:21px; line-height:1.5; color:var(--ink); font-weight:500; letter-spacing:-.01em; margin-bottom:40px; }
+.nl-body p { margin:0 0 20px; }
+.nl-body strong { color:var(--ink); font-weight:600; }
+.nl-body h2 { font:600 22px/1.3 Geist, Inter, sans-serif; letter-spacing:-.02em; color:var(--ink); margin:48px 0 16px; }
+.nl-body h3 { font:600 17px/1.4 Geist, Inter, sans-serif; color:var(--ink); margin:32px 0 8px; }
+.nl-body ul, .nl-body ol { padding-left:22px; margin:0 0 22px; }
+.nl-body li { margin:0 0 10px; padding-left:4px; }
+.nl-body ol li::marker { font:500 14px "Geist Mono", monospace; color:var(--mute); }
+.nl-body :not(pre) > code, .nl-tldr code { font-size:.86em; background:#1a1a1a; border:1px solid var(--line2); color:#e5e5e5; padding:1px 6px; border-radius:6px; white-space:nowrap!important; word-break:normal!important; overflow-wrap:normal!important; }
+.nl-body pre { background:var(--card)!important; border:1px solid var(--line2); border-radius:10px; padding:16px 18px; overflow:auto; margin:4px 0 22px; }
+.nl-body pre code { font-size:13.5px; line-height:1.65; color:#d4d4d4; background:none; border:0; padding:0; }
+.nl-body blockquote { margin:0 0 20px; padding:2px 0 2px 16px; border-left:2px solid var(--line2); color:var(--ink2); }
+.nl-body hr { border:0; border-top:1px solid var(--line); margin:40px 0; }
+.nl-body h2#sources + ul, .nl-body h2#sources ~ ul { font-size:14px; }
 
-.nl-faq { margin-top: 40px; font-family: Inter, system-ui, sans-serif; font-size: 16px; }
-.nl-faq h2 { font: 800 20px/1.3 Inter, system-ui, sans-serif; margin: 0 0 10px; }
-.nl-faq details { border-top: 1px solid var(--nl-line); padding: 12px 0; } .nl-faq summary { font-weight: 600; cursor: pointer; } .nl-faq p { margin: 8px 0 0; color: var(--nl-ink2); }
-
-.nl-foot { margin-top: 44px; padding: 22px; border-radius: 14px; background: var(--nl-soft); font: 400 15px/1.6 Inter, system-ui, sans-serif; color: var(--nl-ink2); }
-.nl-foot p { margin: 0 0 12px; }
-.nl-foot-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.nl-foot-links a { display: inline-flex; gap: 6px; align-items: center; padding: 7px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--nl-line); color: var(--nl-ink); text-decoration: none; font-weight: 600; font-size: 14px; }
-.nl-foot-links a:hover { border-color: var(--nl-blue); color: var(--nl-blue); }
-.nl-byline { font-size: 13px; color: var(--nl-muted); margin: 0 !important; } .nl-byline a { color: inherit; }
+/* FAQ, pager, footer */
+.nl-faq { margin-top:56px; border-top:1px solid var(--line); padding-top:32px; }
+.nl-faq h2 { font:500 11px/1 "Geist Mono", monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); margin:0 0 8px; }
+.nl-faq details { border-bottom:1px solid var(--line); }
+.nl-faq summary { cursor:pointer; list-style:none; padding:16px 0; font-size:16px; font-weight:500; color:var(--ink); display:flex; justify-content:space-between; gap:16px; }
+.nl-faq summary::-webkit-details-marker { display:none; }
+.nl-faq summary::after { content:"+"; color:var(--mute); font-family:"Geist Mono", monospace; }
+.nl-faq details[open] summary::after { content:"–"; }
+.nl-faq details p { margin:0 0 16px; color:var(--ink2); font-size:15.5px; line-height:1.65; }
+.nl-pager { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:56px; }
+.nl-shell .nl-pager a { display:flex; flex-direction:column; gap:6px; padding:16px 18px; border:1px solid var(--line2); border-radius:12px; text-decoration:none; color:var(--ink); font-weight:500; font-size:15px; line-height:1.4; background:var(--card); }
+.nl-pager a span { font:500 11px "Geist Mono", monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); }
+.nl-pager a.newer { grid-column:2; text-align:right; }
+.nl-shell .nl-pager a:hover { border-color:#404040; }
+.nl-foot { margin-top:56px; padding-top:28px; border-top:1px solid var(--line); font-size:14px; line-height:1.6; color:var(--mute); }
+.nl-foot strong { color:var(--ink2); font-weight:500; }
+.nl-foot-links { display:flex; flex-wrap:wrap; gap:20px; margin:16px 0; }
+.nl-shell .nl-foot-links a { color:var(--ink2); text-decoration:none; font-size:14px; } .nl-shell .nl-foot-links a:hover { color:var(--ink); }
+.nl-foot-links i { margin-right:6px; }
+.nl-byline { margin:0; font-size:13px; }
+.nl-shell .nl-byline a { color:var(--ink2); }
 
 /* index */
-.nl-index { max-width: 760px; margin: 0 auto; font-family: Inter, system-ui, sans-serif; }
-.nl-index-head h1 { font: 800 clamp(32px, 6vw, 48px)/1.1 Inter, system-ui, sans-serif; letter-spacing: -.03em; margin: 8px 0 12px; }
-.nl-index-head p { font-size: 18px; line-height: 1.6; color: var(--nl-ink2); margin: 0 0 18px; max-width: 60ch; }
-.nl-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; }
-.nl-filters button { font: 600 14px Inter, system-ui, sans-serif; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--nl-line); background: #fff; color: var(--nl-ink2); cursor: pointer; }
-.nl-filters button[aria-pressed="true"] { background: var(--nl-ink); color: #fff; border-color: var(--nl-ink); }
-.nl-list { display: grid; gap: 0; border-top: 1px solid var(--nl-line); }
-.nl-item { display: grid; grid-template-columns: 112px 1fr; gap: 6px 20px; padding: 22px 0; border-bottom: 1px solid var(--nl-line); text-decoration: none; color: inherit; }
-.nl-item[hidden] { display: none; }
-.nl-item:hover h2 { color: var(--nl-blue); }
-.nl-item-date { font-size: 13px; color: var(--nl-muted); padding-top: 4px; font-variant-numeric: tabular-nums; }
-.nl-item h2 { font: 750 21px/1.3 Inter, system-ui, sans-serif; margin: 6px 0 6px; letter-spacing: -.01em; }
-.nl-item p { margin: 0; color: var(--nl-ink2); font-size: 15.5px; line-height: 1.55; }
-.nl-item > div { min-width: 0; }
-.nl-empty { color: var(--nl-muted); padding: 24px 0; }
-@media (max-width: 760px) {
-  .nl-panel-grid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
-  .nl-take { scroll-snap-align: start; }
+.nl-index { max-width:1000px; margin:0 auto; }
+.nl-index-head { margin-bottom:40px; }
+.nl-index-head h1 { font:600 clamp(36px,6vw,56px)/1.05 Geist, Inter, sans-serif; letter-spacing:-.04em; margin:12px 0 14px; color:var(--ink); }
+.nl-index-head p { max-width:620px; font-size:17px; line-height:1.6; color:var(--ink2); margin:0; }
+.nl-filters { display:flex; flex-wrap:wrap; gap:4px; margin:0 0 24px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+.nl-filters button { font:500 13.5px Geist, Inter, sans-serif; color:var(--mute); background:none; border:0; border-radius:8px; padding:7px 12px; cursor:pointer; }
+.nl-filters button:hover { color:var(--ink); }
+.nl-filters button[aria-pressed="true"] { color:var(--ink); background:#1a1a1a; }
+.nl-list { display:flex; flex-direction:column; }
+.nl-shell .nl-item { display:grid; grid-template-columns:200px 1fr; column-gap:64px; padding:28px 0; border-bottom:1px solid var(--line); text-decoration:none; color:var(--ink); }
+.nl-item[hidden] { display:none; }
+.nl-item-date { font-size:13.5px; color:var(--mute); padding-top:6px; }
+.nl-item h2 { font:600 24px/1.25 Geist, Inter, sans-serif; letter-spacing:-.02em; margin:8px 0 8px; color:var(--ink); transition:color .15s; }
+.nl-shell .nl-item:hover h2 { color:var(--acc); }
+.nl-item p { margin:0; font-size:15.5px; line-height:1.6; color:var(--ink2); max-width:640px; }
+.nl-empty { color:var(--mute); }
+
+@media (max-width: 860px) {
+  .nl-issue { grid-template-columns:minmax(0,1fr); }
+  .nl-masthead { grid-column:1; grid-row:auto; position:static; flex-direction:row; flex-wrap:wrap; align-items:center; gap:8px 14px; border-left:0; padding-left:0; margin-bottom:18px; }
+  .nl-copy { margin:0 0 0 auto; }
+  .nl-head h1, .nl-dek, .nl-tldr, .nl-panel, .nl-body, .nl-faq, .nl-pager, .nl-foot { grid-column:1; }
+  .nl-panel-grid { grid-auto-flow:row; grid-template-columns:1fr; }
+  .nl-take + .nl-take { border-left:0; border-top:1px solid var(--line2); }
+  .nl-shell .nl-item { grid-template-columns:1fr; }
+  .nl-item-date { padding:0; }
 }
 @media (max-width: 560px) {
-  .nl-issue { font-size: 16.5px; }
-  .nl-body pre { font-size: 13px; }
-  .nl-pager { grid-template-columns: 1fr; } .nl-pager a.newer { grid-column: auto; text-align: left; }
-  .nl-item { grid-template-columns: 1fr; gap: 2px; }
-  .nl-dek { font-size: 18px; }
+  .nl-shell { padding-top:24px; }
+  .nl-crumbs { margin-bottom:24px; }
+  .nl-body { font-size:16.5px; }
+  .nl-body > p:first-child { font-size:19px; }
+  .nl-pager { grid-template-columns:1fr; } .nl-pager a.newer { grid-column:auto; text-align:left; }
 }
-.nl-shell .nl-body :not(pre) > code, .nl-shell .nl-tldr code { background: var(--nl-soft) !important; color: #b42318 !important; border: 1px solid var(--nl-line) !important; }
