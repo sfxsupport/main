@@ -31,7 +31,7 @@ proficiency: "Intermediate"
 answer: "To call an LLM from Apex, store the vendor API key in an External Credential and point a Named Credential at the vendor URL. Send a JSON POST with HttpRequest to callout:Your_Named_Credential, parse the reply with JSON.deserializeUntyped, run bulk calls from Batch Apex that implements Database.AllowsCallouts, and test with HttpCalloutMock."
 faq:
   - q: "Can I call ChatGPT from Salesforce?"
-    a: "Not the ChatGPT app itself. You call the OpenAI API, which serves the same GPT models, from Apex with an HTTP callout through a Named Credential. The API is billed separately from a ChatGPT subscription and needs its own API key."
+    a: "Not the ChatGPT app itself. You call the OpenAI API from Apex with an HTTP callout through a Named Credential. The API provides GPT models; which models are available and how they behave can differ from the ChatGPT app. The API is billed separately from a ChatGPT subscription and needs its own API key."
   - q: "Can I call OpenAI or Claude directly from Apex without the Einstein Trust Layer?"
     a: "Yes. A normal Apex HTTP callout through a Named Credential can reach api.anthropic.com, api.openai.com or generativelanguage.googleapis.com. Those calls do not go through the Einstein Trust Layer, so masking, logging and data-handling rules are your job."
   - q: "Where should I store the LLM API key in Salesforce?"

@@ -104,7 +104,7 @@ permalink: /agentforce-pricing-calculator/
   <nav class="ap-crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Agentforce pricing calculator</span></nav>
   <p class="ap-eyebrow"><i></i> Salesforce list prices, rate card November 2026</p>
   <h1>Agentforce pricing calculator: <em>Flex Credits, per conversation or per user.</em></h1>
-  <p class="ap-lead">Enter how your agent will be used. The calculator prices the same workload under each Salesforce pricing model, shows the arithmetic, and tells you where the models break even. Every rate comes from a Salesforce page linked below.</p>
+  <p class="ap-lead">For action-metered agents: enter how your agent will be used. The calculator prices the same workload under each Salesforce pricing model, shows the arithmetic, and tells you where the models break even. Every rate comes from a Salesforce page linked below.</p>
   <p class="ap-answer"><b>Short answer:</b> at list price one Agentforce action costs 20 Flex Credits, which is <b>$0.10</b> ($500 per 100,000 credits); a voice action is <b>$0.15</b>. Per-conversation pricing is <b>$2</b>, so for a text agent it only wins when a conversation runs more than <b>20 actions</b>. Employee-facing add-ons are <b>$150 per user per month</b>. Salesforce does not support Flex Credits and Conversations in the same org, so you pick one model per org.</p>
 
   <div class="ap-grid">
@@ -136,6 +136,10 @@ permalink: /agentforce-pricing-calculator/
         <label for="upm">Actions per employee <span>per month</span></label>
         <input id="upm" type="number" min="0" step="10" value="200" inputmode="numeric">
         <small>Used only to price employee usage on Flex Credits, for comparison with the per-user add-on.</small>
+      </div>
+      <div class="ap-f">
+        <label for="addonOnly" style="justify-content:flex-start;gap:.6rem;align-items:center"><input id="addonOnly" type="checkbox" style="width:auto"> Employees need add-on features <span>(price them on the add-on only)</span></label>
+        <small>Some standard employee actions are only available with an add-on licence. Tick this if yours are.</small>
       </div>
 
       <hr class="ap-sep">
@@ -173,7 +177,7 @@ permalink: /agentforce-pricing-calculator/
         <button class="ap-btn ap-btn--g" type="button" id="copyLink">Copy link to this estimate</button>
         <a class="ap-btn ap-btn--w" href="/services/#ai-usage-review" data-cta="calc_usage_review">Get a usage review</a>
       </div>
-      <p class="ap-note">List prices only. Discounts, contract terms, sandbox rates (16 credits per action), Data 360 credits and taxes change the real bill. Salesforce's pricing page now shows "Contact us" for conversations; the $2 figure comes from Salesforce Help. SFX Support is independent and is not a Salesforce partner; confirm figures with your Salesforce account team.</p>
+      <p class="ap-note">Covers action-metered agents and per-conversation pricing only; Help Agent per-resolution billing and login or member licences are not modelled. List prices only. Discounts, contract terms, sandbox rates (16 credits per action), Data 360 credits and taxes change the real bill. Salesforce's pricing page now shows "Contact us" for conversations; the $2 figure comes from Salesforce Help. SFX Support is independent and is not a Salesforce partner; confirm figures with your Salesforce account team.</p>
     </section>
   </div>
 
@@ -199,7 +203,8 @@ permalink: /agentforce-pricing-calculator/
     <ul>
       <li>Negotiated discounts and minimum purchase amounts on your order form.</li>
       <li>Data 360 (Data Cloud) credits for ingestion, indexing and retrieval, unless you enter them.</li>
-      <li>Salesforce edition and licence prerequisites. Agent Builder needs Enterprise Edition or higher.</li>
+      <li>Salesforce edition and licence prerequisites. Agent Builder is available in Enterprise, Performance, Unlimited and Developer Editions; required add-on licences vary by agent type.</li>
+      <li>Billing models outside action metering, such as Help Agent per-resolution billing or login and member licences. In qualifying resolved Help Agent sessions, actions are bundled and are not billed one by one.</li>
       <li>Actions that fail and are retried, and agent loops that run more actions than planned. Test with real transcripts before you commit to a volume.</li>
     </ul>
   </section>
@@ -247,15 +252,16 @@ permalink: /agentforce-pricing-calculator/
 <script>
 (function(){
   var PACK=500, PER=100000, ACT=20, VOICE=30, CONV=2, ADDON=150;
-  var ids=['conv','apc','voice','users','upm','incl','data'];
+  var ids=['conv','apc','voice','users','upm','incl','data'], chk=['addonOnly'];
   var el=function(i){return document.getElementById(i)};
-  var usd=function(n){return '$'+Math.round(n).toLocaleString('en-US')};
+  var usd=function(n){var c=Math.round(n*100)/100;return '$'+(c<100&&c%1?c.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):Math.round(c).toLocaleString('en-US'))};
   var num=function(n){return Math.round(n).toLocaleString('en-US')};
   var v=function(i){var x=parseFloat(el(i).value);return isFinite(x)&&x>0?x:0};
   // restore from #hash
   try{
     var h=new URLSearchParams(location.hash.slice(1));
     ids.forEach(function(i){if(h.has(i)&&isFinite(parseFloat(h.get(i))))el(i).value=h.get(i)});
+    chk.forEach(function(i){if(h.has(i))el(i).checked=h.get(i)==='1'});
   }catch(e){}
   function calc(){
     var conv=v('conv'), apc=v('apc'), vp=Math.min(v('voice'),100)/100, users=v('users'), upm=v('upm'), incl=v('incl'), data=v('data');
@@ -266,7 +272,8 @@ permalink: /agentforce-pricing-calculator/
     // Option B: Conversations org -> Flex Credits are not available in the same org, so employees need the add-on
     var custBill=Math.max(0,custCredits-incl), leftA=Math.max(0,incl-custCredits);
     var empFlexA=Math.max(0,empCredits-leftA)/PER*PACK, empAddon=users*ADDON;
-    var empA=users?Math.min(empFlexA,empAddon):0, empB=empAddon;
+    var addonOnly=el('addonOnly').checked;
+    var empA=users?(addonOnly?empAddon:Math.min(empFlexA,empAddon)):0, empB=empAddon;
     var flex=custBill/PER*PACK+data, convCost=conv*CONV+data;
     var totA=flex+empA, totB=convCost+empB, voiceOn=vp>0;
     el('flexOut').innerHTML=usd(totA)+' <small>/mo</small>';
@@ -274,20 +281,22 @@ permalink: /agentforce-pricing-calculator/
     el('convOut').innerHTML=voiceOn?'<small>not listed for voice</small>':usd(totB)+' <small>/mo</small>';
     el('convMath').innerHTML=voiceOn?'Salesforce lists per-conversation pricing for customer-facing agents but does not list Agentforce Voice under it. Set voice to 0% to compare text agents.':('Customers: <code>'+num(conv)+'</code> conversations × $2 = '+usd(conv*CONV)+(data?' + '+usd(data)+' Data 360':'')+(users?'. Employees on the add-on: '+usd(empB):'')+'. Yearly about '+usd(totB*12)+'.');
     el('empOut').innerHTML=users?usd(empA)+' / '+usd(empB)+' <small>A / B</small>':'<small>no employees entered</small>';
-    el('empMath').innerHTML=users?('Add-on: <code>'+num(users)+'</code> users × $150 = '+usd(empAddon)+' a month, billed annually, unmetered. In a Flex Credits org employees can instead use credits: '+num(users*upm)+' actions × 20 = '+num(empCredits)+' credits → '+usd(empFlexA)+' after included credits; the cheaper option is used. Per user, the add-on equals Flex Credits at 1,500 text actions a month.'):'Enter employees to compare the $150 per user add-on with Flex Credits.';
+    var empNote=addonOnly?'Priced on the add-on only, as ticked.':('In a Flex Credits org employees can instead use credits: '+num(users*upm)+' actions × 20 = '+num(empCredits)+' credits → '+usd(empFlexA)+' after included credits; the cheaper option is used.');
+    el('empMath').innerHTML=users?('Add-on: <code>'+num(users)+'</code> users × $150 = '+usd(empAddon)+' a month, billed annually (Salesforce lists it as unmetered employee usage for eligible actions). '+empNote+' Per user, the add-on equals Flex Credits at 1,500 text actions a month.'):'Enter employees to compare the $150 per user add-on with Flex Credits.';
     var fb=el('optFlex'), cb=el('optConv');
-    fb.classList.toggle('best',conv>0&&(voiceOn||totA<=totB)); cb.classList.toggle('best',conv>0&&!voiceOn&&totB<totA);
+    var tie=Math.abs(totA-totB)<0.005;fb.classList.toggle('best',conv>0&&!tie&&(voiceOn||totA<totB)); cb.classList.toggle('best',conv>0&&!voiceOn&&!tie&&totB<totA);
     var ins;
     if(!conv){ins='Enter customer conversations to compare a Flex Credits org with a Conversations org.'}
     else if(voiceOn){ins='With voice actions only Option A applies at list price. Voice adds <b>'+usd(vActs*VOICE/PER*PACK)+'</b> a month to the Flex Credits estimate.'}
     else{
-      var cheaper=totA<=totB?'a Flex Credits org (A)':'a Conversations org (B)', diff=Math.abs(totB-totA);
-      ins='For this usage <b>'+cheaper+'</b> costs less: <b>'+usd(Math.min(totA,totB))+' a month</b> vs '+usd(Math.max(totA,totB))+' (about '+usd(diff)+' difference). For customer conversations alone, the two models cost the same at <b>20 text actions per conversation</b>'+(incl?' before included credits':'')+'.';
+      var cheaper=totA<totB?'a Flex Credits org (A)':'a Conversations org (B)', diff=Math.abs(totB-totA);
+      if(Math.abs(totA-totB)<0.005){ins='For this usage both options cost the same: <b>'+usd(totA)+' a month</b>.';}
+      else ins='For this usage <b>'+cheaper+'</b> costs less: <b>'+usd(Math.min(totA,totB))+' a month</b> vs '+usd(Math.max(totA,totB))+' (about '+usd(diff)+' difference). For customer conversations alone, the two models cost the same at <b>20 text actions per conversation</b>'+(incl?' before included credits':'')+'.';
     }
     el('insight').innerHTML=ins;
-    try{var p=new URLSearchParams();ids.forEach(function(i){p.set(i,el(i).value)});history.replaceState(null,'','#'+p.toString())}catch(e){}
+    try{var p=new URLSearchParams();ids.forEach(function(i){p.set(i,el(i).value)});chk.forEach(function(i){p.set(i,el(i).checked?'1':'0')});history.replaceState(null,'','#'+p.toString())}catch(e){}
   }
-  ids.forEach(function(i){el(i).addEventListener('input',calc)});
+  ids.concat(chk).forEach(function(i){el(i).addEventListener('input',calc);el(i).addEventListener('change',calc)});
   el('copyLink').addEventListener('click',function(){
     var b=this, done=function(){b.textContent='Link copied';setTimeout(function(){b.textContent='Copy link to this estimate'},1800)};
     var fail=function(){b.textContent='Copy the address bar link'};
