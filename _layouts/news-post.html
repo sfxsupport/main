@@ -2,6 +2,12 @@
 layout: default
 ---
 {% assign is_daily = false %}{% if page.series contains "Daily" %}{% assign is_daily = true %}{% endif %}
+{% assign series_posts = site.posts | where: "series", page.series | reverse %}
+{% assign issue_no = 0 %}{% for p in series_posts %}{% if p.url == page.url %}{% assign issue_no = forloop.index %}{% endif %}{% endfor %}
+{% assign all_news = site.posts | where: "sfx_news", true %}
+{% assign newer = nil %}{% assign older = nil %}
+{% for p in all_news %}{% if p.url == page.url %}{% assign i0 = forloop.index0 %}{% endif %}{% endfor %}
+{% for p in all_news %}{% assign d = forloop.index0 | minus: i0 %}{% if d == -1 %}{% assign newer = p %}{% elsif d == 1 %}{% assign older = p %}{% endif %}{% endfor %}
 <div class="nl-shell">
   <div class="article-progress" aria-hidden="true"><span></span></div>
   <article class="nl-issue">
@@ -12,8 +18,10 @@ layout: default
     <header class="nl-head">
       <div class="nl-masthead">
         <span class="nl-series {% if is_daily %}daily{% elsif page.series contains 'Salesforce' %}sf{% else %}weekly{% endif %}">{{ page.series | default: "SFX News" }}</span>
+        {% if issue_no > 0 %}<span class="nl-issue-no">Issue #{{ issue_no }}</span>{% endif %}
         <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%A, %-d %B %Y" }}</time>
         <span class="nl-read">{{ page.reading_time | default: "3 min read" }}</span>
+        <button type="button" class="nl-copy" data-url="{{ page.url | absolute_url }}"><i class="bi bi-link-45deg"></i> <span>Copy link</span></button>
       </div>
       <h1>{{ page.title }}</h1>
       {% if page.description %}<p class="nl-dek">{{ page.description }}</p>{% endif %}
@@ -31,6 +39,24 @@ layout: default
     </section>
     {% endif %}
 
+    {% if page.ai_takes %}
+    <section class="nl-panel" aria-labelledby="ai-panel-title">
+      <div class="nl-panel-head">
+        <h2 id="ai-panel-title">The AI panel</h2>
+        <p>Three models read the facts below and gave their bottom line. AI opinions, not facts or advice; a model may favour its own company.</p>
+      </div>
+      <div class="nl-panel-grid">
+        {% for t in page.ai_takes %}
+        <div class="nl-take nl-take-{{ t.key }}">
+          <div class="nl-take-top"><span class="nl-take-name" title="{{ t.model }}">{{ t.model | split: " " | first }}</span><span class="nl-stance">{{ t.stance }}</span></div>
+          <p class="nl-verdict">{{ t.verdict }}</p>
+          <p class="nl-missed"><span>What others miss:</span> {{ t.missed }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
     <div class="nl-body">
       {{ content }}
     </div>
@@ -42,6 +68,13 @@ layout: default
       <details><summary>{{ item.q }}</summary><p>{{ item.a }}</p></details>
       {% endfor %}
     </section>
+    {% endif %}
+
+    {% if newer or older %}
+    <nav class="nl-pager" aria-label="More issues">
+      {% if older %}<a class="older" href="{{ older.url }}"><span>&larr; Previous</span>{{ older.title }}</a>{% else %}<span></span>{% endif %}
+      {% if newer %}<a class="newer" href="{{ newer.url }}"><span>Next &rarr;</span>{{ newer.title }}</a>{% endif %}
+    </nav>
     {% endif %}
 
     <footer class="nl-foot">
@@ -63,12 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function u() { var s = a.getBoundingClientRect().top + scrollY, e = s + a.offsetHeight - innerHeight;
     bar.style.transform = 'scaleX(' + (e <= s ? 1 : Math.min(1, Math.max(0, (scrollY - s) / (e - s)))) + ')'; }
   u(); addEventListener('scroll', u, { passive: true }); addEventListener('resize', u);
-  // AI takes: style each model's block as a card
-  document.querySelectorAll('.nl-body h3').forEach(function (h) {
-    var w = h.textContent.trim().split(' ')[0]; if (['Claude', 'ChatGPT', 'Gemini'].indexOf(w) < 0) return;
-    var q = h.nextElementSibling; if (!q || q.tagName !== 'BLOCKQUOTE') return;
-    var card = document.createElement('div'); card.className = 'nl-take nl-take-' + w.toLowerCase();
-    h.parentNode.insertBefore(card, h); card.appendChild(h); card.appendChild(q);
+  var c = document.querySelector('.nl-copy');
+  if (c) c.addEventListener('click', function () {
+    var label = c.querySelector('span'), url = c.dataset.url;
+    var done = function () { label.textContent = 'Copied'; setTimeout(function () { label.textContent = 'Copy link'; }, 1800); };
+    if (navigator.clipboard) { navigator.clipboard.writeText(url).then(done, function () { label.textContent = url; }); } else { label.textContent = url; }
   });
 });
 </script>

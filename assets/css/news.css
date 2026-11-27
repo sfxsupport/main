@@ -17,7 +17,7 @@ body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
 }
 .nl-shell .article-progress { position: fixed; top: 64px; left: 0; right: 0; height: 3px; z-index: 50; }
 .nl-shell .article-progress span { display: block; height: 100%; background: var(--nl-accent); transform-origin: left; transform: scaleX(0); }
-.nl-issue { max-width: 680px; margin: 0 auto; font: 400 18px/1.7 Georgia, "Iowan Old Style", "Times New Roman", serif; }
+.nl-issue { max-width: 720px; margin: 0 auto; font: 400 17px/1.7 Inter, system-ui, -apple-system, sans-serif; }
 .nl-crumbs { font: 500 13px/1.4 Inter, system-ui, sans-serif; color: var(--nl-muted); display: flex; gap: 6px; align-items: center; margin-bottom: 20px; }
 .nl-crumbs a { color: var(--nl-muted); text-decoration: none; } .nl-crumbs a:hover { color: var(--nl-blue); }
 .nl-crumbs i { font-size: 10px; }
@@ -33,7 +33,7 @@ body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
 .nl-tldr-label { font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--nl-accent); margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
 .nl-tldr ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; } .nl-tldr p { margin: 0; }
 
-.nl-body > p:first-child { font-size: 21px; line-height: 1.6; }
+.nl-body > p:first-child { font-size: 19px; line-height: 1.6; font-weight: 500; color: var(--nl-ink); }
 .nl-body p { margin: 0 0 18px; }
 .nl-body h2 { font: 800 24px/1.25 Inter, system-ui, sans-serif; letter-spacing: -.015em; margin: 40px 0 12px; color: var(--nl-ink); }
 .nl-body h3 { font: 700 19px/1.35 Inter, system-ui, sans-serif; margin: 28px 0 8px; }
@@ -47,15 +47,32 @@ body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
 .nl-body hr { border: 0; border-top: 1px solid var(--nl-line); margin: 36px 0; }
 .nl-body em:only-child { color: var(--nl-muted); }
 
-/* AI takes as cards */
-.nl-take { border-radius: 14px; padding: 16px 20px 6px; margin: 0 0 14px; border: 1px solid var(--nl-line); font-family: Inter, system-ui, sans-serif; font-size: 16px; line-height: 1.6; }
-.nl-take h3 { margin: 0 0 8px; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-.nl-take h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
-.nl-take blockquote { border: 0; padding: 0; margin: 0 0 10px; color: var(--nl-ink); }
-.nl-take blockquote p { margin: 0 0 6px; }
-.nl-take-claude { background: var(--nl-claude-bg); border-color: #fed7aa; } .nl-take-claude h3 { color: var(--nl-claude); }
-.nl-take-chatgpt { background: var(--nl-gpt-bg); border-color: #a7f3d0; } .nl-take-chatgpt h3 { color: var(--nl-gpt); }
-.nl-take-gemini { background: var(--nl-gem-bg); border-color: #c7d7fe; } .nl-take-gemini h3 { color: var(--nl-gem); }
+/* AI panel */
+.nl-panel { margin: 0 0 36px; }
+.nl-panel-head h2 { font: 800 20px/1.3 Inter, system-ui, sans-serif; margin: 0 0 4px; letter-spacing: -.01em; }
+.nl-panel-head p { font-size: 13.5px; line-height: 1.5; color: var(--nl-muted); margin: 0 0 14px; }
+.nl-panel-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.nl-take { border-radius: 14px; padding: 14px 16px; border: 1px solid var(--nl-line); display: flex; flex-direction: column; gap: 8px; min-width: 0; font-size: 15px; line-height: 1.5; }
+.nl-take-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.nl-take-name { font-weight: 700; font-size: 13.5px; display: inline-flex; align-items: center; gap: 7px; }
+.nl-take-name::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+.nl-stance { font: 700 11px/1 Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: #fff; border: 1px solid currentColor; }
+.nl-verdict { margin: 0; font-weight: 700; font-size: 16px; line-height: 1.4; color: var(--nl-ink); }
+.nl-missed { margin: 0; color: var(--nl-ink2); font-size: 14.5px; }
+.nl-missed span { font-weight: 600; color: var(--nl-muted); }
+.nl-take-claude { background: var(--nl-claude-bg); border-color: #fed7aa; } .nl-take-claude .nl-take-name, .nl-take-claude .nl-stance { color: var(--nl-claude); }
+.nl-take-chatgpt { background: var(--nl-gpt-bg); border-color: #a7f3d0; } .nl-take-chatgpt .nl-take-name, .nl-take-chatgpt .nl-stance { color: var(--nl-gpt); }
+.nl-take-gemini { background: var(--nl-gem-bg); border-color: #c7d7fe; } .nl-take-gemini .nl-take-name, .nl-take-gemini .nl-stance { color: var(--nl-gem); }
+
+/* masthead extras, pager */
+.nl-issue-no { font-weight: 700; color: var(--nl-ink); }
+.nl-copy { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font: 600 13px Inter, system-ui, sans-serif; color: var(--nl-ink2); background: #fff; border: 1px solid var(--nl-line); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
+.nl-copy:hover { border-color: var(--nl-blue); color: var(--nl-blue); }
+.nl-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 40px; }
+.nl-pager a { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--nl-line); border-radius: 12px; text-decoration: none; color: var(--nl-ink); font-weight: 650; font-size: 15px; line-height: 1.4; min-width: 0; }
+.nl-pager a span { font-size: 12.5px; font-weight: 600; color: var(--nl-muted); }
+.nl-pager a.newer { text-align: right; grid-column: 2; }
+.nl-pager a:hover { border-color: var(--nl-blue); }
 
 .nl-faq { margin-top: 40px; font-family: Inter, system-ui, sans-serif; font-size: 16px; }
 .nl-faq h2 { font: 800 20px/1.3 Inter, system-ui, sans-serif; margin: 0 0 10px; }
@@ -84,8 +101,14 @@ body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
 .nl-item p { margin: 0; color: var(--nl-ink2); font-size: 15.5px; line-height: 1.55; }
 .nl-item > div { min-width: 0; }
 .nl-empty { color: var(--nl-muted); padding: 24px 0; }
+@media (max-width: 760px) {
+  .nl-panel-grid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
+  .nl-take { scroll-snap-align: start; }
+}
 @media (max-width: 560px) {
-  .nl-issue { font-size: 17px; }
+  .nl-issue { font-size: 16.5px; }
+  .nl-body pre { font-size: 13px; }
+  .nl-pager { grid-template-columns: 1fr; } .nl-pager a.newer { grid-column: auto; text-align: left; }
   .nl-item { grid-template-columns: 1fr; gap: 2px; }
   .nl-dek { font-size: 18px; }
 }
