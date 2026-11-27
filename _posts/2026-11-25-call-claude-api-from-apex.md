@@ -24,7 +24,7 @@ og_type: article
 author_name: "Abhay Nama"
 author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/call-claude-api-from-apex.jpg
-image_alt: "Diagram of a Salesforce Apex class sending a JSON POST through the Anthropic_API Named Credential, whose External Credential adds the x-api-key header, to the Claude Messages API"
+image_alt: "SFX Salesforce + AI Guide cover: Call the Claude API from Apex with Named Credentials"
 proficiency: "Intermediate"
 answer: "To call the Claude API from Apex, store a workspace-scoped Anthropic key in a Custom-protocol External Credential that adds an x-api-key header, and point a Named Credential at https://api.anthropic.com. POST model, max_tokens and messages to callout:Anthropic_API/v1/messages with anthropic-version: 2023-06-01, read the content text blocks, check stop_reason, and test with HttpCalloutMock."
 faq:
