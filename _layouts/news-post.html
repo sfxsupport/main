@@ -1,0 +1,110 @@
+---
+layout: default
+---
+{% assign is_daily = false %}{% if page.series contains "Daily" %}{% assign is_daily = true %}{% endif %}
+<div class="nl-shell">
+  <div class="article-progress" aria-hidden="true"><span></span></div>
+  <article class="nl-issue">
+    <nav class="nl-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <i class="bi bi-chevron-right"></i> <a href="/news/">AI News</a>
+    </nav>
+
+    <header class="nl-head">
+      <div class="nl-masthead">
+        <span class="nl-series {% if is_daily %}daily{% elsif page.series contains 'Salesforce' %}sf{% else %}weekly{% endif %}">{{ page.series | default: "SFX News" }}</span>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%A, %-d %B %Y" }}</time>
+        <span class="nl-read">{{ page.reading_time | default: "3 min read" }}</span>
+      </div>
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}<p class="nl-dek">{{ page.description }}</p>{% endif %}
+    </header>
+
+    {% if page.tldr %}
+    <section class="nl-tldr" aria-label="The 30-second version">
+      <div class="nl-tldr-label"><i class="bi bi-lightning-charge-fill"></i> The 30-second version</div>
+      <ul>{% for item in page.tldr %}<li>{{ item | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>{% endfor %}</ul>
+    </section>
+    {% elsif page.answer %}
+    <section class="nl-tldr" aria-label="The 30-second version">
+      <div class="nl-tldr-label"><i class="bi bi-lightning-charge-fill"></i> The 30-second version</div>
+      <p>{{ page.answer }}</p>
+    </section>
+    {% endif %}
+
+    <div class="nl-body">
+      {{ content }}
+    </div>
+
+    {% if page.faq %}
+    <section class="nl-faq" id="faq">
+      <h2>Quick questions</h2>
+      {% for item in page.faq %}
+      <details><summary>{{ item.q }}</summary><p>{{ item.a }}</p></details>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <footer class="nl-foot">
+      <p><strong>{{ page.series | default: "SFX News" }}</strong> is written for Salesforce admins, developers and architects who build with AI. One story a day, explained in plain words, with what it means for your org.</p>
+      <div class="nl-foot-links">
+        <a href="/news/"><i class="bi bi-newspaper"></i> All issues</a>
+        <a href="/blog/"><i class="bi bi-journal-code"></i> Solution guides</a>
+        <a href="/services/"><i class="bi bi-briefcase"></i> Get it built in your org</a>
+      </div>
+      {% if page.author_name %}<p class="nl-byline">Edited by {% if page.author_url %}<a href="{{ page.author_url }}" rel="author">{{ page.author_name }}</a>{% else %}{{ page.author_name }}{% endif %} · researched and drafted with AI, checked by two AI reviewers against the primary sources.</p>{% endif %}
+    </footer>
+  </article>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var bar = document.querySelector('.article-progress span'), a = document.querySelector('.nl-issue');
+  if (!bar || !a) return;
+  function u() { var s = a.getBoundingClientRect().top + scrollY, e = s + a.offsetHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (e <= s ? 1 : Math.min(1, Math.max(0, (scrollY - s) / (e - s)))) + ')'; }
+  u(); addEventListener('scroll', u, { passive: true }); addEventListener('resize', u);
+  // AI takes: style each model's block as a card
+  document.querySelectorAll('.nl-body h3').forEach(function (h) {
+    var m = /^(Claude|ChatGPT|Gemini)\b/.exec(h.textContent.trim()); if (!m) return;
+    var q = h.nextElementSibling; if (!q || q.tagName !== 'BLOCKQUOTE') return;
+    var card = document.createElement('div'); card.className = 'nl-take nl-take-' + m[1].toLowerCase();
+    h.parentNode.insertBefore(card, h); card.appendChild(h); card.appendChild(q);
+  });
+});
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NewsArticle",
+      "@id": "{{ page.url | absolute_url }}#article",
+      "headline": {{ page.title | jsonify }},
+      "description": {{ page.description | jsonify }},
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "mainEntityOfPage": "{{ page.url | absolute_url }}",
+      {% if page.image %}"image": "{{ page.image | absolute_url }}",{% endif %}
+      "author": {% if page.author_name %}{ "@type": "Person", "name": {{ page.author_name | jsonify }}{% if page.author_url %}, "url": {{ page.author_url | jsonify }}{% endif %} }{% else %}{ "@id": "https://sfxsupport.com/#organization" }{% endif %},
+      "publisher": { "@id": "https://sfxsupport.com/#organization" },
+      "inLanguage": "en",
+      "keywords": {{ page.tags | join: ", " | jsonify }}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sfxsupport.com/" },
+        { "@type": "ListItem", "position": 2, "name": "AI News", "item": "https://sfxsupport.com/news/" },
+        { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }}, "item": "{{ page.url | absolute_url }}" }
+      ]
+    }{% if page.faq %},
+    {
+      "@type": "FAQPage",
+      "mainEntity": [{% for item in page.faq %}
+        { "@type": "Question", "name": {{ item.q | jsonify }}, "acceptedAnswer": { "@type": "Answer", "text": {{ item.a | jsonify }} } }{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    }{% endif %}
+  ]
+}
+</script>

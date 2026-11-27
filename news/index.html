@@ -1,0 +1,50 @@
+---
+layout: default
+title: "AI News for Salesforce Teams: SFX AI Daily"
+seo_title: "AI News for Salesforce Teams | SFX AI Daily"
+description: "One AI story a day for Salesforce admins and developers: what happened, why it matters for your org, and what Claude, ChatGPT and Gemini think."
+permalink: /news/
+extra_css:
+  - /assets/css/news.css
+---
+{% assign issues = site.posts | where: "sfx_news", true %}
+<div class="nl-shell">
+  <div class="nl-index">
+    <header class="nl-index-head">
+      <span class="nl-series daily">SFX AI Daily</span>
+      <h1>AI news for Salesforce teams</h1>
+      <p>One story a day, in plain words. What happened, why it matters for your org, what to do about it, and what Claude, ChatGPT and Gemini each think. Plus a Salesforce roundup every Monday and an AI roundup every Sunday.</p>
+    </header>
+
+    <div class="nl-filters" role="group" aria-label="Filter issues">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="daily" aria-pressed="false">AI Daily</button>
+      <button type="button" data-f="weekly" aria-pressed="false">AI Weekly</button>
+      <button type="button" data-f="sf" aria-pressed="false">Salesforce Weekly</button>
+    </div>
+
+    <div class="nl-list">
+      {% for post in issues %}
+      {% assign kind = "weekly" %}{% if post.series contains "Daily" %}{% assign kind = "daily" %}{% elsif post.series contains "Salesforce" %}{% assign kind = "sf" %}{% endif %}
+      <a class="nl-item" href="{{ post.url }}" data-kind="{{ kind }}">
+        <time class="nl-item-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+        <div>
+          <span class="nl-series {{ kind }}">{{ post.series }}</span>
+          <h2>{{ post.title }}</h2>
+          <p>{{ post.description }}</p>
+        </div>
+      </a>
+      {% else %}
+      <p class="nl-empty">The first issue is on its way.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.nl-filters button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.nl-filters button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    document.querySelectorAll('.nl-item').forEach(function (i) { i.hidden = !(b.dataset.f === 'all' || i.dataset.kind === b.dataset.f); });
+  });
+});
+</script>
