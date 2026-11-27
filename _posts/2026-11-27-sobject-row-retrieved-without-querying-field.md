@@ -133,7 +133,55 @@ A page using this extension can reference the field dynamically:
 </apex:page>
 ```
 
-Salesforce documents `addFields()` for controllers used by dynamic Visualforce bindings. Call it before the record is loaded. If calling it outside the constructor, call `reset()` directly before `addFields()`; **reset discards pending changes**. `addFields()` affects the standard controller’s record, not a separate SOQL query written in the extension. An Apex test that constructs a standard controller with an in-memory record can fail when it calls `addFields()`; account for that behavior when designing the test instead of skipping the production path. See the [StandardController reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-pages-standardcontroller.html) and [dynamic Visualforce guidance](https://developer.salesforce.com/docs/platform/salesforce-pages-developers-guide/guide/pages-dynamic-vf-sample-standard.html).
+Salesforce documents `addFields()` for controllers used by dynamic Visualforce bindings. Call it before the record is loaded. If calling it outside the constructor, call `reset()` directly before `addFields()`; **reset discards pending changes**. `addFields()` affects the standard controller’s record, not a separate SOQL query written in the extension. A test that constructs a standard controller with a caller-supplied record cannot call `addFields()` on that controller. See the [StandardController reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-pages-standardcontroller.html) and [dynamic Visualforce guidance](https://developer.salesforce.com/docs/platform/salesforce-pages-developers-guide/guide/pages-dynamic-vf-sample-standard.html).
+
+If the page reads an existing Case and an explicit query suits the design, this alternative can be tested with a standard controller constructed from a test record:
+
+```apex
+public with sharing class CaseQueryExtension {
+    public Case caseRecord { get; private set; }
+    public String fieldName { get; private set; }
+
+    public CaseQueryExtension(ApexPages.StandardController controller) {
+        fieldName = 'Status';
+        Id caseId = controller.getId();
+        caseRecord = [
+            SELECT Id, Status
+            FROM Case
+            WHERE Id = :caseId
+            WITH USER_MODE
+        ];
+    }
+}
+```
+
+For a page using this alternative, change the `extensions` attribute to `CaseQueryExtension`. This version expects an existing, accessible Case ID; handle new records or missing IDs separately if the page needs those flows. The query enforces the user’s access and can fail if the user cannot read the record or selected fields.
+
+The following test exercises the constructor and checks the queried field. Run it as a user with access to Case and `Status`; adapt the record if your org requires additional fields.
+
+```apex
+@IsTest
+private class CaseQueryExtensionTest {
+    @IsTest
+    static void loadsStatusForExistingCase() {
+        Case testCase = new Case(Subject = 'Extension test');
+        insert testCase;
+
+        Test.startTest();
+        CaseQueryExtension extension = new CaseQueryExtension(
+            new ApexPages.StandardController(testCase)
+        );
+        Test.stopTest();
+
+        Case expected = [SELECT Status FROM Case WHERE Id = :testCase.Id];
+        System.assertEquals(testCase.Id, extension.caseRecord.Id);
+        System.assertEquals(expected.Status, extension.caseRecord.Status);
+        System.assertEquals('Status', extension.fieldName);
+    }
+}
+```
+
+The Visualforce snippets are alternatives for adapting an existing page. The solution kit below deploys the separate Account example.
 
 A field-access failure is a separate concern from selecting the field. Check the intended user’s object and field access, and the query’s execution mode. Salesforce documents version-dependent database operation defaults, including user-mode defaults starting with API version 67.0; verify the version and explicit access mode in the code you are changing. See [versioned behavior changes](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/versioned-behavior-changes.html). Do not grant broader access solely to silence the exception.
 
@@ -245,6 +293,51 @@ private class AccountFieldReaderTest {
 
 The test creates its own data and asserts the returned values. Org-specific validation rules or automation can require additional test data. This example has not been tested in your org.
 
+To test the permission failure as well, provision a test user in your development org with Account and `Name` read access but no `Industry` read access. Ensure that the user has no permission set or other grant that restores `Industry` access. Add the following method to the test class, replacing the username with that user’s username:
+
+```apex
+@IsTest
+static void rejectsIndustryWithoutFieldAccess() {
+    User limitedUser = [
+        SELECT Id
+        FROM User
+        WHERE Username = 'limited-user@example.invalid'
+        LIMIT 1
+    ];
+    Account testAccount = new Account(Name = 'Permission test');
+    insert testAccount;
+
+    System.runAs(limitedUser) {
+        System.assert(
+            Schema.sObjectType.Account.isAccessible(),
+            'The test user must be able to read Account'
+        );
+        System.assert(
+            Schema.sObjectType.Account.fields.Name.isAccessible(),
+            'The test user must be able to read Name'
+        );
+        System.assertEquals(
+            false,
+            Schema.sObjectType.Account.fields.Industry.isAccessible(),
+            'The test user must not be able to read Industry'
+        );
+
+        Boolean queryFailed = false;
+        Test.startTest();
+        try {
+            AccountFieldReader.loadAccounts(new Set<Id>{ testAccount.Id });
+        } catch (System.QueryException expected) {
+            queryFailed = true;
+        }
+        Test.stopTest();
+
+        System.assert(queryFailed, 'The user-mode query should reject inaccessible Industry');
+    }
+}
+```
+
+This optional test depends on the org’s provisioned user and permissions, so it is not included in the portable solution kit. Salesforce explains user context in [Using the runAs Method](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-testing-tools-runas.html).
+
 ## How can I reproduce the SOQL missing-field error safely?
 {: #reproduce}
 
@@ -325,13 +418,15 @@ System.QueryException: List has more than 1 row for assignment to SObject
 
 ### Query too complicated
 
+Salesforce lists the following API exception code; the accompanying error message can vary:
+
 ```text
 QUERY_TOO_COMPLICATED
 ```
 
 **Cause:** The query may exceed Salesforce’s query complexity constraints.
 
-**Fix:** Review and simplify the query; see [SOQL and SOSL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
+**Fix:** Review and simplify the query; see [SOQL and SOSL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html) and the [API exception code reference](https://developer.salesforce.com/docs/platform/api/guide/sforce-api-calls-concepts-core-data-objects.html).
 
 See Salesforce’s [built-in exception reference](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-exception-builtin.html) for exception types.
 
