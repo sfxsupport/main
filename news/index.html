@@ -11,9 +11,10 @@ extra_css:
 <div class="nl-shell">
   <div class="nl-index">
     <header class="nl-index-head">
-      <span class="nl-series daily">SFX AI Daily</span>
+      <span class="nl-series weekly">SFX AI News</span>
       <h1>AI news for Salesforce teams</h1>
-      <p>One story a day, in plain words. What happened, why it matters for your org, what to do about it, and what Claude, ChatGPT and Gemini each think. Plus a Salesforce roundup every Monday and an AI roundup every Sunday.</p>
+      {% assign daily_count = issues | where_exp: "p", "p.series contains 'Daily'" | size %}
+      <p>Short, readable AI news for Salesforce teams: what happened, why it matters for your org, and what to do about it.{% if daily_count > 0 %} Daily issues end with a five-line reaction from Claude, ChatGPT and Gemini.{% endif %}</p>
     </header>
 
     <div class="nl-filters" role="group" aria-label="Filter issues">

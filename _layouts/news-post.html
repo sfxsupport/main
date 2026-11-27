@@ -51,7 +51,7 @@ layout: default
         <a href="/blog/"><i class="bi bi-journal-code"></i> Solution guides</a>
         <a href="/services/"><i class="bi bi-briefcase"></i> Get it built in your org</a>
       </div>
-      {% if page.author_name %}<p class="nl-byline">Edited by {% if page.author_url %}<a href="{{ page.author_url }}" rel="author">{{ page.author_name }}</a>{% else %}{{ page.author_name }}{% endif %} · researched and drafted with AI, checked by two AI reviewers against the primary sources.</p>{% endif %}
+      {% if page.author_name %}<p class="nl-byline">Published by {% if page.author_url %}<a href="{{ page.author_url }}" rel="author">{{ page.author_name }}</a>{% else %}{{ page.author_name }}{% endif %} · researched and drafted with AI assistance{% if page.review_note %} · {{ page.review_note }}{% endif %}.</p>{% endif %}
     </footer>
   </article>
 </div>
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
   u(); addEventListener('scroll', u, { passive: true }); addEventListener('resize', u);
   // AI takes: style each model's block as a card
   document.querySelectorAll('.nl-body h3').forEach(function (h) {
-    var m = /^(Claude|ChatGPT|Gemini)\b/.exec(h.textContent.trim()); if (!m) return;
+    var m = /^(Claude|ChatGPT|Gemini)(\s|$)/.exec(h.textContent.trim()); if (!m) return;
     var q = h.nextElementSibling; if (!q || q.tagName !== 'BLOCKQUOTE') return;
     var card = document.createElement('div'); card.className = 'nl-take nl-take-' + m[1].toLowerCase();
     h.parentNode.insertBefore(card, h); card.appendChild(h); card.appendChild(q);
