@@ -24,7 +24,7 @@ og_type: article
 author_name: "Abhay Nama"
 author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/sobject-row-retrieved-without-querying-field.jpg
-image_alt: "SFX Salesforce Troubleshooting cover: SObject Row Retrieved Without Querying the Field: Fix"
+image_alt: "SFX Salesforce Troubleshooting banner showing the error System.SObjectException: SObject row was retrieved via SOQL without querying the requested field"
 proficiency: "Intermediate"
 answer: "This error means Apex tried to read a field that was not loaded on a particular SOQL record. Usually, the field or relationship path is missing from that record’s SELECT list. Find the failing access and the query that produced that exact instance, then select the required field and test the affected callers."
 faq:

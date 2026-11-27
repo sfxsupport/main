@@ -25,7 +25,7 @@ og_type: article
 author_name: "Abhay Nama"
 author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/ai-agent-without-llm-tfidf-cosine-similarity-apex.jpg
-image_alt: "SFX Salesforce + AI Guide cover: AI Support Agent Without an LLM: TF-IDF in Apex"
+image_alt: "SFX Salesforce + AI Guide banner: cosine similarity in pure Apex with no external callouts"
 proficiency: "Intermediate"
 answer: "Build a Salesforce support agent without an LLM by converting Knowledge articles and the user's question into TF-IDF vectors, then ranking articles by cosine similarity in Apex. A high score returns the article, a medium score suggests a short list, and a low score escalates. It needs no callout, API key or Named Credential."
 faq:

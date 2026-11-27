@@ -23,7 +23,7 @@ layout: default
       <span><i class="bi bi-person"></i>{{ page.author_name | default: "SFX Support" }}</span>
       {% if page.last_modified_at and page.last_modified_at != page.date %}<span><i class="bi bi-arrow-repeat"></i>Updated {{ page.last_modified_at | date: "%d %B %Y" }}</span>{% endif %}
     </div>
-    {% if page.image %}{% assign hero_webp = page.image | replace: '.jpg', '.webp' %}{% assign hero_has_webp = site.static_files | where: "path", hero_webp | first %}<picture>{% if hero_has_webp %}<source srcset="{{ hero_webp }}" type="image/webp">{% endif %}<img class="article-hero-image" src="{{ page.image }}" {% if hero_has_webp %}alt=""{% else %}alt="{{ page.image_alt | default: page.title | escape }}"{% endif %} {% if hero_has_webp %}width="1200" height="630"{% else %}width="1600" height="900"{% endif %} loading="eager" fetchpriority="high" decoding="async"></picture>{% endif %}
+    {% if page.image %}{% assign hero_webp = page.image | replace: '.jpg', '.webp' %}{% assign hero_has_webp = site.static_files | where: "path", hero_webp | first %}<picture>{% if hero_has_webp %}<source srcset="{{ hero_webp }}" type="image/webp">{% endif %}<img class="article-hero-image" src="{{ page.image }}" alt="{{ page.image_alt | default: page.title | escape }}" {% if hero_has_webp %}width="1200" height="630"{% else %}width="1600" height="900"{% endif %} loading="eager" fetchpriority="high" decoding="async"></picture>{% endif %}
   </header>
 
   <div class="article-grid">

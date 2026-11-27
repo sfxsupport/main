@@ -26,7 +26,7 @@ og_type: article
 author_name: "Abhay Nama"
 author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/call-claude-openai-gemini-from-apex.jpg
-image_alt: "SFX Salesforce + AI Guide cover: Call ChatGPT (OpenAI), Claude and Gemini from Salesforce Apex"
+image_alt: "SFX Salesforce + AI Guide banner: Named Credentials, Batch Apex and HttpCalloutMock tests"
 proficiency: "Intermediate"
 answer: "To call an LLM from Apex, store the vendor API key in an External Credential and point a Named Credential at the vendor URL. Send a JSON POST with HttpRequest to callout:Your_Named_Credential, parse the reply with JSON.deserializeUntyped, run bulk calls from Batch Apex that implements Database.AllowsCallouts, and test with HttpCalloutMock."
 faq:
