@@ -163,7 +163,7 @@
   </style>
   <script src="/assets/js/sfx-track.js" defer></script>
 </head>
-<body{% if page.url contains '/news/' %} class="sfx-news"{% elsif page.url contains '/blog/' %} class="blog-light-theme sfx-light-header"{% endif %}>
+<body{% if page.body_class %} class="{{ page.body_class }}"{% elsif page.url contains '/news/' %} class="sfx-news"{% elsif page.url contains '/blog/' %} class="blog-light-theme sfx-light-header"{% endif %}>
 
   <canvas id="star-canvas"></canvas>
 

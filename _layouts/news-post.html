@@ -24,7 +24,7 @@ layout: default
         <button type="button" class="nl-copy" data-url="{{ page.url | absolute_url }}"><i class="bi bi-link-45deg"></i> <span>Copy link</span></button>
       </div>
       <h1>{{ page.title }}</h1>
-      {% if page.description %}<p class="nl-dek">{{ page.description }}</p>{% endif %}
+      {% if page.description and page.today == nil %}<p class="nl-dek">{{ page.description }}</p>{% endif %}
     </header>
 
     {% if page.today %}
@@ -48,8 +48,8 @@ layout: default
     {% capture ai_panel %}{% if page.ai_takes %}
     <section class="nl-panel" aria-labelledby="ai-panel-title">
       <div class="nl-panel-head">
-        <h2 id="ai-panel-title">{% if page.ai_question %}We asked Claude, ChatGPT and Gemini{% else %}The AI panel{% endif %}</h2>{% if page.ai_question %}<p class="nl-panel-q">{{ page.ai_question }}</p>{% endif %}
-        <p class="nl-panel-note">Each model saw only the facts in this issue. AI opinions, not facts or advice; a model may favour its own company.</p>
+        {% capture ai_names %}{% for t in page.ai_takes %}{{ t.model | split: " " | first }}{% if forloop.rindex == 2 %} and {% elsif forloop.last == false %}, {% endif %}{% endfor %}{% endcapture %}<h2 id="ai-panel-title">{% if page.ai_question %}We asked {{ ai_names | strip }}{% else %}The AI panel{% endif %}</h2>{% if page.ai_question %}<p class="nl-panel-q">{{ page.ai_question }}</p>{% endif %}
+        <p class="nl-panel-note">Same facts, same question, asked on {{ page.date | date: "%-d %B %Y" }}. Each model saw only the facts in this issue. AI opinions, not facts or advice; a model may favour its own company.</p>
       </div>
       <div class="nl-panel-grid">
         {% for t in page.ai_takes %}
@@ -70,14 +70,6 @@ layout: default
     <div>{% endif %}
     </div>
 
-    {% if page.faq %}
-    <section class="nl-faq" id="faq">
-      <h2>Quick questions</h2>
-      {% for item in page.faq %}
-      <details><summary>{{ item.q }}</summary><p>{{ item.a }}</p></details>
-      {% endfor %}
-    </section>
-    {% endif %}
 
     {% if newer or older %}
     <nav class="nl-pager" aria-label="More issues">
