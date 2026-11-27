@@ -2,7 +2,7 @@
 layout: HomePageFinalTest
 title: "Agentforce Pricing Calculator: Flex Credits vs Per Conversation"
 og_title: "Agentforce Pricing Calculator (Flex Credits, conversations, per user)"
-description: "Estimate Agentforce cost from Salesforce list prices: Flex Credits per action, $2 per conversation, or $125 per user add-ons. Shows the math and sources."
+description: "Estimate Agentforce cost from Salesforce list prices: Flex Credits per action, $2 per conversation, or $150 per user add-ons. Shows the math and sources."
 permalink: /agentforce-pricing-calculator/
 ---
 <script type="application/ld+json">
@@ -24,8 +24,8 @@ permalink: /agentforce-pricing-calculator/
       "@id": "https://sfxsupport.com/agentforce-pricing-calculator/#faq",
       "mainEntity": [
         { "@type": "Question", "name": "How much does one Agentforce action cost?", "acceptedAnswer": { "@type": "Answer", "text": "Salesforce's Flex Credits rate card (November 2026) lists 20 Flex Credits per standard or custom action in production (16 in sandbox) and 30 per voice action. Flex Credits list at $500 per 100,000, so one text action is $0.10 and one voice action is $0.15 at list price." } },
-        { "@type": "Question", "name": "Is Flex Credits or $2 per conversation cheaper?", "acceptedAnswer": { "@type": "Answer", "text": "At list price a text action costs $0.10, so a conversation that runs 20 actions costs the same $2 under either model. Below 20 actions per conversation Flex Credits cost less; above it the per-conversation price costs less. Included credits and negotiated discounts change the break-even point." } },
-        { "@type": "Question", "name": "What does the Agentforce per-user add-on cost?", "acceptedAnswer": { "@type": "Answer", "text": "Salesforce lists Agentforce for Sales and Agentforce for Service at $125 per user per month, billed annually. Agentforce 1 editions (shown as Max on the current pricing page) start at $550 per user per month." } },
+        { "@type": "Question", "name": "Is Flex Credits or $2 per conversation cheaper?", "acceptedAnswer": { "@type": "Answer", "text": "At list price a text action costs $0.10, so a conversation that runs 20 text actions costs the same $2 under either model. Below that Flex Credits cost less; above it the per-conversation price costs less. Voice actions cost $0.15, which lowers the break-even to about 13 actions, and included credits or negotiated discounts move it again." } },
+        { "@type": "Question", "name": "What does the Agentforce per-user add-on cost?", "acceptedAnswer": { "@type": "Answer", "text": "Salesforce lists the Agentforce add-ons for Sales, Service and Field Service at $150 per user per month, billed annually, and Industries add-ons at $175. Max Edition (formerly Agentforce 1) starts at $550 per user per month." } },
         { "@type": "Question", "name": "Does Data Cloud grounding cost extra?", "acceptedAnswer": { "@type": "Answer", "text": "It can. Salesforce Help says Data Library indexing and retrieval consume credits from either the Data Services consumption card or the Flex Credits consumption card, depending on the contract. This calculator keeps that as a separate number you enter." } },
         { "@type": "Question", "name": "Do Enterprise orgs get free Flex Credits?", "acceptedAnswer": { "@type": "Answer", "text": "Salesforce Help says Enterprise Edition and above can get 100,000 Flex Credits with Salesforce Foundations, and current Sales pricing lists larger per-org amounts for some editions. Check your order form for the amount and term, then enter it as included credits." } }
       ]
@@ -104,7 +104,7 @@ permalink: /agentforce-pricing-calculator/
   <p class="ap-eyebrow"><i></i> Salesforce list prices, rate card November 2026</p>
   <h1>Agentforce pricing calculator: <em>Flex Credits, per conversation or per user.</em></h1>
   <p class="ap-lead">Enter how your agent will be used. The calculator prices the same workload under each Salesforce pricing model, shows the arithmetic, and tells you where the models break even. Every rate comes from a Salesforce page linked below.</p>
-  <p class="ap-answer"><b>Short answer:</b> at list price one Agentforce action costs 20 Flex Credits, which is <b>$0.10</b> ($500 per 100,000 credits); a voice action is <b>$0.15</b>. Per-conversation pricing is <b>$2</b>, so it only wins when a conversation runs more than <b>20 actions</b>. Employee-facing add-ons are <b>$125 per user per month</b>.</p>
+  <p class="ap-answer"><b>Short answer:</b> at list price one Agentforce action costs 20 Flex Credits, which is <b>$0.10</b> ($500 per 100,000 credits); a voice action is <b>$0.15</b>. Per-conversation pricing is <b>$2</b>, so with text actions it only wins when a conversation runs more than <b>20 actions</b> (about 13 if every action is voice). Employee-facing add-ons are <b>$150 per user per month</b>.</p>
 
   <div class="ap-grid">
     <form class="ap-card" id="apForm" onsubmit="return false" aria-label="Agentforce usage">
@@ -118,7 +118,7 @@ permalink: /agentforce-pricing-calculator/
       <div class="ap-f">
         <label for="apc">Actions per conversation <span>average</span></label>
         <input id="apc" type="number" min="0" step="0.5" value="4" inputmode="decimal">
-        <small>Each topic action the agent runs (a query, a Flow, an Apex action, a prompt template) is one action. Most service bots run 3 to 6.</small>
+        <small>Each action the agent runs (a query, a Flow, an Apex action, a prompt template) counts. Measure this on real test conversations if you can.</small>
       </div>
       <div class="ap-f">
         <label for="voice">Share of actions that are voice <span>%</span></label>
@@ -127,7 +127,7 @@ permalink: /agentforce-pricing-calculator/
 
       <hr class="ap-sep">
       <div class="ap-f">
-        <label for="users">Employees using Agentforce <span>Sales / Service users</span></label>
+        <label for="users">Employees using Agentforce <span>Sales / Service / Field Service users</span></label>
         <input id="users" type="number" min="0" step="1" value="0" inputmode="numeric">
       </div>
       <div class="ap-f">
@@ -171,7 +171,7 @@ permalink: /agentforce-pricing-calculator/
         <button class="ap-btn ap-btn--g" type="button" id="copyLink">Copy link to this estimate</button>
         <a class="ap-btn ap-btn--w" href="/services/#ai-usage-review" data-cta="calc_usage_review">Get a usage review</a>
       </div>
-      <p class="ap-note">List prices only. Discounts, contract terms, sandbox rates (16 credits per action), Data 360 credits and taxes change the real bill. SFX Support is independent and is not a Salesforce partner; confirm figures with your Salesforce account team.</p>
+      <p class="ap-note">List prices only. Discounts, contract terms, sandbox rates (16 credits per action), Data 360 credits and taxes change the real bill. Salesforce's pricing page now shows "Contact us" for conversations; the $2 figure comes from Salesforce Help. SFX Support is independent and is not a Salesforce partner; confirm figures with your Salesforce account team.</p>
     </section>
   </div>
 
@@ -183,14 +183,14 @@ permalink: /agentforce-pricing-calculator/
       <thead><tr><th>Model</th><th>List price</th><th>Fits</th></tr></thead>
       <tbody>
         <tr><td>Flex Credits</td><td>$500 per 100,000 credits. 20 credits per standard or custom action ($0.10), 30 per voice action ($0.15); 16 and 24 in sandbox.</td><td>Any agent; you pay for actions actually run.</td></tr>
-        <tr><td>Per conversation</td><td>$2 per conversation, listed for customer-facing agents.</td><td>Long conversations with many actions each.</td></tr>
-        <tr><td>Per-user add-on</td><td>Agentforce for Sales or for Service: $125 per user per month, billed annually.</td><td>Employees who use agents every day.</td></tr>
-        <tr><td>Agentforce 1 (Max) editions</td><td>From $550 per user per month.</td><td>Orgs buying CRM, Data 360 and Agentforce together.</td></tr>
+        <tr><td>Per conversation</td><td>$2 per conversation (Salesforce Help), for customer-facing agents. The pricing page asks you to contact sales.</td><td>Long conversations with many actions each.</td></tr>
+        <tr><td>Per-user add-on</td><td>Agentforce add-ons for Sales, Service and Field Service: $150 per user per month, billed annually ($175 for Industries). Unmetered use for that employee.</td><td>Employees who use agents every day.</td></tr>
+        <tr><td>Max Edition (formerly Agentforce 1)</td><td>From $550 per user per month.</td><td>Orgs buying CRM, Data 360 and Agentforce together.</td></tr>
       </tbody>
     </table>
     </div>
     <h3>The break-even point</h3>
-    <p>A conversation costs $2 on per-conversation pricing. On Flex Credits it costs the number of actions × $0.10. The two are equal at <b>20 actions per conversation</b>. Typical service agents run far fewer actions, so Flex Credits usually come out cheaper unless your agent does long, multi-step work in each conversation. Voice actions move the break-even point to about 13 actions.</p>
+    <p>A conversation costs $2 on per-conversation pricing. On Flex Credits it costs the number of actions × $0.10. The two are equal at <b>20 text actions per conversation</b>. If your agent runs fewer actions than that per conversation, Flex Credits cost less; if it runs more, per-conversation pricing costs less. Voice actions cost $0.15, which moves the break-even point to about 13 actions. For employees, the $150 add-on equals Flex Credits at 1,500 text actions per user per month.</p>
     <h3>Worked example</h3>
     <p>5,000 customer conversations a month with 4 actions each is 20,000 actions × 20 credits = 400,000 Flex Credits. At $500 per 100,000 that is <b>$2,000 a month</b>. The same 5,000 conversations at $2 each would be <b>$10,000 a month</b>.</p>
     <h3>What the calculator leaves out</h3>
@@ -208,15 +208,15 @@ permalink: /agentforce-pricing-calculator/
       <li><b>Count actions, not conversations.</b> On Flex Credits every action is billed. Merge small lookups into one Apex or Flow action that returns everything the agent needs.</li>
       <li><b>Keep topics narrow.</b> Clear topic instructions and fewer, well-described actions stop the planner from calling actions it does not need.</li>
       <li><b>Test in a sandbox first.</b> Sandbox actions use 16 credits instead of 20. Run your agent against real customer questions there and count the actions each conversation triggers before you pick a pricing model.</li>
-      <li><b>Watch the Digital Wallet.</b> Salesforce shows consumption by product in Setup; check it weekly in the first month.</li>
+      <li><b>Watch the Digital Wallet.</b> Open Digital Wallet from the App Launcher in your production org and check consumption weekly in the first month.</li>
     </ol>
   </section>
 
   <section class="ap-sec ap-faq" id="faq">
     <h2>Questions people ask</h2>
     <details><summary>How much does one Agentforce action cost?</summary><p>The Flex Credits rate card (November 2026) lists 20 credits per standard or custom action in production, 16 in sandbox, and 30 per voice action. At $500 per 100,000 credits, one text action is $0.10 and one voice action is $0.15.</p></details>
-    <details><summary>Is Flex Credits or $2 per conversation cheaper?</summary><p>They cost the same at 20 actions per conversation. With fewer actions Flex Credits cost less; with more, per-conversation pricing costs less. Included credits and discounts move this point.</p></details>
-    <details><summary>What does the Agentforce per-user add-on cost?</summary><p>Agentforce for Sales and Agentforce for Service are listed at $125 per user per month, billed annually. Agentforce 1 editions (shown as Max) start at $550 per user per month.</p></details>
+    <details><summary>Is Flex Credits or $2 per conversation cheaper?</summary><p>They cost the same at 20 text actions per conversation (about 13 if the actions are voice). With fewer actions Flex Credits cost less; with more, per-conversation pricing costs less. Included credits and discounts move this point.</p></details>
+    <details><summary>What does the Agentforce per-user add-on cost?</summary><p>The Agentforce add-ons for Sales, Service and Field Service are listed at $150 per user per month, billed annually, and $175 for Industries clouds. Max Edition (formerly Agentforce 1) starts at $550 per user per month.</p></details>
     <details><summary>Does Data Cloud grounding cost extra?</summary><p>It can. Data Library indexing and retrieval consume credits from either the Data Services or the Flex Credits consumption card, depending on your contract.</p></details>
     <details><summary>Do Enterprise orgs get free Flex Credits?</summary><p>Salesforce Help says Enterprise Edition and above can get 100,000 Flex Credits with Salesforce Foundations, and current Sales pricing lists larger per-org amounts for some editions. Check your order form for the amount and term.</p></details>
   </section>
@@ -224,10 +224,10 @@ permalink: /agentforce-pricing-calculator/
   <section class="ap-sec" id="sources">
     <h2>Sources</h2>
     <ul>
-      <li><a href="https://www.salesforce.com/agentforce/pricing/" rel="noopener" target="_blank">Salesforce: Agentforce pricing</a> (Flex Credits, per conversation, Agentforce 1 / Max)</li>
+      <li><a href="https://www.salesforce.com/agentforce/pricing/" rel="noopener" target="_blank">Salesforce: Agentforce pricing</a> (Flex Credits, add-ons, Max Edition)</li>
       <li><a href="https://www.salesforce.com/en-us/wp-content/uploads/sites/4/assets/pdf/agentforce/Flex-Credits-Rate-Card-11.3.2026.pdf" rel="noopener" target="_blank">Salesforce: Flex Credits rate card, November 2026</a> (credits per action)</li>
-      <li><a href="https://www.salesforce.com/sales/pricing/add-ons/" rel="noopener" target="_blank">Salesforce: Sales add-ons</a> and <a href="https://www.salesforce.com/service/ai/pricing/" rel="noopener" target="_blank">Service AI pricing</a> ($125 per user per month)</li>
-      <li><a href="https://help.salesforce.com/s/articleView?id=004811240&amp;type=1" rel="noopener" target="_blank">Salesforce Help: Agentforce pricing</a> (included Flex Credits)</li>
+      <li><a href="https://www.salesforce.com/sales/pricing/add-ons/" rel="noopener" target="_blank">Salesforce: Sales add-ons</a> and <a href="https://www.salesforce.com/service/ai/pricing/" rel="noopener" target="_blank">Service AI pricing</a> ($150 per user per month)</li>
+      <li><a href="https://help.salesforce.com/s/articleView?id=004811240&amp;type=1" rel="noopener" target="_blank">Salesforce Help: Agentforce pricing</a> ($2 per conversation, included Flex Credits)</li>
       <li><a href="https://help.salesforce.com/s/articleView?id=ai.data_library_billing.htm&amp;type=5" rel="noopener" target="_blank">Salesforce Help: Data Library billing</a> (grounding credits)</li>
     </ul>
     <p>Prices checked on 27 November 2026. Salesforce changes pricing; if a figure here differs from the page linked above, the Salesforce page is correct.</p>
@@ -243,7 +243,7 @@ permalink: /agentforce-pricing-calculator/
 
 <script>
 (function(){
-  var PACK=500, PER=100000, ACT=20, VOICE=30, CONV=2, ADDON=125;
+  var PACK=500, PER=100000, ACT=20, VOICE=30, CONV=2, ADDON=150;
   var ids=['conv','apc','voice','users','upm','incl','data'];
   var el=function(i){return document.getElementById(i)};
   var usd=function(n){return '$'+Math.round(n).toLocaleString('en-US')};
@@ -259,26 +259,30 @@ permalink: /agentforce-pricing-calculator/
     var actions=conv*apc, vActs=actions*vp, tActs=actions-vActs;
     var custCredits=tActs*ACT+vActs*VOICE;
     var empCredits=users*upm*ACT;
-    // included credits go to customer usage first, the rest to employee usage
-    var custBill=Math.max(0,custCredits-incl), left=Math.max(0,incl-custCredits);
-    var empBill=Math.max(0,empCredits-left);
+    // Scenario A: customers on Flex Credits -> included credits cover customer usage first
+    // Scenario B: customers on per-conversation -> all included credits are left for employees
+    var custBill=Math.max(0,custCredits-incl);
+    var leftA=Math.max(0,incl-custCredits), leftB=incl;
+    var empFlexA=Math.max(0,empCredits-leftA)/PER*PACK, empFlexB=Math.max(0,empCredits-leftB)/PER*PACK;
+    var empAddon=users*ADDON;
     var flex=custBill/PER*PACK+data, convCost=conv*CONV+data;
-    var empFlex=empBill/PER*PACK, empAddon=users*ADDON;
+    var empA=users?Math.min(empFlexA,empAddon):0, empB=users?Math.min(empFlexB,empAddon):0;
+    var totA=flex+empA, totB=convCost+empB;
     el('flexOut').innerHTML=usd(flex)+' <small>/mo</small>';
     el('flexMath').innerHTML='<code>'+num(tActs)+'</code> text actions × 20 + <code>'+num(vActs)+'</code> voice × 30 = <code>'+num(custCredits)+'</code> credits'+(incl?' − '+num(Math.min(incl,custCredits))+' included':'')+' → '+usd(custBill/PER*PACK)+(data?' + '+usd(data)+' Data 360':'')+'. Yearly about '+usd(flex*12)+'.';
     el('convOut').innerHTML=usd(convCost)+' <small>/mo</small>';
-    el('convMath').innerHTML='<code>'+num(conv)+'</code> conversations × $2 = '+usd(conv*CONV)+(data?' + '+usd(data)+' Data 360':'')+'. Yearly about '+usd(convCost*12)+'.';
-    var empBest=users?Math.min(empFlex,empAddon):0;
-    el('empOut').innerHTML=users?usd(empBest)+' <small>/mo</small>':'<small>no employees entered</small>';
-    el('empMath').innerHTML=users?('Add-on: <code>'+num(users)+'</code> users × $125 = '+usd(empAddon)+' (billed annually). Flex Credits: '+num(users*upm)+' actions × 20 = '+num(empCredits)+' credits → '+usd(empFlex)+'. '+(empFlex<empAddon?'Flex Credits cost less at this usage.':'The add-on costs less at this usage.')+' Per user, the add-on equals Flex Credits at 1,250 actions a month.'):'Enter employees to compare the $125 per user add-on with Flex Credits.';
+    el('convMath').innerHTML='<code>'+num(conv)+'</code> conversations × $2 = '+usd(conv*CONV)+(data?' + '+usd(data)+' Data 360':'')+'. Yearly about '+usd(convCost*12)+'.'+(incl?' Included Flex Credits stay free for employee use.':'');
+    el('empOut').innerHTML=users?usd(Math.min(empA,empB))+'–'+usd(Math.max(empA,empB))+' <small>/mo</small>':'<small>no employees entered</small>';
+    if(empA===empB&&users)el('empOut').innerHTML=usd(empA)+' <small>/mo</small>';
+    el('empMath').innerHTML=users?('Add-on: <code>'+num(users)+'</code> users × $150 = '+usd(empAddon)+' (billed annually). Flex Credits: '+num(users*upm)+' actions × 20 = '+num(empCredits)+' credits → '+usd(empFlexA)+' if customers also use Flex Credits, '+usd(empFlexB)+' if customers are on per-conversation pricing (all included credits left). The cheaper of add-on and Flex is shown. Per user, the add-on equals Flex Credits at 1,500 text actions a month.'):'Enter employees to compare the $150 per user add-on with Flex Credits.';
     var fb=el('optFlex'), cb=el('optConv');
-    fb.classList.toggle('best',conv>0&&flex<=convCost); cb.classList.toggle('best',conv>0&&convCost<flex);
+    fb.classList.toggle('best',conv>0&&totA<=totB); cb.classList.toggle('best',conv>0&&totB<totA);
     var be=vp>0?(CONV/((1-vp)*0.10+vp*0.15)):20;
     var ins;
     if(!conv){ins='Enter customer conversations to compare Flex Credits with per-conversation pricing.'}
     else{
-      var cheaper=flex<=convCost?'Flex Credits':'per-conversation pricing', diff=Math.abs(convCost-flex);
-      ins='At <b>'+(+apc.toFixed(1))+' actions per conversation</b>, <b>'+cheaper+'</b> is cheaper by about <b>'+usd(diff)+' a month</b>. The two models cost the same at about <b>'+(+be.toFixed(1))+' actions per conversation</b>'+(incl?' (before included credits)':'')+'.';
+      var cheaper=totA<=totB?'Flex Credits':'per-conversation pricing', diff=Math.abs(totB-totA);
+      ins='Including employees, <b>'+cheaper+'</b> for the customer agent gives the lower total: <b>'+usd(Math.min(totA,totB))+' a month</b> vs '+usd(Math.max(totA,totB))+' (difference about '+usd(diff)+'). For customer conversations alone the two models cost the same at about <b>'+(+be.toFixed(1))+' actions per conversation</b>'+(incl?' (before included credits)':'')+'.';
     }
     el('insight').innerHTML=ins;
     try{var p=new URLSearchParams();ids.forEach(function(i){p.set(i,el(i).value)});history.replaceState(null,'','#'+p.toString())}catch(e){}
