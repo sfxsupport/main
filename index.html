@@ -231,7 +231,7 @@ nav.dnav a:hover{color:var(--t);}
 
 /* mobile menu */
 #mob{position:fixed;inset:0;background:var(--bg);z-index:99;padding:5rem 2rem 2rem;
-  display:flex;flex-direction:column;transform:translateX(100%);
+  display:flex;flex-direction:column;transform:translateX(100%);overflow-y:auto;overscroll-behavior:contain;
   transition:transform .28s cubic-bezier(.16,1,.3,1);}
 #mob.open{transform:translateX(0);}
 #mob a,#mob .ml{display:block;padding:.8rem 0;border-bottom:1px solid var(--b3);
