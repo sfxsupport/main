@@ -89,4 +89,4 @@ body.blog-light-theme .fdis { margin:0; background:#f8f9fa; }
   .nl-item { grid-template-columns: 1fr; gap: 2px; }
   .nl-dek { font-size: 18px; }
 }
-.nl-shell .nl-body :not(pre) > code { background: var(--nl-soft) !important; color: #b42318 !important; border: 1px solid var(--nl-line) !important; }
+.nl-shell .nl-body :not(pre) > code, .nl-shell .nl-tldr code { background: var(--nl-soft) !important; color: #b42318 !important; border: 1px solid var(--nl-line) !important; }
