@@ -27,7 +27,12 @@ layout: default
       {% if page.description %}<p class="nl-dek">{{ page.description }}</p>{% endif %}
     </header>
 
-    {% if page.tldr %}
+    {% if page.today %}
+    <section class="nl-tldr nl-today" aria-label="In today's issue">
+      <div class="nl-tldr-label">In today's issue</div>
+      <ul>{% for item in page.today %}<li>{{ item | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>{% endfor %}</ul>
+    </section>
+    {% elsif page.tldr %}
     <section class="nl-tldr" aria-label="The 30-second version">
       <div class="nl-tldr-label"><i class="bi bi-lightning-charge-fill"></i> The 30-second version</div>
       <ul>{% for item in page.tldr %}<li>{{ item | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>{% endfor %}</ul>
@@ -39,26 +44,30 @@ layout: default
     </section>
     {% endif %}
 
-    {% if page.ai_takes %}
+
+    {% capture ai_panel %}{% if page.ai_takes %}
     <section class="nl-panel" aria-labelledby="ai-panel-title">
       <div class="nl-panel-head">
-        <h2 id="ai-panel-title">The AI panel</h2>
-        <p>Three models read the facts below and gave their bottom line. AI opinions, not facts or advice; a model may favour its own company.</p>
+        <h2 id="ai-panel-title">{% if page.ai_question %}We asked Claude, ChatGPT and Gemini{% else %}The AI panel{% endif %}</h2>{% if page.ai_question %}<p class="nl-panel-q">{{ page.ai_question }}</p>{% endif %}
+        <p class="nl-panel-note">Each model saw only the facts in this issue. AI opinions, not facts or advice; a model may favour its own company.</p>
       </div>
       <div class="nl-panel-grid">
         {% for t in page.ai_takes %}
         <div class="nl-take nl-take-{{ t.key }}">
           <div class="nl-take-top"><span class="nl-take-name" title="{{ t.model }}">{{ t.model | split: " " | first }}</span><span class="nl-stance">{{ t.stance }}</span></div>
           <p class="nl-verdict">{{ t.verdict }}</p>
-          <p class="nl-missed"><span>What others miss:</span> {{ t.missed }}</p>
+          <p class="nl-missed"><span>{% if page.ai_question %}What people miss{% else %}What others miss{% endif %}</span> {{ t.missed }}</p>
         </div>
         {% endfor %}
       </div>
     </section>
-    {% endif %}
-
+    {% endif %}{% endcapture %}
     <div class="nl-body">
-      {{ content }}
+      {% if content contains '<!-- ai-panel -->' %}{% assign parts = content | split: '<!-- ai-panel -->' %}{{ parts[0] }}</div>
+    {{ ai_panel }}
+    <div class="nl-body">{{ parts[1] }}{% else %}{{ content }}</div>
+    {{ ai_panel }}
+    <div>{% endif %}
     </div>
 
     {% if page.faq %}
