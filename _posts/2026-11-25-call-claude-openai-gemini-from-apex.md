@@ -2,12 +2,12 @@
 layout: blog-post
 sfx_blog: true
 featured: false
-title: "Call Claude, OpenAI and Gemini from Apex: Complete Guide"
-seo_title: "Call Claude, OpenAI & Gemini from Salesforce Apex"
-description: "Call Claude, OpenAI and Gemini from Salesforce Apex with Named Credentials, HTTP callouts, bulk-safe Batch Apex and HttpCalloutMock tests."
+title: "Call ChatGPT (OpenAI), Claude and Gemini from Salesforce Apex"
+seo_title: "Call ChatGPT, Claude & Gemini from Salesforce Apex"
+description: "Call ChatGPT (the OpenAI API), Claude and Gemini from Salesforce Apex with Named Credentials, bulk-safe Batch Apex and HttpCalloutMock tests."
 date: 2026-11-25 00:30:00 +0530
 tested_on: "Salesforce Developer Edition org, API 68.0, 25 Nov 2026: 9/9 Apex tests passed, 95% coverage (callouts mocked)"
-last_modified_at: 2026-11-25 07:30:00 +0530
+last_modified_at: 2026-11-27 19:30:00 +0530
 permalink: /blog/call-claude-openai-gemini-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
@@ -30,6 +30,8 @@ image_alt: "Diagram of a Salesforce Apex class sending HTTP callouts through Nam
 proficiency: "Intermediate"
 answer: "To call an LLM from Apex, store the vendor API key in an External Credential and point a Named Credential at the vendor URL. Send a JSON POST with HttpRequest to callout:Your_Named_Credential, parse the reply with JSON.deserializeUntyped, run bulk calls from Batch Apex that implements Database.AllowsCallouts, and test with HttpCalloutMock."
 faq:
+  - q: "Can I call ChatGPT from Salesforce?"
+    a: "Not the ChatGPT app itself. You call the OpenAI API, which serves the same GPT models, from Apex with an HTTP callout through a Named Credential. The API is billed separately from a ChatGPT subscription and needs its own API key."
   - q: "Can I call OpenAI or Claude directly from Apex without the Einstein Trust Layer?"
     a: "Yes. A normal Apex HTTP callout through a Named Credential can reach api.anthropic.com, api.openai.com or generativelanguage.googleapis.com. Those calls do not go through the Einstein Trust Layer, so masking, logging and data-handling rules are your job."
   - q: "Where should I store the LLM API key in Salesforce?"
