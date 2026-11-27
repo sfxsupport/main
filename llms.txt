@@ -21,7 +21,7 @@
 - [Integration Patterns](https://sfxsupport.com/integration-patterns/): Salesforce integration patterns, REST vs SOAP vs Bulk vs Pub/Sub APIs, OAuth flows, Named Credentials, platform events and CDC, with interview questions.
 - [Agentforce pricing calculator](https://sfxsupport.com/agentforce-pricing-calculator/): estimates Agentforce cost under Flex Credits ($500 per 100,000 credits, 20 credits per action), $2 per conversation and $150 per user add-ons from Salesforce list prices, with the break-even point (20 text actions per conversation), the rule that one org cannot use both Flex Credits and Conversations, and sources.
 - [Salesforce interview questions by experience](https://sfxsupport.com/salesforce-interview-questions/): questions for admins, developers and Agentforce/AI roles, fresher to 10+ years, each with a short answer, key points, a follow-up and AI practice.
-- [Interview prep resources](https://sfxsupport.com/interview-prep/): interview questions and curated resources by topic.
+- [Salesforce interview questions](https://sfxsupport.com/salesforce-interview-questions/): interview questions and curated resources by topic.
 
 ## Products
 - [SFX Travel Manager](https://sfxsupport.com/travel-manager/): booking, duty slip, driver, fleet, GST invoice and khata software for Indian travel agencies and taxi operators.

@@ -7,7 +7,7 @@
     "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --minify",
     "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch"
   },
-  "author": "Krrish Joshi",
+  "author": "SFX Support",
   "license": "MIT",
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.10",

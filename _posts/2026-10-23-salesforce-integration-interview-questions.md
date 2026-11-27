@@ -296,7 +296,7 @@ The recurring theme is ownership. Someone must own the data contract, authentica
 
 If you want to practise another category, continue with [18 scenario-based Salesforce interview questions](/blog/salesforce-interview-questions-scenario-based/) covering Admin, Security, Flow, Apex, Deployment, and Integration.
 
-Working through a real integration design or interview scenario? [Contact SFX Support](/contact/) or use [Ask Krrish](/chatbot/) to reason through the trade-offs.
+Working through a real integration design or interview scenario? [Ask SFX for a scoped review](/services/).
 
 ## Sources
 

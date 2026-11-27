@@ -269,7 +269,7 @@ A System Administrator test proves that the feature works. A least-privileged pe
 
 The pattern behind all 12 answers is the same: start with the task, identify the access layer, grant the smallest reusable capability, plan its removal, and verify both allowed and forbidden behavior.
 
-Preparing for an Admin interview or troubleshooting a real access problem? [Contact SFX Support](/contact/) or use [Ask Krrish](/chatbot/) to work through the scenario.
+Preparing for an Admin interview or troubleshooting a real access problem? [Ask SFX for a scoped review](/services/).
 
 ## Sources
 

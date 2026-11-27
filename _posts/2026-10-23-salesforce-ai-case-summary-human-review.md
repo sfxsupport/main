@@ -264,7 +264,7 @@ Ground the model on the smallest permitted Case data set, constrain what it can 
 
 That answer is useful beyond this one feature. It is also a strong way to explain a Salesforce + AI scenario in an architecture review or interview: connect the model to a business workflow, enforce the data boundary, keep a person responsible for the final action, and prove the outcome with operational metrics.
 
-Need help adapting the pattern to your org’s data, permissions, and review process? [Contact SFX Support](/contact/) or use [Ask Krrish](/chatbot/) to work through the design.
+Need help adapting the pattern to your org’s data, permissions, and review process? [Ask SFX for a scoped design review](/services/).
 
 ## Sources
 

@@ -125,7 +125,7 @@ The last `SOQL_EXECUTE_BEGIN` is only where the budget ran out. Work backward an
 
 If the log is truncated, do not guess from the surviving tail. Reduce the reproduction size until the log remains complete, narrow the debug categories, or isolate the suspected automation in a full-copy or representative sandbox. Then compare a small successful run with the smallest failing run. The growth curve often exposes the pattern: five fixed queries are different from one extra query for every input record.
 
-For easier local inspection, download the log and use the SFX [Debug Log Analyzer](/debug-log-analyzer/) or search the text in your approved editor. Preserve the original log as incident evidence before annotating it.
+For easier inspection, download the log and search it for `SOQL_EXECUTE_BEGIN` in your approved editor. Preserve the original log as incident evidence before annotating it.
 
 ## Build the whole transaction map
 {: #transaction-map}

@@ -321,7 +321,7 @@ The repair may be collection-based data access, query reuse, tighter change gate
 
 The senior pattern is consistent: reduce ambiguity. One owner, one explicit transaction design, bounded work, idempotent side effects, observable failures, and tests that reproduce production conditions.
 
-Working through a senior Salesforce developer interview or a difficult trigger incident? [Contact SFX Support](/contact/) or use [Ask Krrish](/chatbot/) to break down the scenario.
+Working through a senior Salesforce developer interview or a difficult trigger incident? [Ask SFX for a scoped review](/services/).
 
 ## Sources
 

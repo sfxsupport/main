@@ -29,6 +29,12 @@ plugins:
 
 # ── Exclude from processing ────────────────────────────────
 exclude:
+  - README.md
+  - AGENTS.md
+  - CLAUDE.md
+  - GEMINI.md
+  - docs/
+  - scripts/
   - .sass-cache/
   - .jekyll-cache/
   - gemfiles/

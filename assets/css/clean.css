@@ -61,7 +61,7 @@ body.sfx-clean main { margin-top:64px; }
 .c-opt-h output { font:500 30px/1 Geist, Inter, sans-serif; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
 .c-opt-h output small { font-size:14px; color:var(--mute); font-weight:400; letter-spacing:0; }
 .c-math { margin-top:8px; font-size:14.5px; line-height:1.6; color:var(--ink2); font-variant-numeric:tabular-nums; }
-.c-math code { font-size:13px; }
+.c-math code { font-size:14px; }
 .c-insight { margin-top:14px; border-radius:12px; padding:14px 16px; background:#14110a; border:1px solid #3a2f12; font-size:16px; line-height:1.55; color:#e7d9b8; }
 .c-insight b { color:#fff; }
 .c-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
