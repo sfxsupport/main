@@ -28,8 +28,8 @@ image_alt: "Salesforce Apex SOQL missing field error and query fix"
 proficiency: "Intermediate"
 answer: "This exception means Apex tried to read a field that was not loaded on the specific sObject record being accessed. The usual cause is a missing field or relationship path in the SOQL SELECT list. Trace that record to its query, add the required fields, and rerun the failing operation and tests."
 faq:
-  - q: "How do I fix SObject row was retrieved via SOQL without querying the requested field?"
-    a: "Find the failing field and line in the exception, then trace that specific record to the query that loaded it. Add the field or full relationship path to its SELECT list and rerun the failing operation."
+  - q: "How can I check whether an sObject field was loaded in Apex?"
+    a: "Use the sObject isSet() method to check whether a field was selected by a SOQL query or assigned on that instance. It does not check whether the current user has permission to access the field."
   - q: "Why does this error occur when the field has a value in Salesforce?"
     a: "A value in the database does not mean the field was loaded into a particular Apex sObject instance. The SOQL query must select the field before the code reads it."
   - q: "Does selecting AccountId also load Account.Name?"
@@ -115,7 +115,7 @@ FROM Contact
 
 For a custom relationship, a read such as `Ticket__r.Subject__c` requires that relationship path in the query. Confirm the relationship name in the lookup field’s details under **Setup → Object Manager → the child object → Fields & Relationships**.
 
-A selected relationship can still be null when no parent is assigned. Check for null before reading a parent field; selecting the path fixes the missing-field exception, not a null dereference.
+If no parent is assigned, reading a selected relationship expression such as `contact.Account.Name` as a value returns null; handle that result as needed. Assigning through a null relationship can throw a `NullPointerException`. See [Salesforce’s relationship field guidance](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/langcon-apex-sobjects-field-relationships.html).
 
 ### 3. Fix a Visualforce standard controller
 
@@ -133,10 +133,14 @@ For a **dynamic Visualforce binding** using the standard controller’s default 
 
 ```apex
 public CaseExtension(ApexPages.StandardController controller) {
-    controller.addFields(new List<String>{ 'Status' });
+    if (!Test.isRunningTest()) {
+        controller.addFields(new List<String>{ 'Status' });
+    }
     Case currentCase = (Case) controller.getRecord();
 }
 ```
+
+The guard allows tests to instantiate a standard controller with an in-memory record. In those tests, supply `Status` on the Case passed to the controller; the guard does not load the field for you.
 
 If you must add dynamic fields later, Salesforce requires `reset()` immediately before `addFields()`. Resetting discards pending changes to the controller record, so do not use it casually on an edit page. `addFields()` changes the standard controller’s default query; it does **not** change a SOQL query written in your extension. See the [StandardController reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-pages-standardcontroller.html) and [dynamic Visualforce guidance](https://developer.salesforce.com/docs/platform/salesforce-pages-developers-guide/guide/pages-dynamic-vf-sample-standard.html).
 
@@ -207,7 +211,7 @@ public with sharing class ContactAccountReader {
 
 The method returns one map entry per accessible, matching Contact. A Contact without an Account has a null value; an ID that is not returned by the query has no map entry. The query runs once for the supplied set, not once per Contact. `WITH USER_MODE` makes the intended access enforcement explicit.
 
-Create `ContactAccountReaderTest.cls` with these tests. The first test reproduces the missing relationship field and checks the fixed result; the second checks the null relationship and empty input.
+Create `ContactAccountReaderTest.cls` with these tests. The first test reproduces the missing relationship field and checks the fixed result; the second checks the null relationship and empty and null inputs.
 
 ```apex
 @IsTest
@@ -263,11 +267,13 @@ private class ContactAccountReaderTest {
         Map<Id, String> emptyResult = ContactAccountReader.accountNames(
             new Set<Id>()
         );
+        Map<Id, String> nullResult = ContactAccountReader.accountNames(null);
         Test.stopTest();
 
         System.assert(result.containsKey(contact.Id));
         System.assertEquals(null, result.get(contact.Id));
         System.assertEquals(0, emptyResult.size());
+        System.assertEquals(0, nullResult.size());
     }
 }
 ```
@@ -298,16 +304,42 @@ Treat each query’s selected fields as part of the contract between the caller 
 - Do not use `getPopulatedFieldsAsMap()` as a definitive list of queried fields: queried null fields can be absent. See the [sObject reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-methods-system-sobject.html).
 - Test user-mode access with a representative user when the code is intended to respect that user’s permissions.
 
-If a bulk requery causes a query-limit failure, use the [SOQL 101 production diagnosis guide](/blog/salesforce-too-many-soql-queries-101/) to trace queries across the transaction.
+If a bulk requery causes a query-limit failure, use the [SOQL 101 production diagnosis guide](/blog/salesforce-too-many-soql-queries-101/) to trace queries across the transaction. For more on collection-based queries and transaction-wide debugging, see the [Apex trigger troubleshooting guide](/blog/salesforce-apex-trigger-interview-questions-6-years-experience/).
 
 ## What errors are related to a missing SOQL field?
 {: #related-errors}
 
-These errors need different fixes, even though they can occur near the same query:
+These errors need different fixes, even though they can occur near the same query.
 
-- **`System.QueryException: List has no rows for assignment to SObject`**: a single-record assignment found no matching row. Check the filter or query into a list and handle an empty result.
-- **`System.QueryException: List has more than 1 row for assignment to SObject`**: a single-record assignment found multiple rows. Correct the filter or handle a list.
-- **`QUERY_TOO_COMPLICATED`**: the query may be too complex. Review the generated query and relevant [SOQL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
+### No rows for assignment
+
+```text
+System.QueryException: List has no rows for assignment to SObject
+```
+
+**Cause:** A query assigned to a single sObject found no matching row.
+
+**Fix:** Check the filter, or query into a list and handle an empty result.
+
+### Multiple rows for assignment
+
+```text
+System.QueryException: List has more than 1 row for assignment to SObject
+```
+
+**Cause:** A query assigned to a single sObject found multiple rows.
+
+**Fix:** Correct the filter or query into a list and handle the results.
+
+### Query too complicated
+
+```text
+QUERY_TOO_COMPLICATED
+```
+
+**Cause:** The query may be too complex.
+
+**Fix:** Review the generated query and the relevant [SOQL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
 
 ## Which official Salesforce sources explain this error?
 {: #official-sources}
@@ -359,4 +391,7 @@ sf apex run test \
   --wait 10
 ```
 
-If the test command returns a test run ID before results are ready, retrieve the result with the [CLI test result command](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_apex_run_test.html).
+If the test command returns a test run ID before results are ready, use the [CLI test result command](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_apex_get_test.html), replacing the placeholder with that ID:
+
+```bash
+sf apex get test --test-run-id <test-run-id> --target-org dev-ed
