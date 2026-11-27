@@ -46,48 +46,55 @@
     if (event.target.removeAttribute) event.target.removeAttribute('aria-invalid');
   });
 
+  // keep the ad / campaign source for the whole visit, as the app's welcome page does
+  var source = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid'].forEach(function (k) { if (params.get(k)) source[k] = params.get(k); });
+  try {
+    if (Object.keys(source).length) sessionStorage.setItem('sfx-tm-src', JSON.stringify(source));
+    else source = JSON.parse(sessionStorage.getItem('sfx-tm-src') || '{}');
+  } catch (e) {}
+
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     var data = new FormData(form);
     var name = String(data.get('name') || '').trim();
     var phone = String(data.get('phone') || '').trim();
     var email = String(data.get('email') || '').trim();
-    var businessType = String(data.get('business_type') || '').trim();
+    var company = String(data.get('company') || '').trim();
+    var city = String(data.get('city') || '').trim();
     var fleetSize = String(data.get('fleet_size') || '').trim();
-    var businessName = String(data.get('business_name') || '').trim();
     var message = String(data.get('message') || '').trim();
+    var digits = phone.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '').replace(/^0(?=\d{10}$)/, '');
 
     if (name.length < 2) return invalidate(form.elements.name, 'Please enter your name.');
-    if (phone.replace(/\D/g, '').length < 7) return invalidate(form.elements.phone, 'Please enter a valid phone or WhatsApp number.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return invalidate(form.elements.email, 'Please enter a valid email address.');
-    if (!businessType) return invalidate(form.elements.business_type, 'Please choose your business type.');
-    if (!fleetSize) return invalidate(form.elements.fleet_size, 'Please choose the number of vehicles you manage.');
+    if (!/^[6-9]\d{9}$/.test(digits)) return invalidate(form.elements.phone, 'Please enter a 10-digit mobile number.');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return invalidate(form.elements.email, 'Please check the email address, or leave it empty.');
 
     submit.disabled = true;
     setStatus('Sending your request…');
 
     var details = [];
-    if (businessName) details.push('Business: ' + businessName);
-    details.push('Business type: ' + businessType);
-    details.push('Fleet size: ' + fleetSize);
+    if (fleetSize) details.push('Fleet size: ' + fleetSize);
     if (message) details.push('Requirement: ' + message);
 
     var payload = {
-      product: 'travel-manager',
-      form: 'demo_enquiry',
+      product: 'travel_manager',
+      form: 'demo_request',
       topic: 'SFX Travel Manager demo',
       name: name,
-      phone: phone,
+      phone: digits,
       email: email,
-      background: businessType,
+      company: company,
+      city: city,
+      background: fleetSize ? 'Fleet ' + fleetSize : '',
       message: details.join('\n'),
       website: String(data.get('website') || ''),
-      utmSource: params.get('utm_source') || '',
-      utmMedium: params.get('utm_medium') || '',
-      utmCampaign: params.get('utm_campaign') || '',
-      utmTerm: params.get('utm_term') || '',
-      utmContent: params.get('utm_content') || '',
-      gclid: params.get('gclid') || '',
+      utmSource: source.utm_source || '',
+      utmMedium: source.utm_medium || '',
+      utmCampaign: source.utm_campaign || '',
+      utmTerm: source.utm_term || '',
+      utmContent: source.utm_content || '',
+      gclid: source.gclid || '',
       referrer: referrer,
       pagePath: window.location.pathname
     };
@@ -105,13 +112,13 @@
         });
       })
       .then(function (json) {
-        setStatus('Thanks, ' + name.split(' ')[0] + '! Your demo request is registered. Our team will contact you shortly.', 'success');
+        setStatus('Thanks, ' + name.split(' ')[0] + '! We will call you to fix a demo time, usually within a few hours on working days.', 'success');
         form.reset();
+        submit.disabled = false;
         if (!json.duplicate) {
           trackConversion();
           track('generate_lead', {
             form_name: 'travel_manager_demo',
-            lead_business_type: businessType,
             lead_fleet_size: fleetSize,
             page_path: window.location.pathname
           });
