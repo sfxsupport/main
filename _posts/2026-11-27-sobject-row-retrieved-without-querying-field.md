@@ -278,7 +278,7 @@ private class ContactAccountReaderTest {
 }
 ```
 
-These examples use standard Account and Contact fields. They have not been run in an org for this article; validation rules, automation, and user permissions in your org can require changes to test data or access.
+These examples use standard Account and Contact fields. They have not been run in an org for this article; validation rules, automation, and user permissions in your org can require changes to test data or access. The tests do not cover a user-mode permission failure; add a test with a representative user who lacks the relevant object or field access for your org.
 
 ## How can I reproduce the SOQL missing-field error safely?
 {: #reproduce}
@@ -304,7 +304,7 @@ Treat each query’s selected fields as part of the contract between the caller 
 - Do not use `getPopulatedFieldsAsMap()` as a definitive list of queried fields: queried null fields can be absent. See the [sObject reference](https://developer.salesforce.com/docs/platform/apex-ref/references/apex-ref/apex-methods-system-sobject.html).
 - Test user-mode access with a representative user when the code is intended to respect that user’s permissions.
 
-If a bulk requery causes a query-limit failure, use the [SOQL 101 production diagnosis guide](/blog/salesforce-too-many-soql-queries-101/) to trace queries across the transaction. For more on collection-based queries and transaction-wide debugging, see the [Apex trigger troubleshooting guide](/blog/salesforce-apex-trigger-interview-questions-6-years-experience/).
+If a bulk requery causes a query-limit failure, use the [SOQL 101 production diagnosis guide](/blog/salesforce-too-many-soql-queries-101/) to trace queries across the transaction. For more on collection-based queries and transaction-wide debugging, see the [senior Apex trigger interview questions](/blog/salesforce-apex-trigger-interview-questions-6-years-experience/).
 
 ## What errors are related to a missing SOQL field?
 {: #related-errors}
@@ -333,13 +333,15 @@ System.QueryException: List has more than 1 row for assignment to SObject
 
 ### Query too complicated
 
+Salesforce identifies this API error by the following status code; the accompanying message can vary:
+
 ```text
 QUERY_TOO_COMPLICATED
 ```
 
-**Cause:** The query may be too complex.
+**Cause:** The query selects too many fields or has too many filter conditions. Formula fields can contribute to the query’s complexity.
 
-**Fix:** Review the generated query and the relevant [SOQL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
+**Fix:** Reduce the selected fields, filter conditions, or formula fields where practical, while retaining the fields the code needs. See Salesforce’s [API error reference](https://developer.salesforce.com/docs/platform/api/guide/sforce-api-calls-concepts-core-data-objects.html) and [SOQL limits](https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-soslsoql.html).
 
 ## Which official Salesforce sources explain this error?
 {: #official-sources}
