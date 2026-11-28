@@ -3,8 +3,8 @@ layout: blog-post
 sfx_blog: true
 featured: false
 title: "List Index Out of Bounds: 0 in Apex: Cause and Fix"
-seo_title: "List Index Out of Bounds: 0: Apex Fix"
-description: "Fix List index out of bounds: 0 in Salesforce Apex by finding the empty list, checking the query, and handling missing records safely."
+seo_title: "Fix List Index Out of Bounds: 0 in Salesforce Apex"
+description: "Fix List index out of bounds: 0 in an Agentforce Apex action by checking query results and returning a useful outcome for each request."
 date: 2026-11-28 16:40:00 +0530
 last_modified_at: 2026-11-28 16:40:00 +0530
 permalink: /blog/list-index-out-of-bounds-salesforce/
@@ -19,6 +19,7 @@ tags:
   - SOQL
   - Apex testing
   - Salesforce debugging
+  - Agentforce
 reading_time: "10 min read"
 og_type: article
 author_name: "Abhay Nama"
@@ -26,18 +27,18 @@ author_url: "https://www.linkedin.com/in/abhay-nama-0739793a7/"
 image: /assets/images/blog/list-index-out-of-bounds-salesforce.jpg
 image_alt: "SFX Salesforce Troubleshooting banner showing the error: System.ListException: List index out of bounds: 0"
 proficiency: "Intermediate"
-answer: "System.ListException: List index out of bounds: 0 means Apex tried to read the first element of an empty list. A SOQL query returning no rows is the most common cause. Find the list at the failing line, check why it is empty, and handle the zero-result case before accessing index 0."
+answer: "System.ListException: List index out of bounds: 0 means Apex tried to read the first element of an empty list. In an Agentforce action, find the failing list in the Apex stack trace, check why it is empty, and return a defined no-result response before accessing index 0."
 faq:
-  - q: "What does List index out of bounds: 0 mean in Apex?"
-    a: "Apex tried to access index 0 in a list that has no elements. Check the specific list at the line named in the stack trace."
-  - q: "How do I fix List index out of bounds: 0 after a SOQL query?"
-    a: "Check whether the query returned any rows before accessing the first result. Also check its filters, bind values, data, and execution context; decide what the application should do when no record exists."
   - q: "Why does List index out of bounds: 0 occur in an Apex test?"
-    a: "The test may not create a record that matches the query, or the record may lack a required relationship or field value. Create matching test data and add a separate assertion for the no-match path."
+    a: "The test may not create a record that matches the query, or the record may lack a required relationship or field value. Create matching test data and assert the no-match outcome separately."
+  - q: "Can an Agentforce Apex action handle several requests at once?"
+    a: "Yes. An invocable method receives a list of requests. If it returns results, it must return the same number of results as inputs, including when reporting errors."
   - q: "Does LIMIT 1 prevent List index out of bounds: 0?"
     a: "No. LIMIT 1 allows a query to return zero or one row, so the result can still be empty."
   - q: "Is an empty query result the same as a null list?"
     a: "No. A SOQL query assigned to a list returns an empty list when no rows match. A null reference is a separate condition and can cause a NullPointerException."
+  - q: "Can missing field permissions cause a user-mode query to fail?"
+    a: "Yes. A user-mode query can raise an access error when the running user lacks required object or field permissions; a no-record result does not represent every access problem."
 extra_css:
   - /assets/css/blog.css
 toc:
@@ -65,42 +66,40 @@ toc:
 System.ListException: List index out of bounds: 0
 ```
 
-This error comes from Apex and can reach an admin, developer, tester, or user through a Flow, API response, deployment test, Lightning Web Component (LWC), or Agentforce action that invokes Apex. Find the Apex stack trace and start with the class and line number; the surface displaying the message may not be where the faulty list is created.
+An Agentforce action backed by Apex can surface **List index out of bounds: 0** when its code reads the first item of an empty list. For example, an account lookup may find no record visible to the action’s running user and then try to read `accounts[0]`. Start with the Apex stack trace: the action displaying the message may not be where the faulty list was created.
 
 ## What does List index out of bounds: 0 mean?
 {: #meaning}
 
-Apex tried to access the first element of a list that contains no elements. Indexes start at zero, so an empty list has no valid index at all.
+Apex tried to access the first element of a list that contains no elements. Indexes start at zero, so an empty list has no valid index.
 
-For a list with `n` elements, valid indexes run from `0` through `n - 1`. The number in the exception is the index Apex attempted to access. A zero in the message identifies the requested index; it does not identify which query or list is responsible.
+For a list with `n` elements, valid indexes run from `0` through `n - 1`. The number in the exception is the index Apex attempted to access; it does not identify which list is responsible.
 
-A SOQL query assigned to a list can return zero rows. That result is an **empty list**, not a null list. According to [Salesforce Help](https://help.salesforce.com/s/articleView?id=000385743&language=en_US&type=1), a query returning no records is the most common cause of this error.
+A SOQL query assigned to a list can return zero rows. According to [Salesforce Help](https://help.salesforce.com/s/articleView?id=000385743&language=en_US&type=1), a query returning no records is the most common cause of this error.
 
-**Quick fix:** locate the exact list at the failing line, check why it is empty, and guard the access. Decide whether no result should return an empty state or stop the operation with a useful error. `LIMIT 1` only sets a maximum; it does not guarantee a result.
+**Quick fix:** locate the list at the failing line, determine why it is empty, and handle that case before indexing. Decide what the action should return when no record is found. `LIMIT 1` sets a maximum; it does not guarantee a result.
 
 ## Why do I get List index out of bounds: 0?
 {: #causes}
 
-The immediate cause is always an attempt to read index `0` from an empty list. The reason that list is empty depends on the data and execution path.
+The immediate cause is an attempt to read index `0` from an empty list. In an Agentforce action, the list might come from a query, a filtered collection, or another method.
 
 | Cause | How to confirm | Fix |
 | --- | --- | --- |
-| SOQL returns no rows | Check the query, bind values, filters, and row count in the failing transaction. | Correct the data or query if needed, then handle zero rows before indexing. |
-| Test data is missing or does not match | Compare the test fixture with every query condition and required relationship. | Create matching records inside the test and test the no-match case separately. |
-| The running user sees different records | Run or trace the same operation in the failing user and access context. | Correct intended access, or handle a legitimate absence of visible records. |
-| Code filters, clears, or never populates the list | Check its size immediately before the failing line and trace every mutation on that path. | Correct the control flow and handle an empty list where it is valid. |
-| A child or derived collection is empty | Identify the exact child list, parsed collection, or method return being indexed. | Validate that collection and fix missing source data or input. |
-
-Salesforce identifies empty SOQL results as the most common cause. The other rows are troubleshooting possibilities, not a verified prevalence ranking.
+| SOQL returns no rows | Check the query, bind values, filters, and row count in the failing transaction. | Correct the data or query if needed, then handle zero rows. |
+| Test data is missing or does not match | Compare the test fixture with each query condition and required relationship. | Create matching records and test the no-match case separately. |
+| The running user sees different records | Trace the action in the affected user and access context. | Correct intended access, or handle an absence of visible records. |
+| Code filters, clears, or never populates the list | Check its size immediately before the failing line and trace its changes. | Correct the control flow and handle an empty list where it is valid. |
+| A child or derived collection is empty | Identify the specific child list, parsed collection, or method return being indexed. | Validate that collection and fix missing source data or input. |
 
 ## How do I fix List index out of bounds: 0?
 {: #fix}
 
-Use the stack trace to identify the exact list, then check the data and access context that produced it. Add a guard only after deciding what the application should do when the list has no matching item.
+Use the stack trace to identify the exact list, then check the data and access context that produced it. Decide what the action should return for each request when its record is missing.
 
 ### 1. Find the failing access
 
-Open the error details or test failure and note the first relevant Apex class or trigger and line number. If a Flow, LWC, API request, or Agentforce action shows the error, follow the exception back to the Apex it called.
+Open the action error details or test failure and note the first relevant Apex class and line number. Follow the exception back to the Apex method invoked by the action.
 
 For a reproducible action, capture a log:
 
@@ -111,27 +110,27 @@ For a reproducible action, capture a log:
 
 Search for the exception and stack trace. For a query, inspect the corresponding `SOQL_EXECUTE_END` event for its row count. Salesforce describes these steps and events in its [debug logging guide](https://help.salesforce.com/s/articleView?id=000392579&language=en_US&type=1). Use a narrow trace window and avoid logging sensitive values unnecessarily.
 
-At the failing line, distinguish the collection from nearby objects. In an expression that reads the first child of a parent, the parent may exist while its child list is empty. If you can change the code in a development environment, log the relevant list’s size immediately before the access. Do not assume an earlier size check still applies after a method filters or clears the list.
+At the failing line, distinguish the collection from nearby objects. If you can change the code in a development environment, inspect the relevant list’s size immediately before the access. An earlier size check may no longer apply after a method filters or clears the list.
 
 ### 2. Fix a query that returns no rows
 
-Compare each filter and bind value with the actual records. Check IDs, status values, relationships, and whether the record exists at the time the query runs. A record created later in the transaction cannot satisfy an earlier query.
+Compare each filter and bind value with the actual records. Check IDs, status values, relationships, and whether the record exists at the time the query runs.
 
-If zero matches are expected, return an empty result or another documented outcome. If a match is required, stop with a clear business error that identifies what is missing. Do not create a placeholder record or remove a filter merely to suppress the exception.
+If zero matches are expected, return a defined no-result outcome. If a match is required, return a useful error through the action’s result. Do not create a placeholder record or remove a filter merely to suppress the exception.
 
 When selecting one of several possible records, use an explicit `ORDER BY` that matches the business rule. Without it, “first” does not define which matching record your application needs.
 
 ### 3. Fix a failing test or deployment
 
-Open the failure’s class and line, then inspect the query at that line. Create the records the test needs, including fields and relationships used by the query. A test record can exist and still fail to match a status, parent ID, or other condition.
+Open the failure’s class and line, then inspect the query at that line. Create the records the test needs, including fields and relationships used by the query.
 
-Prefer isolated test data over relying on existing org records or adding `SeeAllData=true` as a shortcut. Add assertions for both a matching record and no matching record. The example below does both. If a deployment fails because an existing test throws this error, repair the fixture or the production logic based on the intended behavior, then rerun the relevant tests.
+Prefer isolated test data over relying on existing org records or adding `SeeAllData=true` as a shortcut. Assert both matching and missing outcomes, including a batch containing more than one request. If a deployment fails because an existing test throws this error, repair the fixture or production logic according to the intended behavior, then rerun the relevant tests.
 
 ### 4. Check record visibility and execution mode
 
-If the same inputs work for one user but not another, reproduce the operation as the affected user and inspect the query’s execution context. Review the class sharing declaration, explicit query access mode, applicable sharing and restriction rules, and the user’s intended access.
+If the same inputs work for one user but not another, reproduce the operation as the affected user and inspect the query’s execution context. Review the class sharing declaration, query access mode, applicable sharing and restriction rules, and the user’s intended access.
 
-API version matters. Salesforce states that database operations default to user mode in Apex API version 67.0 and later; in version 66.0 and earlier, the default is system mode. Explicit access modes and sharing declarations also matter. Object or field permission problems can raise an access error instead of returning an empty list. See [Salesforce’s access-mode documentation](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm).
+Salesforce states that database operations default to user mode in Apex API version 67.0 and later; in version 66.0 and earlier, the default is system mode. Explicit access modes and sharing declarations also matter. Object or field permission problems can raise an access error instead of returning an empty list. See [Salesforce’s access-mode documentation](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm).
 
 Grant access only when the user is supposed to have it. For a deeper investigation, use the [record visibility troubleshooting map](/blog/why-salesforce-user-can-see-record/).
 
@@ -139,22 +138,23 @@ Grant access only when the user is supposed to have it. For a deeper investigati
 
 If the list is not the direct result of SOQL, trace its source and changes. Check branches that populate it, filters that remove items, calls to `clear()`, and methods that return collections. For child query results or parsed input, inspect the specific collection at the failing expression.
 
-If the stack trace points into a managed package and you cannot inspect the code, collect the operation, inputs, user context, timestamp, and log. Check the product’s documentation and contact its support team. A generic Apex guard cannot be applied to code you cannot edit.
+If the stack trace points into a managed package and you cannot inspect the code, collect the operation, inputs, user context, timestamp, and log. Check the product’s documentation and contact its support team.
 
 ## What Apex code fixes List index out of bounds: 0?
 {: #code}
 
-The unsafe pattern reads the first result without checking whether one exists. The fixed class returns `null` for no match, and its caller must handle that outcome.
+The unsafe pattern indexes a query result without checking it. The fixed example is an invocable Apex action for Agentforce: it queries requested accounts in one operation and returns a result for each input, including a no-match outcome.
 
 ### Bad pattern
 
-This example is for explanation and reproduction; do not deploy it as the fix.
+This fragment illustrates the failing access inside an action; do not deploy it as the fix.
 
 ```apex
 List<Account> accounts = [
     SELECT Id, Name
     FROM Account
-    WHERE Name = 'A name that does not exist'
+    WHERE Id = :accountId
+    WITH USER_MODE
     LIMIT 1
 ];
 
@@ -164,98 +164,155 @@ Account firstAccount = accounts[0];
 
 ### Fixed class
 
-Save this as `AccountLookup.cls`. This example looks up an account by ID, so at most one record can match. Returning `null` is a deliberate contract for this example; a required account may instead need a clear business exception.
+Save this as `AccountLookup.cls`. Each request supplies an account ID. The action returns the account name when found, or a status that lets the agent handle a missing or unavailable record.
 
 ```apex
 public with sharing class AccountLookup {
-    public static Account findById(Id accountId) {
-        if (accountId == null) {
-            return null;
+    public class Request {
+        @InvocableVariable(
+            label='Account ID'
+            description='ID of the account to look up.'
+            required=true
+        )
+        public Id accountId;
+    }
+
+    public class Result {
+        @InvocableVariable(
+            label='Account found'
+            description='Whether a matching account was found.'
+        )
+        public Boolean found;
+
+        @InvocableVariable(
+            label='Account name'
+            description='Name of the matching account, when found.'
+        )
+        public String accountName;
+
+        @InvocableVariable(
+            label='Status'
+            description='Outcome of the account lookup.'
+        )
+        public String status;
+    }
+
+    @InvocableMethod(
+        label='Look Up Account'
+        description='Find an account by ID and report when it is unavailable.'
+    )
+    public static List<Result> findAccounts(List<Request> requests) {
+        Set<Id> accountIds = new Set<Id>();
+
+        for (Request request : requests) {
+            if (request != null && request.accountId != null) {
+                accountIds.add(request.accountId);
+            }
         }
 
-        List<Account> accounts = [
-            SELECT Id, Name
-            FROM Account
-            WHERE Id = :accountId
-            LIMIT 1
-        ];
-
-        if (accounts.isEmpty()) {
-            return null;
+        Map<Id, Account> accountsById = new Map<Id, Account>();
+        if (!accountIds.isEmpty()) {
+            accountsById = new Map<Id, Account>([
+                SELECT Id, Name
+                FROM Account
+                WHERE Id IN :accountIds
+                WITH USER_MODE
+            ]);
         }
 
-        return accounts[0];
+        List<Result> results = new List<Result>();
+        for (Request request : requests) {
+            Result result = new Result();
+            result.found = false;
+
+            if (request == null || request.accountId == null) {
+                result.status = 'Account ID is required.';
+            } else {
+                Account account = accountsById.get(request.accountId);
+                if (account == null) {
+                    result.status = 'Account not found or not available.';
+                } else {
+                    result.found = true;
+                    result.accountName = account.Name;
+                    result.status = 'Account found.';
+                }
+            }
+            results.add(result);
+        }
+
+        return results;
     }
 }
 ```
 
-A caller must check the return value before reading fields:
-
-```apex
-Account found = AccountLookup.findById(accountId);
-if (found == null) {
-    // Show an appropriate no-result message or stop the operation.
-} else {
-    System.debug(found.Name);
-}
-```
-
-This class uses `with sharing` and is supplied with API version `66.0` metadata below. In that version, the query defaults to system mode; the sharing declaration still affects record-level access. Adapt the access mode and behavior to the security requirements of your application.
+The method preserves input order and returns one result per request, as required for invocable methods that return results. The query uses `WITH USER_MODE` to enforce the running user’s access; missing object or field permissions can still raise an error. Configure the action and its permissions for the intended Agentforce user, and instruct the agent to use `found` and `status` when deciding what to say. See Salesforce’s [invocable method reference](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html) and [Agentforce Apex action guidance](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html).
 
 ### Test class
 
-Save this as `AccountLookupTest.cls`. The test creates its own matching account, checks a real no-match case after deleting it, and checks a null input.
+Save this as `AccountLookupTest.cls`. The test checks a batch containing a matching ID, a deleted account ID, and a missing ID, plus an empty input list.
 
 ```apex
 @IsTest
 private class AccountLookupTest {
     @IsTest
-    static void findsMatchingAccount() {
-        Account account = new Account(Name = 'Lookup test account');
-        insert account;
+    static void returnsAnOutcomeForEachRequest() {
+        Account matching = new Account(Name = 'Lookup test account');
+        Account deletedAccount = new Account(Name = 'Deleted lookup account');
+        insert new List<Account>{ matching, deletedAccount };
+
+        Id deletedId = deletedAccount.Id;
+        delete deletedAccount;
+
+        AccountLookup.Request foundRequest = new AccountLookup.Request();
+        foundRequest.accountId = matching.Id;
+
+        AccountLookup.Request missingRequest = new AccountLookup.Request();
+        missingRequest.accountId = deletedId;
+
+        AccountLookup.Request noIdRequest = new AccountLookup.Request();
 
         Test.startTest();
-        Account found = AccountLookup.findById(account.Id);
+        List<AccountLookup.Result> results = AccountLookup.findAccounts(
+            new List<AccountLookup.Request>{
+                foundRequest, missingRequest, noIdRequest
+            }
+        );
         Test.stopTest();
 
-        System.assertNotEquals(null, found, 'Expected a match.');
-        System.assertEquals(account.Id, found.Id);
-        System.assertEquals('Lookup test account', found.Name);
+        System.assertEquals(3, results.size(), 'Return one result per request.');
+        System.assertEquals(true, results[0].found);
+        System.assertEquals('Lookup test account', results[0].accountName);
+        System.assertEquals('Account found.', results[0].status);
+
+        System.assertEquals(false, results[1].found);
+        System.assertEquals(null, results[1].accountName);
+        System.assertEquals('Account not found or not available.', results[1].status);
+
+        System.assertEquals(false, results[2].found);
+        System.assertEquals('Account ID is required.', results[2].status);
     }
 
     @IsTest
-    static void returnsNullWhenAccountDoesNotMatch() {
-        Account account = new Account(Name = 'Deleted lookup account');
-        insert account;
-        Id deletedId = account.Id;
-        delete account;
-
+    static void returnsNoResultsForNoRequests() {
         Test.startTest();
-        Account found = AccountLookup.findById(deletedId);
+        List<AccountLookup.Result> results = AccountLookup.findAccounts(
+            new List<AccountLookup.Request>()
+        );
         Test.stopTest();
 
-        System.assertEquals(null, found, 'Expected no match.');
-    }
-
-    @IsTest
-    static void returnsNullForNullId() {
-        Test.startTest();
-        Account found = AccountLookup.findById(null);
-        Test.stopTest();
-
-        System.assertEquals(null, found, 'Expected no match.');
+        System.assertEquals(0, results.size());
     }
 }
 ```
 
-Normal SOQL excludes the deleted account, so the second test exercises an empty query result. If your org has account validation rules or automation, the fixture may need additional fields or setup. These examples have not been run in an org for this post.
+Normal SOQL excludes the deleted account, so the first test exercises an empty lookup for that ID. Org validation rules or automation may require additional fixture fields or setup. These examples have not been run in an org for this post; the tests also do not establish the permissions of your Agentforce user.
 
 ## How do I reproduce List index out of bounds: 0 safely?
 {: #reproduce}
 
-Run a small anonymous Apex example in a Developer Edition org to see the exception without changing records. Then deploy and run the fixed example’s tests in that development org.
+Run a small anonymous Apex example in a development org to see the exception without changing records. Then deploy and run the action’s tests in that org.
 
-1. Open your Developer Edition org and launch **Developer Console** from the Setup menu.
+1. Open your development org and launch **Developer Console** from the Setup menu.
 2. In Developer Console, choose **Debug → Open Execute Anonymous Window**.
 3. Enter the following code and execute it:
 
@@ -265,43 +322,69 @@ System.debug(values[0]);
 ```
 
 4. Inspect the execution result or log for the list exception. This example performs no database writes.
-5. Create the files in the solution kit, deploy them to the development org, and run `AccountLookupTest`. Confirm that all three tests pass.
+5. Create the files in the solution kit, deploy them to the development org, and run `AccountLookupTest`. Confirm that both tests pass.
 
-The reproduction proves what happens when an empty list is indexed. It does not prove that a production query has the same cause; use the production stack trace and context to establish that.
+The reproduction demonstrates an empty list access. Use the stack trace and execution context to establish the cause of a particular action failure.
 
 ## How do I prevent List index out of bounds: 0?
 {: #prevent}
 
-Define what an empty result means at each boundary and test it. Validate the actual index being accessed, including after a list has been changed.
+Define what an empty result means at each boundary and test it. Validate the actual index being accessed, including after a list has changed.
 
 - Use `isEmpty()` before reading index `0`. For any index `i`, require `i >= 0` and `i < items.size()`.
 - Check the index in the expression itself. A loop condition that validates `i` does not automatically validate `i + 1`.
 - Prefer a `for` loop over list elements when you do not need an index. An empty list then produces zero iterations.
-- Give callers a clear contract for no match, and make them handle it.
+- Give an Agentforce action a clear result for each request, and make the agent’s instructions account for no match.
 - Test matching, missing, filtered-out, and relevant visibility cases. Include relationships and filters in test fixtures.
-- Keep SOQL outside loops when processing collections. An index guard fixes this exception but does not fix inefficient query placement. See [Salesforce Too Many SOQL Queries 101](/blog/salesforce-too-many-soql-queries-101/).
-
-For a Flow that calls Apex, inspect the Flow error details and the invoked method’s contract. If no record is an acceptable outcome, design the Flow’s next step around that outcome. If the record is required, surface a useful error instead of silently continuing.
+- Keep SOQL outside loops when processing collections. See [Salesforce Too Many SOQL Queries 101](/blog/salesforce-too-many-soql-queries-101/).
 
 ## Related errors
 {: #related-errors}
 
 Similar messages point to different failing operations. Check the exception type and requested index before applying a fix.
 
-- `System.ListException: List index out of bounds: -1`: Apex attempted to use a negative index.
-- `System.NullPointerException: Attempt to de-reference a null object`: code dereferenced a null reference. This is different from indexing an empty list.
-- `System.QueryException: List has no rows for assignment to SObject`: a SOQL query assigned directly to a single sObject returned no rows. A list query with an explicit empty-result check is one way to handle an optional match.
+### Negative list index
+
+```text
+System.ListException: List index out of bounds: -1
+```
+
+**Cause:** Apex attempted to use a negative index.
+
+**Fix:** Check the calculation that produces the index and require it to be at least zero and less than the list size.
+
+### Null reference
+
+```text
+System.NullPointerException: Attempt to de-reference a null object
+```
+
+**Cause:** Code dereferenced a null reference.
+
+**Fix:** Identify which reference is null and handle that condition before accessing its fields or methods.
+
+### No rows assigned to a single sObject
+
+```text
+System.QueryException: List has no rows for assignment to SObject
+```
+
+**Cause:** A SOQL query assigned directly to a single sObject returned no rows.
+
+**Fix:** When a match is optional, assign the query to a list and check whether it is empty before accessing a result.
 
 For another common query-related failure, see [SObject Row Retrieved Without Querying the Field](/blog/sobject-row-retrieved-without-querying-field/).
 
 ## Official sources
 {: #official-sources}
 
-These Salesforce sources support the diagnosis and deployment steps. Links were opened on 28 November 2026.
+These Salesforce sources support the diagnosis, action contract, and deployment steps.
 
 - [Apex: How to Fix “System.ListException: List index out of bounds”](https://help.salesforce.com/s/articleView?id=000385743&language=en_US&type=1): empty query results and checking list size.
 - [Capture and read Salesforce debug logs](https://help.salesforce.com/s/articleView?id=000392579&language=en_US&type=1): trace setup and query row-count events.
 - [Set an access mode for database operations](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm): user mode, system mode, and API version behavior.
+- [InvocableMethod annotation](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html): invocable input and output requirements.
+- [Apex for Agentforce custom actions](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html): using invocable Apex in an agent action.
 - [Built-in Apex exceptions](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-exception-builtin.html): exception types.
 - [Run Apex tests with Salesforce CLI](https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-testing.html) and [deploy project metadata](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_start.html): test and deployment workflow.
 
@@ -310,7 +393,7 @@ Need this fixed in your org? [SFX can build it](/services/) with a written scope
 ## Solution kit
 {: #solution-kit}
 
-The complete example needs two Apex files and their metadata files in an existing Salesforce DX project. Deploy it first to a Developer Edition org or sandbox; adapt the lookup and its security contract before using it in application code.
+The complete example needs two Apex files and their metadata files in an existing Salesforce DX project. Deploy it first to a Developer Edition org or sandbox, then configure and test it as an Agentforce custom action with the intended user permissions.
 
 Create these four files:
 
