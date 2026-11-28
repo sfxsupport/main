@@ -140,7 +140,7 @@ If the list is not the direct result of SOQL, trace its source and changes. Chec
 
 If the stack trace points into a managed package and you cannot inspect the code, collect the operation, inputs, user context, timestamp, and log. Check the product’s documentation and contact its support team.
 
-## What Apex code fixes List index out of bounds: 0?
+## What Apex code fixes it?
 {: #code}
 
 The unsafe pattern indexes a query result without checking it. The fixed example is an invocable Apex action for Agentforce: it queries requested accounts in one operation and returns a result for each input, including a no-match outcome.
@@ -313,7 +313,7 @@ private class AccountLookupTest {
 
 Normal SOQL excludes the deleted account, so the first test exercises an empty lookup for that ID. Org validation rules or automation may require additional fixture fields or setup. These examples have not been run in an org for this post; the tests also do not establish the permissions of your Agentforce user.
 
-## How do I reproduce List index out of bounds: 0 safely?
+## How do I reproduce it safely?
 {: #reproduce}
 
 Run a small anonymous Apex example in a development org to see the exception without changing records. Then deploy and run the action’s tests in that org.
@@ -332,7 +332,7 @@ System.debug(values[0]);
 
 The reproduction demonstrates an empty list access. Use the stack trace and execution context to establish the cause of a particular action failure.
 
-## How do I prevent List index out of bounds: 0?
+## How do I prevent it?
 {: #prevent}
 
 Define what an empty result means at each boundary and test it. Validate the actual index being accessed, including after a list has changed.
@@ -442,14 +442,3 @@ sf apex run test \
 ```
 
 Replace `my-dev-org` with your org alias. If either command returns a job ID before finishing, check the final result before treating the deployment or tests as successful. Production deployments have their own test requirements; review the [Salesforce deployment reference](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_start.html) before deploying there.
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const actions = document.querySelector('.article-cta-actions');
-  if (!actions) return;
-  const serviceLink = actions.querySelector('a[href="/services/"]');
-  Array.from(actions.querySelectorAll('a')).forEach(function (link) {
-    if (link !== serviceLink) link.remove();
-  });
-});
-</script>
