@@ -70,7 +70,7 @@ def check_news(path, text, issues):
         return
     if "## Sources" not in body and len(re.findall(r"\]\(https?://(?!sfxsupport\.com)", body)) < 5:
         issues.append(("FAIL", path, 0, "R9-news-sources", "news posts end with a dated ## Sources list"))
-    if re.search(r"^today:", fm, re.M):
+    if re.search(r"^today:", fm, re.M) and not re.search(r"^series:.*Weekly", fm, re.M):
         for need, why in (("<!-- ai-panel -->", "daily issue needs the <!-- ai-panel --> marker after The story"),
                           ("## Do this", "daily issue needs a ## Do this section"),
                           ("## Quick hits", "daily issue needs ## Quick hits")):

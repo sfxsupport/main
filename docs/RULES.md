@@ -52,7 +52,7 @@ An instruction that lives only in chat or in one agent's memory is not enforced.
 | 3.2 | Daily format: `today` teasers (curiosity, not summaries) → hook → `## The story` (no verdict) → `<!-- ai-panel -->` → `## Do this` ending in **Our read:** → `## Quick hits` → `## Sources` with dates. No FAQ in the body. | check-rules R9/R10, gate (`REVIEW-aidaily.md`) |
 | 3.3 | AI panel: real answers from Claude, ChatGPT and Gemini (`make-takes.py`), same facts, same `ai_question`, labelled as AI opinion with the own-company bias note. Never write a model's take by hand. | gate, human |
 | 3.4 | AI Daily never skips: new story, else trending, else a fresh angle. | pipeline (`run-news.sh`) |
-| 3.5 | Weekly issues from 28 Nov 2026 on: 8 to 12 items, 3 short lines each, 500 to 800 words. (The first issue, 27 Nov, was published with 7 items before this rule and is left as published.) | gate (`REVIEW-news.md`) |
+| 3.5 | Weekly issues open with `today` teasers (curiosity, not a summary). From 28 Nov 2026 on: 8 to 12 items, 3 short lines each, 500 to 800 words. (The first issue, 27 Nov, was published with 7 items before this rule and is left as published.) | gate (`REVIEW-news.md`) |
 
 ## 4. Design and readability (details in `docs/DESIGN.md`)
 
