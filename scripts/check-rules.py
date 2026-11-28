@@ -94,6 +94,8 @@ def scan(path, lines, issues):
                     continue  # Firebase web config keys are public by design (access is enforced by Firebase rules)
                 issues.append((lvl, path, i, rid, msg + f"  | {l.strip()[:110]}"))
     for i, l in enumerate(lines, 1):
+        if re.search(r"tel:\+?(91)?-?9414849173", l) or re.search(r'tel:\+?917611896026"[^>]*>(?:(?!</a>).)*9414849173', l):
+            issues.append(("FAIL", path, i, "R12-call-number", "call links (tel:) must use 7611896026; 9414849173 is WhatsApp only"))
         for num in PHONE.findall(l):
             if num not in OK_PHONES:
                 issues.append(("FAIL", path, i, "R11-phone", f"phone {num} is not SFX's (WhatsApp 9414849173, calls 7611896026)"))

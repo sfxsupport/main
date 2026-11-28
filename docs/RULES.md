@@ -25,7 +25,7 @@ An instruction that lives only in chat or in one agent's memory is not enforced.
 | 1.1 | SFX is a paid Salesforce + AI solutions business. No "free", "community", "volunteer", "non-commercial" or "personal capacity" wording about SFX's own offers. (Talking about Salesforce's free credits is fine.) | check-rules R1, gate |
 | 1.2 | Never claim SFX is a Salesforce, Anthropic, OpenAI or Google partner. "Independent, not a Salesforce partner" is the honest line. | check-rules R2, gate |
 | 1.3 | The public founder and author is **Abhay Nama**. "Ask Krrish" is only a product name. | check-rules R3 |
-| 1.4 | Contact: WhatsApp 9414849173, calls 7611896026. No other phone numbers. | check-rules R11 |
+| 1.4 | Contact: WhatsApp 9414849173, calls 7611896026. No other phone numbers. Every call link (`tel:`) uses 7611896026. | check-rules R11, R12 |
 | 1.5 | No personal email addresses, API keys or tokens in the site. | check-rules R7, R8 |
 | 1.6 | Truth only: no invented numbers, clients, ratings, savings, testimonials or reviews. Every review, rating or quote must be real, named and checkable, or it does not go on the site. | gate, reader (trust) |
 | 1.7 | Focus: Salesforce + AI only (Agentforce, Prompt Builder, Models API, Data Cloud RAG, MCP, LLMs from Apex, AI cost). | gate, human |

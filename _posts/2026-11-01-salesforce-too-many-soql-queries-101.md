@@ -422,7 +422,7 @@ The strongest design does not merely stay at 99 queries in today's test. It keep
 - [ ] Compare before-and-after query, row, DML, CPU, heap, and business outcomes.
 - [ ] Deploy with monitoring, rollback, and reconciliation plans.
 
-Need a second pair of eyes on a Salesforce production incident? Contact SFX Support at [founders@sfxsupport.com](mailto:founders@sfxsupport.com), call [+91-9414849173](tel:+919414849173), or [message us on WhatsApp](https://wa.me/919414849173).
+Need a second pair of eyes on a Salesforce production incident? Contact SFX Support at [founders@sfxsupport.com](mailto:founders@sfxsupport.com), call [+91-7611896026](tel:+917611896026), or [message us on WhatsApp](https://wa.me/919414849173).
 
 ## Official Salesforce sources
 {: #sources}

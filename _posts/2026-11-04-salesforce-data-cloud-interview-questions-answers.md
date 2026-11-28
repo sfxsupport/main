@@ -592,7 +592,7 @@ Before finishing a Salesforce Data Cloud or Data 360 interview answer, confirm t
 - [ ] latency, failure handling, idempotency, monitoring, and reconciliation;
 - [ ] consumption, environment deployment, rollback, and business KPIs.
 
-Preparing for a Data Cloud interview or implementation discussion? Contact SFX Support at [founders@sfxsupport.com](mailto:founders@sfxsupport.com), call [+91-9414849173](tel:+919414849173), or [message us on WhatsApp](https://wa.me/919414849173).
+Preparing for a Data Cloud interview or implementation discussion? Contact SFX Support at [founders@sfxsupport.com](mailto:founders@sfxsupport.com), call [+91-7611896026](tel:+917611896026), or [message us on WhatsApp](https://wa.me/919414849173).
 
 ## Official Salesforce sources
 {: #sources}
