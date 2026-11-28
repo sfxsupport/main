@@ -73,6 +73,7 @@ An instruction that lives only in chat or in one agent's memory is not enforced.
 | 5.1 | Remove pages that nobody uses, and redirect them to the page that replaced them. `/interview-prep/` → `/salesforce-interview-questions/` (retired 27 Nov 2026). | check-rules R5 |
 | 5.2 | Redirect pages: `layout: null`, `sitemap: false`, canonical + meta refresh + JS redirect. Remove them from `sitemap.xml` and from navigation. | gate |
 | 5.3 | No empty, "coming soon" or placeholder sections on live pages. | reader (ui) |
+| 5.4 | Pages kept out of search on purpose (founder, 27 Nov 2026): `/login/` (`noindex, follow`). Any other new `noindex` is an SEO regression. | gate |
 
 ## 6. Process and safety
 
