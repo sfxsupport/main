@@ -120,7 +120,7 @@ permalink: /agentforce-pricing-calculator/
         </div>
       </div>
       <div class="c-insight" id="insight"></div>
-      <p class="c-hookline"><a href="#leaves-out">That's list price. Your real bill is probably higher. Here's why &darr;</a></p>
+      <p class="c-hookline"><button type="button" id="whyLink">That's list price. Your real bill can be higher. Here's why &darr;</button></p>
       <div class="c-actions">
         <a class="c-btn c-btn--w" href="/services/#ai-usage-review" data-cta="calc_usage_review">Get a usage review</a>
         <button class="c-btn c-btn--g" type="button" id="copyLink">Copy link to this estimate</button>
@@ -130,20 +130,20 @@ permalink: /agentforce-pricing-calculator/
   </div>
 
   <section class="c-sec" id="leaves-out">
-    <h2>Your real bill is probably higher</h2>
+    <h2>Your real bill can be higher</h2>
     <p>List price hides four things:</p>
     <ul>
       <li>Discounts and minimum purchases on your contract.</li>
       <li>Data 360 credits for indexing and retrieval, unless you enter them.</li>
       <li>Extra prompt or AI usage billed on top, such as AI calls inside a custom action.</li>
-      <li>Help Agent, which is billed per resolved case, login licences, and actions that retry or loop.</li>
+      <li>Help Agent, which can be billed per qualifying resolution instead of per action, login licences, and actions that retry or loop.</li>
     </ul>
   </section>
 
   <section class="c-sec" id="lower">
     <h2>Four ways to spend less</h2>
     <ol>
-      <li><b>Merge small lookups.</b> One Apex or Flow action that returns everything beats three tiny ones. Every action is billed.</li>
+      <li><b>Merge small lookups.</b> One Apex or Flow action that returns everything beats three tiny ones. On Flex Credits, each action the agent runs is billed.</li>
       <li><b>Keep topics narrow.</b> Fewer, well-described actions stop the planner calling ones it doesn't need.</li>
       <li><b>Count in a sandbox first.</b> Run real customer questions and count actions per chat before you pick a model.</li>
       <li><b>Check Digital Wallet weekly</b> in your first month. It's in the App Launcher in production.</li>
@@ -252,7 +252,7 @@ permalink: /agentforce-pricing-calculator/
     }
     el('insight').innerHTML=ins;
     el('optEmp').hidden=!users;
-    var bar=document.getElementById('apBar'); if(bar){bar.querySelector('[data-a]').textContent=voiceOn||conv>0?usd(totA):'$0'; bar.querySelector('[data-b]').textContent=voiceOn?'n/a':usd(totB);}
+    var bar=document.getElementById('apBar'); if(bar){bar.querySelector('[data-a]').textContent=usd(totA); bar.querySelector('[data-b]').textContent=voiceOn?'n/a':usd(totB);}
     try{var p=new URLSearchParams();ids.forEach(function(i){p.set(i,el(i).value)});chk.forEach(function(i){p.set(i,el(i).checked?'1':'0')});history.replaceState(null,'','#'+p.toString())}catch(e){}
   }
   ids.concat(chk).forEach(function(i){el(i).addEventListener('input',calc);el(i).addEventListener('change',calc)});
@@ -261,6 +261,7 @@ permalink: /agentforce-pricing-calculator/
     var fail=function(){b.textContent='Copy the address bar link'};
     try{navigator.clipboard.writeText(location.href).then(done,fail)}catch(e){fail()}
   });
+  try{el('whyLink').addEventListener('click',function(){el('leaves-out').scrollIntoView({behavior:'smooth',block:'start'})})}catch(e){}
   try{el('apBar').addEventListener('click',function(){el('optFlex').scrollIntoView({behavior:'smooth',block:'center'})})}catch(e){}
   calc();
   try{var bar=el('apBar'),card=document.querySelector('.c-sticky');if(bar&&card&&'IntersectionObserver' in window){new IntersectionObserver(function(e){bar.style.display=e[0].isIntersecting?'none':''}).observe(card)}}catch(e){}
