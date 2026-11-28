@@ -37,8 +37,8 @@ faq:
     a: "No. LIMIT 1 allows a query to return zero or one row, so the result can still be empty."
   - q: "Is an empty query result the same as a null list?"
     a: "No. A SOQL query assigned to a list returns an empty list when no rows match. A null reference is a separate condition and can cause a NullPointerException."
-  - q: "Can missing field permissions cause a user-mode query to fail?"
-    a: "Yes. A user-mode query can raise an access error when the running user lacks required object or field permissions; a no-record result does not represent every access problem."
+  - q: "How can I identify which list caused the exception?"
+    a: "Start with the class and line number in the Apex stack trace. Inspect the collection at that expression and trace where it was populated or changed."
 extra_css:
   - /assets/css/blog.css
 toc:
@@ -130,7 +130,7 @@ Prefer isolated test data over relying on existing org records or adding `SeeAll
 
 If the same inputs work for one user but not another, reproduce the operation as the affected user and inspect the query’s execution context. Review the class sharing declaration, query access mode, applicable sharing and restriction rules, and the user’s intended access.
 
-Salesforce states that database operations default to user mode in Apex API version 67.0 and later; in version 66.0 and earlier, the default is system mode. Explicit access modes and sharing declarations also matter. Object or field permission problems can raise an access error instead of returning an empty list. See [Salesforce’s access-mode documentation](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm).
+Salesforce states that database operations default to user mode in Apex API version 67.0 and later; in version 66.0 and earlier, the default is system mode. Explicit access modes and sharing declarations also matter. Object or field permission problems can raise an access error instead of returning an empty list. See [Salesforce’s access-mode documentation](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-enforce-usermode.html).
 
 Grant access only when the user is supposed to have it. For a deeper investigation, use the [record visibility troubleshooting map](/blog/why-salesforce-user-can-see-record/).
 
@@ -202,6 +202,10 @@ public with sharing class AccountLookup {
         description='Find an account by ID and report when it is unavailable.'
     )
     public static List<Result> findAccounts(List<Request> requests) {
+        if (requests == null || requests.isEmpty()) {
+            return new List<Result>();
+        }
+
         Set<Id> accountIds = new Set<Id>();
 
         for (Request request : requests) {
@@ -245,11 +249,11 @@ public with sharing class AccountLookup {
 }
 ```
 
-The method preserves input order and returns one result per request, as required for invocable methods that return results. The query uses `WITH USER_MODE` to enforce the running user’s access; missing object or field permissions can still raise an error. Configure the action and its permissions for the intended Agentforce user, and instruct the agent to use `found` and `status` when deciding what to say. See Salesforce’s [invocable method reference](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html) and [Agentforce Apex action guidance](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html).
+The method preserves input order and returns one result per request, as required for invocable methods that return results. The query uses `WITH USER_MODE` to enforce the running user’s access. Configure the action and its permissions for the intended Agentforce user, and instruct the agent to use `found` and `status` when deciding what to say. See Salesforce’s [invocable method reference](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html) and [Agentforce Apex action guidance](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html).
 
 ### Test class
 
-Save this as `AccountLookupTest.cls`. The test checks a batch containing a matching ID, a deleted account ID, and a missing ID, plus an empty input list.
+Save this as `AccountLookupTest.cls`. The test checks a batch containing a matching ID, a deleted account ID, and a missing ID, plus empty and null input lists.
 
 ```apex
 @IsTest
@@ -295,12 +299,14 @@ private class AccountLookupTest {
     @IsTest
     static void returnsNoResultsForNoRequests() {
         Test.startTest();
-        List<AccountLookup.Result> results = AccountLookup.findAccounts(
+        List<AccountLookup.Result> emptyResults = AccountLookup.findAccounts(
             new List<AccountLookup.Request>()
         );
+        List<AccountLookup.Result> nullResults = AccountLookup.findAccounts(null);
         Test.stopTest();
 
-        System.assertEquals(0, results.size());
+        System.assertEquals(0, emptyResults.size());
+        System.assertEquals(0, nullResults.size());
     }
 }
 ```
@@ -312,7 +318,7 @@ Normal SOQL excludes the deleted account, so the first test exercises an empty l
 
 Run a small anonymous Apex example in a development org to see the exception without changing records. Then deploy and run the action’s tests in that org.
 
-1. Open your development org and launch **Developer Console** from the Setup menu.
+1. Open your development org and launch **Developer Console** from the **Setup gear** menu. If it is unavailable, an administrator can open Setup, enter **Development** in Quick Find, select **Web Console**, and set **Enable Developer Console** to **Active**. See Salesforce’s [Web Console FAQ](https://developer.salesforce.com/docs/platform/webconsole/guide/faq.html).
 2. In Developer Console, choose **Debug → Open Execute Anonymous Window**.
 3. Enter the following code and execute it:
 
@@ -380,13 +386,14 @@ For another common query-related failure, see [SObject Row Retrieved Without Que
 
 These Salesforce sources support the diagnosis, action contract, and deployment steps.
 
-- [Apex: How to Fix “System.ListException: List index out of bounds”](https://help.salesforce.com/s/articleView?id=000385743&language=en_US&type=1): empty query results and checking list size.
-- [Capture and read Salesforce debug logs](https://help.salesforce.com/s/articleView?id=000392579&language=en_US&type=1): trace setup and query row-count events.
-- [Set an access mode for database operations](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexref/apex_classes_enforce_usermode.htm): user mode, system mode, and API version behavior.
-- [InvocableMethod annotation](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html): invocable input and output requirements.
-- [Apex for Agentforce custom actions](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html): using invocable Apex in an agent action.
-- [Built-in Apex exceptions](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-exception-builtin.html): exception types.
-- [Run Apex tests with Salesforce CLI](https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-testing.html) and [deploy project metadata](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_start.html): test and deployment workflow.
+- [Apex: How to Fix “System.ListException: List index out of bounds”](https://help.salesforce.com/s/articleView?id=000385743&language=en_US&type=1): empty query results and checking list size. Checked 2026-11-28.
+- [Capture and read Salesforce debug logs](https://help.salesforce.com/s/articleView?id=000392579&language=en_US&type=1): trace setup and query row-count events. Checked 2026-11-28.
+- [Set an access mode for database operations](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-enforce-usermode.html): user mode, system mode, and API version behavior. Checked 2026-11-28.
+- [InvocableMethod annotation](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-classes-annotation-invocablemethod.html): invocable input and output requirements. Checked 2026-11-28.
+- [Apex for Agentforce custom actions](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-invocablemethod.html): using invocable Apex in an agent action. Checked 2026-11-28.
+- [Built-in Apex exceptions](https://developer.salesforce.com/docs/platform/apex-dev/references/apex-dev/apex-exception-builtin.html): exception types. Checked 2026-11-28.
+- [Web Console FAQ](https://developer.salesforce.com/docs/platform/webconsole/guide/faq.html): enabling Developer Console. Checked 2026-11-28.
+- [Run Apex tests with Salesforce CLI](https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-testing.html) and [deploy project metadata](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_start.html): test and deployment workflow. Checked 2026-11-28.
 
 Need this fixed in your org? [SFX can build it](/services/) with a written scope and fixed quote.
 
@@ -435,3 +442,14 @@ sf apex run test \
 ```
 
 Replace `my-dev-org` with your org alias. If either command returns a job ID before finishing, check the final result before treating the deployment or tests as successful. Production deployments have their own test requirements; review the [Salesforce deployment reference](https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_project_deploy_start.html) before deploying there.
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const actions = document.querySelector('.article-cta-actions');
+  if (!actions) return;
+  const serviceLink = actions.querySelector('a[href="/services/"]');
+  Array.from(actions.querySelectorAll('a')).forEach(function (link) {
+    if (link !== serviceLink) link.remove();
+  });
+});
+</script>
