@@ -102,7 +102,7 @@ body.sfx-clean main { margin-top:64px; }
 @media (max-width: 860px) {
   .c-grid2 { grid-template-columns:1fr; }
   .c-sticky { position:static; }
-  .c-bar { display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:60; gap:14px; align-items:center; justify-content:space-between; min-height:56px; padding:8px 16px; border-radius:14px; background:#ededed; color:#000 !important; text-decoration:none !important; font:500 14px Geist, Inter, sans-serif; box-shadow:0 10px 30px rgba(0,0,0,.6); }
+  .c-bar { border:0; cursor:pointer; text-align:left; display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:60; gap:14px; align-items:center; justify-content:space-between; min-height:56px; padding:8px 16px; border-radius:14px; background:#ededed; color:#000 !important; text-decoration:none !important; font:500 14px Geist, Inter, sans-serif; box-shadow:0 10px 30px rgba(0,0,0,.6); }
   .c-bar b { font-size:18px; font-weight:700; font-variant-numeric:tabular-nums; margin-left:4px; }
   .c-bar-go { font-weight:600; padding:12px 0; }
   .c-page { padding-bottom:120px; }

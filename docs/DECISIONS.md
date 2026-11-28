@@ -79,3 +79,11 @@ Now:
 - `/resources/` → `/learning/`;
 - noindex `/login/`;
 - decide on `/contributors/`.
+
+## Gate findings (kept here so they are not re-litigated)
+
+**G-01 · 28 Nov 2026 · News pages emit no FAQ schema.** FAQ content is not shown on news issues, and Google's guidelines say structured data must describe visible content, so the FAQPage JSON-LD was removed from `news-post`.
+
+**G-02 · 28 Nov 2026 · The 27 Nov AI Weekly keeps its 7 items.** It went live before the 8 to 12 item rule existed; the rule applies to new issues.
+
+**G-03 · 28 Nov 2026 · Campaign and services pages are always dark.** Both layouts load `sfx-dark.css` last, so their text colours live there; `campaign.css` keeps the light defaults.

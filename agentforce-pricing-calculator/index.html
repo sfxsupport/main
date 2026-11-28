@@ -152,7 +152,7 @@ permalink: /agentforce-pricing-calculator/
 
   <section class="c-sec" id="how">
     <h2>How Agentforce is priced</h2>
-    <p>Salesforce sells it three ways. Most orgs mix them: one model for the customer-facing agent, the add-on for employees.</p>
+    <p>Salesforce sells it three ways. You can mix them: one model for the customer-facing agent, the add-on for employees.</p>
     <div class="c-tbl-wrap">
     <table class="c-tbl">
       <thead><tr><th>Model</th><th>List price</th><th>Best for</th></tr></thead>
@@ -198,7 +198,7 @@ permalink: /agentforce-pricing-calculator/
     </div>
   </section>
 </div>
-<a class="c-bar" id="apBar" href="#optFlex" aria-label="Jump to your estimate"><span>A Flex <b data-a>$0</b></span><span>B $2/chat <b data-b>$0</b></span><span class="c-bar-go">See maths &uarr;</span></a>
+<button type="button" class="c-bar" id="apBar" aria-label="Jump to your estimate"><span>A Flex <b data-a>$0</b></span><span>B $2/chat <b data-b>$0</b></span><span class="c-bar-go">See maths &uarr;</span></button>
 
 <script>
 (function(){
@@ -261,6 +261,7 @@ permalink: /agentforce-pricing-calculator/
     var fail=function(){b.textContent='Copy the address bar link'};
     try{navigator.clipboard.writeText(location.href).then(done,fail)}catch(e){fail()}
   });
+  try{el('apBar').addEventListener('click',function(){el('optFlex').scrollIntoView({behavior:'smooth',block:'center'})})}catch(e){}
   calc();
   try{var bar=el('apBar'),card=document.querySelector('.c-sticky');if(bar&&card&&'IntersectionObserver' in window){new IntersectionObserver(function(e){bar.style.display=e[0].isIntersecting?'none':''}).observe(card)}}catch(e){}
 })();

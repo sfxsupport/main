@@ -86,3 +86,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Hero shows at once (no fade-in) so Largest Contentful Paint isn't delayed */
 #top .reveal, .hero .reveal, .svc-hero .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+/* Dark-theme text colours for campaign components (measured on the dark cards: contrast above 7:1) */
+.review-card__body p { color: #ededed; }
+.ticket__price span, .hero-class__caption, .ai-proof__note { color: #b4b4bc; }
