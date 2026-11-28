@@ -15,12 +15,12 @@
   background: #fff; border: 1px solid var(--campaign-line); border-radius: 16px;
 }
 .svc-card h3 { margin: 0; font-size: 1.12rem; }
-.svc-card p { margin: 0; color: var(--campaign-muted); line-height: 1.6; font-size: .95rem; }
+.svc-card p { margin: 0; color: var(--campaign-muted); line-height: 1.6; font-size: 1rem; }
 .svc-card .svc-card__meta { color: var(--campaign-blue); font-size: .88rem; font-weight: 700; }
 .svc-card--lead { border: 2px solid var(--campaign-blue); }
 .svc-card__tag {
   justify-self: start; padding: 3px 10px; border-radius: 999px;
-  color: #fff !important; background: var(--campaign-blue); font-size: .78rem !important; font-weight: 700;
+  color: #fff !important; background: var(--campaign-blue); font-size: .875rem !important; font-weight: 700;
 }
 
 .svc-steps {
@@ -38,7 +38,7 @@
   color: #fff; background: var(--campaign-ink); font-size: .85rem; font-weight: 700;
 }
 .svc-steps strong { color: var(--campaign-ink); }
-.svc-steps span { color: var(--campaign-muted); font-size: .93rem; line-height: 1.55; }
+.svc-steps span { color: var(--campaign-muted); font-size: 1rem; line-height: 1.55; }
 
 #work .ai-proof__grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -57,7 +57,7 @@
 }
 .svc-team .section-heading { margin-bottom: 0; }
 
-.svc-crumbs { font-size: .85rem; color: var(--campaign-muted); margin-bottom: 14px; }
+.svc-crumbs { font-size: .875rem; color: var(--campaign-muted); margin-bottom: 14px; }
 .svc-crumbs a { color: var(--campaign-muted); text-decoration: none; }
 .svc-crumbs a:hover { color: var(--campaign-blue); text-decoration: underline; }
 .svc-safeguards li::before { color: var(--campaign-blue); }

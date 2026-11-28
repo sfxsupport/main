@@ -2,6 +2,8 @@
 layout: default
 title: Sign In — Ask Krrish
 permalink: /login/
+noindex: true
+sitemap: false
 ---
 
 <style>
@@ -99,8 +101,8 @@ permalink: /login/
   }
 
   .login-logo-sub {
-    font-size: 0.78rem;
-    color: #404040;
+    font-size: 0.9375rem;
+    color: #b4b4bc;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
 
@@ -203,23 +205,22 @@ permalink: /login/
   /* Footer note */
   .login-note {
     margin-top: 2rem;
-    font-size: 0.72rem;
-    color: #3a3a3a;
+    font-size: 0.875rem;
+    color: #a1a1a1;
     text-align: center;
     line-height: 1.6;
     font-family: 'Outfit', sans-serif;
   }
 
   .login-note a {
-    color: #555;
+    color: #d4d4d8;
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: color 0.15s;
   }
-  .login-note a:hover { color: #888; }
+  .login-note a:hover { color: #fff; }
 </style>
 
-<canvas id="star-canvas" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
 <div id="login-root">
   <div class="login-inner">
@@ -262,7 +263,6 @@ permalink: /login/
   </div>
 </div>
 
-<script src="/assets/js/star-canvas.js"></script>
 
 <script type="module">
   import { loginWithGoogle, redirectIfLoggedIn } from "/assets/js/firebaseAuth.js";

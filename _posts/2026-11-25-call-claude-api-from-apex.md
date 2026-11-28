@@ -11,7 +11,9 @@ permalink: /blog/call-claude-api-from-apex/
 primary_category: "Salesforce + AI"
 series: "LLMs from Apex"
 categories:
-  - salesforce-ai
+  - ai
+  - apex
+  - integration
 tags:
   - Claude API Apex
   - Named Credentials

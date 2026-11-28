@@ -2,6 +2,8 @@
 layout: blog-post
 sfx_blog: true
 featured: true
+art_number: "15"
+art_label: "trigger questions"
 title: "15 Senior Salesforce Apex Trigger Interview Questions for 6+ Years Experience"
 seo_title: "Senior Salesforce Apex Trigger Interview Questions"
 description: "Prepare for senior Salesforce interviews with 15 Apex trigger questions on transactions, bulk design, recursion, locking, security, testing, and debugging."

@@ -4,7 +4,7 @@
     --b:   rgba(255,255,255,.06);
     --b2:  rgba(255,255,255,.035);
     --b3:  rgba(255,255,255,.015);
-    --t:   #f0f0f0; --t2:#a3a3a3; --t3:#7d7d7d;
+    --t:   #f0f0f0; --t2:#c4c4c8; --t3:#a1a1a1;
     --sun: 255,160,60;
   }
 
@@ -51,7 +51,7 @@
     position: absolute; left: 50%; transform: translateX(-50%);
   }
   .sfx-nav a, .sfx-dd-btn {
-    font-size: .83rem; font-weight: 400;
+    font-size: .875rem; font-weight: 400;
     color: var(--t3); text-decoration: none;
     background: none; border: none; cursor: pointer;
     font-family: inherit; padding: 0;
@@ -63,7 +63,7 @@
   /* Dropdown */
   .sfx-dd { position: relative; }
   .sfx-dd-chevron {
-    font-size: .58rem; color: var(--t3);
+    font-size: .875rem; color: var(--t3);
     transition: transform .2s, color .15s;
   }
   .sfx-dd:hover .sfx-dd-chevron,
@@ -94,15 +94,15 @@
   a.sfx-dd-btn { text-decoration: none; }
   .sfx-dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
   .sfx-dd-grid-3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.75rem; }
-  .sfx-dd-col-desc { font-size: .74rem; color: var(--t3); line-height: 1.6; margin-bottom: .8rem; }
+  .sfx-dd-col-desc { font-size: .875rem; color: var(--t3); line-height: 1.6; margin-bottom: .8rem; }
   .sfx-dd-label {
-    font-size: .63rem; font-weight: 500;
+    font-size: .875rem; font-weight: 500;
     text-transform: uppercase; letter-spacing: .1em;
     color: rgba(var(--sun),.45); margin-bottom: .7rem;
   }
   .sfx-dd-menu a {
     display: block; padding: .28rem 0;
-    font-size: .8rem; color: var(--t2); text-decoration: none;
+    font-size: .875rem; color: var(--t2); text-decoration: none;
     transition: color .12s, padding-left .12s;
   }
   .sfx-dd-menu a:hover { color: var(--t); padding-left: 3px; }
@@ -114,7 +114,7 @@
     border-top: 1px solid var(--b2);
   }
   .sfx-dd-viewall a {
-    font-size: .8rem !important;
+    font-size: .875rem !important;
     font-weight: 600 !important;
     color: rgba(var(--sun),.75) !important;
     display: inline-flex !important;
@@ -141,7 +141,7 @@
     display: flex; align-items: center; gap: 6px;
     padding: .38rem 1rem;
     background: var(--t); color: #000;
-    font-size: .8rem; font-weight: 600;
+    font-size: .875rem; font-weight: 600;
     border-radius: 7px; text-decoration: none;
     transition: background .15s, transform .15s;
     white-space: nowrap; font-family: inherit;
@@ -152,7 +152,7 @@
     display: flex; align-items: center; gap: 6px;
     padding: .38rem 1rem;
     background: transparent; color: var(--t2);
-    font-size: .8rem; font-weight: 400;
+    font-size: .875rem; font-weight: 400;
     border-radius: 7px; text-decoration: none;
     border: 1px solid var(--b); cursor: pointer; font-family: inherit;
     transition: all .15s; white-space: nowrap;
@@ -363,9 +363,9 @@
           <div>
             <div class="sfx-dd-label">Resources</div>
             <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
-            <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+            <a href="/salesforce-packaging/">2GP Managed Packages</a>
             <div class="sfx-dd-viewall">
-              <a href="/resources/">
+              <a href="/learning/">
                 <i class="bi bi-collection" style="font-size:.72rem;"></i>
                 View All Resources →
               </a>
@@ -497,9 +497,9 @@
     <a href="/salesforce-interview-questions/">Explore Interview Prep</a>
     <div class="sfx-mob-sub-label" style="margin-top:.875rem;">Resources</div>
     <a href="/salesforce-sales-cloud-class-diagram/">Sales Cloud Class Diagram</a>
-    <a href="/Second-Generation-Packaging/">2GP Managed Packages</a>
+    <a href="/salesforce-packaging/">2GP Managed Packages</a>
     <div class="sfx-mob-sub-viewall">
-      <a href="/resources/">
+      <a href="/learning/">
         <i class="bi bi-collection" style="font-size:.72rem;"></i>
         View All Resources →
       </a>

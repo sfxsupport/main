@@ -49,20 +49,20 @@ permalink: /contributors/
     .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.75rem; position: relative; z-index: 1; }
     section { padding: 6rem 0; position: relative; z-index: 1; }
 
-    .label { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .13em; color: var(--t3); margin-bottom: .875rem; display: block; }
+    .label { font-size: .875rem; font-weight: 500; text-transform: uppercase; letter-spacing: .13em; color: var(--t3); margin-bottom: .875rem; display: block; }
     h1 { font-size: clamp(2.6rem, 5.5vw, 4rem); font-weight: 300; line-height: 1.08; letter-spacing: -.03em; color: var(--t); margin-bottom: 1.25rem; }
     h1 strong { font-weight: 600; }
     .sub { font-size: 1rem; font-weight: 300; line-height: 1.82; color: var(--t2); max-width: 560px; }
 
     #hero { min-height: 60vh; display: flex; align-items: center; padding-top: 80px; padding-bottom: 2rem; }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: .67rem; color: var(--t3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.75rem; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; color: var(--t3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.75rem; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
     .live { width:5px; height:5px; border-radius:50%; background:#4ade80; animation:pulse 2.2s ease-in-out infinite; display:inline-block; }
 
     .contrib-stats { display: flex; gap: 2.5rem; margin-top: 2.25rem; flex-wrap: wrap; }
     .contrib-stat-num { font-size: 2rem; font-weight: 200; color: var(--t); line-height: 1; letter-spacing: -.03em; }
     .contrib-stat-num em { font-style: normal; color: rgba(var(--sun),.75); }
-    .contrib-stat-label { font-size: .68rem; color: var(--t3); margin-top: .35rem; letter-spacing: .02em; }
+    .contrib-stat-label { font-size: .875rem; color: var(--t3); margin-top: .35rem; letter-spacing: .02em; }
 
     .contrib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
     .contrib-tile {
@@ -86,15 +86,15 @@ permalink: /contributors/
       color: #fff; font-size: 1.1rem; font-weight: 600;
     }
     .contrib-tile h3 { font-size: .95rem; font-weight: 500; color: var(--t); margin-bottom: .35rem; }
-    .contrib-tile p { font-size: .74rem; color: var(--t3); line-height: 1.5; }
+    .contrib-tile p { font-size: .875rem; color: var(--t3); line-height: 1.5; }
     .contrib-tags { display: flex; gap: 6px; margin-top: .85rem; }
-    .contrib-tag { font-size: .62rem; color: var(--t3); background: var(--bg3); border: 1px solid var(--b3); border-radius: 999px; padding: .2rem .55rem; }
+    .contrib-tag { font-size: .875rem; color: var(--t3); background: var(--bg3); border: 1px solid var(--b3); border-radius: 999px; padding: .2rem .55rem; }
 
     .contrib-empty { text-align: center; padding: 4rem 1rem; color: var(--t3); }
     .contrib-empty span { font-size: 2rem; display: block; margin-bottom: .75rem; }
 
     .btn-w { display: inline-flex; align-items: center; gap: 7px; padding: .65rem 1.4rem; background: var(--t); color: #000;
-      font-size: .85rem; font-weight: 600; border-radius: 7px; text-decoration: none; transition: background .15s, transform .15s; }
+      font-size: .875rem; font-weight: 600; border-radius: 7px; text-decoration: none; transition: background .15s, transform .15s; }
     .btn-w:hover { background: #e0e0e0; transform: translateY(-1px); }
 
     hr { border: none; border-top: 1px solid var(--b3); position: relative; z-index: 1; }
@@ -112,7 +112,6 @@ permalink: /contributors/
     }
   </style>
 
-<canvas id="star-canvas"></canvas>
 <div class="amb-tr"></div>
 <div class="amb-bl"></div>
 
@@ -161,7 +160,6 @@ permalink: /contributors/
 </section>
 
 <!-- ═══ STAR CANVAS ═══ -->
-<script src="/assets/js/star-canvas.js"></script>
 <script>
   const obs = new IntersectionObserver(e => {
     e.forEach(x => { if (x.isIntersecting) x.target.classList.add('v'); });

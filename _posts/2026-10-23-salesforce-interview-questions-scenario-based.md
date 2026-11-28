@@ -2,6 +2,8 @@
 layout: blog-post
 sfx_blog: true
 featured: true
+art_number: "18"
+art_label: "scenario questions"
 title: "18 Scenario-Based Salesforce Interview Questions and Answers"
 description: "Practice scenario-based Salesforce interview questions on Admin, Security, Flow, Apex, integrations, deployment, and real-world problem solving."
 date: 2026-10-23 00:01:00 +0530

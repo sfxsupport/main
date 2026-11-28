@@ -11,7 +11,8 @@ permalink: /blog/ai-agent-without-llm-tfidf-cosine-similarity-apex/
 primary_category: "Salesforce + AI"
 series: "AI for Salesforce without LLM"
 categories:
-  - salesforce-ai
+  - ai
+  - apex
 tags:
   - AI agent without LLM Salesforce
   - TF-IDF Apex

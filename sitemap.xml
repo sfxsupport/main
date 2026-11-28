@@ -132,11 +132,6 @@ layout: null
   </url>
 
   <!-- Resources -->
-  <url>
-    <loc>https://sfxsupport.com/resources/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
 
   <!-- About / Contact -->
   <url>

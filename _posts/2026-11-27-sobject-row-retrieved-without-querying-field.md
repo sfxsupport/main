@@ -11,7 +11,8 @@ permalink: /blog/sobject-row-retrieved-without-querying-field/
 primary_category: "Salesforce Troubleshooting"
 series: "Apex runtime errors"
 categories:
-  - salesforce-ai
+  - problem-solving
+  - apex
 tags:
   - SObject row was retrieved via SOQL without querying the requested field
   - Salesforce Apex

@@ -13,7 +13,7 @@
   <meta name="keywords" content="{{ site.keywords | escape }}">
   {% endif %}
   <meta name="author" content="SFX Support">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  {% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% else %}<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">{% endif %}
   <link rel="canonical" href="https://sfxsupport.com{{ page.url | replace: 'index.html', '' }}">
   <link rel="icon" href="/assets/images/favicon-64.png" type="image/png" sizes="64x64"><link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 
@@ -102,7 +102,7 @@
     :root {
       --bg:#080808; --bg2:#0e0e0e; --bg3:#151515; --bg4:#1c1c1c;
       --b:rgba(255,255,255,.06); --b2:rgba(255,255,255,.035); --b3:rgba(255,255,255,.015);
-      --t:#f0f0f0; --t2:#a3a3a3; --t3:#7d7d7d;
+      --t:#f0f0f0; --t2:#c4c4c8; --t3:#a1a1a1;
       --sun:255,160,60;
     }
     *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
@@ -148,7 +148,7 @@
       width:38px; height:38px; border-radius:9px;
       background:var(--bg2); border:1px solid var(--b2);
       display:flex; align-items:center; justify-content:center;
-      color:var(--t3); font-size:.85rem; cursor:pointer;
+      color:var(--t3); font-size:.875rem; cursor:pointer;
       text-decoration:none;
       transition:opacity .3s, color .15s, border-color .15s;
     }
@@ -165,7 +165,6 @@
 </head>
 <body{% if page.body_class %} class="{{ page.body_class }}"{% elsif page.url contains '/news/' %} class="sfx-news"{% elsif page.url contains '/blog/' %} class="blog-light-theme sfx-light-header"{% endif %}>
 
-  <canvas id="star-canvas"></canvas>
 
   {% include FinalHeader.html %}
 
@@ -182,7 +181,6 @@
 
   <!-- Theme toggle -->
   <!-- Star canvas -->
-  <script src="{{ '/assets/js/star-canvas.js' | relative_url }}"></script>
 
   <!-- Page JS -->
   <script>
